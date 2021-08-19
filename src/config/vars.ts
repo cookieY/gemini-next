@@ -1,3 +1,5 @@
+import moment from "moment"
+
 const FeatureList = [
       "1.支持审核人移动端(手机)审核工单",
       "2.支持自定义hook消息推送",
@@ -9,5 +11,6 @@ const FeatureList = [
 ]
 const Version = "ver.2.4.0"
 
+const Copyright = `© 2019-${moment().format("YYYY")}  Created by HenryYee `
 
-export { FeatureList, Version }
+export { FeatureList, Version, Copyright }

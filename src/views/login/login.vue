@@ -31,13 +31,9 @@
                                                 target="_blank"
                                                 style="color: #FFFFFF"
                                           >AGPL3.0</a-typography-link>
+                                          <div style="text-align: center;">{{ Copyright }}</div>
                                     </a-space>
                               </div>
-                        </a-col>
-                  </a-row>
-                  <a-row type="flex" justify="center" align="middle">
-                        <a-col :span="24">
-                              <div style="text-align: center;">{{ copyright }}</div>
                         </a-col>
                   </a-row>
             </div>
@@ -50,15 +46,14 @@
 <script lang="ts" setup>
 import LoginForm from "@/views/login/login-form.vue";
 import Sponsor from "@/views/common/sponsor.vue";
-import moment from "moment"
 import { ref } from "@vue/reactivity";
-
+import { Copyright } from "@/config/vars";
 const imgUrl = `url(${new URL('../../assets/login/backgroud.jpg', import.meta.url)})`
 
 const subject = ` Dream what you want to dream; go where you want to go; be what you want to be,
                   because you have only one life and one chance to do all the things you want to do.`
 
-const copyright = `© 2019-${moment().format("YYYY")} HenryYee 请使用最新版Chrome浏览器获得最佳体验`
+
 
 const sponsor = ref()
 
