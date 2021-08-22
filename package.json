@@ -13,7 +13,9 @@
             "axios": "^0.21.1",
             "less": "^4.1.1",
             "moment": "^2.29.1",
+            "monaco-editor": "0.27.0",
             "nprogress": "^0.2.0",
+            "sql-formatter": "^4.0.2",
             "vue": "^3.2.3",
             "vue-router": "4"
       },

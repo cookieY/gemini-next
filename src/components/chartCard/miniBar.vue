@@ -1,14 +1,16 @@
 <template>
-      <div class="antv-chart-mini">
-            <div class="chart-wrapper">
-                  <div :id="props.containerId"></div>
-            </div>
-      </div>
+      <div :id="props.containerId"></div>
 </template>
-<script setup lang="ts">
+
+<script lang="ts"  setup>
 import { onMounted } from "@vue/runtime-core"
 import { Chart } from "@antv/g2"
 import moment from "moment"
+
+const props = defineProps<{
+      containerId: string,
+      color: string
+}>()
 
 const Randomdata = () => {
       let data = [] as { [key: string]: any }[]
@@ -21,31 +23,26 @@ const Randomdata = () => {
       return data
 }
 
-const props = defineProps<{
-      containerId: string,
-      color: string
-}>()
-
-
 onMounted(() => {
       const chart = new Chart({
             container: props.containerId,
             autoFit: true,
-            height: 46,
-            // padding: [36, 0, 18, 0]
-
+            height: 450
       });
-      chart.forceFit()
-      console.log(Randomdata())
-      chart.axis(false)
       chart.data(Randomdata());
-      chart.tooltip({
-            showCrosshairs: true,
-            shared: true,
+      chart.axis('x', {
+            title: null,
+            tickLine: null,
+            line: null,
       });
 
-      chart.line().position('x*y').shape('smooth');
-      chart.area().position('x*y').shape('smooth')
+      chart.axis('y', false);
+      chart.coordinate().transpose();
+      chart
+            .interval()
+            .position('x*y')
+            .size(26)
+      chart.interaction('element-active');
       chart.theme({ "styleSheet": { "brandColor": props.color, } })
       chart.render();
 })
@@ -53,5 +50,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-@import "./chart.less";
+@import "chart.less";
 </style>

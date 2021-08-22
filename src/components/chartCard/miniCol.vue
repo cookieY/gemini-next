@@ -36,16 +36,10 @@ onMounted(() => {
 
       });
       chart.forceFit()
-      console.log(Randomdata())
       chart.axis(false)
       chart.data(Randomdata());
-      chart.tooltip({
-            showCrosshairs: true,
-            shared: true,
-      });
-
-      chart.line().position('x*y').shape('smooth');
-      chart.area().position('x*y').shape('smooth')
+      chart.interval().position('x*y').shape('smooth');
+      chart.interaction('active-region');
       chart.theme({ "styleSheet": { "brandColor": props.color, } })
       chart.render();
 })
@@ -53,5 +47,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-@import "./chart.less";
+@import "chart.less";
 </style>

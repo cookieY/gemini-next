@@ -32,11 +32,31 @@ const router = createRouter({
                               component: () => import('@/views/home/home.vue')
                         },
                         {
-                              path: '/ordersubmit',
-                              name: 'orderSubmit',
+                              path: '/apply',
+                              name: 'apply',
                               meta: {
                                     title: 'Order - 工单'
                               },
+                              redirect: "/apply/list",
+                              component: () => import('@/views/apply/layout.vue'),
+                              children: [
+                                    {
+                                          path: '/apply/list',
+                                          name: 'apply/list',
+                                          meta: {
+                                                title: 'Order - 工单申请'
+                                          },
+                                          component: () => import('@/views/apply/apply.vue'),
+                                    },
+                                    {
+                                          path: '/apply/order',
+                                          name: 'apply/order',
+                                          meta: {
+                                                title: 'Order - 工单申请'
+                                          },
+                                          component: () => import('@/views/apply/order.vue'),
+                                    }
+                              ]
                         },
                         {
                               path: '/query',

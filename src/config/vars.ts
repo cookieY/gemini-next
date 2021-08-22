@@ -11,6 +11,6 @@ const FeatureList = [
 ]
 const Version = "ver.2.4.0"
 
-const Copyright = `© 2019-${moment().format("YYYY")}  Created by HenryYee `
+const Copyright = `© 2018-${moment().format("YYYY")}  Created by HenryYee `
 
 export { FeatureList, Version, Copyright }

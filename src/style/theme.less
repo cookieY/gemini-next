@@ -3,11 +3,16 @@
 @primary-color:  #793EF9;
 @popover-background: #2A2e37;
 
+@border-width-base: 1px;
+@border-color-split: #3E4451; // split border inside a component
+
 @body-background: #2A2e37;
 @component-background: #3E4451;
 
 @layout-header-padding: 0 20px;
 @layout-header-background: #3E4451;
+
+@input-border-color: @primary-color;
 
 @menu-highlight-color: #ffffff;
 @menu-item-active-bg: #793EF9;
@@ -15,3 +20,16 @@
 @menu-dark-bg:#3E4451;
 
 @modal-header-bg: @popover-background;
+
+@tabs-highlight-color: #Ff9900;
+@tabs-ink-bar-color: @tabs-highlight-color;
+@tabs-hover-color: color(
+      ~`colorPalette('@{tabs-highlight-color}', 5) `
+    );
+@tabs-active-color:  color(
+      ~`colorPalette('@{tabs-highlight-color}', 7) `
+    );
+
+
+@table-header-bg: #2A2e37;
+@table-bg: #2A2e37;
