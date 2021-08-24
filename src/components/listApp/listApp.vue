@@ -1,8 +1,15 @@
 <template>
+      <a-row :gutter="24">
+            <a-col :xs="24" :md="8">
+                  <a-select show-search placeholder="数据源搜索" style="width: 100%;"></a-select>
+            </a-col>
+      </a-row>
+      <br />
       <a-list
             :loading="loading"
             :data-source="props.source"
             :grid="{ gutter: 24, xs: 1, sm: 2, md: 2, lg: 4, xl: 4, xxl: 4 }"
+            :pagination="pagination"
       >
             <template #renderItem="{ item }">
                   <a-list-item>
@@ -13,30 +20,18 @@
                                     </template>
                               </a-card-meta>
                               <template v-slot:actions>
-                                    <a-tooltip title="收藏">
-                                          <FireOutlined />
-                                    </a-tooltip>
-                                    <a-tooltip title="审核流程">
+                                    <a-tooltip title="查看审核流程">
                                           <UserSwitchOutlined />
                                     </a-tooltip>
-                                    <a-tooltip title="分享">
+                                    <a-tooltip :title="`所属环境:${item.idc}`">
                                           <ShareAltOutlined />
                                     </a-tooltip>
                                     <a-dropdown>
-                                          <a class="ant-dropdown-link">
-                                                <EllipsisOutlined />
-                                          </a>
-                                          <a-menu slot="overlay">
-                                                <a-menu-item>
-                                                      <a href="javascript:;">1st menu item</a>
-                                                </a-menu-item>
-                                                <a-menu-item>
-                                                      <a href="javascript:;">2nd menu item</a>
-                                                </a-menu-item>
-                                                <a-menu-item>
-                                                      <a href="javascript:;">3rd menu item</a>
-                                                </a-menu-item>
-                                          </a-menu>
+                                          <a-tooltip title="进入申请页面">
+                                                <a class="ant-dropdown-link">
+                                                      <EnterOutlined />
+                                                </a>
+                                          </a-tooltip>
                                     </a-dropdown>
                               </template>
                         </a-card>
@@ -46,9 +41,13 @@
 </template>
 
 <script lang="ts" setup>
-import { UserSwitchOutlined, FireOutlined, EllipsisOutlined, ShareAltOutlined } from "@ant-design/icons-vue"
+import { UserSwitchOutlined, EnterOutlined, ShareAltOutlined } from "@ant-design/icons-vue"
 const loading = false
 const props = defineProps<{
       source?: Array<object>
 }>()
+
+const pagination = {
+      pageSize: 20,
+};
 </script>

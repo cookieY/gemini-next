@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 import NProgress from "nprogress"
+import '@/style/theme.less'
 
 NProgress.configure({ showSpinner: false })
 
@@ -38,7 +39,7 @@ const router = createRouter({
                                     title: 'Order - 工单'
                               },
                               redirect: "/apply/list",
-                              component: () => import('@/views/apply/layout.vue'),
+                              component: () => import('@/views/common/subLayout.vue'),
                               children: [
                                     {
                                           path: '/apply/list',
@@ -55,6 +56,14 @@ const router = createRouter({
                                                 title: 'Order - 工单申请'
                                           },
                                           component: () => import('@/views/apply/order.vue'),
+                                    },
+                                    {
+                                          path: '/apply/order/profile',
+                                          name: 'apply/order/profile',
+                                          meta: {
+                                                title: 'Order - 工单申请'
+                                          },
+                                          component: () => import('@/components/orderProfile/orderProfile.vue'),
                                     }
                               ]
                         },
@@ -71,13 +80,16 @@ const router = createRouter({
                               meta: {
                                     title: '审核'
                               },
+                              component: () => import('@/views/common/subLayout.vue'),
+                              redirect: "/audit/order/list",
                               children: [
                                     {
-                                          path: '/audit',
+                                          path: '/audit/order/list',
                                           name: 'audit',
                                           meta: {
                                                 title: '审核'
                                           },
+                                          component: () => import('@/views/audit/order.vue'),
                                     }
                               ]
                         },

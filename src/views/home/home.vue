@@ -1,7 +1,7 @@
 <template>
       <div>
             <a-row :gutter="24">
-                  <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
+                  <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" title="工单总数" total="10000">
                               <template v-slot:action>
                                     <a-tooltip title="3213131">
@@ -18,7 +18,7 @@
                               </template>
                         </ChartCard>
                   </a-col>
-                  <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
+                  <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" title="查询总数" total="10000">
                               <template v-slot:action>
                                     <a-tooltip title="3213131">
@@ -35,7 +35,7 @@
                               </template>
                         </ChartCard>
                   </a-col>
-                  <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
+                  <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" title="数据源" total="10000">
                               <template v-slot:action>
                                     <a-tooltip title="3213131">
@@ -52,7 +52,7 @@
                               </template>
                         </ChartCard>
                   </a-col>
-                  <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
+                  <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" title="用户数" total="10000">
                               <template v-slot:action>
                                     <a-tooltip title="3213131">
@@ -79,37 +79,36 @@
                         </ChartCard>
                   </a-col>
             </a-row>
-            <div style="width: 99%;margin: 0 auto;">
-                  <a-card style="text-align: center;">
-                        <a-row :gutter="24">
-                              <a-col :sm="24" :md="12" :xl="6">
-                                    <a-statistic title="我提交工单数" :value="112893" />
-                              </a-col>
-                              <a-col :sm="24" :md="12" :xl="6">
-                                    <a-statistic title="我正在审核中工单数" :value="112893" />
-                              </a-col>
-                              <a-col :sm="24" :md="12" :xl="6">
-                                    <a-statistic title="我的查询总数" :value="112893" />
-                              </a-col>
-                              <a-col :sm="24" :md="12" :xl="6">
-                                    <a-statistic title="等待我审核的工单" :value="112893" />
-                              </a-col>
-                        </a-row>
-                  </a-card>
-                  <br />
+
+            <a-card style="text-align: center;">
                   <a-row :gutter="24">
-                        <a-col :sm="24" :md="24" :xl="16">
-                              <a-card title="公告" style="height: 560px;">
-                                    <div></div>
-                              </a-card>
+                        <a-col :xs="24" :md="12" :xl="6">
+                              <a-statistic title="我提交工单数" :value="112893" />
                         </a-col>
-                        <a-col :sm="24" :md="24" :xl="8" :style="{ marginBottom: '24px' }">
-                              <a-card title="数据源top10">
-                                    <MiniBar container-id="thend" color="#Ff9900"></MiniBar>
-                              </a-card>
+                        <a-col :xs="24" :md="12" :xl="6">
+                              <a-statistic title="我正在审核中工单数" :value="112893" />
+                        </a-col>
+                        <a-col :xs="24" :md="12" :xl="6">
+                              <a-statistic title="我的查询总数" :value="112893" />
+                        </a-col>
+                        <a-col :xs="24" :md="12" :xl="6">
+                              <a-statistic title="等待我审核的工单" :value="112893" />
                         </a-col>
                   </a-row>
-            </div>
+            </a-card>
+            <br />
+            <a-row :gutter="24">
+                  <a-col :xs="24" :md="24" :xl="16" :style="{ marginBottom: '24px' }">
+                        <a-card title="公告" style="height: 560px;width: 100%;">
+                              <div></div>
+                        </a-card>
+                  </a-col>
+                  <a-col :xs="24" :md="24" :xl="8" :style="{ marginBottom: '24px' }">
+                        <a-card title="数据源top10">
+                              <MiniBar container-id="thend" color="#Ff9900"></MiniBar>
+                        </a-card>
+                  </a-col>
+            </a-row>
       </div>
 </template>
 
@@ -119,18 +118,6 @@ import MiniArea from "@/components/chartCard/miniArea.vue";
 import MiniCol from "@/components/chartCard/miniCol.vue";
 import MiniBar from "@/components/chartCard/miniBar.vue";
 import { InfoCircleOutlined } from '@ant-design/icons-vue';
-
-const description = (): string => {
-      const arr = ['休息一会儿吧', '准备吃什么呢?', '要不要打一把 DOTA', '我猜你可能累了']
-      const index = Math.floor(Math.random() * arr.length)
-      return arr[index]
-}
-
-const now = (): string => {
-      const time = new Date()
-      const hour = time.getHours()
-      return hour < 9 ? '早上好' : hour <= 11 ? '上午好' : hour <= 13 ? '中午好' : hour < 20 ? '下午好' : '晚上好'
-}
 
 const loading = false
 

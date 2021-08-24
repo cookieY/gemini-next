@@ -3,13 +3,13 @@
             <a-step
                   title="Step 1"
                   sub-title="00:00:05"
-                  status="finish"
+                  status="process"
                   description="This is a description."
             />
             <a-step
                   title="Step 2"
                   sub-title="00:01:02"
-                  status="process"
+                  status="wait"
                   description="This is a description."
             />
             <a-step
@@ -33,20 +33,20 @@
                               <a-input disabled v-model:value="o"></a-input>
                         </a-form-item>
                         <a-form-item label="库名">
-                              <a-input disabled v-model:value="o"></a-input>
+                              <a-select></a-select>
                         </a-form-item>
                         <a-form-item label="表名">
-                              <a-input disabled v-model:value="o"></a-input>
+                              <a-select></a-select>
                         </a-form-item>
-                        <a-form-item>
+                        <a-form-item label="操作">
                               <a-row type="flex" justify="end" align="middle">
-                                    <a-button style="text-align: right;">提交工单</a-button>
+                                    <a-button block>提交工单</a-button>
                               </a-row>
                         </a-form-item>
                   </a-form>
             </a-col>
             <a-col :sm="24" :md="16" :xl="16">
-                  <editor></editor>
+                  <Editor container-id="applys"></editor>
             </a-col>
       </a-row>
       <br />
@@ -54,36 +54,15 @@
 </template>
 <script lang="ts"  setup>
 import Editor from '@/components/editor/editor.vue';
+import JunoMixin from '@/mixins/juno'
 
 const o = "xxxx"
 const layout = {
       labelCol: { span: 5 },
       wrapperCol: { span: 19 },
 };
-const col = [
-      {
-            title: "阶段",
-            dataIndex: "status"
-      },
-      {
-            title: "错误等级",
-            dataIndex: "level"
-      },
-      {
-            title: "错误信息",
-            dataIndex: "error"
-      },
-      {
-            title: '当前检查的sql',
-            dataIndex: 'sql',
-            tooltip: true
-      },
-      {
-            title: '影响行数',
-            dataIndex: 'affect_rows',
-            width: '120'
-      }
-]
+
+const {col} = JunoMixin() 
 
 const tData = [
       {

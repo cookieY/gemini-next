@@ -1,50 +1,58 @@
 <template>
-      <a-layout>
-            <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
-                  <a-row>
-                        <a-col span="2">
-                              <img src="../../assets/login/logo.png" style="width: 150px;" />
-                        </a-col>
-                        <a-col :span="15" offset="5">
-                              <a-menu
-                                    theme="dark"
-                                    mode="horizontal"
-                                    :style="{ lineHeight: '64px' }"
-                              >
-                                    <a-menu-item key="/home">
-                                          <HomeOutlined />
-                                          <span>主页</span>
-                                    </a-menu-item>
-                                    <a-menu-item key="/ordersubmit">
-                                          <UnlockOutlined />
-                                          <span>工单申请</span>
-                                    </a-menu-item>
-                                    <a-menu-item key="/query">
-                                          <TagOutlined />
-                                          <span>查询</span>
-                                    </a-menu-item>
-                                    <a-menu-item key="/audit">
-                                          <AuditOutlined />
-                                          <span>审核</span>
-                                    </a-menu-item>
-                                    <a-menu-item key="/manager">
-                                          <CloudSyncOutlined />
-                                          <span>管理</span>
-                                    </a-menu-item>
-                              </a-menu>
-                        </a-col>
-                  </a-row>
-            </a-layout-header>
-            <a-layout-content :style="{ padding: '0 20px', marginTop: '64px' }">
-                  <div :style="{ margin: '16px 0' }">
-                        <router-view></router-view>
-                  </div>
-            </a-layout-content>
-            <a-layout-footer :style="{ textAlign: 'center' }">{{ Copyright }}</a-layout-footer>
-      </a-layout>
+      <div>
+            <a-layout>
+                  <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+                        <a-row :gutter="24">
+                              <a-col :xs="5" :sm="2">
+                                    <img src="../../assets/login/logo.png" style="width: 150px;" />
+                              </a-col>
+                              <a-col :xs="0" :sm="15" :offset="5">
+                                    <Menu mode="horizontal"></Menu>
+                              </a-col>
+                              <a-col :xs="1" :sm="0" :offset="16">
+                                    <MenuFoldOutlined
+                                          :style="{ fontSize: '20px' }"
+                                          @click="is_open = true"
+                                    />
+                              </a-col>
+                        </a-row>
+                  </a-layout-header>
+                  <a-layout-content :style="{ padding: '0 20px', marginTop: '64px' }">
+                        <div :style="{ margin: '16px 0' }">
+                              <router-view v-slot="{ Component }">
+                                    <component :is="Component" />
+                              </router-view>
+                        </div>
+                  </a-layout-content>
+                  <a-layout-footer :style="{ textAlign: 'center' }">{{ Copyright }}</a-layout-footer>
+            </a-layout>
+
+            <a-drawer placement="right" :closable="false" :visible="is_open" @close="close">
+                  <Menu @close="() => is_open = false"></Menu>
+            </a-drawer>
+      </div>
 </template>
 <script setup lang="ts">
 import { Copyright } from "@/config/vars";
-import { HomeOutlined, AuditOutlined, CloudSyncOutlined, UnlockOutlined, TagOutlined } from '@ant-design/icons-vue';
+import { MenuFoldOutlined, PlusCircleFilled, setTwoToneColor } from '@ant-design/icons-vue';
+import CommonMixin from "@/mixins/common";
+import Menu from "@/components/menu/menu.vue";
 
+const { is_open, close } = CommonMixin()
 </script>
+
+<style scoped>
+.slide-fade-enter-active {
+      transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+      transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+      transform: translateX(20px);
+      opacity: 0;
+}
+</style>

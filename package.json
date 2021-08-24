@@ -17,7 +17,9 @@
             "nprogress": "^0.2.0",
             "sql-formatter": "^4.0.2",
             "vue": "^3.2.3",
-            "vue-router": "4"
+            "vue-router": "4",
+            "vuex": "^4.0.2",
+            "vuex-persistedstate": "^4.0.0"
       },
       "devDependencies": {
             "@types/node": "^16.6.1",
