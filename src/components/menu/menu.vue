@@ -10,10 +10,13 @@
                   <HomeOutlined />
                   <span>主页</span>
             </a-menu-item>
-            <a-menu-item key="/personal">
-                  <UnlockOutlined />
-                  <span>我的申请</span>
-            </a-menu-item>
+            <a-sub-menu key="/personal">
+                  <template #icon>
+                        <UnlockOutlined />
+                  </template>
+                  <template #title>我的申请</template>
+                  <a-menu-item key="/server/order/common/list">我的工单</a-menu-item>
+            </a-sub-menu>
             <a-menu-item key="/apply">
                   <UnlockOutlined />
                   <span>工单申请</span>
@@ -22,10 +25,13 @@
                   <TagOutlined />
                   <span>查询</span>
             </a-menu-item>
-            <a-menu-item key="/audit">
-                  <AuditOutlined />
-                  <span>审核</span>
-            </a-menu-item>
+            <a-sub-menu key="/server">
+                  <template #icon>
+                        <AuditOutlined />
+                  </template>
+                  <template #title>审核</template>
+                  <a-menu-item key="/server/order/audit/list">工单审核</a-menu-item>
+            </a-sub-menu>
             <a-menu-item key="/manager">
                   <CloudSyncOutlined />
                   <span>管理</span>

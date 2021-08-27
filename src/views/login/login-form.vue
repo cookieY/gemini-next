@@ -34,13 +34,15 @@
 </template>
 
 <script setup lang="ts">
-import { Res, OverrideHeaders } from "@/config/request";
+import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
 import { UnwrapRef, reactive, ref, onMounted } from "vue";
-import { IsRegister, LoginApi, LoginFrom, LoginRespPayload } from "@/views/login/loginApi";
+import { IsRegister, LoginApi, LoginFrom } from "@/views/login/loginApi";
+import { LoginRespPayload } from "@/types/types"
 import Register from "@/components/register/registerForm.vue";
 import router from "@/router";
 import CommonMixin from "@/mixins/common";
+import { useStore } from "@/store";
 
 const is_register = ref<boolean>(true)
 
@@ -62,16 +64,15 @@ const loginForm: UnwrapRef<LoginFrom> = reactive({
       is_ldap: false
 })
 
+const store = useStore()
+
 const signIn = async () => {
       await LoginApi(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {
             if (res.data.code === 1301) {
                   return
             }
-            OverrideHeaders(res.data.payload.token)
-            sessionStorage.setItem('real_name', res.data.payload.real_name);
-            sessionStorage.setItem('jwt', 'Bearer ' + res.data.payload.token)
-            sessionStorage.setItem('user', loginForm.username);
-            router.replace("/dash")
+            store.commit("user/USER_STORE", res.data.payload)
+            router.replace("/home")
       })
 }
 

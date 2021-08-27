@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 
 export default function () {
       const is_open = ref(false)
@@ -8,7 +8,14 @@ export default function () {
       function open () {
             is_open.value = true
       }
+
+      const pagination = reactive({
+            pageSize: 15,
+            pageCount: 1,
+      })
+
       return {
+            pagination,
             is_open,
             open,
             close

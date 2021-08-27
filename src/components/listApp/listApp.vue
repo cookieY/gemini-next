@@ -28,7 +28,10 @@
                                     </a-tooltip>
                                     <a-dropdown>
                                           <a-tooltip title="进入申请页面">
-                                                <a class="ant-dropdown-link">
+                                                <a
+                                                      class="ant-dropdown-link"
+                                                      @click="() => router.push('/apply/order')"
+                                                >
                                                       <EnterOutlined />
                                                 </a>
                                           </a-tooltip>
@@ -42,6 +45,7 @@
 
 <script lang="ts" setup>
 import { UserSwitchOutlined, EnterOutlined, ShareAltOutlined } from "@ant-design/icons-vue"
+import router from "@/router"
 const loading = false
 const props = defineProps<{
       source?: Array<object>

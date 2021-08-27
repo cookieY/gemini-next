@@ -1,16 +1,15 @@
 import { InjectionKey } from 'vue'
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import { menu } from "@/store/module/menu"
+import { user } from "@/store/module/user"
 import { RootStore, AllStoreTypes } from "./types"
 import createPersistedState from "vuex-persistedstate";
 
 
-export const store = createStore<RootStore>({
-      state: {
-            test: "123"
-      },
+export const store = createStore<AllStoreTypes>({
       modules: {
-            menu
+            menu,
+            user
       },
       plugins: [createPersistedState({ storage: window.sessionStorage })],
 })

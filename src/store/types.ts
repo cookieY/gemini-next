@@ -1,10 +1,11 @@
 import { menuStore } from "./module/menu";
+import { userStore } from "./module/user";
 
 export interface RootStore {
-      test: string
 }
 
 
 export interface AllStoreTypes extends RootStore {
-      menu: menuStore
+      menu: menuStore,
+      user: userStore
 }

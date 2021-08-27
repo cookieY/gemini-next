@@ -1,11 +1,12 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
+import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 import NProgress from "nprogress"
 import '@/style/theme.less'
+import { store } from "./store"
 
 NProgress.configure({ showSpinner: false })
 
 const router = createRouter({
-      history: createWebHistory(),
+      history: createWebHashHistory(),
       routes: [
             {
                   path: '/login',
@@ -75,21 +76,16 @@ const router = createRouter({
                               },
                         },
                         {
-                              path: '/audit',
-                              name: 'audit',
-                              meta: {
-                                    title: '审核'
-                              },
+                              path: '/server',
+                              name: 'server',
                               component: () => import('@/views/common/subLayout.vue'),
-                              redirect: "/audit/order/list",
                               children: [
                                     {
-                                          path: '/audit/order/list',
-                                          name: 'audit',
+                                          path: '/server/order/:tp/list',
                                           meta: {
-                                                title: '审核'
+                                                title: '工单审核列表'
                                           },
-                                          component: () => import('@/views/audit/order.vue'),
+                                          component: () => import('@/views/server/order/list.vue'),
                                     }
                               ]
                         },
@@ -101,13 +97,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
       NProgress.start()
-      // if (!sessionStorage.getItem('user') && to.name !== 'login') { // 判断是否已经登录且前往的页面不是登录页
-      //       next(false);
-      //       router.replace({ name: 'login' }).then(() => {
-      //       }).finally(() => NProgress.NProgress.done())
-      // } else {
-      next()
-      // }
+      if (store.state.user.account.token === '' && to.name !== 'login') { // 判断是否已经登录且前往的页面不是登录页
+            next(false);
+            router.replace({ name: 'login' }).then(() => {
+            }).finally(() => NProgress.done())
+      } else {
+            next()
+      }
 
 })
 

@@ -1,5 +1,8 @@
 import axios, { AxiosInstance } from "axios"
-import { message, notification } from "ant-design-vue";
+import { notification } from "ant-design-vue";
+import { store } from "@/store"
+import router from "@/router";
+
 
 interface Res<T> {
       code: number;
@@ -15,7 +18,8 @@ const request: AxiosInstance = axios.create({
       timeout: 200000,
       headers: {
             'Content-Type': 'application/json'
-      }
+      },
+      baseURL: "http://127.0.0.1:8001"
 })
 
 const errorHandler = (error: { response: { data: { message: string }; status: number } }) => {
@@ -25,6 +29,7 @@ const errorHandler = (error: { response: { data: { message: string }; status: nu
                         message: '会话过期',
                         description: '会话已失效,请返回登陆页面重新登录！'
                   })
+                  router.replace("/login")
                   return Promise.reject(error)
             }
             const data = error.response.data
@@ -65,8 +70,8 @@ request.interceptors.response.use((response) => {
       return response
 }, errorHandler)
 
-const OverrideHeaders = (token: string) => { request.defaults.headers.common['Authorization'] = 'Bearer ' + token; }
+const overrideHeaders = () => { request.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.user.account.token }
 
 export {
-      request, COMMON_URI, OverrideHeaders, Res
+      request, COMMON_URI, overrideHeaders, Res
 }

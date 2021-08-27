@@ -1,9 +1,10 @@
 <template>
       <a-card>
-            <a-page-header title="工单申请" sub-title="DML/DDL/查询工单申请及提交" @back="() => $router.go(-1)">
+            <a-page-header title="工单申请" @back="() => $router.go(-1)">
                   <template #tags>
                         <a-tag color="blue">Running</a-tag>
                   </template>
+                  <p>DML/DDL/查询工单申请及提交</p>
                   <a-row type="flex" align="middle" style="text-align: center;">
                         <a-space :size="30">
                               <a-statistic title="可申请的DML数据源" :value="8" />

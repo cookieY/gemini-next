@@ -1,11 +1,5 @@
 import { request } from "@/config/request"
 
-export interface LoginRespPayload {
-      token: string;
-      real_name: string;
-      rule: string;
-}
-
 export interface LoginFrom {
       username: string;
       password: string;

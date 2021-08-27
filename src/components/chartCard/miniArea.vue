@@ -36,7 +36,6 @@ onMounted(() => {
 
       });
       chart.forceFit()
-      console.log(Randomdata())
       chart.axis(false)
       chart.data(Randomdata());
       chart.tooltip({
