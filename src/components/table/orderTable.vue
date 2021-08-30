@@ -22,14 +22,15 @@
 </template>
 
 <script lang="ts" setup>
-import { Res } from "@/config/request";
 import auditTable from "@/mixins/auditTable";
-import { AxiosResponse } from "axios";
-import { onMounted, reactive, ref } from "vue"
-import { FetchOrderTable, OrderTableResp, OrderParams, OrderExpr, OrderTableData } from "./orderTableApis"
 import StateTags from "./stateTags.vue"
 import OrderTableSearch from "./orderTableSearch.vue"
 import CommonMixins from "@/mixins/common"
+import { Res } from "@/config/request";
+import { onBeforeRouteUpdate, useRoute } from "vue-router"
+import { AxiosResponse } from "axios";
+import { onMounted, reactive, ref } from "vue"
+import { FetchOrderTable, OrderTableResp, OrderParams, OrderExpr, OrderTableData } from "@/apis/orderTableApis"
 
 let tData = ref<OrderTableData[]>([])
 let expr = reactive<OrderParams>({
@@ -43,20 +44,22 @@ const { col } = auditTable()
 
 const { pagination } = CommonMixins()
 
-const props = defineProps<{
-      auditOrder: boolean
-}>()
+const route = useRoute()
 
-const currentPage = () => {
-      FetchOrderTable(expr, props.auditOrder).then((res: AxiosResponse<Res<OrderTableResp>>) => {
+const currentPage = (isAudit: boolean = false) => {
+      FetchOrderTable(expr, isAudit).then((res: AxiosResponse<Res<OrderTableResp>>) => {
             tData.value = res.data.payload.data
             pagination.pageCount = res.data.payload.page
       })
 }
 
+onBeforeRouteUpdate((to) => {
+      currentPage(to.params.tp === "audit")
+})
+
 
 onMounted(() => {
-      currentPage()
+      currentPage(route.params.tp === "audit")
 })
 
 </script>

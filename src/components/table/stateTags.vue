@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { OrderState } from "./orderTableApis"
+import { OrderState } from "../../apis/orderTableApis"
 import { CheckCircleOutlined, SyncOutlined, CloseCircleOutlined } from "@ant-design/icons-vue"
 
 const props = defineProps<{

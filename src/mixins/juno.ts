@@ -1,4 +1,5 @@
-import { ref } from "vue";
+import { reactive, ref, UnwrapRef } from "vue";
+import { OrderItem } from "@/views/common/types";
 
 export default function () {
       const col = [
@@ -24,8 +25,21 @@ export default function () {
                   dataIndex: 'affect_rows',
                   width: '120'
             }
-      ]
+      ],
+
+            orderItems: UnwrapRef<OrderItem> = reactive({
+                  type: "",
+                  idc: "",
+                  source: "",
+                  data_base: "",
+                  table: "",
+                  text: "",
+                  delay: "",
+                  backup: 1
+            })
+
       return {
-            col
+            col,
+            orderItems
       }
 }

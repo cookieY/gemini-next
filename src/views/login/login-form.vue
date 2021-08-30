@@ -37,7 +37,7 @@
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
 import { UnwrapRef, reactive, ref, onMounted } from "vue";
-import { IsRegister, LoginApi, LoginFrom } from "@/views/login/loginApi";
+import { IsRegister, LoginApi, LoginFrom } from "@/apis/loginApi";
 import { LoginRespPayload } from "@/types/types"
 import Register from "@/components/register/registerForm.vue";
 import router from "@/router";

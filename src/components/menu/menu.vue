@@ -10,13 +10,11 @@
                   <HomeOutlined />
                   <span>主页</span>
             </a-menu-item>
-            <a-sub-menu key="/personal">
-                  <template #icon>
-                        <UnlockOutlined />
-                  </template>
-                  <template #title>我的申请</template>
-                  <a-menu-item key="/server/order/common/list">我的工单</a-menu-item>
-            </a-sub-menu>
+            <template #title>我的申请</template>
+            <a-menu-item key="/server/order/common/list">
+                  <UnlockOutlined />
+                  <span>我的工单</span>
+            </a-menu-item>
             <a-menu-item key="/apply">
                   <UnlockOutlined />
                   <span>工单申请</span>

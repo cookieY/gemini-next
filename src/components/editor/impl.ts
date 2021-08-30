@@ -34,7 +34,7 @@ const testFunc: monaco.editor.IActionDescriptor = {
       }
 }
 
-const createSQLToken = (range: any): monaco.languages.CompletionItem[] => {
+const createSQLToken = (range: any, exact: { [key: string]: string }[]): monaco.languages.CompletionItem[] => {
       let token = [] as any
       MysqlKeywords.forEach((item: string) => {
             token.push(
@@ -47,6 +47,19 @@ const createSQLToken = (range: any): monaco.languages.CompletionItem[] => {
                   }
             )
       })
+
+      exact.forEach((item: { [key: string]: string }) => {
+            token.push(
+                  {
+                        label: item.vl,
+                        kind: monaco.languages.CompletionItemKind.Field,
+                        insertText: item.vl,
+                        range: range,
+                        detail: item.meta
+                  }
+            )
+      });
+
       return token
 }
 
