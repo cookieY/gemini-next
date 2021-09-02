@@ -58,14 +58,29 @@
                         </a-form-item>
                         <a-form-item label="操作">
                               <a-space>
-                                    <a-button>获取表结构信息</a-button>
+                                    <a-button @click="fetchTableArch">获取表结构信息</a-button>
                                     <a-button>提交工单</a-button>
                               </a-space>
                         </a-form-item>
                   </a-form>
             </a-col>
             <a-col :sm="24" :md="16" :xl="16">
-                  <Editor container-id="applys" ref="editor" :height="520"></Editor>
+                  <a-tabs v-model:activeKey="activeKey">
+                        <a-tab-pane :key="1" tab="填写SQL语句">
+                              <Editor container-id="applys" ref="editor" :height="500"></Editor>
+                        </a-tab-pane>
+                        <a-tab-pane :key="2" tab="表结构详情" force-render>
+                              <a-table
+                                    style="height: 500px;"
+                                    :columns="tableArch"
+                                    :data-source="archData"
+                                    bordered
+                              ></a-table>
+                        </a-tab-pane>
+                        <a-tab-pane :key="3" tab="索引详情">
+                              <a-table style="height: 500px;"></a-table>
+                        </a-tab-pane>
+                  </a-tabs>
             </a-col>
       </a-row>
       <br />
@@ -79,6 +94,9 @@ import { useRoute } from 'vue-router';
 import { SQLTesting } from "@/views/common/types"
 import FetchMixins from '@/mixins/fetch'
 import PageHeader from "@/components/pageHeader/pageHeader.vue"
+import { AxiosResponse } from 'axios';
+import { Res } from '@/config/request';
+import { FetchTableArchApis, TableArch } from "@/apis/fetchDB"
 import * as moment from "moment"
 
 const layout = {
@@ -86,21 +104,36 @@ const layout = {
       wrapperCol: { span: 19 },
 };
 
+const activeKey = ref(1)
+
 const route = useRoute()
 
 const tData = ref([] as SQLTesting[])
 
-const { col, orderItems } = JunoMixin()
+const archData = ref([])
 
-const { orderProfileArch, editor, FetchDBName, FetchTimeline, FetchDBTable } = FetchMixins()
+const { col, orderItems, tableArch } = JunoMixin()
+
+const { orderProfileArch, editor, FetchDBName, FetchTimeline, FetchTableName } = FetchMixins()
 
 const delayTime = (date: moment.Moment) => {
       orderItems.delay = date.format('yyyy-MM-dd HH:mm')
 }
 
 const fetchTable = (data_base: string) => {
-      FetchDBTable(orderItems.source, data_base)
+      FetchTableName(orderItems.source, data_base)
 }
+
+const fetchTableArch = () => {
+      FetchTableArchApis({
+            source: orderItems.source,
+            data_base: orderItems.data_base,
+            table: orderItems.table
+      }).then((res: AxiosResponse<Res<any>>) => {
+            archData.value = res.data.payload.rows
+      })
+}
+
 
 onMounted(() => {
       orderItems.type = route.query.type as string

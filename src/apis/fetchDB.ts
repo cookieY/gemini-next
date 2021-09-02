@@ -11,12 +11,28 @@ export interface Timeline {
       type: number
 }
 
+export interface TableArch {
+      source: string
+      data_base: string
+      table: string
+}
+
 export function FetchDBNameApis (source: string) {
       return request({
             method: 'get',
             url: `${COMMON_URI}/fetch/base`,
             params: {
                   source: source
+            }
+      })
+}
+
+export function FetchTableArchApis (source: TableArch) {
+      return request({
+            method: 'get',
+            url: `${COMMON_URI}/fetch/fields`,
+            params: {
+                  source
             }
       })
 }

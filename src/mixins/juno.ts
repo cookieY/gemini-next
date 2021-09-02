@@ -1,4 +1,4 @@
-import { reactive, ref, UnwrapRef } from "vue";
+import { reactive, UnwrapRef } from "vue";
 import { OrderItem } from "@/views/common/types";
 
 export default function () {
@@ -25,6 +25,28 @@ export default function () {
                   dataIndex: 'affect_rows',
                   width: '120'
             }
+      ]
+      const tableArch = [
+            {
+                  title: '字段名',
+                  dataIndex: 'field'
+            },
+            {
+                  title: '字段类型',
+                  dataIndex: 'type',
+            },
+            {
+                  title: '字段是否为空',
+                  dataIndex: 'null',
+            },
+            {
+                  title: '默认值',
+                  dataIndex: 'default',
+            },
+            {
+                  title: '备注',
+                  dataIndex: 'comment'
+            }
       ],
 
             orderItems: UnwrapRef<OrderItem> = reactive({
@@ -40,6 +62,7 @@ export default function () {
 
       return {
             col,
-            orderItems
+            orderItems,
+            tableArch
       }
 }

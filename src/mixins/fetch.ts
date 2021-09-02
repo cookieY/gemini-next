@@ -14,8 +14,8 @@ export default function () {
 
       const editor = ref()
 
-      const FetchDBName = (source: string) => {
-            FetchDBNameApis(source).then((res: AxiosResponse<Res<DBRelated>>) => {
+      const FetchDBName = async (source: string) => {
+            await FetchDBNameApis(source).then((res: AxiosResponse<Res<DBRelated>>) => {
                   orderProfileArch.db = res.data.payload.results
                   editor.value.RunEditor(res.data.payload.highlight)
             })
@@ -27,13 +27,13 @@ export default function () {
             })
       }
 
-      const FetchDBTable = (source: string, data_base: string,) => {
+      const FetchTableName = (source: string, data_base: string,) => {
             FetchTableApis(source, data_base).then((res: AxiosResponse<Res<DBRelated>>) => {
                   orderProfileArch.table = res.data.payload.results
                   editor.value.RunEditor(res.data.payload.highlight)
             })
       }
 
-      return { orderProfileArch, editor, FetchDBName, FetchTimeline, FetchDBTable }
+      return { orderProfileArch, editor, FetchDBName, FetchTimeline, FetchTableName }
 
 }
