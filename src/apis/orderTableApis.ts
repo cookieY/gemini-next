@@ -45,7 +45,7 @@ export interface OrderTableData {
       execute_time: string
       assigned: string
       current_step: number
-      relevant: object
+      relevant: []
 }
 
 

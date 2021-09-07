@@ -4,15 +4,19 @@
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
 import { createSQLToken, beautyFunc, testFunc } from "@/components/editor/impl"
-import { nextTick, defineExpose, onMounted } from '@vue/runtime-core';
+import { nextTick, defineExpose, onMounted, onUnmounted } from '@vue/runtime-core';
 interface Props {
       containerId: string,
-      height?: number
+      height?: number,
+      readonly?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
       containerId: "",
-      height: 400
+      height: 400,
+      readonly: false
 })
+
+let model = {} as monaco.editor.IStandaloneCodeEditor
 
 const RunEditor = (highlight: { [key: string]: string }[]) => {
 
@@ -32,25 +36,35 @@ const RunEditor = (highlight: { [key: string]: string }[]) => {
       });
 }
 
+const ChangeEditorText = (sql: string) => {
+      model.setValue(sql)
+}
+
 onMounted(() => {
-      nextTick(() => {
-            const model = monaco.editor.create(document.getElementById(props.containerId) as HTMLElement, {
-                  language: "sql",
-                  fontSize: 16,
-                  theme: "vs-dark",
-                  automaticLayout: true
 
-            });
+      model = monaco.editor.create(document.getElementById(props.containerId) as HTMLElement, {
+            language: "sql",
+            fontSize: 16,
+            theme: "vs-dark",
+            automaticLayout: true,
+            readOnly: props.readonly
 
-            model.addAction(beautyFunc)
-            model.addAction(testFunc)
-      })
+      });
+
+      model.addAction(beautyFunc)
+      model.addAction(testFunc)
+
+})
+
+onUnmounted(() => {
+      model.dispose()
 })
 
 
 
 defineExpose({
-      RunEditor
+      RunEditor,
+      ChangeEditorText
 })
 
 </script>

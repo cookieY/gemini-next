@@ -87,7 +87,6 @@ onMounted(() => {
 
 <style scoped>
 .login-title span {
-      opacity: 0.6;
       color: #ffffff;
 }
 </style>

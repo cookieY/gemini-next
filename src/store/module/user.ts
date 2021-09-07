@@ -1,6 +1,6 @@
 import { Module } from "vuex";
 import { RootStore } from "../types";
-import { LoginRespPayload } from "@/types"
+import { LoginRespPayload } from "@/types/types"
 
 export interface userStore {
       account: LoginRespPayload

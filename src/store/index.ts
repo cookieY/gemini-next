@@ -2,6 +2,7 @@ import { InjectionKey } from 'vue'
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import { menu } from "@/store/module/menu"
 import { user } from "@/store/module/user"
+import { order } from './module/order'
 import { RootStore, AllStoreTypes } from "./types"
 import createPersistedState from "vuex-persistedstate";
 
@@ -9,7 +10,8 @@ import createPersistedState from "vuex-persistedstate";
 export const store = createStore<AllStoreTypes>({
       modules: {
             menu,
-            user
+            user,
+            order
       },
       plugins: [createPersistedState({ storage: window.sessionStorage })],
 })

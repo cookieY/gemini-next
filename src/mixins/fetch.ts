@@ -1,5 +1,5 @@
 import { FetchDBNameApis, DBRelated, Timeline, FetchTimelineApis, FetchTableApis } from "@/apis/fetchDB"
-import { Res } from "@/config/request"
+import { Res, request, COMMON_URI } from "@/config/request"
 import router from "@/router"
 import { AxiosResponse } from "axios"
 import { reactive, ref } from "vue"
@@ -13,6 +13,27 @@ export default function () {
       })
 
       const editor = ref()
+
+      const FetchStepUsege = (work_id: string) => {
+            return request({
+                  method: "GET",
+                  url: `${COMMON_URI}/fetch/steps`,
+                  params: {
+                        work_id: work_id
+                  }
+            })
+      }
+
+      const FetchProfileSQL = (work_id: string, limit: string) => {
+            return request({
+                  method: "GET",
+                  url: `${COMMON_URI}/fetch/sql`,
+                  params: {
+                        work_id: work_id,
+                        limit: limit
+                  }
+            })
+      }
 
       const FetchDBName = async (source: string) => {
             await FetchDBNameApis(source).then((res: AxiosResponse<Res<DBRelated>>) => {
@@ -34,6 +55,6 @@ export default function () {
             })
       }
 
-      return { orderProfileArch, editor, FetchDBName, FetchTimeline, FetchTableName }
+      return { orderProfileArch, editor, FetchDBName, FetchTimeline, FetchTableName, FetchStepUsege, FetchProfileSQL }
 
 }

@@ -65,7 +65,9 @@ const openSponsor = () => {
 
 <style scoped>
 .login_container {
-      background-size: 100%;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-attachment: fixed;
       background-image: v-bind(imgUrl);
       width: 100%;
       position: absolute;
@@ -83,7 +85,6 @@ const openSponsor = () => {
 .footer {
       position: absolute;
       bottom: 6px;
-      width: 100%;
       height: 40px; /*脚部的高度*/
       clear: both;
       margin-left: 6rem;

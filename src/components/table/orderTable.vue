@@ -7,8 +7,10 @@
             <template #status="{ text }">
                   <state-tags :state="text"></state-tags>
             </template>
-            <template v-slot:action>
-                  <a-button type="primary" size="small">详情</a-button>
+            <template #action="{ record, text }">
+                  <router-link to>
+                        <a-button type="primary" size="small" @click="profie(record)">详情</a-button>
+                  </router-link>
             </template>
       </a-table>
       <br />
@@ -31,6 +33,8 @@ import { onBeforeRouteUpdate, useRoute } from "vue-router"
 import { AxiosResponse } from "axios";
 import { onMounted, reactive, ref } from "vue"
 import { FetchOrderTable, OrderTableResp, OrderParams, OrderExpr, OrderTableData } from "@/apis/orderTableApis"
+import { useStore } from '@/store'
+import router from "@/router";
 
 let tData = ref<OrderTableData[]>([])
 let expr = reactive<OrderParams>({
@@ -46,11 +50,19 @@ const { pagination } = CommonMixins()
 
 const route = useRoute()
 
+const store = useStore()
+
 const currentPage = (isAudit: boolean = false) => {
       FetchOrderTable(expr, isAudit).then((res: AxiosResponse<Res<OrderTableResp>>) => {
             tData.value = res.data.payload.data
             pagination.pageCount = res.data.payload.page
       })
+}
+
+const profie = (record: OrderTableData) => {
+      console.log(record)
+      router.push("/apply/order/profile")
+      store.commit("order/ORDER_STORE", record)
 }
 
 onBeforeRouteUpdate((to) => {
