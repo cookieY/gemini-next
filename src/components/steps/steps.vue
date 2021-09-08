@@ -8,7 +8,7 @@
 
 
 <script lang="ts"  setup>
-import { Template } from '@/views/common/types';
+import { Template } from '@/types';
 import { defineProps } from 'vue'
 
 const props = defineProps<{

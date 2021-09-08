@@ -19,10 +19,6 @@
                   <UnlockOutlined />
                   <span>工单申请</span>
             </a-menu-item>
-            <a-menu-item key="/query">
-                  <TagOutlined />
-                  <span>查询</span>
-            </a-menu-item>
             <a-sub-menu key="/server">
                   <template #icon>
                         <AuditOutlined />

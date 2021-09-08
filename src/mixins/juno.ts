@@ -1,5 +1,5 @@
 import { reactive, UnwrapRef } from "vue";
-import { OrderItem } from "@/views/common/types";
+import { OrderItem } from "@/types";
 
 export default function () {
       const col = [
@@ -47,22 +47,43 @@ export default function () {
                   title: '备注',
                   dataIndex: 'comment'
             }
-      ],
+      ]
 
-            orderItems: UnwrapRef<OrderItem> = reactive({
-                  type: "",
-                  idc: "",
-                  source: "",
-                  data_base: "",
-                  table: "",
-                  text: "",
-                  delay: "",
-                  backup: 1
-            })
+      const indexArch = [
+            {
+                  title: '索引名称',
+                  dataIndex: 'IndexName'
+            },
+            {
+                  title: '是否唯一',
+                  dataIndex: 'NonUnique',
+                  slots: {
+                        customRender: 'NonUnique'
+                  }
+            },
+            {
+                  title: '字段名',
+                  dataIndex: 'ColumnName'
+            }
+      ];
+
+      const orderItems: UnwrapRef<OrderItem> = reactive({
+            type: "",
+            idc: "",
+            source: "",
+            data_base: "",
+            table: "",
+            text: "",
+            delay: "",
+            backup: 1,
+            sql: "",
+            relevant: [] as string[]
+      })
 
       return {
             col,
             orderItems,
-            tableArch
+            tableArch,
+            indexArch
       }
 }

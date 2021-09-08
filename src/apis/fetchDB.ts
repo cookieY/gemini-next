@@ -31,9 +31,7 @@ export function FetchTableArchApis (source: TableArch) {
       return request({
             method: 'get',
             url: `${COMMON_URI}/fetch/fields`,
-            params: {
-                  source
-            }
+            params: source
       })
 }
 

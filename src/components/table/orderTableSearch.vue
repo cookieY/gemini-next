@@ -39,7 +39,6 @@
                                     <a-form-item label="提交时间">
                                           <a-range-picker
                                                 v-model:value="picker"
-                                                placeholder="请输入提交日期"
                                                 :ranges="{ '本周': [moment().startOf('week'), moment().endOf('week')], '本月': [moment().startOf('month'), moment().endOf('month')] }"
                                           />
                                     </a-form-item>
@@ -66,7 +65,8 @@
 <script lang="ts"  setup>
 import { ref, UnwrapRef, reactive } from "@vue/runtime-core";
 import moment from "moment";
-import { OrderExpr, OrderState } from "../../apis/orderTableApis"
+import { OrderExpr } from "@/apis/orderTableApis"
+import { OrderState } from "@/types"
 
 const advanced = ref(false)
 const picker = ref<moment.Moment[]>([])

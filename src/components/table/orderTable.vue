@@ -8,9 +8,7 @@
                   <state-tags :state="text"></state-tags>
             </template>
             <template #action="{ record, text }">
-                  <router-link to>
-                        <a-button type="primary" size="small" @click="profie(record)">详情</a-button>
-                  </router-link>
+                  <a-button type="primary" size="small" @click="profie(record)">详情</a-button>
             </template>
       </a-table>
       <br />
@@ -29,12 +27,11 @@ import StateTags from "./stateTags.vue"
 import OrderTableSearch from "./orderTableSearch.vue"
 import CommonMixins from "@/mixins/common"
 import { Res } from "@/config/request";
-import { onBeforeRouteUpdate, useRoute } from "vue-router"
+import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router"
 import { AxiosResponse } from "axios";
 import { onMounted, reactive, ref } from "vue"
 import { FetchOrderTable, OrderTableResp, OrderParams, OrderExpr, OrderTableData } from "@/apis/orderTableApis"
 import { useStore } from '@/store'
-import router from "@/router";
 
 let tData = ref<OrderTableData[]>([])
 let expr = reactive<OrderParams>({
@@ -49,6 +46,7 @@ const { col } = auditTable()
 const { pagination } = CommonMixins()
 
 const route = useRoute()
+const router = useRouter()
 
 const store = useStore()
 
@@ -60,9 +58,8 @@ const currentPage = (isAudit: boolean = false) => {
 }
 
 const profie = (record: OrderTableData) => {
-      console.log(record)
-      router.push("/apply/order/profile")
       store.commit("order/ORDER_STORE", record)
+      router.push({ path: "/apply/order/profile" })
 }
 
 onBeforeRouteUpdate((to) => {

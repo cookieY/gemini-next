@@ -3,8 +3,10 @@
 </template>
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
-import { createSQLToken, beautyFunc, testFunc } from "@/components/editor/impl"
-import { nextTick, defineExpose, onMounted, onUnmounted } from '@vue/runtime-core';
+import { createSQLToken } from "@/components/editor/impl"
+import { defineExpose, onMounted, onUnmounted } from '@vue/runtime-core';
+import { format } from 'sql-formatter';
+
 interface Props {
       containerId: string,
       height?: number,
@@ -17,6 +19,35 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 let model = {} as monaco.editor.IStandaloneCodeEditor
+
+const emit = defineEmits(['testResults'])
+
+const beautyFunc: monaco.editor.IActionDescriptor = {
+      id: 'ms-beauty',
+      label: 'SQL美化',
+      keybindings: [
+            monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_B,
+      ],
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      run: function (ed: monaco.editor.ICodeEditor) {
+            ed.setValue(format(ed.getValue()))
+
+      }
+}
+
+const testFunc: monaco.editor.IActionDescriptor = {
+      id: 'ms-test',
+      label: 'SQL检测',
+      keybindings: [
+            monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_R,
+      ],
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      run: function (ed: monaco.editor.ICodeEditor) {
+            emit("testResults", ed.getValue())
+      }
+}
 
 const RunEditor = (highlight: { [key: string]: string }[]) => {
 
@@ -38,6 +69,10 @@ const RunEditor = (highlight: { [key: string]: string }[]) => {
 
 const ChangeEditorText = (sql: string) => {
       model.setValue(sql)
+}
+
+const GetValue = () => {
+      return model.getValue()
 }
 
 onMounted(() => {
@@ -64,7 +99,8 @@ onUnmounted(() => {
 
 defineExpose({
       RunEditor,
-      ChangeEditorText
+      ChangeEditorText,
+      GetValue
 })
 
 </script>

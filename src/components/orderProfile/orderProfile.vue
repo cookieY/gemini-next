@@ -12,11 +12,11 @@
                                     status="active"
                                     :showInfo="false"
                                     :strokeWidth="25"
-                                    strokeColor="#793EF9"
+                                    :strokeColor="StateUsege(order.status).color"
                                     style="position: relative"
                               />
                               <div style=" position: absolute; top: 5%; left: 50%; ">
-                                    <span>审核中</span>
+                                    <span>{{ StateUsege(order.status).title }}</span>
                               </div>
                         </a-col>
                   </a-row>
@@ -32,7 +32,13 @@
                         <a-descriptions-item label="环境">{{ order.idc }}</a-descriptions-item>
                         <a-descriptions-item label="数据源">{{ order.source }}</a-descriptions-item>
                         <a-descriptions-item label="库名">{{ order.data_base }}</a-descriptions-item>
-                        <a-descriptions-item label="相关人员">{{ order.relevant.join(' ') }}</a-descriptions-item>
+                        <a-descriptions-item label="生成回滚语句">{{ order.backup ? '是' : '否' }}</a-descriptions-item>
+                        <a-descriptions-item label="定时执行">{{ order.delay }}</a-descriptions-item>
+                        <a-descriptions-item label="相关人员">
+                              <template v-for="i in order.relevant" :key="i">
+                                    <a-tag v-if="i !== '提交人'" color="#2094FC">{{ i }}</a-tag>
+                              </template>
+                        </a-descriptions-item>
                   </a-descriptions>
                   <a-divider orientation="left" dashed></a-divider>
                   <a-timeline pending="Recording...">
@@ -61,6 +67,7 @@ import { onMounted } from "@vue/runtime-core";
 import FetchMixins from "@/mixins/fetch"
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
+import { StateUsege } from "@/lib"
 
 interface stepUsege {
       action: string
