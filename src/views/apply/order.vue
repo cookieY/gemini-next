@@ -39,7 +39,7 @@
                                     >{{ i }}</a-select-option>
                               </a-select>
                         </a-form-item>
-                        <a-form-item label="工单说明" nane="text">
+                        <a-form-item label="工单说明" nane="text" required>
                               <a-textarea
                                     :rows="3"
                                     v-model:value="orderItems.text"
@@ -48,7 +48,7 @@
                               ></a-textarea>
                         </a-form-item>
                         <a-form-item label="定时执行">
-                              <a-date-picker show-time placeholder="Select Time" @ok="delayTime" />
+                              <a-date-picker show-time @ok="delayTime" />
                         </a-form-item>
                         <a-form-item label="生成回滚语句">
                               <a-radio-group name="radioGroup" v-model:value="orderItems.backup">
@@ -59,7 +59,7 @@
                         <a-form-item label="操作">
                               <a-space>
                                     <a-button @click="fetchTableArch">获取表结构信息</a-button>
-                                    <a-button @click="postOrder">提交工单</a-button>
+                                    <a-button @click="postOrder" :disabled="enabled">提交工单</a-button>
                               </a-space>
                         </a-form-item>
                   </a-form>
@@ -108,7 +108,7 @@
 <script lang="ts"  setup>
 import Editor from '@/components/editor/editor.vue';
 import JunoMixin from '@/mixins/juno'
-import { onMounted, ref } from '@vue/runtime-core';
+import { computed, onMounted, ref } from '@vue/runtime-core';
 import { useRoute } from 'vue-router';
 import { OrderItem, SQLTesting } from "@/types"
 import FetchMixins from '@/mixins/fetch'
@@ -141,6 +141,8 @@ const formRef = ref()
 const route = useRoute()
 
 const store = useStore()
+
+const enabled = ref(true)
 
 const rules = {
       data_base: [
@@ -182,23 +184,30 @@ const testResults = (sql: string) => {
       spin.value = !spin.value
       FetchSQLTestResults({ source: orderItems.source, is_dml: orderItems.type === 'dml', data_base: orderItems.data_base, sql: sql } as SQLTestParams)
             .then((res: AxiosResponse<Res<SQLTesting[]>>) => {
+                  let counter = 0
                   tData.value = res.data.payload
+                  tData.value.forEach((item: SQLTesting) => {
+                        if (item.level !== 0) {
+                              counter++
+                        }
+                  })
+                  enabled.value = counter !== 0
             })
             .finally(() => spin.value = !spin.value)
 }
 
 const postOrder = () => {
-      console.log(orderItems)
       formRef.value.validate().then(() => {
-            orderItems.sql = editor.value.GetValue()
-            orderItems.type = orderItems.type === 'ddl' ? 0 : 1
+            let warpper = Object.assign({}, orderItems)
+            warpper.sql = editor.value.GetValue()
+            warpper.type = orderItems.type === 'ddl' ? 0 : 1
             orderProfileArch.timeline.forEach((item) => {
-                  orderItems.relevant = orderItems.relevant.concat(item.auditor)
+                  warpper.relevant = warpper.relevant.concat(item.auditor)
             })
-            PostSQLOrder(Object.assign({}, orderItems))
+            PostSQLOrder(warpper).finally(() => enabled.value = true)
       }).catch((error: ValidateErrorEntity<OrderItem>) => {
-            console.log('error', error);
-      });
+            message.error("请填写必要信息后提交工单")
+      })
 
 }
 

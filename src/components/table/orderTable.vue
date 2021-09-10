@@ -4,6 +4,9 @@
             <template #type="{ text }">
                   <span>{{ text === 1 ? 'DML' : 'DDL' }}</span>
             </template>
+            <template #assigned="{ text }">
+                  <a-tag v-for="i in text.split(',')">{{ i }}</a-tag>
+            </template>
             <template #status="{ text }">
                   <state-tags :state="text"></state-tags>
             </template>
@@ -59,7 +62,7 @@ const currentPage = (isAudit: boolean = false) => {
 
 const profie = (record: OrderTableData) => {
       store.commit("order/ORDER_STORE", record)
-      router.push({ path: "/apply/order/profile" })
+      router.push({ path: "/server/order/profile" })
 }
 
 onBeforeRouteUpdate((to) => {

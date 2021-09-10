@@ -4,18 +4,21 @@ import { OrderTableData } from "@/types"
 
 export interface orderStore {
       order: OrderTableData
-      sql: string
+      enabled: boolean
 }
 
 export const order: Module<orderStore, RootStore> = {
       namespaced: true,
       state: {
             order: {} as OrderTableData,
-            sql: ""
+            enabled: true
       },
       mutations: {
             ORDER_STORE (state, vl: OrderTableData) {
                   state.order = vl
+            },
+            IS_ENABLED (state, vl: boolean) {
+                  state.enabled = vl
             }
       }
 }

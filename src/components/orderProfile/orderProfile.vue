@@ -34,8 +34,8 @@
                         <a-descriptions-item label="库名">{{ order.data_base }}</a-descriptions-item>
                         <a-descriptions-item label="生成回滚语句">{{ order.backup ? '是' : '否' }}</a-descriptions-item>
                         <a-descriptions-item label="定时执行">{{ order.delay }}</a-descriptions-item>
-                        <a-descriptions-item label="相关人员">
-                              <template v-for="i in order.relevant" :key="i">
+                        <a-descriptions-item label="当前审核人">
+                              <template v-for="i in order.assigned.split(',')" :key="i">
                                     <a-tag v-if="i !== '提交人'" color="#2094FC">{{ i }}</a-tag>
                               </template>
                         </a-descriptions-item>
@@ -46,7 +46,7 @@
                               v-for="i in usege"
                               :key="i.id"
                               color="green"
-                        >{{ i.action }} {{ i.time }}</a-timeline-item>
+                        >{{ i.username }} {{ i.action }} {{ i.time }}</a-timeline-item>
                   </a-timeline>
             </a-col>
             <a-col :xs="24" :sm="18">

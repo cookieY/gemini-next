@@ -19,13 +19,10 @@
                   <UnlockOutlined />
                   <span>工单申请</span>
             </a-menu-item>
-            <a-sub-menu key="/server">
-                  <template #icon>
-                        <AuditOutlined />
-                  </template>
-                  <template #title>审核</template>
-                  <a-menu-item key="/server/order/audit/list">工单审核</a-menu-item>
-            </a-sub-menu>
+            <a-menu-item key="/server/order/audit">
+                  <AuditOutlined />
+                  <span>工单审核</span>
+            </a-menu-item>
             <a-menu-item key="/manager">
                   <CloudSyncOutlined />
                   <span>管理</span>

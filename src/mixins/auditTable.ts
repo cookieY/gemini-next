@@ -36,6 +36,9 @@ export default function () {
             {
                   title: '当前操作人',
                   dataIndex: 'assigned',
+                  slots: {
+                        customRender: 'assigned'
+                  }
 
             },
             {
