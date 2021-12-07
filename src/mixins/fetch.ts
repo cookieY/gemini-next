@@ -1,4 +1,4 @@
-import { FetchDBNameApis, DBRelated, Timeline, FetchTimelineApis, FetchTableApis } from "@/apis/fetchDB"
+import { FetchDBNameApis, DBRelated, Timeline, FetchTimelineApis, FetchTableApis } from "@/apis/fetchSchema"
 import { Res, request, COMMON_URI } from "@/config/request"
 import router from "@/router"
 import { AxiosResponse } from "axios"

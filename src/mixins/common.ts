@@ -1,23 +1,29 @@
-import { reactive, ref } from "vue";
+import {reactive, ref} from "vue";
+import {Register} from "@/types";
 
 export default function () {
-      const is_open = ref(false)
-      function close () {
-            is_open.value = false
-      }
-      function open () {
-            is_open.value = true
-      }
+    const is_open = ref(false)
 
-      const pagination = reactive({
-            pageSize: 15,
-            pageCount: 1,
-      })
+    function close() {
+        is_open.value = false
+    }
 
-      return {
-            pagination,
-            is_open,
-            open,
-            close
-      }
+    function open() {
+        is_open.value = true
+    }
+
+    const pagination = reactive({
+        pageSize: 15,
+        pageCount: 1,
+    })
+
+    const register = reactive({} as Register)
+
+    return {
+        pagination,
+        is_open,
+        open,
+        close,
+        register
+    }
 }
