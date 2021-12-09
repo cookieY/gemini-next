@@ -1,31 +1,55 @@
 <template>
-      <div :id="props.containerId" style="height: 400px"></div>
+      <div :id="props.containerId" :style="{ height: props.height + 'px' }"></div>
 </template>
-
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
-import { createSQLToken, beautyFunc, testFunc } from "@/components/editor/impl"
-import { nextTick, onMounted, } from '@vue/runtime-core';
+import { createSQLToken } from "@/components/editor/impl"
+import { defineExpose, onMounted, onUnmounted } from '@vue/runtime-core';
+import { format } from 'sql-formatter';
 
-const props = defineProps<{
+interface Props {
       containerId: string,
-}>()
+      height?: number,
+      readonly?: boolean
+}
+const props = withDefaults(defineProps<Props>(), {
+      containerId: "",
+      height: 400,
+      readonly: false
+})
 
+let model = {} as monaco.editor.IStandaloneCodeEditor
 
-onMounted(() => {
+const emit = defineEmits(['testResults'])
 
-      nextTick(() => {
-            const model = monaco.editor.create(document.getElementById(props.containerId) as HTMLElement, {
-                  language: "sql",
-                  fontSize: 16,
-                  theme: "vs-dark",
-                  automaticLayout: true
+const beautyFunc: monaco.editor.IActionDescriptor = {
+      id: 'ms-beauty',
+      label: 'SQL美化',
+      keybindings: [
+            monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_B,
+      ],
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      run: function (ed: monaco.editor.ICodeEditor) {
+            ed.setValue(format(ed.getValue()))
 
-            });
+      }
+}
 
-            model.addAction(beautyFunc)
-            model.addAction(testFunc)
-      })
+const testFunc: monaco.editor.IActionDescriptor = {
+      id: 'ms-test',
+      label: 'SQL检测',
+      keybindings: [
+            monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_R,
+      ],
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      run: function (ed: monaco.editor.ICodeEditor) {
+            emit("testResults", ed.getValue())
+      }
+}
+
+const RunEditor = (highlight: { [key: string]: string }[]) => {
 
       monaco.languages.registerCompletionItemProvider('sql', {
             provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
@@ -37,9 +61,46 @@ onMounted(() => {
                         endColumn: word.endColumn
                   };
                   return {
-                        suggestions: createSQLToken(range)
+                        suggestions: createSQLToken(range, highlight)
                   }
             }
       });
+}
+
+const ChangeEditorText = (sql: string) => {
+      model.setValue(sql)
+}
+
+const GetValue = () => {
+      return model.getValue()
+}
+
+onMounted(() => {
+
+      model = monaco.editor.create(document.getElementById(props.containerId) as HTMLElement, {
+            language: "sql",
+            fontSize: 16,
+            theme: "vs-dark",
+            automaticLayout: true,
+            readOnly: props.readonly
+
+      });
+
+      model.addAction(beautyFunc)
+      model.addAction(testFunc)
+
 })
+
+onUnmounted(() => {
+      model.dispose()
+})
+
+
+
+defineExpose({
+      RunEditor,
+      ChangeEditorText,
+      GetValue
+})
+
 </script>

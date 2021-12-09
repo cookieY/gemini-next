@@ -1,24 +1,21 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <OrderTable :audit-order="isAudit"></OrderTable>
+      <OrderTable></OrderTable>
 </template>
-
 <script lang="ts"  setup>
-import { computed, onMounted, ref } from "@vue/runtime-core";
+import { ref } from "@vue/runtime-core";
+import { useRoute, onBeforeRouteUpdate } from "vue-router";
+import { checkTitle } from "./impl"
 import PageHeader from "@/components/pageHeader/pageHeader.vue";
 import OrderTable from "@/components/table/orderTable.vue";
-import router from "@/router";
-
-const title: { [key: string]: string } = router.currentRoute.value.params.tp === "audit" ? { title: "工单审核", subTitle: "DML/DDL工单审批及执行" } : { title: "我的工单", subTitle: "我的DML/DDL工单查看" }
-
-const isAudit = computed(() => {
-      return router.currentRoute.value.params.tp === "audit"
-})
 
 
+const route = useRoute()
 
-onMounted(() => {
+let title = ref(checkTitle(route.params.tp as string))
 
+onBeforeRouteUpdate((to) => {
+      title.value = checkTitle(to.params.tp as string)
 })
 
 </script>

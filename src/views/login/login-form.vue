@@ -37,9 +37,9 @@
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
 import { UnwrapRef, reactive, ref, onMounted } from "vue";
-import { IsRegister, LoginApi, LoginFrom } from "@/views/login/loginApi";
-import { LoginRespPayload } from "@/types/types"
-import Register from "@/components/register/registerForm.vue";
+import { IsRegister, LoginApi, LoginFrom } from "@/apis/loginApi";
+import { LoginRespPayload } from "@/types"
+import Register from "@/components/user/registerForm.vue";
 import router from "@/router";
 import CommonMixin from "@/mixins/common";
 import { useStore } from "@/store";
@@ -87,7 +87,6 @@ onMounted(() => {
 
 <style scoped>
 .login-title span {
-      opacity: 0.6;
       color: #ffffff;
 }
 </style>

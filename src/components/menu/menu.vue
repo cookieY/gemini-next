@@ -10,32 +10,31 @@
                   <HomeOutlined />
                   <span>主页</span>
             </a-menu-item>
-            <a-sub-menu key="/personal">
-                  <template #icon>
-                        <UnlockOutlined />
-                  </template>
-                  <template #title>我的申请</template>
-                  <a-menu-item key="/server/order/common/list">我的工单</a-menu-item>
-            </a-sub-menu>
+            <a-menu-item key="/server/order/common/list">
+                  <UnlockOutlined />
+                  <span>我的工单</span>
+            </a-menu-item>
             <a-menu-item key="/apply">
                   <UnlockOutlined />
                   <span>工单申请</span>
             </a-menu-item>
-            <a-menu-item key="/query">
-                  <TagOutlined />
-                  <span>查询</span>
+            <a-menu-item key="/server/order/audit">
+                  <AuditOutlined />
+                  <span>工单审核</span>
             </a-menu-item>
-            <a-sub-menu key="/server">
+            <a-sub-menu title="管理">
                   <template #icon>
-                        <AuditOutlined />
+                        <CloudSyncOutlined />
                   </template>
-                  <template #title>审核</template>
-                  <a-menu-item key="/server/order/audit/list">工单审核</a-menu-item>
+                  <a-menu-item key="/manager/user">
+                        <CloudSyncOutlined />
+                        <span>用户</span>
+                  </a-menu-item>
+                  <a-menu-item key="/manager/db">
+                        <CloudSyncOutlined />
+                        <span>数据源</span>
+                  </a-menu-item>
             </a-sub-menu>
-            <a-menu-item key="/manager">
-                  <CloudSyncOutlined />
-                  <span>管理</span>
-            </a-menu-item>
       </a-menu>
 </template>
 <script lang="ts"  setup>
