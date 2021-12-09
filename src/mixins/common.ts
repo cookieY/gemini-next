@@ -31,12 +31,18 @@ export default function () {
             is_open.value = !is_open.value
       }
 
+      const layout = {
+            labelCol: { span: 5 },
+            wrapperCol: { span: 19 },
+      }
+
       return {
             pagination,
             is_open,
             open,
             close,
             regExpPassword,
-            turnState
+            turnState,
+            layout
       }
 }

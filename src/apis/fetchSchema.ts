@@ -17,6 +17,13 @@ export interface TableArch {
       table: string
 }
 
+export function FetchIDCNameApis () {
+      return request({
+            method: 'get',
+            url: `${COMMON_URI}/fetch/idc`,
+      })
+}
+
 export function FetchDBNameApis (source: string) {
       return request({
             method: 'get',
