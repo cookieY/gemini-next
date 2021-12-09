@@ -73,7 +73,7 @@ const dbForm = ref(
             password: "",
             username: "",
             is_query: 2,
-            flow_id: 0
+            flow_id: 1
       } as Source
 )
 
