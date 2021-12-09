@@ -1,29 +1,42 @@
-import {reactive, ref} from "vue";
-import {Register} from "@/types";
+import { reactive, ref } from "vue";
+import { RuleObject } from 'ant-design-vue/es/form/interface';
 
 export default function () {
-    const is_open = ref(false)
+      const is_open = ref(false)
 
-    function close() {
-        is_open.value = false
-    }
+      function close () {
+            is_open.value = false
+      }
 
-    function open() {
-        is_open.value = true
-    }
+      function open () {
+            is_open.value = true
+      }
 
-    const pagination = reactive({
-        pageSize: 15,
-        pageCount: 1,
-    })
+      const pagination = reactive({
+            pageSize: 15,
+            pageCount: 1,
+      })
 
-    const register = reactive({} as Register)
+      const regExpPassword = async (rule: RuleObject, value: string) => {
+            let pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+            if (!pPattern.test(value)) {
+                  return Promise.reject('至少1个大写字母，1个小写字母，1个数字')
+            } else {
+                  return Promise.resolve();
+            }
+      }
 
-    return {
-        pagination,
-        is_open,
-        open,
-        close,
-        register
-    }
+
+      const turnState = () => {
+            is_open.value = !is_open.value
+      }
+
+      return {
+            pagination,
+            is_open,
+            open,
+            close,
+            regExpPassword,
+            turnState
+      }
 }

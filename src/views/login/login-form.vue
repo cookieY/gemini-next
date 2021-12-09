@@ -39,7 +39,7 @@ import { AxiosResponse } from "axios";
 import { UnwrapRef, reactive, ref, onMounted } from "vue";
 import { IsRegister, LoginApi, LoginFrom } from "@/apis/loginApi";
 import { LoginRespPayload } from "@/types"
-import Register from "@/components/register/registerForm.vue";
+import Register from "@/components/user/registerForm.vue";
 import router from "@/router";
 import CommonMixin from "@/mixins/common";
 import { useStore } from "@/store";

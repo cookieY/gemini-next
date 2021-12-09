@@ -12,22 +12,38 @@
             <a-form-item label="姓名:" name="real_name" has-feedback>
                   <a-input v-model:value="registerForm.real_name"></a-input>
             </a-form-item>
+            <a-form-item label="角色:" name="rule" has-feedback>
+                  <a-select v-model:value="registerForm.rule">
+                        <a-select-option value="admin">审核用户</a-select-option>
+                        <a-select-option value="guest">普通用户</a-select-option>
+                  </a-select>
+            </a-form-item>
             <a-form-item label="部门:" name="department" has-feedback>
                   <a-input v-model:value="registerForm.department"></a-input>
             </a-form-item>
-            <a-form-item label="邮箱:" name="mail" has-feedback>
-                  <a-input v-model:value="registerForm.mail"></a-input>
+            <a-form-item label="邮箱:" name="email" has-feedback>
+                  <a-input v-model:value="registerForm.email"></a-input>
+            </a-form-item>
+            <a-form-item label="操作">
+                  <a-button type="primary" @click="registered">注册</a-button>
             </a-form-item>
       </a-form>
 </template>
 
 <script lang="ts" setup>
-import { defineEmits } from "@vue/runtime-core";
-import { reactive, UnwrapRef, ref } from "vue";
-import { RegisterForm, RegisterApi } from "./apis";
+import CommonMixins from "@/mixins/common"
+import { reactive, UnwrapRef, ref, withDefaults, } from "vue";
+import { RegisterForm, RegisterApi } from "@/apis/user";
 import { RuleObject } from 'ant-design-vue/es/form/interface';
+import { EventBus } from "@/lib";
 
-const emit = defineEmits(['closeState'])
+interface propsAttr {
+      isManager: boolean
+}
+
+const props = withDefaults(defineProps<propsAttr>(), {
+      isManager: false
+})
 
 const layout = {
       labelCol: { span: 5 },
@@ -38,19 +54,13 @@ const registerForm: UnwrapRef<RegisterForm> = reactive({
       username: '',
       password: '',
       confirm_password: '',
-      mail: '',
+      email: '',
       real_name: '',
-      department: ''
+      department: '',
+      rule: ''
 })
 
-let regExpPassword = async (rule: RuleObject, value: string) => {
-      let pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
-      if (!pPattern.test(value)) {
-            return Promise.reject('至少1个大写字母，1个小写字母，1个数字')
-      } else {
-            return Promise.resolve();
-      }
-}
+const { regExpPassword } = CommonMixins()
 
 let validPassword = async (rule: RuleObject, value: string) => {
       if (value !== registerForm.password && value !== "") {
@@ -66,16 +76,17 @@ const rules = {
       confirm_password: [{ trigger: 'blur', message: "请确认密码", required: true }, { required: true, validator: validPassword, trigger: 'blur' }],
       real_name: [{ trigger: 'blur', message: "请输入姓名", required: true }],
       department: [{ trigger: 'blur', message: "请输入部门", required: true }],
-      mail: [{ type: 'email', message: "请输入正确的邮件格式", trigger: 'blur', required: true }],
+      rule: [{ trigger: 'change', message: "请选择角色", required: true }],
+      email: [{ type: 'email', message: "请输入正确的邮件格式", trigger: 'blur', required: true }],
 
 }
 
 const formRef = ref();
 
 const registered = (): boolean => formRef.value.validate().then(() => {
-      RegisterApi(registerForm).then(() => {
+      RegisterApi(registerForm, props.isManager).then(() => {
             resetFields()
-            emit("closeState")
+            EventBus.emit("closeState")
       })
 })
 

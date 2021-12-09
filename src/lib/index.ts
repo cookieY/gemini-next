@@ -1,5 +1,6 @@
 import { OrderState } from "@/types"
 import { CheckCircleOutlined, SyncOutlined, CloseCircleOutlined } from "@ant-design/icons-vue"
+import mitt from 'mitt'
 
 export const StateUsege = (state: number) => {
       switch (state) {
@@ -20,3 +21,5 @@ export const StateUsege = (state: number) => {
 
       }
 }
+
+export const EventBus = mitt()
