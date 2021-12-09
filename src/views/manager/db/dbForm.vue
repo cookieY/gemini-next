@@ -34,8 +34,8 @@
             </a-form-item>
             <a-form-item label="操作">
                   <a-space size="small">
-                        <a-button type="dashed">测试连接</a-button>
-                        <a-button type="primary">创建</a-button>
+                        <a-button type="dashed" @click="checkConn">测试连接</a-button>
+                        <a-button type="primary" @click="createSource">创建</a-button>
                         <a-button type="primary" danger @click="resetFields">清空</a-button>
                   </a-space>
             </a-form-item>
@@ -45,10 +45,11 @@
 <script lang="ts" setup>
 
 import { ref, computed } from "vue";
-import { Source } from "@/apis/db";
+import { OpsDBApis, Source } from "@/apis/db";
 import CommonMixins from "@/mixins/common"
 import DBMixins from "@/mixins/db"
 import { useStore } from '@/store'
+import { EventBus } from "@/lib";
 
 const store = useStore()
 
@@ -85,6 +86,14 @@ const resetFields = () => {
 
 const fill = (vl: Source) => {
       dbForm.value = vl
+}
+
+const createSource = () => {
+       OpsDBApis({ db: dbForm.value, tp: "create" }).then(() => EventBus.emit("postOk"))
+}
+
+const checkConn = () => {
+      OpsDBApis({ db: dbForm.value, tp: "test" })
 }
 
 defineExpose({

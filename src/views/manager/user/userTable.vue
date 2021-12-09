@@ -1,6 +1,6 @@
 <template>
       <UserTableSearch @search="search"></UserTableSearch>
-      <a-table :columns="col" :dataSource="tData" :pagination="false" rowKey="username">
+      <a-table :columns="col" :dataSource="tData" :pagination="false" rowKey="username" bordered>
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space size="small">
@@ -159,6 +159,7 @@ const editUserInfo = (vl: RegisterForm) => {
 }
 
 const currentPage = () => {
+      pagination.pageSize = 10
       FetchUserListApis(expr).then((res: AxiosResponse<Res<UserResp>>) => {
             tData.value = res.data.payload.data
             pagination.pageCount = res.data.payload.page

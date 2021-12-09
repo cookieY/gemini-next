@@ -69,7 +69,7 @@ import { useStore } from '@/store'
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { RespSteps, Steps } from "@/apis/flow"
-import { Source, EditDBApis } from "@/apis/db"
+import { Source, OpsDBApis } from "@/apis/db"
 
 const { is_open, turnState, layout } = CommonMixins()
 
@@ -103,7 +103,7 @@ const mergeFlow = (vl: number) => {
 }
 
 const editDB = () => {
-      EditDBApis({ db: dbForm.value, tp: "edit" }).then(() => turnState())
+      OpsDBApis({ db: dbForm.value, tp: "edit" }).then(() => turnState())
 }
 
 const fillInfo = (vl: any) => {

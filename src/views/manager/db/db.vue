@@ -6,7 +6,6 @@
                   <DBForm></DBForm>
             </a-col>
             <a-col :xs="24" :sm="17" :offset="1">
-                  <a-divider orientation="left">数据源列表</a-divider>
                   <DBTableVue></DBTableVue>
             </a-col>
       </a-row>

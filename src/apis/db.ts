@@ -34,7 +34,7 @@ export interface RequestDB {
 }
 
 
-export function FetchDBListApis (args: DBParams) {
+export function FetchDBListApis(args: DBParams) {
       return request({
             method: 'put',
             url: `${COMMON_URI}/manage/db`,
@@ -42,10 +42,18 @@ export function FetchDBListApis (args: DBParams) {
       })
 }
 
-export function EditDBApis (args: RequestDB) {
+export function OpsDBApis(args: RequestDB) {
       return request({
             method: 'POST',
             url: `${COMMON_URI}/manage/db`,
             data: args
+      })
+}
+
+export function DelDBApis(args: string) {
+      return request({
+            method: 'DELETE',
+            url: `${COMMON_URI}/manage/db`,
+            params: { source: args }
       })
 }

@@ -6,7 +6,6 @@
                   <RegisterForm isManager></RegisterForm>
             </a-col>
             <a-col :xs="24" :sm="17" :offset="1">
-                  <a-divider orientation="left">用户列表</a-divider>
                   <UserTable></UserTable>
             </a-col>
       </a-row>
