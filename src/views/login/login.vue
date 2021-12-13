@@ -2,13 +2,13 @@
       <div class="login_container">
             <div class="hero">
                   <a-row type="flex" justify="space-around" align="bottom">
+                        <a-col :span="6" offset="1">
+                              <login-form></login-form>
+                        </a-col>
                         <a-col :span="12" offset="1">
                               <img src="../../assets/login/logo.png" style="width:350px" />
                               <p>{{ subject }}</p>
                               <a-button type="dashed" ghost @click="openSponsor">赞助</a-button>
-                        </a-col>
-                        <a-col :span="6">
-                              <login-form></login-form>
                         </a-col>
                   </a-row>
             </div>

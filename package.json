@@ -1,34 +1,35 @@
 {
-  "name": "gemini-next",
-  "version": "0.0.1",
-  "license": "AGPL-3.0-or-later",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
-  },
-  "dependencies": {
-    "@ant-design/icons-vue": "^6.0.1",
-    "@antv/g2": "^4.1.34",
-    "ant-design-vue": "3.0.0-alpha.14",
-    "axios": "^0.21.1",
-    "less": "^4.1.1",
-    "mitt": "^3.0.0",
-    "moment": "^2.29.1",
-    "monaco-editor": "0.27.0",
-    "nprogress": "^0.2.0",
-    "sql-formatter": "^4.0.2",
-    "vue": "^3.2.3",
-    "vue-router": "4",
-    "vuex": "^4.0.2",
-    "vuex-persistedstate": "^4.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^16.6.1",
-    "@vitejs/plugin-vue": "^1.4.0",
-    "@vue/compiler-sfc": "^3.2.3",
-    "typescript": "^4.3.2",
-    "vite": "^2.5.0",
-    "vue-tsc": "^0.3.0"
-  }
+      "name": "gemini-next",
+      "version": "0.0.1",
+      "license": "AGPL-3.0-or-later",
+      "scripts": {
+            "dev": "vite",
+            "build": "vue-tsc --noEmit && vite build",
+            "serve": "vite preview"
+      },
+      "dependencies": {
+            "@ant-design/icons-vue": "^6.0.1",
+            "@antv/g2": "^4.1.34",
+            "ant-design-vue": "3.0.0-alpha.14",
+            "axios": "^0.21.1",
+            "less": "^4.1.1",
+            "mitt": "^3.0.0",
+            "moment": "^2.29.1",
+            "monaco-editor": "0.27.0",
+            "nprogress": "^0.2.0",
+            "sql-formatter": "^4.0.2",
+            "vue": "^3.2.3",
+            "vue-router": "4",
+            "vuedraggable": "^4.1.0",
+            "vuex": "^4.0.2",
+            "vuex-persistedstate": "^4.0.0"
+      },
+      "devDependencies": {
+            "@types/node": "^16.6.1",
+            "@vitejs/plugin-vue": "^1.4.0",
+            "@vue/compiler-sfc": "^3.2.3",
+            "typescript": "^4.3.2",
+            "vite": "^2.5.0",
+            "vue-tsc": "^0.3.0"
+      }
 }

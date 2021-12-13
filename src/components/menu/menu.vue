@@ -34,13 +34,17 @@
                         <CloudSyncOutlined />
                         <span>数据源</span>
                   </a-menu-item>
+                  <a-menu-item key="/manager/flow">
+                        <CloudSyncOutlined />
+                        <span>流程</span>
+                  </a-menu-item>
             </a-sub-menu>
       </a-menu>
 </template>
 <script lang="ts"  setup>
 import { HomeOutlined, AuditOutlined, CloudSyncOutlined, TagOutlined, UnlockOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import router from '@/router';
 const props = defineProps<{
       mode?: string

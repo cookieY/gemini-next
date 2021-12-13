@@ -6,3 +6,5 @@ declare module '*.vue' {
 }
 
 declare module "nprogress"
+
+declare module "vue-super-flow"

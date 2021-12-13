@@ -110,6 +110,14 @@ const router = createRouter({
                                                 title: 'DB - 数据源'
                                           },
                                           component: () => import('@/views/manager/db/db.vue'),
+                                    },
+                                    {
+                                          path: '/manager/flow',
+                                          name: 'manager/flow',
+                                          meta: {
+                                                title: 'Flow - 流程'
+                                          },
+                                          component: () => import('@/views/manager/flow/flow.vue'),
                                     }
                               ]
                         }

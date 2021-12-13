@@ -10,7 +10,10 @@
                                     ghost
                                     @click="fillInfo(record)"
                               >详情</a-button>
-                              <a-popconfirm title="确认要删除该用户吗?" @confirm="DelDBApis(record.source).then(() => currentPage)">
+                              <a-popconfirm
+                                    title="确认要删除该用户吗?"
+                                    @confirm="DelDBApis(record.source).then(() => currentPage)"
+                              >
                                     <a-button type="primary" size="small" danger ghost>删除</a-button>
                               </a-popconfirm>
                         </a-space>

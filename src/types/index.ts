@@ -65,3 +65,8 @@ export interface SQLTesting {
       sql: string
       affect_rows: string
 }
+
+export interface AuditorList {
+      username: string
+      real_name: string
+}
