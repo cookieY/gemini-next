@@ -118,6 +118,14 @@ const router = createRouter({
                                                 title: 'Flow - 流程'
                                           },
                                           component: () => import('@/views/manager/flow/flow.vue'),
+                                    },
+                                    {
+                                          path: '/manager/policy',
+                                          name: 'manager/policy',
+                                          meta: {
+                                                title: 'Policy - 权限组'
+                                          },
+                                          component: () => import('@/views/manager/policy/policy.vue'),
                                     }
                               ]
                         }

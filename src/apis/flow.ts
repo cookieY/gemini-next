@@ -43,3 +43,13 @@ export function TplCreateOrEditApi (args: RespSteps) {
             url: `${COMMON_URI}/manage/tpl`
       })
 }
+
+export function TplDeleteApi (args: string) {
+      return request({
+            method: 'DELETE',
+            url: `${COMMON_URI}/manage/tpl`,
+            params: {
+                  id: args
+            }
+      })
+}

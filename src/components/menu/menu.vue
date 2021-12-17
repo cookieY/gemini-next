@@ -38,6 +38,10 @@
                         <CloudSyncOutlined />
                         <span>流程</span>
                   </a-menu-item>
+                  <a-menu-item key="/manager/policy">
+                        <CloudSyncOutlined />
+                        <span>权限组</span>
+                  </a-menu-item>
             </a-sub-menu>
       </a-menu>
 </template>

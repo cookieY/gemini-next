@@ -97,6 +97,15 @@ export const EditInfoApi = (user: RegisterForm) => {
       })
 }
 
+
+export const EditUserMargeGroupsApi = (groups: string[], user: string) => {
+      return request({
+            url: `${COMMON_URI}/manage/user?tp=policy`,
+            method: "POST",
+            data: { group: groups, username: user }
+      })
+}
+
 export const DeleteUserApi = (user: string) => {
       return request({
             url: `${COMMON_URI}/manage/user`,
@@ -116,17 +125,8 @@ export const GetUserGroupsApi = (user: string) => {
 export const GetUserMargeGroupsApi = (groups: string[]) => {
       const g = groups.join(",")
       return request({
-            url: `${COMMON_URI}/manage/group`,
+            url: `${COMMON_URI}/manage/policy`,
             method: "GET",
             params: { group: g }
       })
 }
-
-export const EditUserMargeGroupsApi = (groups: string[], user: string) => {
-      return request({
-            url: `${COMMON_URI}/manage/group`,
-            method: "POST",
-            data: { group: groups, username: user }
-      })
-}
-

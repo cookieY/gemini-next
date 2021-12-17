@@ -107,7 +107,7 @@
 <script lang="ts" setup>
 import CommonMixins from "@/mixins/common"
 import { Step as aStep, Steps as aSteps } from 'ant-design-vue';
-import { onMounted, ref, unref } from "vue"
+import { onMounted, ref } from "vue"
 import { RespSteps, Steps, TplCreateOrEditApi } from "@/apis/flow"
 import { FetchAuditorGetApis } from "@/apis/common"
 import { AxiosResponse } from "axios"
@@ -118,6 +118,8 @@ import { message } from 'ant-design-vue';
 const props = defineProps<{
       title: string
 }>()
+
+const emit = defineEmits(['success'])
 
 
 const flow = ref({
@@ -177,12 +179,14 @@ const postFlow = () => {
             message.error("最后步骤必须为执行类型！保存失败!")
             return
       }
-      TplCreateOrEditApi(flow.value).then(() => turnState())
+      TplCreateOrEditApi(flow.value).then(() => {
+            turnState()
+            emit('success')
+      })
 }
 
 const editFlow = (vl: RespSteps) => {
       flow.value = vl
-      console.log(vl)
       turnState()
 }
 
