@@ -1,27 +1,30 @@
 <template>
-      <a-modal v-model:visible="is_open" title="用户权限" @ok="editUserGroups">
-            <a-form>
+      <a-modal v-model:visible="is_open" title="用户权限" @ok="editUserGroups" :width="800">
+            <a-form layout="vertical">
                   <a-form-item label="用户名">
                         <span>{{ user }}</span>
                   </a-form-item>
                   <a-form-item label="权限组" v-show="props.isManager">
-                        <a-select v-model:value="rules.own" mode="multiple" @change="marge">
-                              <a-select-option
-                                    v-for="i in rules.groups"
-                                    :key="i.id"
-                                    :value="i.name"
-                              >{{ i.name }}</a-select-option>
-                        </a-select>
-                  </a-form-item>
-
-                  <a-form-item label="DDL数据源">
-                        <a-tag color="green" v-for="i in rules.target.ddl_source" :key="i">{{ i }}</a-tag>
-                  </a-form-item>
-                  <a-form-item label="DML数据源">
-                        <a-tag color="cyan" v-for="i in rules.target.dml_source" :key="i">{{ i }}</a-tag>
-                  </a-form-item>
-                  <a-form-item label="查询数据源">
-                        <a-tag color="blue" v-for="i in rules.target.query_source" :key="i">{{ i }}</a-tag>
+                        <a-transfer
+                              :rowKey="record => record.group_id"
+                              :render="item => `${item.name}`"
+                              :titles="[' 全部', ' 已选']"
+                              :data-source="rules.groups"
+                              v-model:target-keys="rules.own"
+                              :list-style="{
+                                    width: '400px',
+                                    height: '300px',
+                              }"
+                              show-search
+                              @change="handleChange"
+                        >
+                              <template #render="item">
+                                    <a-tooltip>
+                                          <template #title>prompt text</template>
+                                          <span>{{ item.name }}</span>
+                                    </a-tooltip>
+                              </template>
+                        </a-transfer>
                   </a-form-item>
             </a-form>
       </a-modal>
@@ -46,9 +49,15 @@ let rules = ref<RespGroups>(
       {
             groups: [],
             own: [],
-            target: {} as Target
+            target: {} as Target,
       }
 )
+
+const handleChange = (nextTargetKeys: string[], direction: string, moveKeys: string[]) => {
+      console.log('targetKeys: ', nextTargetKeys);
+      console.log('direction: ', direction);
+      console.log('moveKeys: ', moveKeys);
+};
 
 const marge = (groups: string[]) => {
       GetUserMargeGroupsApi(groups).then((res: AxiosResponse<Res<Target>>) => rules.value.target = res.data.payload)

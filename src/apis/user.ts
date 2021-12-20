@@ -53,7 +53,7 @@ export interface Target {
 export interface RespGroups {
       own: string[],
       groups: Groups[],
-      target: Target
+      target: Target,
 }
 
 export interface Groups {

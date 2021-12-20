@@ -12,7 +12,7 @@
                               >详情</a-button>
                               <a-popconfirm
                                     title="确认要删除该用户吗?"
-                                    @confirm="DelDBApis(record.source).then(() => currentPage)"
+                                    @confirm="DelDBApis(record.source_id).then(() => currentPage())"
                               >
                                     <a-button type="primary" size="small" danger ghost>删除</a-button>
                               </a-popconfirm>

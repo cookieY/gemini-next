@@ -13,10 +13,12 @@
                               >全选</a-checkbox>
                               <br />
                               <br />
-                              <a-checkbox-group
-                                    v-model:value="selfRuse[`${i}_source`]"
-                                    :options="i === 'query' ? ruse.query.map(s => s.source) : ruse.source.map(s => s.source)"
-                              />
+                              <a-checkbox-group v-model:value="selfRuse[`${i}_source`]">
+                                    <a-checkbox
+                                          v-for="k in (i === 'query' ? ruse.query : ruse.source)"
+                                          :value="`${k.source_id}`"
+                                    >{{ k.source }}</a-checkbox>
+                              </a-checkbox-group>
                         </a-form-item>
                         <a-divider></a-divider>
                   </template>
@@ -58,7 +60,7 @@ const indeterminate = reactive({
 })
 
 const selfRuse = reactive<PolicyPost>({
-      ddl_source: [],
+      ddl_source: ["3730b946-4cde-4f4d-9b9b-a4d9887a62c3"],
       dml_source: [],
       query_source: [],
       name: "",
@@ -71,7 +73,7 @@ enum range { DDL = "ddl", DML = "dml", QUERY = "query" }
 
 
 const onCheckAllChange = (e: any, type: string) => {
-      selfRuse[`${type}_source`] = e.target.checked ? type === 'query' ? ruse.query.map(s => s.source) as string[] : ruse.source.map(s => s.source) as string[] : [] as string[]
+      selfRuse[`${type}_source`] = e.target.checked ? type === 'query' ? ruse.query.map(s => s.source_id) as string[] : ruse.source.map(s => s.source_id) as string[] : [] as string[]
 }
 
 const postPolicy = () => {
@@ -89,6 +91,7 @@ const editPolicy = (vl: Policy) => {
       selfRuse.dml_source = vl.permissions.dml_source
       selfRuse.ddl_source = vl.permissions.ddl_source
       selfRuse.query_source = vl.permissions.query_source
+      console.log(selfRuse.ddl_source)
       turnState()
 }
 

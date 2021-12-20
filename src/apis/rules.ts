@@ -21,6 +21,7 @@ export interface Policy extends line {
 
 export interface checkList {
       source?: string
+      source_id?: string
 }
 
 export interface PolicyPost extends line {
