@@ -126,6 +126,22 @@ const router = createRouter({
                                                 title: 'Policy - 权限组'
                                           },
                                           component: () => import('@/views/manager/policy/policy.vue'),
+                                    },
+                                    {
+                                          path: '/manager/rules',
+                                          name: 'manager/rules',
+                                          meta: {
+                                                title: 'Rules - 审核规则'
+                                          },
+                                          component: () => import('@/views/manager/rules/rules.vue'),
+                                    },
+                                    {
+                                          path: '/manager/setting',
+                                          name: 'manager/setting',
+                                          meta: {
+                                                title: 'Setting - 设置'
+                                          },
+                                          component: () => import('@/views/manager/setting/setting.vue'),
                                     }
                               ]
                         }

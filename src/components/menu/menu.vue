@@ -42,6 +42,14 @@
                         <CloudSyncOutlined />
                         <span>权限组</span>
                   </a-menu-item>
+                  <a-menu-item key="/manager/rules">
+                        <CloudSyncOutlined />
+                        <span>审核规则</span>
+                  </a-menu-item>
+                  <a-menu-item key="/manager/setting">
+                        <CloudSyncOutlined />
+                        <span>设置</span>
+                  </a-menu-item>
             </a-sub-menu>
       </a-menu>
 </template>

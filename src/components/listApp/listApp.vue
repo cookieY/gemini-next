@@ -45,7 +45,7 @@
                                           <a-tooltip title="进入申请页面">
                                                 <a
                                                       class="ant-dropdown-link"
-                                                      @click="() => router.push({ path: '/apply/order', query: { type: props.type, idc: item.idc, source: item.source } })"
+                                                      @click="() => router.push({ path: '/apply/order', query: { type: props.type, idc: item.idc, source: item.source, source_id: item.source_id } })"
                                                 >
                                                       <EnterOutlined />
                                                 </a>

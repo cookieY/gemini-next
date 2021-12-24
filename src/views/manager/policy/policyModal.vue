@@ -26,7 +26,7 @@
       </a-modal>
 </template>
 <script lang="ts" setup>
-import { Policy, PolicyPost, PolicyRuse, Request } from "@/apis/rules"
+import { Policy, PolicyPost, PolicyRuse, Request } from "@/apis/policy"
 import { Res } from "@/config/request"
 import CommonMixins from "@/mixins/common"
 import { AxiosResponse } from "axios"
@@ -60,7 +60,7 @@ const indeterminate = reactive({
 })
 
 const selfRuse = reactive<PolicyPost>({
-      ddl_source: ["3730b946-4cde-4f4d-9b9b-a4d9887a62c3"],
+      ddl_source: [],
       dml_source: [],
       query_source: [],
       name: "",

@@ -12,9 +12,10 @@ export interface Timeline {
 }
 
 export interface TableArch {
-      source: string
+      source?: string
       data_base: string
       table: string
+      source_id?: string
 }
 
 export function FetchIDCNameApis () {
@@ -29,7 +30,7 @@ export function FetchDBNameApis (source: string) {
             method: 'get',
             url: `${COMMON_URI}/fetch/base`,
             params: {
-                  source: source
+                  source_id: source
             }
       })
 }
@@ -43,12 +44,12 @@ export function FetchTableArchApis (source: TableArch) {
 }
 
 
-export function FetchTableApis (source: string, data_base: string) {
+export function FetchTableApis (source_id: string, data_base: string) {
       return request({
             method: 'get',
             url: `${COMMON_URI}/fetch/table`,
             params: {
-                  source: source,
+                  source_id: source_id,
                   data_base: data_base
             }
       })

@@ -77,6 +77,7 @@ export default function () {
             delay: "",
             backup: 1,
             sql: "",
+            source_id: "",
             relevant: [] as string[]
       })
 

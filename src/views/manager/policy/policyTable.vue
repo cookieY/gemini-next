@@ -6,7 +6,11 @@
                               <a-button type="primary" @click="p.newPolicy()">新建权限组</a-button>
                         </a-form-item>
                         <a-form-item>
-                              <a-input-search placeholder="输入权限组名称" enter-button />
+                              <a-input-search
+                                    placeholder="输入权限组名称"
+                                    enter-button
+                                    @search="onSearch"
+                              />
                         </a-form-item>
                   </a-form>
             </a-col>
@@ -23,7 +27,10 @@
                                     ghost
                                     @click="p.editPolicy(record)"
                               >详情</a-button>
-                              <a-popconfirm title="确认要删除该权限组吗?">
+                              <a-popconfirm
+                                    title="确认要删除该权限组吗?"
+                                    @confirm="request.Drop(record.group_id).then(() => currentPage())"
+                              >
                                     <a-button type="primary" size="small" danger ghost>删除</a-button>
                               </a-popconfirm>
                         </a-space>
@@ -43,11 +50,11 @@
 import { ref, reactive, onMounted } from "vue"
 import CommonMixins from "@/mixins/common"
 import PolicyModal from "./policyModal.vue"
-import { PolicyParams, PolicyExpr, Policy, PolicyResp, Request } from "@/apis/rules"
+import { PolicyParams, PolicyExpr, Policy, PolicyResp, Request } from "@/apis/policy"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 
-const { pagination, turnState } = CommonMixins()
+const { pagination } = CommonMixins()
 
 const tData = ref([] as Policy[])
 
@@ -68,6 +75,11 @@ let expr = reactive<PolicyParams>({
 })
 
 const request = new Request()
+
+const onSearch = (vl: string) => {
+      expr.find.text = vl
+      currentPage()
+}
 
 const currentPage = () => {
       pagination.pageSize = 10
