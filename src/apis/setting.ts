@@ -40,6 +40,10 @@ export interface Settings {
       other: Other
 }
 
+export interface DeleteOrder {
+      date: string[]
+      tp: boolean
+}
 
 export class Request {
       Get (): AxiosPromise {
@@ -61,6 +65,14 @@ export class Request {
       Post (args: Settings): AxiosPromise {
             return request({
                   method: 'post',
+                  url: `${COMMON_URI}/manage/setting`,
+                  data: args
+            })
+      }
+
+      Delete (args: DeleteOrder): AxiosPromise {
+            return request({
+                  method: 'delete',
                   url: `${COMMON_URI}/manage/setting`,
                   data: args
             })

@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 import NProgress from "nprogress"
-import '@/style/theme.less'
 import { store } from "./store"
 
 NProgress.configure({ showSpinner: false })
@@ -134,6 +133,14 @@ const router = createRouter({
                                                 title: 'Rules - 审核规则'
                                           },
                                           component: () => import('@/views/manager/rules/rules.vue'),
+                                    },
+                                    {
+                                          path: '/manager/autotask',
+                                          name: 'manager/autotask',
+                                          meta: {
+                                                title: 'AutoTask - 自动化任务'
+                                          },
+                                          component: () => import('@/views/manager/autotask/autotask.vue'),
                                     },
                                     {
                                           path: '/manager/setting',

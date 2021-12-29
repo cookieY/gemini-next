@@ -1,29 +1,21 @@
 <template>
       <div>
             <a-layout>
-                  <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
-                        <a-row :gutter="24">
-                              <a-col :xs="5" :sm="2">
-                                    <img src="../../assets/login/logo.png" style="width: 150px;" />
-                              </a-col>
-                              <a-col :xs="0" :sm="15" :offset="5">
-                                    <Menu mode="horizontal"></Menu>
-                              </a-col>
-                              <a-col :xs="1" :sm="0" :offset="16">
-                                    <MenuFoldOutlined
-                                          :style="{ fontSize: '20px' }"
-                                          @click="is_open = true"
-                                    />
-                              </a-col>
-                        </a-row>
-                  </a-layout-header>
-                  <a-layout-content :style="{ padding: '0 20px', marginTop: '64px' }">
-                        <div :style="{ margin: '16px 0' }">
+                  <a-layout-sider
+                        :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
+                  >
+                        <img src="../../assets/login/logo.png" style="width: 150px;" />
+                        <Menu></Menu>
+                  </a-layout-sider>
+                  <a-layout :style="{ marginLeft: '200px' }">
+                        <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
                               <router-view v-slot="{ Component }">
                                     <component :is="Component" />
                               </router-view>
-                        </div>
-                  </a-layout-content>
+                        </a-layout-content>
+                  </a-layout>
+            </a-layout>
+            <a-layout>
                   <a-layout-footer :style="{ textAlign: 'center' }">{{ Copyright }}</a-layout-footer>
             </a-layout>
 

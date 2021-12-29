@@ -19,9 +19,9 @@
                         </a-space>
                   </template>
                   <template v-if="column.dataIndex === 'is_query'">
-                        <a-tag color="#009485" v-if="text === 2">读写</a-tag>
-                        <a-tag color="#f50" v-if="text === 1">读</a-tag>
-                        <a-tag color="#108ee9" v-if="text === 0">写</a-tag>
+                        <a-tag color="#43A687" v-if="text === 2">读写</a-tag>
+                        <a-tag color="#EA495F" v-if="text === 1">读</a-tag>
+                        <a-tag color="#B38D57" v-if="text === 0">写</a-tag>
                   </template>
             </template>
       </a-table>

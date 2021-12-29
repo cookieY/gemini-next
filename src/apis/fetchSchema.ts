@@ -1,4 +1,5 @@
 import { request, COMMON_URI } from "@/config/request"
+import { AxiosPromise } from "axios"
 
 export interface DBRelated {
       results: string[]
@@ -64,3 +65,22 @@ export function FetchTimelineApis (idc: string) {
             }
       })
 }
+
+export class Request {
+      IDC (): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/idc`,
+            })
+      }
+
+      Source (type: string): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/source`,
+                  params: {
+                        tp: type
+                  }
+            })
+      }
+} 

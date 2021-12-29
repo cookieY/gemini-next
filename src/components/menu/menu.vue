@@ -1,11 +1,5 @@
 <template>
-      <a-menu
-            theme="dark"
-            :mode="props.mode"
-            :style="{ lineHeight: '64px' }"
-            v-model:selectedKeys="selectedKey"
-            @click="changeMenu"
-      >
+      <a-menu mode="inline" v-model:selectedKeys="selectedKey" @click="changeMenu">
             <a-menu-item key="/home">
                   <HomeOutlined />
                   <span>主页</span>
@@ -15,7 +9,7 @@
                   <span>我的工单</span>
             </a-menu-item>
             <a-menu-item key="/apply">
-                  <UnlockOutlined />
+                  <ConsoleSqlOutlined />
                   <span>工单申请</span>
             </a-menu-item>
             <a-menu-item key="/server/order/audit">
@@ -27,34 +21,38 @@
                         <CloudSyncOutlined />
                   </template>
                   <a-menu-item key="/manager/user">
-                        <CloudSyncOutlined />
+                        <UserAddOutlined />
                         <span>用户</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/db">
-                        <CloudSyncOutlined />
+                        <CloudServerOutlined />
                         <span>数据源</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/flow">
-                        <CloudSyncOutlined />
+                        <PartitionOutlined />
                         <span>流程</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/policy">
-                        <CloudSyncOutlined />
+                        <UsergroupAddOutlined />
                         <span>权限组</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/rules">
-                        <CloudSyncOutlined />
+                        <CrownOutlined />
                         <span>审核规则</span>
                   </a-menu-item>
+                  <a-menu-item key="/manager/autotask">
+                        <PaperClipOutlined />
+                        <span>自动化任务</span>
+                  </a-menu-item>
                   <a-menu-item key="/manager/setting">
-                        <CloudSyncOutlined />
+                        <ToolOutlined />
                         <span>设置</span>
                   </a-menu-item>
             </a-sub-menu>
       </a-menu>
 </template>
 <script lang="ts"  setup>
-import { HomeOutlined, AuditOutlined, CloudSyncOutlined, TagOutlined, UnlockOutlined } from '@ant-design/icons-vue';
+import { HomeOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';

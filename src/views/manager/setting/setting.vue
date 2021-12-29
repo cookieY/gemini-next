@@ -112,18 +112,20 @@
                   <a-divider orientation="left">进阶设置</a-divider>
                   <a-form v-bind="layout">
                         <a-form-item label="查询最大Limit限制:">
-                              <a-input-number
-                                    placeholder="查询最大的Limit数。"
-                                    v-model:value="config.other.limit"
-                              ></a-input-number>
+                              <a-input-number v-model:value="config.other.limit"></a-input-number>
                         </a-form-item>
                         <a-form-item label="自定义环境:">
-                              <a-tag v-for="item in config.other.idc" color="cyan">{{ item }}</a-tag>
+                              <a-tag
+                                    v-for="item in config.other.idc"
+                                    color="#B38D57"
+                                    closable
+                                    @close="closeTag(item)"
+                              >{{ item }}</a-tag>
                               <br />
                               <br />
                               <a-space>
                                     <a-input placeholder="环境名称" v-model:value="config.other.foce"></a-input>
-                                    <a-button>添加环境</a-button>
+                                    <a-button @click="pushEnv">添加环境</a-button>
                               </a-space>
                         </a-form-item>
                         <a-form-item label="查询审核:">
@@ -141,21 +143,37 @@
             <a-col :span="11" offset="1">
                   <a-divider orientation="left">数据清除</a-divider>
                   <a-form v-bind="layout">
-                        <a-form-item label="删除指定日期前的工单:">
-                              <a-range-picker
-                                    show-time
-                                    v-model:value="config.other.overdue"
-                                    format="YYYY/MM/DD HH:mm"
-                                    :ranges="dateRanges"
-                              />
+                        <a-form-item label="指定日期前的工单:">
+                              <a-space>
+                                    <a-range-picker
+                                          show-time
+                                          v-model:value="config.other.overdue"
+                                          format="YYYY/MM/DD HH:mm"
+                                          :ranges="dateRanges"
+                                    />
+                                    <a-popconfirm
+                                          title="确认删除工单么?"
+                                          @confirm="request.Delete({ date: config.other.overdue.map(item => item.format('YYYY-MM-DD HH:mm')), tp: false })"
+                                    >
+                                          <a-button>删除</a-button>
+                                    </a-popconfirm>
+                              </a-space>
                         </a-form-item>
-                        <a-form-item label="删除指定日期前的查询:">
-                              <a-range-picker
-                                    show-time
-                                    v-model:value="config.other.query_expire"
-                                    format="YYYY/MM/DD HH:mm"
-                                    :ranges="dateRanges"
-                              />
+                        <a-form-item label="指定日期前的查询工单:">
+                              <a-space>
+                                    <a-range-picker
+                                          show-time
+                                          v-model:value="config.other.query_expire"
+                                          format="YYYY/MM/DD HH:mm"
+                                          :ranges="dateRanges"
+                                    />
+                                    <a-popconfirm
+                                          title="确认删除工单么?"
+                                          @confirm="request.Delete({ date: config.other.query_expire.map(item => item.format('YYYY-MM-DD HH:mm')), tp: true })"
+                                    >
+                                          <a-button>删除</a-button>
+                                    </a-popconfirm>
+                              </a-space>
                         </a-form-item>
                         <a-alert message="Warning" type="warning" show-icon>
                               <template #icon>
@@ -175,7 +193,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Request, Settings } from '@/apis/setting';
+import { DeleteOrder, Request, Settings } from '@/apis/setting';
 import PageHeader from '@/components/pageHeader/pageHeader.vue';
 import { Res } from '@/config/request';
 import CommonMixins from "@/mixins/common"
@@ -201,10 +219,18 @@ const request = new Request
 
 const dateRanges = { '本月': [dayjs().startOf('month'), dayjs().endOf('month')] }
 
+const pushEnv = () => {
+      config.value.other.idc.push(config.value.other.foce)
+      config.value.other.foce = ""
+}
+
 const currentPage = () => {
       request.Get().then((res: AxiosResponse<Res<Settings>>) => {
             config.value = res.data.payload
       })
+}
+const closeTag = (e: string) => {
+      config.value.other.idc = config.value.other.idc.filter(item => item !== e);
 }
 
 onMounted(() => {
