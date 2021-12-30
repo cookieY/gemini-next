@@ -27,32 +27,38 @@
 
       <a-row :gutter="24" type="flex" justify="center">
             <a-col :xs="24" :sm="5">
-                  <a-descriptions title="工单信息" :column="1">
-                        <a-descriptions-item label="工单类型">{{ order.type === 0 ? 'DDL' : 'DML' }}</a-descriptions-item>
-                        <a-descriptions-item label="环境">{{ order.idc }}</a-descriptions-item>
-                        <a-descriptions-item label="数据源">{{ order.source }}</a-descriptions-item>
-                        <a-descriptions-item label="库名">{{ order.data_base }}</a-descriptions-item>
-                        <a-descriptions-item label="生成回滚语句">{{ order.backup ? '是' : '否' }}</a-descriptions-item>
-                        <a-descriptions-item label="定时执行">{{ order.delay }}</a-descriptions-item>
-                        <a-descriptions-item label="当前审核人">
-                              <template v-for="i in order.assigned.split(',')" :key="i">
-                                    <a-tag v-if="i !== '提交人'" color="#2094FC">{{ i }}</a-tag>
-                              </template>
-                        </a-descriptions-item>
-                  </a-descriptions>
-                  <a-divider orientation="left" dashed></a-divider>
-                  <a-timeline pending="Recording...">
-                        <a-timeline-item
-                              v-for="i in usege"
-                              :key="i.id"
-                              color="green"
-                        >{{ i.username }} {{ i.action }} {{ i.time }}</a-timeline-item>
-                  </a-timeline>
+                  <a-card title="工单信息">
+                        <a-descriptions :column="1">
+                              <a-descriptions-item
+                                    label="工单类型"
+                              >{{ order.type === 0 ? 'DDL' : 'DML' }}</a-descriptions-item>
+                              <a-descriptions-item label="环境">{{ order.idc }}</a-descriptions-item>
+                              <a-descriptions-item label="数据源">{{ order.source }}</a-descriptions-item>
+                              <a-descriptions-item label="库名">{{ order.data_base }}</a-descriptions-item>
+                              <a-descriptions-item label="生成回滚语句">{{ order.backup ? '是' : '否' }}</a-descriptions-item>
+                              <a-descriptions-item label="定时执行">{{ order.delay }}</a-descriptions-item>
+                              <a-descriptions-item label="当前审核人">
+                                    <template v-for="i in order.assigned.split(',')" :key="i">
+                                          <a-tag v-if="i !== '提交人'" color="#2094FC">{{ i }}</a-tag>
+                                    </template>
+                              </a-descriptions-item>
+                        </a-descriptions>
+                  </a-card>
+                  <br />
+                  <a-card>
+                        <a-timeline pending="Recording...">
+                              <a-timeline-item
+                                    v-for="i in usege"
+                                    :key="i.id"
+                                    color="green"
+                              >{{ i.username }} {{ i.action }} {{ i.time }}</a-timeline-item>
+                        </a-timeline>
+                  </a-card>
             </a-col>
             <a-col :xs="24" :sm="18">
                   <Editor container-id="profile" ref="profile" readonly></Editor>
                   <br />
-                  <a-table :columns="col"></a-table>
+                  <a-table :columns="col" bordered></a-table>
             </a-col>
       </a-row>
 </template>

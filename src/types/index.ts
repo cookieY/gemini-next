@@ -71,3 +71,8 @@ export interface AuditorList {
       username: string
       real_name: string
 }
+
+export interface LabelInValue {
+      label: string
+      value: string
+}

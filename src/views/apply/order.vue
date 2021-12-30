@@ -11,60 +11,68 @@
             </a-step>
       </a-steps>
       <br />
-      <a-row :gutter="24" type="flex" justify="center" align="middle">
-            <a-col :sm="24" :md="8" :xl="8">
-                  <a-form v-bind="layout" :model="orderItems" :rules="rules" ref="formRef">
-                        <a-form-item label="工单类型">
-                              <a-input disabled v-model:value="orderItems.type"></a-input>
-                        </a-form-item>
-                        <a-form-item label="环境">
-                              <a-input disabled v-model:value="orderItems.idc"></a-input>
-                        </a-form-item>
-                        <a-form-item label="数据源">
-                              <a-input disabled v-model:value="orderItems.source"></a-input>
-                        </a-form-item>
-                        <a-form-item label="库名" name="data_base">
-                              <a-select v-model:value="orderItems.data_base" @change="fetchTable">
-                                    <a-select-option
-                                          v-for=" i in orderProfileArch.db"
-                                          :key="i"
-                                    >{{ i }}</a-select-option>
-                              </a-select>
-                        </a-form-item>
-                        <a-form-item label="表名">
-                              <a-select v-model:value="orderItems.table">
-                                    <a-select-option
-                                          v-for=" i in orderProfileArch.table"
-                                          :key="i"
-                                    >{{ i }}</a-select-option>
-                              </a-select>
-                        </a-form-item>
-                        <a-form-item label="工单说明" nane="text" required>
-                              <a-textarea
-                                    :rows="3"
-                                    v-model:value="orderItems.text"
-                                    showCount
-                                    allowClear
-                              ></a-textarea>
-                        </a-form-item>
-                        <a-form-item label="定时执行">
-                              <a-date-picker show-time @ok="delayTime" />
-                        </a-form-item>
-                        <a-form-item label="生成回滚语句">
-                              <a-radio-group name="radioGroup" v-model:value="orderItems.backup">
-                                    <a-radio :value="1">是</a-radio>
-                                    <a-radio :value="0">否</a-radio>
-                              </a-radio-group>
-                        </a-form-item>
-                        <a-form-item label="操作">
-                              <a-space>
-                                    <a-button @click="fetchTableArch">获取表结构信息</a-button>
-                                    <a-button @click="postOrder" :disabled="enabled">提交工单</a-button>
-                              </a-space>
-                        </a-form-item>
-                  </a-form>
+      <a-row :gutter="24" type="flex" justify="center">
+            <a-col :sm="24" :md="6" :xl="6">
+                  <a-card>
+                        <a-form v-bind="layout" :model="orderItems" :rules="rules" ref="formRef">
+                              <a-form-item label="工单类型">
+                                    <a-input disabled v-model:value="orderItems.type"></a-input>
+                              </a-form-item>
+                              <a-form-item label="环境">
+                                    <a-input disabled v-model:value="orderItems.idc"></a-input>
+                              </a-form-item>
+                              <a-form-item label="数据源">
+                                    <a-input disabled v-model:value="orderItems.source"></a-input>
+                              </a-form-item>
+                              <a-form-item label="库名" name="data_base">
+                                    <a-select
+                                          v-model:value="orderItems.data_base"
+                                          @change="fetchTable"
+                                    >
+                                          <a-select-option
+                                                v-for=" i in orderProfileArch.db"
+                                                :key="i"
+                                          >{{ i }}</a-select-option>
+                                    </a-select>
+                              </a-form-item>
+                              <a-form-item label="表名">
+                                    <a-select v-model:value="orderItems.table">
+                                          <a-select-option
+                                                v-for=" i in orderProfileArch.table"
+                                                :key="i"
+                                          >{{ i }}</a-select-option>
+                                    </a-select>
+                              </a-form-item>
+                              <a-form-item label="工单说明" nane="text" required>
+                                    <a-textarea
+                                          :rows="3"
+                                          v-model:value="orderItems.text"
+                                          showCount
+                                          allowClear
+                                    ></a-textarea>
+                              </a-form-item>
+                              <a-form-item label="定时执行">
+                                    <a-date-picker show-time @ok="delayTime" />
+                              </a-form-item>
+                              <a-form-item label="生成回滚语句">
+                                    <a-radio-group
+                                          name="radioGroup"
+                                          v-model:value="orderItems.backup"
+                                    >
+                                          <a-radio :value="1">是</a-radio>
+                                          <a-radio :value="0">否</a-radio>
+                                    </a-radio-group>
+                              </a-form-item>
+                              <a-form-item label="操作">
+                                    <a-space>
+                                          <a-button @click="fetchTableArch">获取表结构信息</a-button>
+                                          <a-button @click="postOrder" :disabled="enabled">提交工单</a-button>
+                                    </a-space>
+                              </a-form-item>
+                        </a-form>
+                  </a-card>
             </a-col>
-            <a-col :sm="24" :md="16" :xl="16">
+            <a-col :sm="24" :md="18" :xl="18">
                   <div style="min-height: 600px;">
                         <a-tabs v-model:activeKey="activeKey">
                               <a-tab-pane :key="1" tab="填写SQL语句">
@@ -72,9 +80,16 @@
                                           <Editor
                                                 container-id="applys"
                                                 ref="editor"
-                                                :height="500"
+                                                :height="400"
                                                 @testResults="testResults"
                                           ></Editor>
+                                          <br />
+                                          <a-table
+                                                :columns="col"
+                                                :data-source="tData"
+                                                bordered
+                                                rowKey="sql"
+                                          ></a-table>
                                     </a-spin>
                               </a-tab-pane>
                               <a-tab-pane :key="2" tab="表结构详情" force-render>
@@ -102,8 +117,6 @@
                   </div>
             </a-col>
       </a-row>
-      <br />
-      <a-table :columns="col" :data-source="tData" bordered rowKey="sql"></a-table>
 </template>
 <script lang="ts" setup>
 import Editor from '@/components/editor/editor.vue';
@@ -123,8 +136,8 @@ import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import { useStore } from '@/store';
 
 const layout = {
-      labelCol: { span: 5 },
-      wrapperCol: { span: 19 },
+      labelCol: { span: 7 },
+      wrapperCol: { span: 17 },
 };
 
 const activeKey = ref(1)

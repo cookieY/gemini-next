@@ -36,6 +36,22 @@ export default function () {
             wrapperCol: { span: 19 },
       }
 
+      const taskTp = [
+            {
+                  'title': 'Insert',
+                  'v': 0
+            },
+            {
+                  'title': 'Update',
+                  'v': 1
+            },
+            {
+                  'title': 'Delete',
+                  'v': 2
+            }
+      ]
+
+
       return {
             pagination,
             is_open,
@@ -43,6 +59,7 @@ export default function () {
             close,
             regExpPassword,
             turnState,
-            layout
+            layout,
+            taskTp
       }
 }

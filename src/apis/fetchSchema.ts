@@ -74,12 +74,34 @@ export class Request {
             })
       }
 
-      Source (type: string): AxiosPromise {
+      Source (type: string, idc?: string): AxiosPromise {
             return request({
                   method: 'get',
                   url: `${COMMON_URI}/fetch/source`,
                   params: {
-                        tp: type
+                        tp: type,
+                        idc: idc
+                  }
+            })
+      }
+
+      Schema (source_id: string): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/base`,
+                  params: {
+                        source_id: source_id
+                  }
+            })
+      }
+
+      Table (source_id: string, schema: string): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/table`,
+                  params: {
+                        source_id: source_id,
+                        data_base: schema
                   }
             })
       }
