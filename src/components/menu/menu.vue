@@ -12,7 +12,7 @@
                   <ConsoleSqlOutlined />
                   <span>工单申请</span>
             </a-menu-item>
-            <a-menu-item key="/server/order/audit">
+            <a-menu-item key="/server/order/audit/list">
                   <AuditOutlined />
                   <span>工单审核</span>
             </a-menu-item>

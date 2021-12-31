@@ -79,8 +79,7 @@ const router = createRouter({
                                           component: () => import('@/views/server/order/list.vue'),
                                     },
                                     {
-                                          path: '/server/order/profile',
-                                          name: 'server/order/profile',
+                                          path: '/server/order/:tp/profile',
                                           meta: {
                                                 title: 'Order - 工单详情'
                                           },

@@ -35,11 +35,12 @@ import { Res } from "@/config/request";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router"
 import { AxiosResponse } from "axios";
 import { onMounted, reactive, ref } from "vue"
-import { FetchOrderTable, OrderTableResp, OrderParams, OrderExpr, } from "@/apis/orderTableApis"
+import { Request, OrderTableResp, OrderParams, OrderExpr, } from "@/apis/orderTableApis"
 import { OrderTableData } from '@/types'
 import { useStore } from '@/store'
 
 let tData = ref<OrderTableData[]>([])
+
 let expr = reactive<OrderParams>({
       page: 1,
       find: {
@@ -47,17 +48,21 @@ let expr = reactive<OrderParams>({
             type: 2
       } as OrderExpr
 })
+
 const { col } = auditTable()
 
 const { pagination } = CommonMixins()
 
 const route = useRoute()
+
 const router = useRouter()
 
 const store = useStore()
 
+const request = new Request
+
 const currentPage = (isAudit: boolean = false) => {
-      FetchOrderTable(expr, isAudit).then((res: AxiosResponse<Res<OrderTableResp>>) => {
+      request.List(expr, isAudit).then((res: AxiosResponse<Res<OrderTableResp>>) => {
             tData.value = res.data.payload.data
             pagination.pageCount = res.data.payload.page
       })
@@ -65,7 +70,7 @@ const currentPage = (isAudit: boolean = false) => {
 
 const profie = (record: OrderTableData) => {
       store.commit("order/ORDER_STORE", record)
-      router.push({ path: "/server/order/profile" })
+      router.push({ path: route.params.tp === "audit" ? "/server/order/audit/profile" : "/server/order/common/profile" })
 }
 
 onBeforeRouteUpdate((to) => {

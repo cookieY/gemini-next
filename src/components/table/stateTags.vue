@@ -1,7 +1,7 @@
 <template>
       <a-tag :color="desc.color">
             <template #icon>
-                  <component :is="desc.icon" :spin="desc.color === '#B38D57'" />
+                  <component :is="desc.icon" :spin="desc.color === '#408B9B'" />
             </template>
             {{ desc.title }}
       </a-tag>

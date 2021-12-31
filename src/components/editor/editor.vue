@@ -82,12 +82,13 @@ onMounted(() => {
             fontSize: 16,
             theme: "vs-dark",
             automaticLayout: true,
-            readOnly: props.readonly
-
+            readOnly: props.readonly,
+            accessibilityHelpUrl: "https://guide.yearning.io"
       });
 
       model.addAction(beautyFunc)
       model.addAction(testFunc)
+      model.focus()
 
 })
 

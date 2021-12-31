@@ -131,9 +131,8 @@ import { Res } from '@/config/request';
 import { FetchTableArchApis } from "@/apis/fetchSchema"
 import * as moment from "moment"
 import { message } from 'ant-design-vue';
-import { FetchSQLTestResults, PostSQLOrder, SQLTestParams } from '@/apis/orderPostApis';
+import { Request, SQLTestParams } from '@/apis/orderPostApis';
 import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
-import { useStore } from '@/store';
 
 const layout = {
       labelCol: { span: 7 },
@@ -152,7 +151,7 @@ const formRef = ref()
 
 const route = useRoute()
 
-const store = useStore()
+const request = new Request
 
 const enabled = ref(true)
 
@@ -194,7 +193,7 @@ const fetchTableArch = () => {
 
 const testResults = (sql: string) => {
       spin.value = !spin.value
-      FetchSQLTestResults({
+      request.Test({
             source: orderItems.source,
             is_dml: orderItems.type === 'dml',
             data_base: orderItems.data_base,
@@ -221,7 +220,7 @@ const postOrder = () => {
             orderProfileArch.timeline.forEach((item) => {
                   warpper.relevant = warpper.relevant.concat(item.auditor)
             })
-            PostSQLOrder(warpper).finally(() => enabled.value = true)
+            request.Post(warpper).finally(() => enabled.value = true)
       }).catch((error: ValidateErrorEntity<OrderItem>) => {
             message.error("请填写必要信息后提交工单")
       })

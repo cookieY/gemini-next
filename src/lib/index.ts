@@ -5,11 +5,11 @@ import mitt from 'mitt'
 export const StateUsege = (state: number) => {
       switch (state) {
             case OrderState.PROCESS:
-                  return { color: "#B38D57", title: "执行中", icon: SyncOutlined }
+                  return { color: "#408B9B", title: "执行中", icon: SyncOutlined }
             case OrderState.WAIT:
-                  return { color: "#B38D57", title: "待执行", icon: SyncOutlined }
+                  return { color: "#408B9B", title: "待执行", icon: SyncOutlined }
             case OrderState.AUDIT:
-                  return { color: "#B38D57", title: "审核中", icon: SyncOutlined }
+                  return { color: "#408B9B", title: "审核中", icon: SyncOutlined }
             case OrderState.SUCCESS:
                   return { color: "#43A687", title: "已执行", icon: CheckCircleOutlined }
             case OrderState.REJECT:

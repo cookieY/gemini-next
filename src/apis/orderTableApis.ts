@@ -1,5 +1,6 @@
 import { request, COMMON_URI } from "@/config/request"
 import { OrderTableData } from "@/types"
+import { AxiosPromise } from "axios"
 
 export interface OrderExpr {
       type?: number;
@@ -19,11 +20,12 @@ export interface OrderTableResp {
       page: number
 }
 
-
-export const FetchOrderTable = (expr: OrderParams, isAudit: boolean) => {
-      return request({
-            url: isAudit ? `${COMMON_URI}/audit/order/list` : `${COMMON_URI}/common/list`,
-            method: "PUT",
-            data: expr
-      })
+export class Request {
+      List (expr: OrderParams, isAudit: boolean): AxiosPromise {
+            return request({
+                  url: isAudit ? `${COMMON_URI}/audit/order/list` : `${COMMON_URI}/common/list`,
+                  method: "PUT",
+                  data: expr
+            })
+      }
 }
