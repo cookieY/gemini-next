@@ -39,7 +39,7 @@
                                     <a-form-item label="提交时间">
                                           <a-range-picker
                                                 v-model:value="picker"
-                                                :ranges="{ '本周': [moment().startOf('week'), moment().endOf('week')], '本月': [moment().startOf('month'), moment().endOf('month')] }"
+                                                :ranges="{ '本周': [dayjs().startOf('week'), dayjs().endOf('week')], '本月': [dayjs().startOf('month'), dayjs().endOf('month')] }"
                                           />
                                     </a-form-item>
                               </a-col>
@@ -64,12 +64,12 @@
 
 <script lang="ts"  setup>
 import { ref, UnwrapRef, reactive } from "@vue/runtime-core";
-import moment from "moment";
+import dayjs, { Dayjs } from 'dayjs';
 import { OrderExpr } from "@/apis/orderTableApis"
 import { OrderState } from "@/types"
 
 const advanced = ref(false)
-const picker = ref<moment.Moment[]>([])
+const picker = ref<Dayjs[]>([])
 const expr: UnwrapRef<OrderExpr> = reactive({
 
 })

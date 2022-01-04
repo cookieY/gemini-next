@@ -1,4 +1,4 @@
-import moment from "moment"
+import dayjs from 'dayjs';
 
 const FeatureList = [
       "1.支持审核人移动端(手机)审核工单",
@@ -11,6 +11,6 @@ const FeatureList = [
 ]
 const Version = "ver.2.4.0"
 
-const Copyright = `Yearning © 2018-${moment().format("YYYY")}  Created by HenryYee `
+const Copyright = `Yearning © 2018-${dayjs().format("YYYY")}  Created by HenryYee `
 
 export { FeatureList, Version, Copyright }

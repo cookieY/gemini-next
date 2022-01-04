@@ -1,7 +1,7 @@
 <template>
       <a-page-header :title="`单号:${order.work_id}`" @back="() => $router.go(-1)">
             <template #extra>
-                  <template v-if="route.params.tp === 'audit'">
+                  <template v-if="route.params.tp === 'audit' && isCurrent > -1">
                         <a-button key="2" danger ghost>驳回该工单</a-button>
                         <a-button key="1" type="primary" :disabled="enabled" @click="next">审核通过</a-button>
                   </template>
@@ -34,70 +34,73 @@
                               style="position: relative"
                         >
                               <template #format="percent">
-                                    <span>{{ StateUsege(order.status).title }}</span>
+                                    <span
+                                          style="color: rgb(193, 205, 214);"
+                                    >{{ StateUsege(order.status).title }}</span>
                               </template>
                         </a-progress>
                   </a-col>
             </a-row>
-            <template #footer>
-                  <a-tabs>
-                        <a-tab-pane key="1" tab="详情">
-                              <br />
-                              <a-card title="流程信息" size="small">
-                                    <Step
-                                          :current="order.current_step"
-                                          :step="orderProfileArch.timeline"
-                                    ></Step>
+      </a-page-header>
+      <a-tabs>
+            <a-tab-pane key="1" tab="详情">
+                  <br />
+                  <a-card title="流程信息" size="small">
+                        <Step :current="order.current_step" :step="orderProfileArch.timeline"></Step>
+                  </a-card>
+                  <br />
+                  <a-row :gutter="24">
+                        <a-col :xs="24" :sm="5">
+                              <a-card style="height: 500px;" title="进度信息" size="small">
+                                    <a-timeline pending="Recording...">
+                                          <a-timeline-item
+                                                v-for="i in usege"
+                                                :key="i.id"
+                                                color="green"
+                                          >{{ i.username }} {{ i.action }} {{ i.time }}</a-timeline-item>
+                                    </a-timeline>
                               </a-card>
                               <br />
-                              <a-row :gutter="24">
-                                    <a-col :xs="24" :sm="5">
-                                          <a-card style="height: 500px;" title="进度信息" size="small">
-                                                <a-timeline pending="Recording...">
-                                                      <a-timeline-item
-                                                            v-for="i in usege"
-                                                            :key="i.id"
-                                                            color="green"
-                                                      >{{ i.username }} {{ i.action }} {{ i.time }}</a-timeline-item>
-                                                </a-timeline>
-                                          </a-card>
-                                          <br />
-                                          <a-alert message="功能信息" type="info" show-icon>
-                                                <template #description>1.在编辑框内右键可进行SQL检测与SQL美化功能</template>
-                                          </a-alert>
-                                    </a-col>
-                                    <a-col :xs="24" :sm="19">
-                                          <a-spin :spinning="spin" :delay="100">
-                                                <Editor
-                                                      container-id="profile"
-                                                      ref="profile"
-                                                      readonly
-                                                      @testResults="testResults"
-                                                ></Editor>
-                                                <br />
-                                                <a-table
-                                                      :columns="col"
-                                                      bordered
-                                                      size="small"
-                                                      :dataSource="tData"
-                                                ></a-table>
-                                          </a-spin>
-                                    </a-col>
-                              </a-row>
-                        </a-tab-pane>
+                              <a-alert message="功能信息" type="info" show-icon>
+                                    <template #description>1.在编辑框内右键可进行SQL检测与SQL美化功能</template>
+                              </a-alert>
+                        </a-col>
+                        <a-col :xs="24" :sm="19">
+                              <a-spin :spinning="spin" :delay="100">
+                                    <Editor
+                                          container-id="profile"
+                                          ref="profile"
+                                          readonly
+                                          @testResults="testResults"
+                                    ></Editor>
+                                    <br />
+                                    <a-table
+                                          :columns="col"
+                                          bordered
+                                          size="small"
+                                          :dataSource="tData"
+                                    ></a-table>
+                              </a-spin>
+                        </a-col>
+                  </a-row>
+            </a-tab-pane>
 
-                        <a-tab-pane key="2" tab="评论">
-                              <Comment></Comment>
-                        </a-tab-pane>
-                  </a-tabs>
-            </template>
-      </a-page-header>
+            <a-tab-pane key="2" tab="评论">
+                  <Comment></Comment>
+            </a-tab-pane>
+
+            <a-tab-pane key="3" tab="执行结果">
+                  <Results></Results>
+            </a-tab-pane>
+      </a-tabs>
 </template>
 <script lang="ts"  setup>
 import Editor from "@/components/editor/editor.vue";
 import JunoMixin from '@/mixins/juno'
 import Comment from "./comment.vue";
+import Results from "./results.vue";
 import Step from '@/components/steps/steps.vue'
+import router from "@/router";
 import { useStore } from "@/store";
 import { computed, ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
@@ -107,8 +110,8 @@ import { Res } from "@/config/request";
 import { StateUsege } from "@/lib"
 import { Request, SQLTestParams } from "@/apis/orderPostApis";
 import { SQLTesting } from "@/types";
-import router from "@/router";
-import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
+import { Timeline } from "@/apis/fetchSchema";
 
 interface stepUsege {
       action: string
@@ -125,6 +128,8 @@ const profile = ref()
 
 const tData = ref()
 
+const activeKey = ref("1")
+
 const enabled = ref(true)
 
 const spin = ref(false)
@@ -135,7 +140,7 @@ const route = useRoute()
 
 const order = computed(() => store.state.order.order)
 
-const { FetchTimeline, FetchStepUsege, FetchProfileSQL, orderProfileArch } = FetchMixins()
+const { FetchStepUsege, FetchProfileSQL, orderProfileArch, fetchRequest } = FetchMixins()
 
 const usege = ref([] as stepUsege[])
 
@@ -171,8 +176,14 @@ const next = () => {
       })
 }
 
+const isCurrent = ref(-1)
+
 onMounted(() => {
-      FetchTimeline(order.value.idc)
+
+      fetchRequest.TimeLine(order.value.source_id as string).then((res: AxiosResponse<Res<Timeline[]>>) => {
+            res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload; isCurrent.value = orderProfileArch.timeline[order.value.current_step].auditor.indexOf(store.state.user.account.user)
+
+      })
       FetchStepUsege(order.value.work_id).then((res: AxiosResponse<Res<stepUsege[]>>) => {
             usege.value = res.data.payload
       })

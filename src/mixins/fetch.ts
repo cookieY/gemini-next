@@ -1,6 +1,5 @@
-import { FetchDBNameApis, DBRelated, Timeline, FetchTimelineApis, FetchTableApis } from "@/apis/fetchSchema"
+import { FetchDBNameApis, DBRelated, Timeline, FetchTableApis, Request } from "@/apis/fetchSchema"
 import { Res, request, COMMON_URI } from "@/config/request"
-import router from "@/router"
 import { AxiosResponse } from "axios"
 import { reactive, ref } from "vue"
 
@@ -42,12 +41,6 @@ export default function () {
             })
       }
 
-      const FetchTimeline = (idc: string) => {
-            FetchTimelineApis(idc).then((res: AxiosResponse<Res<Timeline[]>>) => {
-                  res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload
-            })
-      }
-
       const FetchTableName = (source: string, data_base: string,) => {
             FetchTableApis(source, data_base).then((res: AxiosResponse<Res<DBRelated>>) => {
                   orderProfileArch.table = res.data.payload.results
@@ -55,6 +48,8 @@ export default function () {
             })
       }
 
-      return { orderProfileArch, editor, FetchDBName, FetchTimeline, FetchTableName, FetchStepUsege, FetchProfileSQL }
+      const fetchRequest = new Request
+
+      return { orderProfileArch, editor, FetchDBName, FetchTableName, FetchStepUsege, FetchProfileSQL, fetchRequest }
 
 }

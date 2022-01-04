@@ -5,7 +5,7 @@
 <script lang="ts"  setup>
 import { onMounted } from "@vue/runtime-core"
 import { Chart } from "@antv/g2"
-import moment from "moment"
+import dayjs from 'dayjs';
 
 const props = defineProps<{
       containerId: string,
@@ -16,7 +16,7 @@ const Randomdata = () => {
       let data = [] as { [key: string]: any }[]
       for (let i = 0; i < 10; i++) {
             data.push({
-                  x: moment(new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * i)).format('YYYY-MM-DD'),
+                  x: dayjs(new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * i)).format('YYYY-MM-DD'),
                   y: Math.round(Math.random() * 5)
             })
       }

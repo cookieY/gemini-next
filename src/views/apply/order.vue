@@ -129,7 +129,7 @@ import PageHeader from "@/components/pageHeader/pageHeader.vue"
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
 import { FetchTableArchApis } from "@/apis/fetchSchema"
-import * as moment from "moment"
+import { Dayjs } from 'dayjs';
 import { message } from 'ant-design-vue';
 import { Request, SQLTestParams } from '@/apis/orderPostApis';
 import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
@@ -170,7 +170,7 @@ const { col, orderItems, tableArch, indexArch } = JunoMixin()
 
 const { orderProfileArch, editor, FetchDBName, FetchTimeline, FetchTableName } = FetchMixins()
 
-const delayTime = (date: moment.Moment) => {
+const delayTime = (date: Dayjs) => {
       orderItems.delay = date.format('yyyy-MM-DD HH:mm')
 }
 

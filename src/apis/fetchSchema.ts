@@ -56,16 +56,6 @@ export function FetchTableApis (source_id: string, data_base: string) {
       })
 }
 
-export function FetchTimelineApis (idc: string) {
-      return request({
-            method: 'get',
-            url: `${COMMON_URI}/fetch/timeline`,
-            params: {
-                  idc: idc
-            }
-      })
-}
-
 export class Request {
       IDC (): AxiosPromise {
             return request({
@@ -102,6 +92,16 @@ export class Request {
                   params: {
                         source_id: source_id,
                         data_base: schema
+                  }
+            })
+      }
+
+      TimeLine (source_id: string): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/timeline`,
+                  params: {
+                        source_id: source_id
                   }
             })
       }

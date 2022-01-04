@@ -1,13 +1,13 @@
 <template>
       <a-list
             class="comment-list"
-            :header="`${data.length} replies`"
+            :header="`${data.length} 条信息`"
             item-layout="horizontal"
             :data-source="data"
       >
             <template #renderItem="{ item }">
                   <a-list-item>
-                        <a-comment :author="item.author" :avatar="item.avatar">
+                        <a-comment :author="item.author" :avatar="icon">
                               <template #content>
                                     <p>{{ item.content }}</p>
                               </template>
@@ -20,12 +20,16 @@
                   </a-list-item>
             </template>
       </a-list>
+      <a-comment>
+            <a-avatar slot="avatar" src="/src/assets/comment/rockets.svg" />
+            <div slot="content"></div>
+      </a-comment>
       <a-form>
             <a-form-item>
                   <a-textarea :rows="4" />
             </a-form-item>
             <a-form-item>
-                  <a-button html-type="submit" type="primary">Add Comment</a-button>
+                  <a-button html-type="submit" type="primary">添加评论</a-button>
             </a-form-item>
       </a-form>
 </template>
@@ -34,6 +38,9 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
+
+const icon = "/src/assets/comment/comment.svg"
+
 const data = [
       {
             actions: ['Reply to'],

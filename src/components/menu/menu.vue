@@ -49,10 +49,14 @@
                         <span>设置</span>
                   </a-menu-item>
             </a-sub-menu>
+            <a-menu-item key="/exist">
+                  <LogoutOutlined />
+                  <span>退出</span>
+            </a-menu-item>
       </a-menu>
 </template>
 <script lang="ts"  setup>
-import { HomeOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
+import { HomeOutlined, LogoutOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';
@@ -68,7 +72,7 @@ const selectedKey = ref(store.state.menu.selectedKey)
 
 const changeMenu = (vl: { keyPath: string[], key: string }) => {
       store.commit("menu/CHANGE_SELECTED", vl.keyPath)
-      router.push(vl.key).finally(() => emit('close'))
+      vl.key === "/exist" ? router.push("/login") : router.push(vl.key).finally(() => emit('close'))
 }
 
 
