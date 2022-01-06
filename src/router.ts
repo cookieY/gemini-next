@@ -56,6 +56,14 @@ const router = createRouter({
                                                 title: 'Order - 工单填写'
                                           },
                                           component: () => import('@/views/apply/order.vue'),
+                                    },
+                                    {
+                                          path: '/apply/query',
+                                          name: 'apply/query',
+                                          meta: {
+                                                title: 'Query - 查询'
+                                          },
+                                          component: () => import('@/views/query/query.vue'),
                                     }
                               ]
                         },

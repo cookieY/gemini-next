@@ -50,7 +50,7 @@ const testFunc: monaco.editor.IActionDescriptor = {
 }
 
 const RunEditor = (highlight: { [key: string]: string }[]) => {
-
+      console.log(highlight)
       monaco.languages.registerCompletionItemProvider('sql', {
             provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
                   let word = model.getWordUntilPosition(position);

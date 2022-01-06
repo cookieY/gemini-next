@@ -4,6 +4,7 @@
                   <a-select
                         v-model:value="selected"
                         show-search
+                        allowClear
                         placeholder="数据源搜索"
                         style="width: 100%;"
                         :filterOption="filterOption"
@@ -18,7 +19,7 @@
       <a-list
             :loading="loading"
             :data-source="source"
-            :grid="{ gutter: 24, xs: 1, sm: 2, md: 2, lg: 4, xl: 4, xxl: 4 }"
+            :grid="{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 4, xxl: 4, xxxl: 4 }"
             :pagination="pagination"
       >
             <template #renderItem="{ item }">
@@ -45,7 +46,7 @@
                                           <a-tooltip title="进入申请页面">
                                                 <a
                                                       class="ant-dropdown-link"
-                                                      @click="() => router.push({ path: '/apply/order', query: { type: props.type, idc: item.idc, source: item.source, source_id: item.source_id } })"
+                                                      @click="() => router.push({ path: props.type !== 'query'?'/apply/order':'/apply/query', query: { type: props.type, idc: item.idc, source: item.source, source_id: item.source_id } })"
                                                 >
                                                       <EnterOutlined />
                                                 </a>
@@ -81,7 +82,7 @@ const filterOption = (input: string, option: any) => {
 };
 
 const handleChange = (value: string) => {
-      value === "all" ? source.value = tmpSource : source.value = tmpSource.filter((item: RespFetchSource) => item.source === value)
+      value === "" || value === undefined ? source.value = tmpSource : source.value = tmpSource.filter((item: RespFetchSource) => item.source === value)
 };
 
 const selected = ref("all")

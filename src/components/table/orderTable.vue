@@ -35,7 +35,7 @@ import { Res } from "@/config/request";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router"
 import { AxiosResponse } from "axios";
 import { onMounted, reactive, ref } from "vue"
-import { Request, OrderTableResp, OrderParams, OrderExpr, } from "@/apis/orderTableApis"
+import { Request, OrderTableResp, OrderParams, OrderExpr, } from "@/apis/orderPostApis"
 import { OrderTableData } from '@/types'
 import { useStore } from '@/store'
 

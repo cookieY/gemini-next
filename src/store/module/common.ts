@@ -8,12 +8,14 @@ import { RootStore } from "../types";
 export interface commonStore {
       idc: string[]
       flow: RespTPLs[]
+      highlight: { [key: string]: string }[]
 }
 export const common: Module<commonStore, RootStore> = {
       namespaced: true,
       state: {
             idc: [] as string[],
-            flow: [] as RespTPLs[]
+            flow: [] as RespTPLs[],
+            highlight: [] as { [key: string]: string }[]
       },
       mutations: {
             GET_IDC (state) {
@@ -21,6 +23,10 @@ export const common: Module<commonStore, RootStore> = {
             },
             GET_FLOWS (state) {
                   FetchFlowApis().then((res: AxiosResponse<Res<RespTPLs[]>>) => state.flow = res.data.payload)
+            },
+            SET_HIGHLIGHT (state, highlight) {
+                  console.log(highlight)
+                  state.highlight = highlight
             }
       }
 }

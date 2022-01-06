@@ -85,6 +85,29 @@ export class Request {
             })
       }
 
+      QuerySchema (source_id: string): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/query/schema`,
+                  params: {
+                        source_id: source_id
+                  }
+            })
+
+      }
+
+      QueryTable (source_id: string, schema: string): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/query/tables`,
+                  params: {
+                        source_id: source_id,
+                        schema: schema
+                  }
+            })
+
+      }
+
       Table (source_id: string, schema: string): AxiosPromise {
             return request({
                   method: 'get',

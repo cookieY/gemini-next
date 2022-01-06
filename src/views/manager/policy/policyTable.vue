@@ -37,6 +37,7 @@
                   </template>
             </template>
       </a-table>
+      <br />
       <a-pagination
             :total="pagination.pageCount"
             :page-size.sync="pagination.pageSize"

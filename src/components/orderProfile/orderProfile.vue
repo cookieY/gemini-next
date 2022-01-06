@@ -1,8 +1,10 @@
 <template>
       <a-page-header :title="`单号:${order.work_id}`" @back="() => $router.go(-1)">
             <template #extra>
-                  <template v-if="route.params.tp === 'audit' && isCurrent > -1">
-                        <a-button key="2" danger ghost>驳回该工单</a-button>
+                  <template
+                        v-if="route.params.tp === 'audit' && isCurrent > -1 && order.status === 2"
+                  >
+                        <a-button key="2" danger ghost @click="r.turnState()">驳回该工单</a-button>
                         <a-button key="1" type="primary" :disabled="enabled" @click="next">审核通过</a-button>
                   </template>
             </template>
@@ -44,7 +46,6 @@
       </a-page-header>
       <a-tabs>
             <a-tab-pane key="1" tab="详情">
-                  <br />
                   <a-card title="流程信息" size="small">
                         <Step :current="order.current_step" :step="orderProfileArch.timeline"></Step>
                   </a-card>
@@ -52,7 +53,9 @@
                   <a-row :gutter="24">
                         <a-col :xs="24" :sm="5">
                               <a-card style="height: 500px;" title="进度信息" size="small">
-                                    <a-timeline pending="Recording...">
+                                    <a-timeline
+                                          :pending="order.current_step === orderProfileArch.timeline.length ? false : 'Recording...'"
+                                    >
                                           <a-timeline-item
                                                 v-for="i in usege"
                                                 :key="i.id"
@@ -86,15 +89,20 @@
             </a-tab-pane>
 
             <a-tab-pane key="2" tab="评论">
-                  <Comment></Comment>
+                  <Comment :work_id="order.work_id"></Comment>
             </a-tab-pane>
 
             <a-tab-pane key="3" tab="执行结果">
-                  <Results></Results>
+                  <Results :work_id="order.work_id"></Results>
             </a-tab-pane>
+
+            <a-tab-pane key="4" tab="OSC进度" v-if="order.type === 0"></a-tab-pane>
       </a-tabs>
+
+      <RejectModal :work_id="order.work_id" ref="r"></RejectModal>
 </template>
 <script lang="ts"  setup>
+import RejectModal from "./rejectModal.vue";
 import Editor from "@/components/editor/editor.vue";
 import JunoMixin from '@/mixins/juno'
 import Comment from "./comment.vue";
@@ -122,13 +130,13 @@ interface stepUsege {
 
 const { col } = JunoMixin()
 
+const r = ref()
+
 const store = useStore()
 
 const profile = ref()
 
 const tData = ref()
-
-const activeKey = ref("1")
 
 const enabled = ref(true)
 
@@ -190,7 +198,6 @@ onMounted(() => {
       FetchProfileSQL(order.value.work_id, "10").then((res: AxiosResponse<Res<{ [key: string]: string }>>) => {
             profile.value.ChangeEditorText(res.data.payload.sqls)
       })
-      console.log(order.value)
 })
 
 
