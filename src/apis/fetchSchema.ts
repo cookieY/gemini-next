@@ -19,43 +19,6 @@ export interface TableArch {
       source_id?: string
 }
 
-export function FetchIDCNameApis () {
-      return request({
-            method: 'get',
-            url: `${COMMON_URI}/fetch/idc`,
-      })
-}
-
-export function FetchDBNameApis (source: string) {
-      return request({
-            method: 'get',
-            url: `${COMMON_URI}/fetch/base`,
-            params: {
-                  source_id: source
-            }
-      })
-}
-
-export function FetchTableArchApis (source: TableArch) {
-      return request({
-            method: 'get',
-            url: `${COMMON_URI}/fetch/fields`,
-            params: source
-      })
-}
-
-
-export function FetchTableApis (source_id: string, data_base: string) {
-      return request({
-            method: 'get',
-            url: `${COMMON_URI}/fetch/table`,
-            params: {
-                  source_id: source_id,
-                  data_base: data_base
-            }
-      })
-}
-
 export class Request {
       IDC (): AxiosPromise {
             return request({
@@ -85,29 +48,6 @@ export class Request {
             })
       }
 
-      QuerySchema (source_id: string): AxiosPromise {
-            return request({
-                  method: 'get',
-                  url: `${COMMON_URI}/query/schema`,
-                  params: {
-                        source_id: source_id
-                  }
-            })
-
-      }
-
-      QueryTable (source_id: string, schema: string): AxiosPromise {
-            return request({
-                  method: 'get',
-                  url: `${COMMON_URI}/query/tables`,
-                  params: {
-                        source_id: source_id,
-                        schema: schema
-                  }
-            })
-
-      }
-
       Table (source_id: string, schema: string): AxiosPromise {
             return request({
                   method: 'get',
@@ -116,6 +56,14 @@ export class Request {
                         source_id: source_id,
                         data_base: schema
                   }
+            })
+      }
+
+      Arch (source: TableArch): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/fields`,
+                  params: source
             })
       }
 

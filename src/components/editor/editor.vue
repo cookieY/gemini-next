@@ -10,17 +10,19 @@ import { format } from 'sql-formatter';
 interface Props {
       containerId: string,
       height?: number,
-      readonly?: boolean
+      readonly?: boolean,
+      isQuery?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
       containerId: "",
       height: 400,
-      readonly: false
+      readonly: false,
+      isQuery: false
 })
 
 let model = {} as monaco.editor.IStandaloneCodeEditor
 
-const emit = defineEmits(['testResults'])
+const emit = defineEmits(['getValues'])
 
 const beautyFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-beauty',
@@ -36,21 +38,20 @@ const beautyFunc: monaco.editor.IActionDescriptor = {
       }
 }
 
-const testFunc: monaco.editor.IActionDescriptor = {
+const GetValueFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-test',
-      label: 'SQL检测',
+      label: props.isQuery ? "查询" : "SQL检测",
       keybindings: [
-            monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_R,
+            monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_E,
       ],
       contextMenuGroupId: 'navigation',
       contextMenuOrder: 1.5,
       run: function (ed: monaco.editor.ICodeEditor) {
-            emit("testResults", ed.getValue())
+            emit("getValues", ed.getValue())
       }
 }
 
 const RunEditor = (highlight: { [key: string]: string }[]) => {
-      console.log(highlight)
       monaco.languages.registerCompletionItemProvider('sql', {
             provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
                   let word = model.getWordUntilPosition(position);
@@ -86,8 +87,10 @@ onMounted(() => {
             accessibilityHelpUrl: "https://guide.yearning.io"
       });
 
+
+
       model.addAction(beautyFunc)
-      model.addAction(testFunc)
+      model.addAction(GetValueFunc)
       model.focus()
 
 })

@@ -74,7 +74,7 @@
                                           container-id="profile"
                                           ref="profile"
                                           readonly
-                                          @testResults="testResults"
+                                          @getValues="testResults"
                                     ></Editor>
                                     <br />
                                     <a-table

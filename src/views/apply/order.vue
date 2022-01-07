@@ -81,7 +81,7 @@
                                                 container-id="applys"
                                                 ref="editor"
                                                 :height="400"
-                                                @testResults="testResults"
+                                                @getValues="testResults"
                                           ></Editor>
                                           <br />
                                           <a-table
@@ -128,10 +128,11 @@ import FetchMixins from '@/mixins/fetch'
 import PageHeader from "@/components/pageHeader/pageHeader.vue"
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
-import { FetchTableArchApis, Timeline } from "@/apis/fetchSchema"
+import { DBRelated, Timeline } from "@/apis/fetchSchema"
 import { Dayjs } from 'dayjs';
 import { message } from 'ant-design-vue';
 import { Request, SQLTestParams } from '@/apis/orderPostApis';
+import { Request as FetchRequest } from "@/apis/fetchSchema"
 import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import router from '@/router';
 
@@ -154,6 +155,8 @@ const route = useRoute()
 
 const request = new Request
 
+const fetchRequest = new FetchRequest
+
 const enabled = ref(true)
 
 const rules = {
@@ -169,18 +172,21 @@ const tData = ref([] as SQLTesting[])
 
 const { col, orderItems, tableArch, indexArch } = JunoMixin()
 
-const { orderProfileArch, editor, FetchDBName, fetchRequest, FetchTableName } = FetchMixins()
+const { orderProfileArch, editor } = FetchMixins()
 
 const delayTime = (date: Dayjs) => {
       orderItems.delay = date.format('yyyy-MM-DD HH:mm')
 }
 
 const fetchTable = (data_base: string) => {
-      FetchTableName(orderItems.source_id, data_base)
+      fetchRequest.Table(orderItems.source_id, data_base).then((res: AxiosResponse<Res<DBRelated>>) => {
+            orderProfileArch.table = res.data.payload.results
+            editor.value.RunEditor(res.data.payload.highlight)
+      })
 }
 
 const fetchTableArch = () => {
-      FetchTableArchApis({
+      fetchRequest.Arch({
             source_id: orderItems.source_id,
             data_base: orderItems.data_base,
             table: orderItems.table,
@@ -234,7 +240,12 @@ onMounted(() => {
       orderItems.idc = route.query.idc as string
       orderItems.source = route.query.source as string
       orderItems.source_id = route.query.source_id as string
-      FetchDBName(orderItems.source_id)
+
+      fetchRequest.Schema(orderItems.source_id).then((res: AxiosResponse<Res<DBRelated>>) => {
+            orderProfileArch.db = res.data.payload.results
+            editor.value.RunEditor(res.data.payload.highlight)
+      })
+
       fetchRequest.TimeLine(orderItems.source_id).then((res: AxiosResponse<Res<Timeline[]>>) => {
             res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload
 
