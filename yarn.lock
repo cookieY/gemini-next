@@ -454,10 +454,10 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-ant-design-vue@3.0.0-beta.4:
-  version "3.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.0.0-beta.4.tgz#e6f7861682875d77220d02ffe561b2b2022cd15b"
-  integrity sha512-WUkA8LyXw35vi1OOHTzvtcet0lEhNGCQNF85zEOHpPlA1Xf8KWCricFeiA38fgg2AHWvE1mrVw/wqB1kXBJM1Q==
+ant-design-vue@3.0.0-beta.6:
+  version "3.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.0.0-beta.6.tgz#ee3803bcb8d62eddf11253a96d9af1d03a9637df"
+  integrity sha512-Bgyw/8DHDbdKN11gAl4weTyljdx53H9HIPBq/dU1FqrH0h6yu8RjTyRgZcDk2H0U0HGM9b/HVotOchEANhRw9w==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons-vue" "^6.0.0"
@@ -1475,7 +1475,7 @@ vue-types@^3.0.0:
   dependencies:
     is-plain-object "3.0.1"
 
-vue@^3.2.3:
+vue@3.2.26:
   version "3.2.26"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.26.tgz#5db575583ecae495c7caa5c12fd590dffcbb763e"
   integrity sha512-KD4lULmskL5cCsEkfhERVRIOEDrfEL9CwAsLYpzptOGjaGFNWo3BQ9g8MAb7RaIO71rmVOziZ/uEN/rHwcUIhg==

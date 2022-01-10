@@ -25,12 +25,25 @@
                               </template>
                         </template>
 
-                        <template #title="{ key: treeKey, title, meta }">
+                        <template #title="{ title, meta, key: treeKey, }">
                               <a-dropdown :trigger="['contextmenu']">
-                                    <span>{{ title }}</span>
+                                    <template v-if="title !== undefined">
+                                          <span v-if="title.indexOf(searchValue) > -1">
+                                                {{ title.substr(0, title.indexOf(searchValue)) }}
+                                                <span
+                                                      style="color: #f50"
+                                                >{{ searchValue }}</span>
+                                                {{ title.substr(title.indexOf(searchValue) + searchValue.length) }}
+                                          </span>
+                                          <span v-else>{{ title }}</span>
+                                    </template>
                                     <template #overlay>
                                           <a-menu>
-                                                <a-menu-item key="1" v-if="meta === 'Table'">查看表数据</a-menu-item>
+                                                <a-menu-item
+                                                      key="1"
+                                                      v-if="meta === 'Table'"
+                                                      @click="showTableData(treeKey)"
+                                                >查看表数据</a-menu-item>
                                           </a-menu>
                                     </template>
                               </a-dropdown>
@@ -42,7 +55,7 @@
 
 <script lang="ts" setup>
 
-import { onMounted, ref } from "vue"
+import { onMounted, ref, defineEmits, watch } from "vue"
 import { Request } from "@/apis/query";
 import { useRoute } from "vue-router";
 import { AxiosResponse } from "axios";
@@ -50,14 +63,15 @@ import { Res } from "@/config/request";
 import { HddOutlined, TableOutlined, CloudOutlined } from "@ant-design/icons-vue";
 import { useStore } from "@/store";
 
+const emit = defineEmits(["showTableRef"])
 
 const route = useRoute()
 
-const searchValue = ref("")
+const searchValue = ref<string>("")
 
 const store = useStore()
 
-const expandedKeys = ref<(string | number)[]>([])
+const expandedKeys = ref<any[]>([])
 
 const autoExpandParent = ref<boolean>(true)
 
@@ -65,30 +79,51 @@ const spinning = ref(false)
 
 let gData = ref<any>([])
 
+let dataList = [] as any[]
+
 const request = new Request
 
-let high = [] as any
+const schema = ref("")
+
+watch(searchValue, value => {
+      let expanded: string[] = []
+      gData.value.forEach((item: any) => {
+            if (item.children[0].key !== undefined) {
+                  item.children.forEach((el: any) => {
+                        if (el.key.indexOf(value) > -1) {
+                              if (expanded.indexOf(item.key) == -1)
+                                    expanded.push(item.key)
+                        }
+                  });
+
+            }
+      });
+      expandedKeys.value = expanded
+      searchValue.value = value;
+      autoExpandParent.value = true;
+});
 
 const onExpand = (keys: string[], vl: any) => {
-
-      if (vl.node.parent.node.meta === "Schema") {
+      if (vl.node.meta === "Table") {
             return
       }
-
-      if (vl.node.key !== expandedKeys.value[0] && vl.node.children.length == 1) {
+      expandedKeys.value = keys
+      autoExpandParent.value = false
+      if (vl.node.children.length == 1) {
             spin()
-            request.QueryTable(route.query.source_id as string, vl.node.key).then((res: AxiosResponse<Res<any>>) => {
-                  for (let i = 0; i < gData.value[0].children.length; i++) {
-                        if (gData.value[0].children[i].key === vl.node.key) {
-                              gData.value[0].children[i].children = res.data.payload.table
+            schema.value = vl.node.title
+            request.QueryTable(route.query.source_id as string, vl.node.title).then((res: AxiosResponse<Res<any>>) => {
+                  for (let i = 0; i < gData.value.length; i++) {
+                        if (gData.value[i].key === vl.node.key) {
+                              gData.value[i].children = res.data.payload.table
+                              dataList[i].children = res.data.payload.table
                         }
                   }
             }).finally(() => {
                   spin()
             })
       }
-      expandedKeys.value = keys
-      autoExpandParent.value = false
+
 
 }
 
@@ -96,15 +131,21 @@ const spin = () => {
       spinning.value = !spinning.value
 }
 
+const showTableData = (key: string) => {
+      console.log(key)
+      emit("showTableRef", { source_id: store.state.common.queryInfo.source_id, schema: schema.value, sql: `select * from ${key}` })
+}
+
 onMounted(() => {
       spin()
       request.QuerySchema(route.query.source_id as string).then((res: AxiosResponse<Res<any>>) => {
             gData.value = res.data.payload.info
-            expandedKeys.value = [res.data.payload.info[0].key]
+            dataList = res.data.payload.info
+            expandedKeys.value = [res.data.payload.info.key]
             store.commit("common/SET_SCHEMA_List",
                   {
-                        schema: res.data.payload.info[0].children.map((item: { key: string; }) => item.key),
-                        source: res.data.payload.info[0].key,
+                        schema: res.data.payload.info.map((item: { key: string; }) => item.key),
+                        source: route.query.source as string,
                         source_id: route.query.source_id as string
                   }
             )

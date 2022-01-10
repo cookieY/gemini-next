@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
 import { createSQLToken } from "@/components/editor/impl"
-import { defineExpose, onMounted, onUnmounted } from '@vue/runtime-core';
+import { onMounted, onUnmounted } from '@vue/runtime-core';
 import { format } from 'sql-formatter';
 
 interface Props {
@@ -47,7 +47,12 @@ const GetValueFunc: monaco.editor.IActionDescriptor = {
       contextMenuGroupId: 'navigation',
       contextMenuOrder: 1.5,
       run: function (ed: monaco.editor.ICodeEditor) {
-            emit("getValues", ed.getValue())
+            let sel = ed.getModel().getValueInRange(ed.getSelection())
+            if (sel !== "") {
+                  emit("getValues", sel)
+            } else {
+                  emit("getValues", ed.getValue())
+            }
       }
 }
 
@@ -86,8 +91,6 @@ onMounted(() => {
             readOnly: props.readonly,
             accessibilityHelpUrl: "https://guide.yearning.io"
       });
-
-
 
       model.addAction(beautyFunc)
       model.addAction(GetValueFunc)
