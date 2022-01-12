@@ -46,6 +46,14 @@
                                           >{{ i.source }}</a-select-option>
                                     </a-select>
                               </a-form-item>
+                              <a-form-item label="排除的数据库">
+                                    <a-select
+                                          mode="tags"
+                                          style="width: 100%"
+                                          placeholder="Tags Mode"
+                                    ></a-select>
+                              </a-form-item>
+                              <a-form-item label="脱敏字段"></a-form-item>
                         </a-form>
                   </a-col>
                   <a-col :span="8" offset="1">

@@ -1,5 +1,5 @@
 <template>
-      <div>
+      <div v-watermark="{ text: store.state.user.account.user }">
             <a-layout>
                   <a-layout-sider
                         :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"

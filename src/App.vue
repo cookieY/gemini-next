@@ -1,6 +1,6 @@
 <template>
       <a-config-provider :locale="locale">
-            <router-view></router-view>
+            <router-view />
       </a-config-provider>
 </template>
 
@@ -10,4 +10,6 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
 const locale = zhCN
+
+
 </script>

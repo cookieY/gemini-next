@@ -181,7 +181,6 @@ const delayTime = (date: Dayjs) => {
 const fetchTable = (data_base: string) => {
       fetchRequest.Table(orderItems.source_id, data_base).then((res: AxiosResponse<Res<DBRelated>>) => {
             orderProfileArch.table = res.data.payload.results
-            editor.value.RunEditor(res.data.payload.highlight)
       })
 }
 
@@ -202,7 +201,7 @@ const testResults = (sql: string) => {
       spin.value = !spin.value
       request.Test({
             source: orderItems.source,
-            is_dml: orderItems.type === 'dml',
+            kind: orderItems.type === 'ddl' ? 0 : 1,
             data_base: orderItems.data_base,
             sql: sql
       } as SQLTestParams)

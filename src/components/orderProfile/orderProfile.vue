@@ -156,7 +156,7 @@ const testResults = (sql: string) => {
       spin.value = !spin.value
       request.Test({
             source: order.value.source,
-            is_dml: order.value.type === 1,
+            kind: order.value.type,
             data_base: order.value.data_base,
             sql: sql
       } as SQLTestParams)

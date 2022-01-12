@@ -13,7 +13,7 @@ export interface SQLTestParams {
       source: string
       data_base: string
       sql: string
-      is_dml: boolean
+      kind: number
 }
 
 export interface SQLAuditOrder {
