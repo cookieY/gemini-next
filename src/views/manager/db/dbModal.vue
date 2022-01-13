@@ -48,12 +48,28 @@
                               </a-form-item>
                               <a-form-item label="排除的数据库">
                                     <a-select
+                                          mode="multiple"
+                                          show-search
+                                          style="width: 100%"
+                                          v-model:value="excludeDB"
+                                          :max-tag-count="6"
+                                    >
+                                          <a-select-option
+                                                v-for="i in schemaList"
+                                                :key="i"
+                                                :value="i"
+                                          >{{ i }}</a-select-option>
+                                    </a-select>
+                              </a-form-item>
+                              <a-form-item label="脱敏字段">
+                                    <a-select
+                                          v-model:value="insulateWord"
                                           mode="tags"
                                           style="width: 100%"
                                           placeholder="Tags Mode"
+                                          :max-tag-count="6"
                                     ></a-select>
                               </a-form-item>
-                              <a-form-item label="脱敏字段"></a-form-item>
                         </a-form>
                   </a-col>
                   <a-col :span="8" offset="1">
@@ -78,6 +94,7 @@ import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { RespSteps, Steps } from "@/apis/flow"
 import { Source, OpsDBApis } from "@/apis/db"
+import { Request } from "@/apis/fetchSchema"
 
 const { is_open, turnState, layout } = CommonMixins()
 
@@ -93,6 +110,8 @@ const flow = computed(() => {
 
 const steps = ref([] as Steps[])
 
+const request = new Request
+
 let dbForm = ref(
       {
             idc: "",
@@ -102,21 +121,35 @@ let dbForm = ref(
             password: "",
             username: "",
             is_query: 2,
-            flow_id: 0
+            flow_id: 0,
+            source_id: "",
+            exclude_db_list: "",
+            insulate_word_list: ""
       } as Source
 )
+
+const schemaList = ref<string[]>([])
+
+const excludeDB = ref<string[]>([])
+
+const insulateWord = ref<string[]>([])
 
 const mergeFlow = (vl: number) => {
       FetchDBFlowApis(vl).then((res: AxiosResponse<Res<RespSteps>>) => steps.value = res.data.payload.steps)
 }
 
 const editDB = () => {
+      dbForm.value.exclude_db_list = excludeDB.value.join(",")
+      dbForm.value.insulate_word_list = insulateWord.value.join(",")
       OpsDBApis({ db: dbForm.value, tp: "edit" }).then(() => turnState())
 }
 
 const fillInfo = (vl: any) => {
       dbForm.value = vl
       turnState()
+      excludeDB.value = dbForm.value.exclude_db_list.split(",")
+      insulateWord.value = dbForm.value.insulate_word_list.split(",")
+      request.Schema(dbForm.value.source_id, "schema").then((res: AxiosResponse<Res<any>>) => schemaList.value = res.data.payload.results)
       FetchDBFlowApis(dbForm.value.flow_id).then((res: AxiosResponse<Res<RespSteps>>) => steps.value = res.data.payload.steps)
 }
 

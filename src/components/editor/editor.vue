@@ -6,6 +6,8 @@ import * as monaco from 'monaco-editor';
 import { createSQLToken } from "@/components/editor/impl"
 import { onMounted, onUnmounted } from '@vue/runtime-core';
 import { format } from 'sql-formatter';
+import { useStore } from '@/store';
+
 
 interface Props {
       containerId: string,
@@ -13,6 +15,7 @@ interface Props {
       readonly?: boolean,
       isQuery?: boolean
 }
+
 const props = withDefaults(defineProps<Props>(), {
       containerId: "",
       height: 400,
@@ -20,9 +23,11 @@ const props = withDefaults(defineProps<Props>(), {
       isQuery: false
 })
 
-let model = {} as monaco.editor.IStandaloneCodeEditor
-
 const emit = defineEmits(['getValues'])
+
+const store = useStore()
+
+let model = {} as monaco.editor.IStandaloneCodeEditor
 
 const beautyFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-beauty',
@@ -82,24 +87,22 @@ const GetValue = () => {
 }
 
 onMounted(() => {
-
       model = monaco.editor.create(document.getElementById(props.containerId) as HTMLElement, {
             language: "sql",
             fontSize: 16,
             theme: "vs-dark",
             automaticLayout: true,
             readOnly: props.readonly,
-            accessibilityHelpUrl: "https://guide.yearning.io"
+            accessibilityHelpUrl: "https://guide.yearning.io",
       });
-
       model.addAction(beautyFunc)
       model.addAction(GetValueFunc)
       model.focus()
-
 })
 
 onUnmounted(() => {
       model.dispose()
+
 })
 
 

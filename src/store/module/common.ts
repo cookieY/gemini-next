@@ -8,9 +8,9 @@ import { RootStore } from "../types";
 export interface commonStore {
       idc: string[]
       flow: RespTPLs[]
-      highlight: { [key: string]: string }[]
       queryInfo: QueryInfo
       schemaList: string[]
+      spinning: boolean
 }
 
 export interface QueryInfo {
@@ -24,9 +24,9 @@ export const common: Module<commonStore, RootStore> = {
       state: {
             idc: [] as string[],
             flow: [] as RespTPLs[],
-            highlight: [] as { [key: string]: string }[],
             queryInfo: {} as QueryInfo,
-            schemaList: []
+            schemaList: [],
+            spinning: false,
       },
       mutations: {
             GET_IDC (state) {
@@ -36,9 +36,6 @@ export const common: Module<commonStore, RootStore> = {
             GET_FLOWS (state) {
                   FetchFlowApis().then((res: AxiosResponse<Res<RespTPLs[]>>) => state.flow = res.data.payload)
             },
-            SET_HIGHLIGHT (state, highlight) {
-                  state.highlight = highlight
-            },
             SET_SOURCE_SCHEMA (state, query) {
                   state.queryInfo = query
             },
@@ -46,6 +43,9 @@ export const common: Module<commonStore, RootStore> = {
                   state.schemaList = f.schema
                   state.queryInfo.source = f.source
                   state.queryInfo.source_id = f.source_id
-            }
+            },
+            SET_SPINNING (state) {
+                  state.spinning = !state.spinning
+            },
       }
 }

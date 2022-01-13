@@ -43,6 +43,7 @@ export interface OrderTableData {
       current_step: number
       relevant: []
       source_id?: string
+      sql?: string
 }
 
 export interface OrderItem {

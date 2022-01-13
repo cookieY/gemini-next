@@ -62,6 +62,7 @@ import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
 import { HddOutlined, TableOutlined, CloudOutlined } from "@ant-design/icons-vue";
 import { useStore } from "@/store";
+import { EventBus } from "@/lib";
 
 const emit = defineEmits(["showTableRef"])
 
@@ -132,7 +133,6 @@ const spin = () => {
 }
 
 const showTableData = (key: string) => {
-      console.log(key)
       emit("showTableRef", { source_id: store.state.common.queryInfo.source_id, schema: schema.value, sql: `select * from ${key}` })
 }
 
@@ -149,7 +149,7 @@ onMounted(() => {
                         source_id: route.query.source_id as string
                   }
             )
-            store.commit("common/SET_HIGHLIGHT", res.data.payload.highlight)
+            EventBus.emit("highlight", res.data.payload.highlight)
       }
       ).finally(() => spin())
 })

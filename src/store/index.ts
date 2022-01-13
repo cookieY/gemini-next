@@ -15,7 +15,7 @@ export const store = createStore<AllStoreTypes>({
             order,
             common
       },
-      plugins: [createPersistedState({ storage: window.sessionStorage })],
+      plugins: [createPersistedState({ paths: ["user", "menu", "order"], storage: window.sessionStorage })],
 })
 
 export const key: InjectionKey<Store<RootStore>> = Symbol("vue-store")

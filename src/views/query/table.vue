@@ -19,12 +19,17 @@ import { ref } from 'vue';
 import { Request } from "@/apis/query";
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
+import { useStore } from '@/store';
 
 const props = defineProps<{
       height: number
 }>()
 
+const spinning = ref(false)
+
 const request = new Request
+
+const store = useStore()
 
 const executeTime = ref(0)
 
@@ -35,10 +40,11 @@ const handleResizeColumn = (w: number, col: { width: number }) => {
 }
 
 const runResults = (source_id: string, schema: string, sql: string) => {
+      store.commit("common/SET_SPINNING")
       request.QueryData(source_id, schema, sql).then((res: AxiosResponse<Res<any>>) => {
             results.value = res.data.payload.query
             executeTime.value = res.data.payload.time
-      })
+      }).finally(() => store.commit("common/SET_SPINNING"))
 }
 
 defineExpose({

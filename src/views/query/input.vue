@@ -28,7 +28,8 @@
 import Editor from "@/components/editor/editor.vue";
 import Table from "./table.vue";
 import { useStore } from "@/store";
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted, onUnmounted, ref } from "vue"
+import { EventBus } from "@/lib"
 
 const props = defineProps<{
       id: string
@@ -49,8 +50,14 @@ const getValues = (vl: string) => {
 
 }
 
+onUnmounted(() => {
+      EventBus.off("highlight")
+})
+
 onMounted(() => {
-      query_editor.value.RunEditor(store.state.common.highlight)
+      EventBus.on("highlight", (highlight: any) => {
+            query_editor.value.RunEditor(highlight)
+      })
 })
 
 </script>

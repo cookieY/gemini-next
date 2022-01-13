@@ -91,7 +91,6 @@ const editPolicy = (vl: Policy) => {
       selfRuse.dml_source = vl.permissions.dml_source
       selfRuse.ddl_source = vl.permissions.ddl_source
       selfRuse.query_source = vl.permissions.query_source
-      console.log(selfRuse.ddl_source)
       turnState()
 }
 

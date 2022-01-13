@@ -91,6 +91,17 @@ export class Request {
             })
       }
 
+      Roll (work_id: string, page: number): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/roll`,
+                  params: {
+                        work_id: work_id,
+                        page: page
+                  }
+            })
+      }
+
       CommentList (work_id: string): AxiosPromise {
             return request({
                   method: 'get',

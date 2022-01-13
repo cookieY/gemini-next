@@ -9,6 +9,9 @@ export interface Source {
       password: string
       is_query: number
       flow_id: number
+      source_id: string
+      exclude_db_list: string
+      insulate_word_list: string
 }
 
 export interface DBParams {
@@ -30,7 +33,7 @@ export interface DBResp {
 
 export interface RequestDB {
       tp: string
-      db: Source
+      db: Source<string[]>
 }
 
 

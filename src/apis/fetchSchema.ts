@@ -38,12 +38,14 @@ export class Request {
             })
       }
 
-      Schema (source_id: string): AxiosPromise {
+      Schema (source_id: string, tp?: string, hide?: boolean): AxiosPromise {
             return request({
                   method: 'get',
                   url: `${COMMON_URI}/fetch/base`,
                   params: {
-                        source_id: source_id
+                        source_id: source_id,
+                        tp: tp,
+                        hide: hide
                   }
             })
       }

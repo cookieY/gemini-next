@@ -1,39 +1,42 @@
 <template>
-      <a-row>
-            <a-col :span="5">
-                  <Tree @showTableRef="showTableRef"></Tree>
-            </a-col>
-            <a-col :span="18" :offset="1">
-                  <a-tabs v-model:activeKey="feat">
-                        <a-tab-pane key="edit" tab="查询">
-                              <a-tabs
-                                    v-model:activeKey="activeKey"
-                                    type="editable-card"
-                                    @edit="onEdit"
-                              >
-                                    <a-tab-pane
-                                          v-for="pane in panes"
-                                          :key="pane.key"
-                                          :tab="pane.title"
-                                          :closable="pane.closable"
+      <a-spin :spinning="spinning">
+            <a-row>
+                  <a-col :span="5">
+                        <Tree @showTableRef="showTableRef"></Tree>
+                  </a-col>
+                  <a-col :span="18" :offset="1">
+                        <a-tabs v-model:activeKey="feat">
+                              <a-tab-pane key="edit" tab="查询">
+                                    <a-tabs
+                                          v-model:activeKey="activeKey"
+                                          type="editable-card"
+                                          @edit="onEdit"
                                     >
-                                          <Input :id="pane.title" />
-                                    </a-tab-pane>
-                              </a-tabs>
-                        </a-tab-pane>
-                        <a-tab-pane key="table" tab="表" forceRender>
-                              <Table ref="tbl" :height="800"></Table>
-                        </a-tab-pane>
-                  </a-tabs>
-            </a-col>
-      </a-row>
+                                          <a-tab-pane
+                                                v-for="pane in panes"
+                                                :key="pane.key"
+                                                :tab="pane.title"
+                                                :closable="pane.closable"
+                                          >
+                                                <Input :id="pane.title" />
+                                          </a-tab-pane>
+                                    </a-tabs>
+                              </a-tab-pane>
+                              <a-tab-pane key="table" tab="表" forceRender>
+                                    <Table ref="tbl" :height="800"></Table>
+                              </a-tab-pane>
+                        </a-tabs>
+                  </a-col>
+            </a-row>
+      </a-spin>
 </template>
 
 <script lang="ts" setup>
 import Tree from "./tree.vue"
 import Input from "./input.vue"
 import Table from "./table.vue"
-import { ref } from "vue"
+import { computed, ref } from "vue"
+import { useStore } from "@/store"
 
 const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }])
 
@@ -44,6 +47,10 @@ const newTabIndex = ref(1);
 const feat = ref("edit")
 
 const tbl = ref()
+
+const store = useStore()
+
+const spinning = computed(() => store.state.common.spinning)
 
 const onEdit = (targetKey: string, action: string) => {
       if (action === 'add') {

@@ -75,7 +75,7 @@
             <a-col :sm="24" :md="18" :xl="18">
                   <div style="min-height: 600px;">
                         <a-tabs v-model:activeKey="activeKey">
-                              <a-tab-pane :key="1" tab="填写SQL语句">
+                              <a-tab-pane :key="1" tab="填写SQL语句" forceRender>
                                     <a-spin :spinning="spin" :delay="100">
                                           <Editor
                                                 container-id="applys"
@@ -135,6 +135,7 @@ import { Request, SQLTestParams } from '@/apis/orderPostApis';
 import { Request as FetchRequest } from "@/apis/fetchSchema"
 import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import router from '@/router';
+import { EventBus } from '@/lib';
 
 const layout = {
       labelCol: { span: 7 },
@@ -239,8 +240,7 @@ onMounted(() => {
       orderItems.idc = route.query.idc as string
       orderItems.source = route.query.source as string
       orderItems.source_id = route.query.source_id as string
-
-      fetchRequest.Schema(orderItems.source_id).then((res: AxiosResponse<Res<DBRelated>>) => {
+      fetchRequest.Schema(orderItems.source_id, "", true).then((res: AxiosResponse<Res<DBRelated>>) => {
             orderProfileArch.db = res.data.payload.results
             editor.value.RunEditor(res.data.payload.highlight)
       })
@@ -249,7 +249,6 @@ onMounted(() => {
             res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload
 
       })
-
 })
 
 
