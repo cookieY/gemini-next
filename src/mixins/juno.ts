@@ -1,31 +1,36 @@
 import { reactive, UnwrapRef } from "vue";
 import { OrderItem } from "@/types";
+import i18n from "@/lang"
+
+const { t } = i18n.global
 
 export default function () {
+
       const col = [
             {
-                  title: "阶段",
+                  title: t('common.table.stage'),
                   dataIndex: "status"
             },
             {
-                  title: "错误等级",
+                  title: t('common.table.level'),
                   dataIndex: "level"
             },
             {
-                  title: "错误信息",
+                  title: t('common.table.error'),
                   dataIndex: "error"
             },
             {
-                  title: '当前检查的sql',
+                  title: t('common.table.sql'),
                   dataIndex: 'sql',
                   tooltip: true
             },
             {
-                  title: '影响行数',
+                  title: t('common.table.max'),
                   dataIndex: 'affect_rows',
                   width: '120'
             }
       ]
+
       const tableArch = [
             {
                   title: '字段名',
@@ -68,7 +73,7 @@ export default function () {
       ];
 
       const orderItems: UnwrapRef<OrderItem> = reactive({
-            type: "",
+            type: -1,
             idc: "",
             source: "",
             data_base: "",

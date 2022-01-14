@@ -12,7 +12,11 @@
                         <state-tags :state="text"></state-tags>
                   </template>
                   <template v-if="column.dataIndex === 'action'">
-                        <a-button type="primary" size="small" @click="profie(record)">详情</a-button>
+                        <a-button
+                              type="primary"
+                              size="small"
+                              @click="profie(record)"
+                        >{{ $t('common.profile') }}</a-button>
                   </template>
             </template>
       </a-table>
@@ -20,7 +24,7 @@
       <a-pagination
             :total="pagination.pageCount"
             :page-size.sync="pagination.pageSize"
-            :show-total="total => `共 ${total} 个工单`"
+            :show-total="total => $t('common.count', { 'count': total })"
             v-model:current="expr.page"
             @change="currentPage"
       />
@@ -38,6 +42,9 @@ import { onMounted, reactive, ref } from "vue"
 import { Request, OrderTableResp, OrderParams, OrderExpr, } from "@/apis/orderPostApis"
 import { OrderTableData } from '@/types'
 import { useStore } from '@/store'
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 let tData = ref<OrderTableData[]>([])
 

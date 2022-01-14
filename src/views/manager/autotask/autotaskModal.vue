@@ -1,15 +1,15 @@
 <template>
-      <a-modal v-model:visible="is_open" :title="props.title" @ok="postOk">
+      <a-modal v-model:visible="is_open" :title="$t('auto.title')" @ok="postOk">
             <a-form layout="vertical" :model="autotask" :rules="rules" ref="formRef">
-                  <a-form-item label="自动化任务名称" name="name">
+                  <a-form-item :label="$t('auto.edit.name')" name="name">
                         <a-input v-model:value="autotask.name"></a-input>
                   </a-form-item>
-                  <a-form-item label="类型">
-                        <a-select placeholder="请选择" v-model:value="autotask.tp">
+                  <a-form-item :label="$t('common.table.type')">
+                        <a-select v-model:value="autotask.tp">
                               <a-select-option v-for="i in taskTp" :value="i.v">{{ i.title }}</a-select-option>
                         </a-select>
                   </a-form-item>
-                  <a-form-item label="环境" name="idc">
+                  <a-form-item :label="$t('common.table.env')" name="idc">
                         <a-select v-model:value="autotask.idc" @change="fetchSource">
                               <a-select-option
                                     v-for="i in fetchList.idc"
@@ -18,7 +18,7 @@
                               >{{ i }}</a-select-option>
                         </a-select>
                   </a-form-item>
-                  <a-form-item label="数据源" name="sourceLabel">
+                  <a-form-item :label="$t('common.table.source')" name="sourceLabel">
                         <a-select
                               v-model:value="autotask.sourceLabel"
                               @change="fetchSchema"
@@ -32,7 +32,7 @@
                               >{{ i.source }}</a-select-option>
                         </a-select>
                   </a-form-item>
-                  <a-form-item label="数据库" name="data_base">
+                  <a-form-item :label="$t('common.table.schema')" name="data_base">
                         <a-select v-model:value="autotask.data_base" @change="fetchTable">
                               <a-select-option
                                     v-for="i in fetchList.schema"
@@ -41,7 +41,7 @@
                               >{{ i }}</a-select-option>
                         </a-select>
                   </a-form-item>
-                  <a-form-item label="数据表" name="table">
+                  <a-form-item :label="$t('common.table.table')" name="table">
                         <a-select v-model:value="autotask.table">
                               <a-select-option
                                     v-for="i in fetchList.tables"
@@ -50,10 +50,10 @@
                               >{{ i }}</a-select-option>
                         </a-select>
                   </a-form-item>
-                  <a-form-item label="影响行数">
+                  <a-form-item :label="$t('common.table.max')">
                         <a-input-number v-model:value="autotask.affect_rows" :min="0"></a-input-number>
                   </a-form-item>
-                  <a-form-item label="是否开启">
+                  <a-form-item :label="$t('auto.edit.enabled')">
                         <a-switch
                               v-model:checked="autotask.status"
                               :checkedValue="1"
@@ -74,10 +74,9 @@ import { LabelInValue } from "@/types";
 import { RuleObject } from 'ant-design-vue/es/form';
 import { AxiosResponse } from "axios";
 import { onMounted, reactive, unref, ref } from "vue";
+import { useI18n } from 'vue-i18n';
 
-const props = defineProps<{
-      title: string,
-}>()
+const { t } = useI18n()
 
 const formRef = ref()
 
@@ -100,17 +99,17 @@ const autotask = ref<AutoTask>({
 
 const checkSource = async (_rule: RuleObject, value: LabelInValue) => {
       if (value.value === undefined) {
-            return Promise.reject('请选择数据源');
+            return Promise.reject(t('common.check.source'));
       }
       return Promise.resolve()
 }
 
 const rules = {
-      name: [{ required: true, trigger: 'blur', message: '请输入名称' }],
-      idc: [{ required: true, trigger: 'change', message: '请选择环境' }],
+      name: [{ required: true, trigger: 'blur', message: t('common.check.name') }],
+      idc: [{ required: true, trigger: 'change', message: t('common.check.env') }],
       sourceLabel: [{ required: true, trigger: 'change', validator: checkSource }],
-      data_base: [{ required: true, trigger: 'change', message: '请选择数据库' }],
-      table: [{ required: true, trigger: 'change', message: '请选择表' }],
+      data_base: [{ required: true, trigger: 'change', message: t('common.check.schema') }],
+      table: [{ required: true, trigger: 'change', message: t('common.check.table') }],
 
 }
 

@@ -1,51 +1,55 @@
+import i18n from '@/lang'
+
+const { t } = i18n.global
+
 export default function () {
-    const col = [
-        {
-            title: '工单编号:',
-            dataIndex: 'work_id',
-            width: 200
-        },
-        {
-            title: '工单说明:',
-            dataIndex: 'text',
-        },
-        {
-            title: '工单类型',
-            dataIndex: 'type',
-        },
-        {
-            title: '提交时间:',
-            dataIndex: 'date',
-        },
-        {
-            title: '提交账号',
-            dataIndex: 'username',
-        },
-        {
-            title: '真实姓名',
-            dataIndex: 'real_name',
+      const col = [
+            {
+                  title: t('common.table.work_id'),
+                  dataIndex: 'work_id',
+                  width: 200
+            },
+            {
+                  title: t('common.table.remark'),
+                  dataIndex: 'text',
+            },
+            {
+                  title: t('common.table.type'),
+                  dataIndex: 'type',
+            },
+            {
+                  title: t('common.table.post.time'),
+                  dataIndex: 'date',
+            },
+            {
+                  title: t('common.table.post.user'),
+                  dataIndex: 'username',
+            },
+            {
+                  title: t('common.table.post.real_name'),
+                  dataIndex: 'real_name',
 
-        },
-        {
-            title: '定时执行',
-            dataIndex: 'delay',
-        },
-        {
-            title: '当前操作人',
-            dataIndex: 'assigned',
-        },
-        {
-            title: '状态',
-            dataIndex: 'status',
+            },
+            {
+                  title: t('order.profile.timing'),
+                  dataIndex: 'delay',
+            },
+            {
+                  title: t('order.profile.auditor'),
+                  dataIndex: 'assigned',
+            },
+            {
+                  title: t('common.table.state'),
+                  dataIndex: 'status',
 
-        },
-        {
-            title: '操作',
-            dataIndex: 'action',
-            width: 200,
-        }
-    ];
-    return {
-        col
-    }
+            },
+            {
+                  title: t('common.action'),
+                  dataIndex: 'action',
+                  width: 200,
+            }
+      ];
+      return {
+            col
+      }
 }

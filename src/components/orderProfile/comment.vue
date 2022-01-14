@@ -2,7 +2,7 @@
       <a-list
             id="comment"
             style=" height: 300px;overflow:auto"
-            :header="`${data.length} 条信息`"
+            :header="$t('common.count', { 'count': data.length })"
             item-layout="horizontal"
             :data-source="data"
       >
@@ -30,7 +30,11 @@
                   <a-textarea :rows="4" v-model:value="content" />
             </a-form-item>
             <a-form-item>
-                  <a-button html-type="submit" type="primary" @click="postComment">添加评论</a-button>
+                  <a-button
+                        html-type="submit"
+                        type="primary"
+                        @click="postComment"
+                  >{{ $t('order.profile.comment.add') }}</a-button>
             </a-form-item>
       </a-form>
 </template>
@@ -42,7 +46,11 @@ import { Comment, Request } from "@/apis/orderPostApis"
 import { onMounted, ref, nextTick } from 'vue';
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
+import { useI18n } from 'vue-i18n';
+
 dayjs.extend(relativeTime);
+
+const { t } = useI18n()
 
 const props = defineProps<{
       work_id: string

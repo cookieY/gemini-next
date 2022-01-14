@@ -4,7 +4,7 @@
             <a-step
                   v-for="i in orderProfileArch.timeline"
                   :title="i.desc"
-                  :sub-title="i.type === 0 ? '审核' : '执行'"
+                  :sub-title="checkStepState(i.type)"
                   status="process"
             >
                   <template v-slot:description>操作人: {{ i.auditor.join(' ') }}</template>
@@ -12,19 +12,19 @@
       </a-steps>
       <br />
       <a-row :gutter="24" type="flex" justify="center">
-            <a-col :sm="24" :md="6" :xl="6">
+            <a-col :sm="24" :md="5" :xl="5">
                   <a-card>
                         <a-form v-bind="layout" :model="orderItems" :rules="rules" ref="formRef">
-                              <a-form-item label="工单类型">
-                                    <a-input disabled v-model:value="orderItems.type"></a-input>
+                              <a-form-item :label="$t('common.table.type')">
+                                    <span>{{ orderItems.type === 0 ? "DDL" : "DML" }}</span>
                               </a-form-item>
-                              <a-form-item label="环境">
-                                    <a-input disabled v-model:value="orderItems.idc"></a-input>
+                              <a-form-item :label="$t('common.table.env')">
+                                    <span>{{ orderItems.idc }}</span>
                               </a-form-item>
-                              <a-form-item label="数据源">
-                                    <a-input disabled v-model:value="orderItems.source"></a-input>
+                              <a-form-item :label="$t('common.table.source')">
+                                    <span>{{ orderItems.source }}</span>
                               </a-form-item>
-                              <a-form-item label="库名" name="data_base">
+                              <a-form-item :label="$t('common.table.schema')">
                                     <a-select
                                           v-model:value="orderItems.data_base"
                                           @change="fetchTable"
@@ -35,7 +35,7 @@
                                           >{{ i }}</a-select-option>
                                     </a-select>
                               </a-form-item>
-                              <a-form-item label="表名">
+                              <a-form-item :label="$t('common.table.table')">
                                     <a-select v-model:value="orderItems.table">
                                           <a-select-option
                                                 v-for=" i in orderProfileArch.table"
@@ -43,7 +43,7 @@
                                           >{{ i }}</a-select-option>
                                     </a-select>
                               </a-form-item>
-                              <a-form-item label="工单说明" nane="text" required>
+                              <a-form-item :label="$t('common.table.remark')" nane="text" required>
                                     <a-textarea
                                           :rows="3"
                                           v-model:value="orderItems.text"
@@ -51,31 +51,36 @@
                                           allowClear
                                     ></a-textarea>
                               </a-form-item>
-                              <a-form-item label="定时执行">
+                              <a-form-item :label="$t('order.profile.timing')">
                                     <a-date-picker show-time @ok="delayTime" />
                               </a-form-item>
-                              <a-form-item label="生成回滚语句">
+                              <a-form-item :label="$t('order.profile.roll')">
                                     <a-radio-group
                                           name="radioGroup"
                                           v-model:value="orderItems.backup"
                                     >
-                                          <a-radio :value="1">是</a-radio>
-                                          <a-radio :value="0">否</a-radio>
+                                          <a-radio :value="1">{{ $t('common.yes') }}</a-radio>
+                                          <a-radio :value="0">{{ $t('common.no') }}</a-radio>
                                     </a-radio-group>
                               </a-form-item>
-                              <a-form-item label="操作">
+                              <a-form-item :label="$t('common.action')">
                                     <a-space>
-                                          <a-button @click="fetchTableArch">获取表结构信息</a-button>
-                                          <a-button @click="postOrder" :disabled="enabled">提交工单</a-button>
+                                          <a-button
+                                                @click="fetchTableArch"
+                                          >{{ $t('order.apply.table.info') }}</a-button>
+                                          <a-button
+                                                @click="postOrder"
+                                                :disabled="enabled"
+                                          >{{ $t('common.commit') }}</a-button>
                                     </a-space>
                               </a-form-item>
                         </a-form>
                   </a-card>
             </a-col>
-            <a-col :sm="24" :md="18" :xl="18">
+            <a-col :sm="24" :md="19" :xl="19">
                   <div style="min-height: 600px;">
                         <a-tabs v-model:activeKey="activeKey">
-                              <a-tab-pane :key="1" tab="填写SQL语句" forceRender>
+                              <a-tab-pane :key="1" :tab="$t('order.apply.tab.sql')" forceRender>
                                     <a-spin :spinning="spin" :delay="100">
                                           <Editor
                                                 container-id="applys"
@@ -92,7 +97,7 @@
                                           ></a-table>
                                     </a-spin>
                               </a-tab-pane>
-                              <a-tab-pane :key="2" tab="表结构详情" force-render>
+                              <a-tab-pane :key="2" :tab="$t('order.apply.tab.table')" force-render>
                                     <a-table
                                           :columns="tableArch"
                                           :data-source="archData"
@@ -101,7 +106,7 @@
                                           rowKey="field"
                                     ></a-table>
                               </a-tab-pane>
-                              <a-tab-pane :key="3" tab="索引详情">
+                              <a-tab-pane :key="3" :tab="$t('order.apply.tab.index')">
                                     <a-table
                                           :columns="indexArch"
                                           :data-source="indexData"
@@ -134,12 +139,13 @@ import { message } from 'ant-design-vue';
 import { Request, SQLTestParams } from '@/apis/orderPostApis';
 import { Request as FetchRequest } from "@/apis/fetchSchema"
 import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
+import CommonMixins from "@/mixins/common"
 import router from '@/router';
-import { EventBus } from '@/lib';
+import { store } from '@/store';
 
 const layout = {
       labelCol: { span: 7 },
-      wrapperCol: { span: 17 },
+      wrapperCol: { span: 20 },
 };
 
 const activeKey = ref(1)
@@ -159,6 +165,8 @@ const request = new Request
 const fetchRequest = new FetchRequest
 
 const enabled = ref(true)
+
+const { checkStepState } = CommonMixins()
 
 const rules = {
       data_base: [
@@ -223,7 +231,6 @@ const postOrder = () => {
       formRef.value.validate().then(() => {
             let warpper = Object.assign({}, orderItems)
             warpper.sql = editor.value.GetValue()
-            warpper.type = orderItems.type === 'ddl' ? 0 : 1
             orderProfileArch.timeline.forEach((item) => {
                   warpper.relevant = warpper.relevant.concat(item.auditor)
             })
@@ -236,7 +243,7 @@ const postOrder = () => {
 
 
 onMounted(() => {
-      orderItems.type = route.query.type as string
+      orderItems.type = parseInt(route.query.type as string)
       orderItems.idc = route.query.idc as string
       orderItems.source = route.query.source as string
       orderItems.source_id = route.query.source_id as string
@@ -249,6 +256,7 @@ onMounted(() => {
             res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload
 
       })
+      route.query.remark === 'true' ? editor.value.ChangeEditorText(store.state.order.sql) : null
 })
 
 

@@ -1,5 +1,8 @@
 import { reactive, ref } from "vue";
 import { RuleObject } from 'ant-design-vue/es/form/interface';
+import i18n from "@/lang"
+
+const { t } = i18n.global
 
 export default function () {
       const is_open = ref(false)
@@ -16,6 +19,16 @@ export default function () {
             pageSize: 15,
             pageCount: 1,
       })
+
+      const checkStepState = (type: number) => {
+            if (type === -1) {
+                  return t('common.step.commit')
+            } else if (type === 0) {
+                  return t('common.step.audit')
+            } else {
+                  return t('common.step.execute')
+            }
+      }
 
       const regExpPassword = async (rule: RuleObject, value: string) => {
             let pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
@@ -60,6 +73,7 @@ export default function () {
             regExpPassword,
             turnState,
             layout,
-            taskTp
+            taskTp,
+            checkStepState
       }
 }

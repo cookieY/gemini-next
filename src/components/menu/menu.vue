@@ -2,56 +2,56 @@
       <a-menu mode="inline" v-model:selectedKeys="selectedKey" @click="changeMenu">
             <a-menu-item key="/home">
                   <HomeOutlined />
-                  <span>主页</span>
+                  <span>{{ $t('menu.home') }}</span>
             </a-menu-item>
             <a-menu-item key="/server/order/common/list">
                   <UnlockOutlined />
-                  <span>我的工单</span>
+                  <span>{{ $t('menu.order.self') }}</span>
             </a-menu-item>
             <a-menu-item key="/apply">
                   <ConsoleSqlOutlined />
-                  <span>工单申请</span>
+                  <span>{{ $t('menu.order.apply') }}</span>
             </a-menu-item>
             <a-menu-item key="/server/order/audit/list">
                   <AuditOutlined />
-                  <span>工单审核</span>
+                  <span>{{ $t('menu.order.audit') }}</span>
             </a-menu-item>
-            <a-sub-menu title="管理">
+            <a-sub-menu :title="$t('menu.manage')">
                   <template #icon>
                         <CloudSyncOutlined />
                   </template>
                   <a-menu-item key="/manager/user">
                         <UserAddOutlined />
-                        <span>用户</span>
+                        <span>{{ $t('menu.manage.user') }}</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/db">
                         <CloudServerOutlined />
-                        <span>数据源</span>
+                        <span>{{ $t('menu.manage.source') }}</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/flow">
                         <PartitionOutlined />
-                        <span>流程</span>
+                        <span>{{ $t('menu.manage.flow') }}</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/policy">
                         <UsergroupAddOutlined />
-                        <span>权限组</span>
+                        <span>{{ $t('menu.manage.policy') }}</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/rules">
                         <CrownOutlined />
-                        <span>审核规则</span>
+                        <span>{{ $t('menu.manage.rule') }}</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/autotask">
                         <PaperClipOutlined />
-                        <span>自动化任务</span>
+                        <span>{{ $t('menu.manage.auto') }}</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/setting">
                         <ToolOutlined />
-                        <span>设置</span>
+                        <span>{{ $t('menu.manage.setting') }}</span>
                   </a-menu-item>
             </a-sub-menu>
             <a-menu-item key="/exist">
                   <LogoutOutlined />
-                  <span>退出</span>
+                  <span>{{ $t('menu.loginout') }}</span>
             </a-menu-item>
       </a-menu>
 </template>
@@ -60,6 +60,10 @@ import { HomeOutlined, LogoutOutlined, AuditOutlined, ToolOutlined, PaperClipOut
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
+
 const props = defineProps<{
       mode?: string
 }>()

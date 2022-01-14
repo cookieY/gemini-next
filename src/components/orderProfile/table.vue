@@ -4,7 +4,7 @@
       <a-pagination
             :total="page"
             :page-size.sync="pagination.pageSize"
-            :show-total="(total) => `共 ${total} 个工单`"
+            :show-total="(total) => $t('common.count', { 'count': total })"
             @change="currentPage"
       />
 </template>
@@ -13,6 +13,9 @@
 
 import CommonMixins from "@/mixins/common"
 import { computed, defineEmits } from "vue"
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const props = defineProps<{
       col: any[],

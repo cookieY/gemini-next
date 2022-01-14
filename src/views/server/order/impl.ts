@@ -1,3 +1,7 @@
+import i18n from '@/lang'
+
+const { t } = i18n.global
+
 export const checkTitle = (audit: string): { [key: string]: string } => {
-      return audit === "audit" ? { title: "工单审核", subTitle: "DML/DDL工单审批及执行" } : { title: "我的工单", subTitle: "我的DML/DDL工单查看" }
+      return audit === "audit" ? { title: t('menu.order.audit'), subTitle: t('order.desc.audit') } : { title: t('menu.order.self'), subTitle: t('order.desc.self') }
 }

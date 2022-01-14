@@ -3,11 +3,11 @@
             <a-col :span="24">
                   <a-form layout="inline">
                         <a-form-item>
-                              <a-button type="primary" @click="p.newTask()">新建自动化任务</a-button>
+                              <a-button type="primary" @click="p.newTask()">{{ $t("auto.create") }}</a-button>
                         </a-form-item>
                         <a-form-item>
                               <a-input-search
-                                    placeholder="输入权限组名称"
+                                    :placeholder="$t('auto.search.tips')"
                                     enter-button
                                     allowClear
                                     v-model:value="expr.find.text"
@@ -23,12 +23,16 @@
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space>
-                              <a-button ghost size="small" @click="p.editTask(record)">编辑</a-button>
+                              <a-button
+                                    ghost
+                                    size="small"
+                                    @click="p.editTask(record)"
+                              >{{ $t('common.edit') }}</a-button>
                               <a-popconfirm
-                                    title="确认要删除该任务吗?"
+                                    :title="$t('auto.delete.tips')"
                                     @confirm="request.Delete(record.task_id).then(() => currentPage())"
                               >
-                                    <a-button ghost size="small" danger>删除</a-button>
+                                    <a-button ghost size="small" danger>{{ $t('common.delete') }}</a-button>
                               </a-popconfirm>
                         </a-space>
                   </template>
@@ -49,11 +53,11 @@
       <a-pagination
             :total="pagination.pageCount"
             :page-size.sync="pagination.pageSize"
-            :show-total="(total) => `共 ${total} 个工单`"
+            :show-total="(total) => $t('common.count', { count: total })"
             v-model:current="expr.page"
             @change="currentPage"
       />
-      <AutotaskModal ref="p" :title="title" @success="currentPage"></AutotaskModal>
+      <AutotaskModal ref="p" @success="currentPage"></AutotaskModal>
 </template>
 
 <script lang="ts" setup>
@@ -64,46 +68,47 @@ import { AutoTaskExpr, AutoTask, AutoTaskParams, AutoTaskResp, Request } from "@
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import AutotaskModal from "./autotaskModal.vue"
+import { useI18n } from 'vue-i18n';
 
-const title = ref("新建权限组")
+const { t } = useI18n()
 
 const p = ref()
 
 const col = [
       {
-            title: '名称',
+            title: t('common.table.name'),
             dataIndex: 'name',
       },
       {
-            title: '类型',
+            title: t('common.table.type'),
             dataIndex: 'tp',
       },
       {
-            title: '环境',
+            title: t('common.table.env'),
             dataIndex: 'idc',
       },
       {
-            title: '数据源',
+            title: t('common.table.source'),
             dataIndex: 'source',
       },
       {
-            title: '数据库',
+            title: t('common.table.schema'),
             dataIndex: 'data_base',
       },
       {
-            title: '数据表',
+            title: t('common.table.table'),
             dataIndex: 'table',
       },
       {
-            title: '最大影响行数',
+            title: t('common.table.max'),
             dataIndex: 'affect_rows',
       },
       {
-            title: '状态',
+            title: t('common.table.state'),
             dataIndex: 'status',
       },
       {
-            title: '操作',
+            title: t('common.action'),
             dataIndex: 'action',
       },
 ]

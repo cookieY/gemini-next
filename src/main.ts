@@ -4,13 +4,12 @@ import routes from '@/router'
 import Antd from 'ant-design-vue';
 import { store, key } from '@/store/index'
 import "@/style/theme.less"
+import i18n from "@/lang"
 
 createApp(App).directive(
       'watermark', (el, binding) => {
             addWaterMarker(binding.value.text)
-      }).use(store, key).use(Antd).use(routes).mount('#app')
-
-
+      }).use(i18n).use(store, key).use(Antd).use(routes).mount('#app')
 function addWaterMarker (text: string) {
       let id = '1.23452384164.123412415'
       if (document.getElementById(id) !== null) {

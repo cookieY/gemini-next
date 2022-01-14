@@ -3,22 +3,34 @@
             <a-form>
                   <a-row :gutter="12">
                         <a-col :sm="8" :xs="24">
-                              <a-form-item label="当前状态">
-                                    <a-select placeholder="请选择" v-model:value="expr.status">
-                                          <a-select-option :value="7">全部</a-select-option>
-                                          <a-select-option :value="OrderState.WAIT">待执行</a-select-option>
-                                          <a-select-option :value="OrderState.PROCESS">执行中</a-select-option>
-                                          <a-select-option :value="OrderState.AUDIT">审核中</a-select-option>
-                                          <a-select-option :value="OrderState.SUCCESS">已执行</a-select-option>
-                                          <a-select-option :value="OrderState.REJECT">已驳回</a-select-option>
-                                          <a-select-option :value="OrderState.ERROR">执行失败</a-select-option>
+                              <a-form-item :label="$t('common.table.state')">
+                                    <a-select v-model:value="expr.status">
+                                          <a-select-option :value="7">{{ $t('order.state.all') }}</a-select-option>
+                                          <a-select-option
+                                                :value="OrderState.WAIT"
+                                          >{{ $t('order.state.wait') }}</a-select-option>
+                                          <a-select-option
+                                                :value="OrderState.PROCESS"
+                                          >{{ $t('order.state.process') }}</a-select-option>
+                                          <a-select-option
+                                                :value="OrderState.AUDIT"
+                                          >{{ $t('order.state.audit') }}</a-select-option>
+                                          <a-select-option
+                                                :value="OrderState.SUCCESS"
+                                          >{{ $t('order.state.success') }}</a-select-option>
+                                          <a-select-option
+                                                :value="OrderState.REJECT"
+                                          >{{ $t('order.state.reject') }}</a-select-option>
+                                          <a-select-option
+                                                :value="OrderState.ERROR"
+                                          >{{ $t('order.state.error') }}</a-select-option>
                                     </a-select>
                               </a-form-item>
                         </a-col>
                         <a-col :xs="24" :sm="8">
-                              <a-form-item label="工单类型">
-                                    <a-select placeholder="请选择" v-model:value="expr.type">
-                                          <a-select-option :value="2">全部</a-select-option>
+                              <a-form-item :label="$t('common.table.type')">
+                                    <a-select v-model:value="expr.type">
+                                          <a-select-option :value="2">{{ $t('order.state.all') }}</a-select-option>
                                           <a-select-option :value="0">DDL</a-select-option>
                                           <a-select-option :value="1">DML</a-select-option>
                                     </a-select>
@@ -26,17 +38,17 @@
                         </a-col>
                         <template v-if="advanced">
                               <a-col :sm="8" :xs="24">
-                                    <a-form-item label="提交人">
+                                    <a-form-item :label="$t('common.table.post.user')">
                                           <a-input v-model:value="expr.user"></a-input>
                                     </a-form-item>
                               </a-col>
                               <a-col :xs="24" :sm="8">
-                                    <a-form-item label="工单备注">
+                                    <a-form-item :label="$t('common.table.remark')">
                                           <a-input v-model:value="expr.desc"></a-input>
                                     </a-form-item>
                               </a-col>
                               <a-col :xs="24" :sm="8">
-                                    <a-form-item label="提交时间">
+                                    <a-form-item :label="$t('common.table.post.time')">
                                           <a-range-picker
                                                 v-model:value="picker"
                                                 :ranges="{ '本周': [dayjs().startOf('week'), dayjs().endOf('week')], '本月': [dayjs().startOf('month'), dayjs().endOf('month')] }"
@@ -49,12 +61,18 @@
                                     class="table-page-search-submitButtons"
                                     :style="advanced && { overflow: 'hidden' } || {}"
                               >
-                                    <a-button type="primary" @click="search">查询</a-button>
-                                    <a-button style="margin-left: 8px" @click="cancel">重置</a-button>
-                                    <a @click="toggleAdvanced" style="margin-left: 8px">
-                                          {{ advanced ? '收起' : '展开' }}
-                                          <!-- <a-icon :type="advanced ? 'up' : 'down'" /> -->
-                                    </a>
+                                    <a-button
+                                          type="primary"
+                                          @click="search"
+                                    >{{ $t('common.search') }}</a-button>
+                                    <a-button
+                                          style="margin-left: 8px"
+                                          @click="cancel"
+                                    >{{ $t('common.cancel') }}</a-button>
+                                    <a
+                                          @click="toggleAdvanced"
+                                          style="margin-left: 8px"
+                                    >{{ advanced ? $t('common.pick') : $t('common.unfold') }}</a>
                               </span>
                         </a-col>
                   </a-row>
@@ -67,6 +85,9 @@ import { ref, UnwrapRef, reactive } from "@vue/runtime-core";
 import dayjs, { Dayjs } from 'dayjs';
 import { OrderExpr } from "@/apis/orderPostApis"
 import { OrderState } from "@/types"
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const advanced = ref(false)
 const picker = ref<Dayjs[]>([])

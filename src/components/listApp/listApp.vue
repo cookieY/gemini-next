@@ -10,7 +10,7 @@
                         :filterOption="filterOption"
                         @change="handleChange"
                   >
-                        <a-select-option value="all">全部</a-select-option>
+                        <a-select-option value="all">{{ $t('order.state.all') }}</a-select-option>
                         <a-select-option v-for="i in options" :value="i.source">{{ i.source }}</a-select-option>
                   </a-select>
             </a-col>
@@ -26,7 +26,9 @@
                   <a-list-item>
                         <a-card :body-style="{ paddingBottom: 20 }">
                               <a-card-meta :title="item.source">
-                                    <template v-slot:description>所属环境:{{ item.idc }}</template>
+                                    <template
+                                          v-slot:description
+                                    >{{ $t('order.apply.card.env', { 'env': item.idc }) }}</template>
                                     <template v-slot:avatar>
                                           <a-avatar :style="{ backgroundColor: '#Ff9900' }">
                                                 <template v-slot:icon>
@@ -39,14 +41,14 @@
                                     <a-tooltip title="查看审核流程">
                                           <UserSwitchOutlined />
                                     </a-tooltip>
-                                    <a-tooltip :title="`所属环境:${item.idc}`">
+                                    <a-tooltip :title="$t('order.apply.card.env', { 'env': item.idc })">
                                           <ShareAltOutlined />
                                     </a-tooltip>
                                     <a-dropdown>
-                                          <a-tooltip title="进入申请页面">
+                                          <a-tooltip :title="$t('order.apply.card.enter')">
                                                 <a
                                                       class="ant-dropdown-link"
-                                                      @click="() => router.push({ path: props.type !== 'query'?'/apply/order':'/apply/query', query: { type: props.type, idc: item.idc, source: item.source, source_id: item.source_id } })"
+                                                      @click="() => router.push({ path: props.type !== 'query' ? '/apply/order' : '/apply/query', query: { type: props.id, idc: item.idc, source: item.source, source_id: item.source_id } })"
                                                 >
                                                       <EnterOutlined />
                                                 </a>
@@ -68,7 +70,8 @@ import { FetchSourceApis, RespFetchSource } from "@/apis/listAppApis"
 import { useRouter } from "vue-router"
 
 const props = defineProps<{
-      type: string
+      type: string,
+      id: number
 }>()
 
 const router = useRouter()

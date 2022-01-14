@@ -1,25 +1,46 @@
 <template>
-      <a-page-header :title="`单号:${order.work_id}`" @back="() => $router.go(-1)">
+      <a-page-header
+            :title="$t('order.profile.work_id', { id: order.work_id })"
+            @back="() => $router.go(-1)"
+      >
             <template #extra>
                   <template
                         v-if="route.params.tp === 'audit' && isCurrent > -1 && order.status === 2"
                   >
-                        <a-button key="2" danger ghost @click="r.turnState()">驳回该工单</a-button>
-                        <a-button key="1" type="primary" :disabled="enabled" @click="next">审核通过</a-button>
+                        <a-button
+                              key="2"
+                              danger
+                              ghost
+                              @click="r.turnState()"
+                        >{{ $t('order.reject') }}</a-button>
+                        <a-button
+                              key="1"
+                              type="primary"
+                              :disabled="enabled"
+                              @click="next"
+                        >{{ $t('order.agree') }}</a-button>
                   </template>
             </template>
             <a-row type="flex" justify="center" align="middle">
                   <a-col :span="16">
                         <a-descriptions :column="2">
                               <a-descriptions-item
-                                    label="工单类型"
+                                    :label="$t('common.table.type')"
                               >{{ order.type === 0 ? 'DDL' : 'DML' }}</a-descriptions-item>
-                              <a-descriptions-item label="环境">{{ order.idc }}</a-descriptions-item>
-                              <a-descriptions-item label="数据源">{{ order.source }}</a-descriptions-item>
-                              <a-descriptions-item label="库名">{{ order.data_base }}</a-descriptions-item>
-                              <a-descriptions-item label="生成回滚语句">{{ order.backup ? '是' : '否' }}</a-descriptions-item>
-                              <a-descriptions-item label="定时执行">{{ order.delay }}</a-descriptions-item>
-                              <a-descriptions-item label="当前审核人">
+                              <a-descriptions-item :label="$t('common.table.env')">{{ order.idc }}</a-descriptions-item>
+                              <a-descriptions-item
+                                    :label="$t('common.table.source')"
+                              >{{ order.source }}</a-descriptions-item>
+                              <a-descriptions-item
+                                    :label="$t('common.table.schema')"
+                              >{{ order.data_base }}</a-descriptions-item>
+                              <a-descriptions-item
+                                    :label="$t('order.profile.roll')"
+                              >{{ order.backup ? $t('common.yes') : $t('common.no') }}</a-descriptions-item>
+                              <a-descriptions-item
+                                    :label="$t('order.profile.timing')"
+                              >{{ order.delay }}</a-descriptions-item>
+                              <a-descriptions-item :label="$t('order.profile.auditor')">
                                     <template v-for="i in order.assigned.split(',')" :key="i">
                                           <a-tag v-if="i !== '提交人'" color="#408B9B">{{ i }}</a-tag>
                                     </template>
@@ -45,14 +66,18 @@
             </a-row>
       </a-page-header>
       <a-tabs>
-            <a-tab-pane key="1" tab="详情">
-                  <a-card title="流程信息" size="small">
+            <a-tab-pane key="1" :tab="$t('order.profile.profile')">
+                  <a-card :title="$t('order.profile.flow')" size="small">
                         <Step :current="order.current_step" :step="orderProfileArch.timeline"></Step>
                   </a-card>
                   <br />
                   <a-row :gutter="24">
                         <a-col :xs="24" :sm="5">
-                              <a-card style="height: 500px;" title="进度信息" size="small">
+                              <a-card
+                                    style="height: 500px;"
+                                    :title="$t('order.profile.progress')"
+                                    size="small"
+                              >
                                     <a-timeline
                                           :pending="order.current_step === orderProfileArch.timeline.length ? false : 'Recording...'"
                                     >
@@ -64,8 +89,8 @@
                                     </a-timeline>
                               </a-card>
                               <br />
-                              <a-alert message="功能信息" type="info" show-icon>
-                                    <template #description>1.在编辑框内右键可进行SQL检测与SQL美化功能</template>
+                              <a-alert message="Info" type="info" show-icon>
+                                    <template #description>{{ $t('order.profile.tips') }}</template>
                               </a-alert>
                         </a-col>
                         <a-col :xs="24" :sm="19">
@@ -88,11 +113,11 @@
                   </a-row>
             </a-tab-pane>
 
-            <a-tab-pane key="2" tab="评论">
+            <a-tab-pane key="2" :tab="$t('order.profile.comment')">
                   <Comment :work_id="order.work_id"></Comment>
             </a-tab-pane>
 
-            <a-tab-pane key="3" tab="执行结果">
+            <a-tab-pane key="3" :tab="$t('order.profile.results')">
                   <Results :work_id="order.work_id"></Results>
             </a-tab-pane>
 
@@ -104,7 +129,6 @@
 <script lang="ts"  setup>
 import RejectModal from "./rejectModal.vue";
 import Editor from "@/components/editor/editor.vue";
-import JunoMixin from '@/mixins/juno'
 import Comment from "./comment.vue";
 import Results from "./results.vue";
 import Step from '@/components/steps/steps.vue'
@@ -120,6 +144,10 @@ import { Request, SQLTestParams } from "@/apis/orderPostApis";
 import { SQLTesting } from "@/types";
 import { useRoute } from "vue-router";
 import { Timeline } from "@/apis/fetchSchema";
+import { useI18n } from 'vue-i18n';
+import JunoMixin from '@/mixins/juno'
+
+const { t } = useI18n()
 
 interface stepUsege {
       action: string

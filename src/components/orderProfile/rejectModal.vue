@@ -1,5 +1,5 @@
 <template>
-      <a-modal v-model:visible="is_open" title="驳回理由" @ok="postReject">
+      <a-modal v-model:visible="is_open" :title="$t('order.profile.reject.title')" @ok="postReject">
             <a-textarea :rows="5" v-model:value="content"></a-textarea>
       </a-modal>
 </template>

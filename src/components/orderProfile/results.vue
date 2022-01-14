@@ -1,15 +1,28 @@
 <template>
       <a-form layout="inline">
             <a-form-item>
-                  <a-button @click="submit">提交回滚工单</a-button>
+                  <a-space>
+                        <a-popconfirm
+                              :title="$t('order.profile.results.roll.tips')"
+                              @confirm="submit"
+                        >
+                              <a-button>{{ $t("order.profile.results.commit.rollback") }}</a-button>
+                        </a-popconfirm>
+                        <a-popconfirm
+                              :title="$t('order.profile.results.recommit.tips')"
+                              @confirm="recommit"
+                        >
+                              <a-button>{{ $t("order.profile.results.commit.recommit") }}</a-button>
+                        </a-popconfirm>
+                  </a-space>
             </a-form-item>
       </a-form>
       <br />
       <a-collapse v-model:activeKey="activeKey" accordion>
-            <a-collapse-panel key="1" header="执行结果">
+            <a-collapse-panel key="1" :header="$t('order.profile.results.result')">
                   <Table :col="col" :t-data="tData" @change="currentPage"></Table>
             </a-collapse-panel>
-            <a-collapse-panel key="2" header="回滚语句">
+            <a-collapse-panel key="2" :header="$t('order.profile.results.roll')">
                   <Table :col="rolling" :t-data="rollingData" @change="currentRolling"></Table>
             </a-collapse-panel>
       </a-collapse>
@@ -23,7 +36,9 @@ import { Res } from "@/config/request"
 import Table from "./table.vue"
 import { useStore } from "@/store"
 import { useRouter } from "vue-router"
-import { EventBus } from "@/lib"
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const props = defineProps<{
       work_id: string
@@ -35,26 +50,26 @@ const request = new Request
 
 const col = [
       {
-            title: "SQL语句",
+            title: t('common.table.sql'),
             dataIndex: "sql"
       },
       {
-            title: "执行结果",
+            title: t('common.table.result'),
             dataIndex: "state"
       },
       {
-            title: "执行行数",
+            title: t('common.table.rows'),
             dataIndex: "affect_row"
       },
       {
-            title: "执行时间",
+            title: t('common.table.time'),
             dataIndex: "time"
       }
 ]
 
 const rolling = [
       {
-            title: "SQL语句",
+            title: t('common.table.sql'),
             dataIndex: "sql"
       },
 ]
@@ -63,7 +78,7 @@ const router = useRouter()
 
 const store = useStore()
 
-const tData = ref([])
+const tData = ref<any[]>([])
 
 const rollingData = ref<any[]>([])
 
@@ -83,6 +98,20 @@ const submit = () => {
       const warpper = Object.assign({}, store.state.order.order)
       warpper.sql = rollingData.value.map(item => item.sql).join("\n")
       request.Post(warpper as any).finally(() => router.go(-1))
+}
+
+const recommit = () => {
+      router.push({
+            name: "apply/order",
+            query: {
+                  type: store.state.order.order.type,
+                  idc: store.state.order.order.idc,
+                  source: store.state.order.order.source,
+                  source_id: store.state.order.order.source_id,
+                  remark: 'true'
+            }
+      })
+      store.commit("order/ORDER_SET_SQL", tData.value.map(item => item.sql).join("\n"))
 }
 
 onMounted(() => {
