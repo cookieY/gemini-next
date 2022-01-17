@@ -1,5 +1,7 @@
 <template>
-      <order-table-search></order-table-search>
+      <order-table-search
+            @search="(exp) => { expr.find = exp; currentPage(route.params.tp === 'audit') }"
+      ></order-table-search>
       <a-table :columns="col" :dataSource="tData" :pagination="false" rowKey="work_id" bordered>
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'type'">
@@ -26,7 +28,7 @@
             :page-size.sync="pagination.pageSize"
             :show-total="total => $t('common.count', { 'count': total })"
             v-model:current="expr.page"
-            @change="currentPage"
+            @change="currentPage(route.params.tp === 'audit')"
       />
 </template>
 

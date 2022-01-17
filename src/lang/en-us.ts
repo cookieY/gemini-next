@@ -4,6 +4,7 @@ import menu from "@/lang/en-us/menu"
 import autoTask from "./en-us/autoTask";
 import order from "./en-us/order";
 import antdEnUS from 'ant-design-vue/es/locale/en_US';
+import user from "@/lang/en-us/user"
 
 
 const components = {
@@ -17,5 +18,6 @@ export default {
       ...common,
       ...menu,
       ...autoTask,
-      ...order
+      ...order,
+      ...user
 }

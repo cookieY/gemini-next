@@ -12,10 +12,20 @@
                   <ConsoleSqlOutlined />
                   <span>{{ $t('menu.order.apply') }}</span>
             </a-menu-item>
-            <a-menu-item key="/server/order/audit/list">
-                  <AuditOutlined />
-                  <span>{{ $t('menu.order.audit') }}</span>
-            </a-menu-item>
+            <a-sub-menu :title="$t('menu.order.title')">
+                  <template #icon>
+                        <AuditOutlined />
+                  </template>
+                  <a-menu-item key="/server/order/audit/list">
+                        <function-outlined />
+                        <span>{{ $t('menu.order.order') }}</span>
+                  </a-menu-item>
+                  <a-menu-item key="/server/query/list">
+                        <MonitorOutlined />
+                        <span>{{ $t('menu.order.query') }}</span>
+                  </a-menu-item>
+            </a-sub-menu>
+
             <a-sub-menu :title="$t('menu.manage')">
                   <template #icon>
                         <CloudSyncOutlined />
@@ -56,7 +66,7 @@
       </a-menu>
 </template>
 <script lang="ts"  setup>
-import { HomeOutlined, LogoutOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
+import { HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';

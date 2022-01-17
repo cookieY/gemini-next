@@ -2,53 +2,40 @@
       <div class="table-page-search-wrapper">
             <a-form>
                   <a-row :gutter="12">
-                        <a-col :sm="8" :xs="24">
-                              <a-form-item :label="$t('common.table.state')">
-                                    <a-select v-model:value="expr.status">
-                                          <a-select-option :value="7">{{ $t('order.state.all') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.WAIT"
-                                          >{{ $t('order.state.wait') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.PROCESS"
-                                          >{{ $t('order.state.process') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.AUDIT"
-                                          >{{ $t('order.state.audit') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.SUCCESS"
-                                          >{{ $t('order.state.success') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.REJECT"
-                                          >{{ $t('order.state.reject') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.ERROR"
-                                          >{{ $t('order.state.error') }}</a-select-option>
-                                    </a-select>
+                        <a-col :xs="24" :sm="8">
+                              <a-form-item :label="$t('order.query.table.work_id')">
+                                    <a-input v-model:value="expr.work_id"></a-input>
                               </a-form-item>
                         </a-col>
                         <a-col :xs="24" :sm="8">
-                              <a-form-item :label="$t('common.table.type')">
-                                    <a-select v-model:value="expr.type">
-                                          <a-select-option :value="2">{{ $t('order.state.all') }}</a-select-option>
-                                          <a-select-option :value="0">DDL</a-select-option>
-                                          <a-select-option :value="1">DML</a-select-option>
-                                    </a-select>
+                              <a-form-item :label="$t('order.query.table.username')">
+                                    <a-input v-model:value="expr.username"></a-input>
                               </a-form-item>
                         </a-col>
                         <template v-if="advanced">
-                              <a-col :sm="8" :xs="24">
-                                    <a-form-item :label="$t('common.table.post.user')">
-                                          <a-input v-model:value="expr.user"></a-input>
+                              <a-col :xs="24" :sm="8">
+                                    <a-form-item :label="$t('order.query.table.status')">
+                                          <a-select v-model:value="expr.status">
+                                                <a-select-option value="all">{{ $t('common.all') }}</a-select-option>
+                                                <a-select-option
+                                                      value="super"
+                                                >{{ $t('common.super') }}</a-select-option>
+                                                <a-select-option
+                                                      value="guest"
+                                                >{{ $t('user.role.guest') }}</a-select-option>
+                                                <a-select-option
+                                                      value="admin"
+                                                >{{ $t('user.role.auditor') }}</a-select-option>
+                                          </a-select>
                                     </a-form-item>
                               </a-col>
                               <a-col :xs="24" :sm="8">
-                                    <a-form-item :label="$t('common.table.remark')">
-                                          <a-input v-model:value="expr.text"></a-input>
+                                    <a-form-item :label="$t('order.query.table.real_name')">
+                                          <a-input v-model:value="expr.real_name"></a-input>
                                     </a-form-item>
                               </a-col>
                               <a-col :xs="24" :sm="8">
-                                    <a-form-item :label="$t('common.table.post.time')">
+                                    <a-form-item :label="$t('order.query.table.time')">
                                           <a-range-picker
                                                 v-model:value="picker"
                                                 :ranges="{ 'This week': [dayjs().startOf('week'), dayjs().endOf('week')], 'This month': [dayjs().startOf('month'), dayjs().endOf('month')] }"
@@ -80,28 +67,32 @@
       </div>
 </template>
 
-<script lang="ts"  setup>
-import { ref, UnwrapRef, reactive } from "@vue/runtime-core";
-import dayjs, { Dayjs } from 'dayjs';
-import { OrderExpr } from "@/apis/orderPostApis"
-import { OrderState } from "@/types"
+<script lang="ts" setup>
+import { QueryExpr } from '@/apis/query';
+import { reactive, ref, unref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { onMounted } from "vue";
+import dayjs, { Dayjs } from 'dayjs';
+import exp from 'constants';
 
 const { t } = useI18n()
+
+const emit = defineEmits(['search'])
+
+
+let expr = ref<QueryExpr>({
+      username: "",
+      status: 0,
+      work_id: "",
+      export: 0,
+      real_name: "",
+      picker: [] as string[]
+})
+
+const initExpr = Object.assign({}, expr.value)
 
 const advanced = ref(false)
 
 const picker = ref<Dayjs[]>([])
-
-const expr = ref<OrderExpr>({
-      status: 7,
-      type: 2
-})
-
-let initexpr = {}
-
-const emit = defineEmits(['search'])
 
 const onPicker = () => {
       const dateString = [] as string[]
@@ -111,8 +102,9 @@ const onPicker = () => {
       expr.value.picker = dateString
 }
 
-const toggleAdvanced = () => {
-      advanced.value = !advanced.value
+const cancel = () => {
+      expr.value = Object.assign({}, initExpr)
+      emit('search', unref(initExpr))
 }
 
 const search = () => {
@@ -120,16 +112,12 @@ const search = () => {
       emit('search', expr.value)
 }
 
-const cancel = () => {
-      expr.value = Object.assign({}, initexpr)
-      emit('search', expr.value)
+const toggleAdvanced = () => {
+      advanced.value = !advanced.value
 }
 
-onMounted(() => {
-      initexpr = Object.assign({}, expr.value)
-})
-
 </script>
+
 
 <style lang="less" scoped>
 .table-page-search-wrapper {

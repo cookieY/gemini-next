@@ -80,6 +80,13 @@ const router = createRouter({
                                           component: () => import('@/views/common/auditLayout.vue'),
                                     },
                                     {
+                                          path: '/server/query/list',
+                                          meta: {
+                                                title: '查询审核'
+                                          },
+                                          component: () => import('@/views/server/query/list.vue'),
+                                    },
+                                    {
                                           path: '/server/order/:tp/list',
                                           meta: {
                                                 title: '工单列表'

@@ -1,14 +1,19 @@
 <template>
-      <a-modal v-model:visible="is_open" title="用户权限" @ok="editUserGroups" :width="800">
+      <a-modal
+            v-model:visible="is_open"
+            :title="$t('user.policy')"
+            @ok="editUserGroups"
+            :width="800"
+      >
             <a-form layout="vertical">
-                  <a-form-item label="用户名">
+                  <a-form-item :label="$t('user.form.user')">
                         <span>{{ user }}</span>
                   </a-form-item>
-                  <a-form-item label="权限组" v-show="props.isManager">
+                  <a-form-item :label="$t('common.policy')" v-show="props.isManager">
                         <a-transfer
                               :rowKey="record => record.group_id"
                               :render="item => `${item.name}`"
-                              :titles="[' 全部', ' 已选']"
+                              :titles="[' ' + $t('common.all'), ' ' + $t('common.selected')]"
                               :data-source="rules.groups"
                               v-model:target-keys="rules.own"
                               :list-style="{
@@ -36,6 +41,9 @@ import CommonMixins from "@/mixins/common"
 import { ref } from "vue"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const props = defineProps<{
       isManager: boolean,

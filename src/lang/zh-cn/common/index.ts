@@ -1,4 +1,6 @@
 export default {
+      "common.password": "更改密码",
+      "common.policy": "权限",
       "common.action": "操作",
       "common.save": "保存",
       "common.delete": "删除",
@@ -14,6 +16,10 @@ export default {
       "common.pick": "收起",
       "common.unfold": "展开",
       "common.commit": "提交",
+      "common.all": "全部",
+      "common.super": "超级管理员",
+      "common.selected": "已选",
+      "common.leave": "确认离开当前页面吗？未保存的数据将会丢失",
 
 
       "common.table.name": "名称",

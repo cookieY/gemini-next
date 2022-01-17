@@ -33,41 +33,41 @@ export default function () {
 
       const tableArch = [
             {
-                  title: '字段名',
+                  title: t('order.table.field'),
                   dataIndex: 'field'
             },
             {
-                  title: '字段类型',
+                  title: t('order.table.type'),
                   dataIndex: 'type',
             },
             {
-                  title: '字段是否为空',
+                  title: t('order.table.isnull'),
                   dataIndex: 'null',
             },
             {
-                  title: '默认值',
+                  title: t('order.table.default'),
                   dataIndex: 'default',
             },
             {
-                  title: '备注',
+                  title: t('order.table.extra'),
                   dataIndex: 'comment'
             }
       ]
 
       const indexArch = [
             {
-                  title: '索引名称',
+                  title: t('order.table.index'),
                   dataIndex: 'IndexName'
             },
             {
-                  title: '是否唯一',
+                  title: t('order.table.isunique'),
                   dataIndex: 'NonUnique',
                   slots: {
                         customRender: 'NonUnique'
                   }
             },
             {
-                  title: '字段名',
+                  title: t('order.table.field'),
                   dataIndex: 'ColumnName'
             }
       ];

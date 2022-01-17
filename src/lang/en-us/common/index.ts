@@ -1,4 +1,6 @@
 export default {
+      "common.password": "Password",
+      "common.policy": "Policy",
       "common.action": "Action",
       "common.save": "Save",
       "common.delete": "Delete",
@@ -11,9 +13,13 @@ export default {
       "common.profile": "profile",
       "common.search": "Search",
       "common.cancel": "Cancel",
-      "common.pick": "Pack up",
+      "common.pick": "Collapse",
       "common.unfold": "Unfold",
       "common.commit": "Commit",
+      "common.all": "All",
+      "common.super": "Super",
+      "common.selected": "Selected",
+      "common.leave": "Are you sure to leave the current page? Unsaved data will be lost",
 
       "common.table.name": "Name",
       "common.table.type": "Type",

@@ -1,5 +1,5 @@
 <template>
-      <PageHeader title="工单申请填写" subTitle="填写提交信息并对SQL进行检测"></PageHeader>
+      <PageHeader :title="$t('order.apply.commit.title')" :subTitle="$t('order.apply.commit.desc')"></PageHeader>
       <a-steps type="navigation" size="small">
             <a-step
                   v-for="i in orderProfileArch.timeline"
@@ -7,7 +7,9 @@
                   :sub-title="checkStepState(i.type)"
                   status="process"
             >
-                  <template v-slot:description>操作人: {{ i.auditor.join(' ') }}</template>
+                  <template
+                        v-slot:description
+                  >{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</template>
             </a-step>
       </a-steps>
       <br />
@@ -24,7 +26,7 @@
                               <a-form-item :label="$t('common.table.source')">
                                     <span>{{ orderItems.source }}</span>
                               </a-form-item>
-                              <a-form-item :label="$t('common.table.schema')">
+                              <a-form-item :label="$t('common.table.schema')" name="data_base">
                                     <a-select
                                           v-model:value="orderItems.data_base"
                                           @change="fetchTable"
@@ -126,8 +128,8 @@
 <script lang="ts" setup>
 import Editor from '@/components/editor/editor.vue';
 import JunoMixin from '@/mixins/juno'
-import { onMounted, ref } from '@vue/runtime-core';
-import { useRoute } from 'vue-router';
+import { onMounted, ref, onUnmounted } from '@vue/runtime-core';
+import { useRoute, onBeforeRouteLeave } from 'vue-router';
 import { OrderItem, SQLTesting } from "@/types"
 import FetchMixins from '@/mixins/fetch'
 import PageHeader from "@/components/pageHeader/pageHeader.vue"
@@ -142,6 +144,10 @@ import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import CommonMixins from "@/mixins/common"
 import router from '@/router';
 import { store } from '@/store';
+import { Modal } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const layout = {
       labelCol: { span: 7 },
@@ -247,16 +253,38 @@ onMounted(() => {
       orderItems.idc = route.query.idc as string
       orderItems.source = route.query.source as string
       orderItems.source_id = route.query.source_id as string
+
       fetchRequest.Schema(orderItems.source_id, "", true).then((res: AxiosResponse<Res<DBRelated>>) => {
             orderProfileArch.db = res.data.payload.results
             editor.value.RunEditor(res.data.payload.highlight)
       })
-
       fetchRequest.TimeLine(orderItems.source_id).then((res: AxiosResponse<Res<Timeline[]>>) => {
             res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload
 
       })
-      route.query.remark === 'true' ? editor.value.ChangeEditorText(store.state.order.sql) : null
+
+      route.query.remark === 'true' ? editor.value.ChangeEditorText(store.state.common.sql) : null
+
+      window.onbeforeunload = function () {
+            return t('common.leave')
+      }
+})
+
+onBeforeRouteLeave((to, from, next) => {
+      Modal.warn({
+            content: t('common.leave'),
+            onOk: () => {
+                  next()
+            },
+            onCancel: () => {
+                  router.go(1)
+            },
+            okCancel: true
+      })
+})
+
+onUnmounted(() => {
+      window.onbeforeunload = null;
 })
 
 

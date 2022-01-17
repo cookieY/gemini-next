@@ -17,7 +17,7 @@ export default {
       "order.profile.results.commit.recommit": "Recommit",
       "order.profile.results.roll.tips": "Are you sure commit rollback order ?",
       "order.profile.results.recommit.tips": "Are you sure recommit order ?",
-      "order.profile.reject.title": "Reject reason",
+      "order.profile.reject.title": "Reject info",
       "order.profile.comment.add": "Add comment",
 
       "order.apply.title": "Apply",
@@ -35,6 +35,9 @@ export default {
       "order.apply.tab.table": "Table structure",
       "order.apply.tab.index": "Index structure",
 
+      "order.apply.commit.title": "Fill in",
+      "order.apply.commit.desc": "Fill in the submission information and test the SQL",
+
       "order.state.all": "All",
       "order.state.success": "Done",
       "order.state.reject": "Rejected",
@@ -43,7 +46,25 @@ export default {
       "order.state.audit": "Audit",
       "order.state.error": "Error",
 
+      "order.table.field": "Field",
+      "order.table.type": "Type",
+      "order.table.isnull": "IsNull",
+      "order.table.default": "Default",
+      "order.table.extra": "Extra",
+      "order.table.index": "IndexName",
+      "order.table.isunique": "Unique",
+
       "order.agree": "Agree",
       "order.reject": "Rejected",
+
+      "order.query.title": "Query Audit",
+      "order.query.desc": "Enquiry application approval",
+
+      "order.query.table.work_id": "Work Id",
+      "order.query.table.username": "Username",
+      "order.query.table.real_name": "RealName",
+      "order.query.table.time": "Time",
+      "order.query.table.export": "Is Export",
+      "order.query.table.status": "Status",
 
 }

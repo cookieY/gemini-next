@@ -13,7 +13,7 @@ const messages = {
 }
 
 
-export let defaultLang = 'en-US'
+export let defaultLang = 'zh-CN'
 
 
 const i18n = createI18n({

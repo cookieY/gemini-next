@@ -5,7 +5,6 @@ import { OrderTableData } from "@/types"
 export interface orderStore {
       order: OrderTableData
       enabled: boolean
-      sql: string
 }
 
 export const order: Module<orderStore, RootStore> = {
@@ -13,7 +12,6 @@ export const order: Module<orderStore, RootStore> = {
       state: {
             order: {} as OrderTableData,
             enabled: true,
-            sql: ""
       },
       mutations: {
             ORDER_STORE (state, vl: OrderTableData) {
@@ -21,9 +19,6 @@ export const order: Module<orderStore, RootStore> = {
             },
             IS_ENABLED (state, vl: boolean) {
                   state.enabled = vl
-            },
-            ORDER_SET_SQL (state, vl) {
-                  state.sql = vl
             }
       }
 }

@@ -14,6 +14,7 @@ export default {
       "order.profile.results.result": "执行结果",
       "order.profile.results.roll": "回滚语句",
       "order.profile.results.commit.rollback": "提交回滚语句",
+      "order.profile.results.commit.recommit": "重新提交",
       "order.profile.results.roll.tips": "确定提交回滚语句 ?",
       "order.profile.results.recommit.tips": "确定重新提交工单 ?",
       "order.profile.reject.title": "驳回理由",
@@ -24,8 +25,8 @@ export default {
       "order.apply.ddl.desc": "可申请的DDL数据源",
       "order.apply.dml.desc": "可申请的DML数据源",
       "order.apply.query.desc": "可申请的查询数据源",
-      "order.apply.ddl.tab": "表结构修改",
-      "order.apply.dml.tab": "表数据修改",
+      "order.apply.ddl.tab": "DDL",
+      "order.apply.dml.tab": "DML",
       "order.apply.query.tab": "查询",
       "order.apply.card.env": "所属环境: {env}",
       "order.apply.card.enter": "进入申请页面",
@@ -34,16 +35,36 @@ export default {
       "order.apply.tab.table": "表结构详情",
       "order.apply.tab.index": "索引详情",
 
+      "order.apply.commit.title": "工单填写",
+      "order.apply.commit.desc": "填写提交信息并对SQL进行检测",
+
 
       "order.state.all": "全部",
-      "order.state.success": "执行成功",
+      "order.state.success": "完成",
       "order.state.reject": "已驳回",
       "order.state.wait": "待执行",
       "order.state.process": "执行中",
-      "order.state.audit": "已驳回",
-      "order.state.error": "执行失败",
+      "order.state.audit": "审核中",
+      "order.state.error": "失败",
+
+      "order.table.field": "字段",
+      "order.table.type": "字段类型",
+      "order.table.isnull": "字段是否为空",
+      "order.table.default": "默认值",
+      "order.table.extra": "备注",
+      "order.table.index": "索引名称",
+      "order.table.isunique": "是否唯一",
 
 
       "order.agree": "审核通过",
       "order.reject": "驳回该工单",
+
+      "order.query.title": "查询审批",
+      "order.query.desc": "查询申请审批",
+      "order.query.table.work_id": "工单编号",
+      "order.query.table.username": "提交用户",
+      "order.query.table.real_name": "真实姓名",
+      "order.query.table.time": "提交时间",
+      "order.query.table.export": "是否导出",
+      "order.query.table.status": "状态",
 }

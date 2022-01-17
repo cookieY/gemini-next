@@ -17,3 +17,7 @@ export function FetchSourceApis (type: string) {
       })
 }
 
+export class Request {
+
+}
+

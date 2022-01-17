@@ -104,7 +104,7 @@
                   <a-divider orientation="left">{{ $t('setting.adv') }}</a-divider>
                   <a-form v-bind="layout">
                         <a-form-item :label="$t('setting.adv.query.limit')">
-                              <a-input-number v-model:value="config.other.limit"></a-input-number>
+                              <a-input-number v-model:value="config.other.limit" :min="1000"></a-input-number>
                         </a-form-item>
                         <a-form-item :label="$t('setting.adv.env')">
                               <a-tag
@@ -198,7 +198,9 @@ import dayjs, { Dayjs } from 'dayjs';
 import { defaultLang } from '@/lang';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
+const { t } = useI18n({
+
+})
 
 const title = {
       title: t('setting.title'),

@@ -33,7 +33,7 @@ import { Request } from "@/apis/orderPostApis"
 import { onMounted, ref } from "vue"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
-import Table from "./table.vue"
+import Table from "@/components/table/table.vue"
 import { useStore } from "@/store"
 import { useRouter } from "vue-router"
 import { useI18n } from 'vue-i18n';
@@ -111,7 +111,7 @@ const recommit = () => {
                   remark: 'true'
             }
       })
-      store.commit("order/ORDER_SET_SQL", tData.value.map(item => item.sql).join("\n"))
+      store.commit("common/ORDER_SET_SQL", tData.value.map(item => item.sql).join("\n"))
 }
 
 onMounted(() => {

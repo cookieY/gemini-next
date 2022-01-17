@@ -9,24 +9,32 @@
                                     ghost
                                     v-if="!is_edit"
                                     @click="() => is_edit = true"
-                              >编辑</a-button>
+                              >{{ $t('common.edit') }}</a-button>
                               <template v-else>
-                                    <a-button size="small" ghost @click="editUserInfo(record)">保存</a-button>
-                                    <a-button size="small" ghost @click="() => is_edit = false">取消</a-button>
+                                    <a-button
+                                          size="small"
+                                          ghost
+                                          @click="editUserInfo(record)"
+                                    >{{ $t('common.save') }}</a-button>
+                                    <a-button
+                                          size="small"
+                                          ghost
+                                          @click="() => is_edit = false"
+                                    >{{ $t('common.cancel') }}</a-button>
                               </template>
                               <a-button
                                     size="small"
                                     ghost
                                     @click="openPasswordModal(record.username)"
-                              >更改密码</a-button>
+                              >{{ $t('common.password') }}</a-button>
                               <a-button
                                     type="primary"
                                     size="small"
                                     ghost
                                     @click="openRuleModal(record.username)"
-                              >权限</a-button>
+                              >{{ $t('common.policy') }}</a-button>
                               <a-popconfirm
-                                    title="确认要删除该用户吗?"
+                                    :title="$t('user.form.delete.tips')"
                                     @confirm="deleteUser(record.username)"
                               >
                                     <a-button
@@ -35,7 +43,7 @@
                                           ghost
                                           size="small"
                                           v-if="record.username !== 'admin'"
-                                    >删除用户</a-button>
+                                    >{{ $t('common.delete') }}</a-button>
                               </a-popconfirm>
                         </a-space>
                   </template>
@@ -49,8 +57,8 @@
                               v-model:value="record[column.dataIndex]"
                               v-if="is_edit && text !== 'super'"
                         >
-                              <a-select-option value="admin">审核用户</a-select-option>
-                              <a-select-option value="guest">普通用户</a-select-option>
+                              <a-select-option value="admin">{{ $t('user.role.auditor') }}</a-select-option>
+                              <a-select-option value="guest">{{ $t('user.role.guest') }}</a-select-option>
                         </a-select>
                   </template>
             </template>
@@ -59,7 +67,7 @@
       <a-pagination
             :total="pagination.pageCount"
             :page-size.sync="pagination.pageSize"
-            :show-total="(total) => `共 ${total} 个工单`"
+            :show-total="(total) => $t('common.count', { 'count': total })"
             v-model:current="expr.page"
             @change="currentPage"
       />
@@ -78,30 +86,34 @@ import { AxiosResponse } from "axios";
 import { EventBus } from "@/lib";
 import ChangePassword from "@/components/user/changePassword.vue";
 import { RegisterForm, EditInfoApi } from "@/apis/user";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
+
 
 const col = [
       {
-            title: '用户名',
+            title: t('user.form.user'),
             dataIndex: 'username',
       },
       {
-            title: '姓名',
+            title: t('user.form.real_name'),
             dataIndex: 'real_name',
       },
       {
-            title: '部门',
+            title: t('user.form.dept'),
             dataIndex: 'department',
       },
       {
-            title: '角色',
+            title: t('user.form.role'),
             dataIndex: 'rule',
       },
       {
-            title: '邮箱',
+            title: t('user.form.email'),
             dataIndex: 'email',
       },
       {
-            title: '操作',
+            title: t('common.action'),
             dataIndex: 'action',
       },
 ]
@@ -113,9 +125,9 @@ const r = ref()
 const u = ref("")
 
 const coverRule = {
-      admin: "审核用户",
-      guest: "普通用户",
-      super: "超级管理员"
+      admin: t('user.role.auditor'),
+      guest: t('user.role.guest'),
+      super: t('common.super')
 }
 
 const openPasswordModal = (user: string) => {

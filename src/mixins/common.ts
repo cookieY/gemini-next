@@ -33,7 +33,7 @@ export default function () {
       const regExpPassword = async (rule: RuleObject, value: string) => {
             let pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
             if (!pPattern.test(value)) {
-                  return Promise.reject('至少1个大写字母，1个小写字母，1个数字')
+                  return Promise.reject(t('user.form.valid.password'))
             } else {
                   return Promise.resolve();
             }

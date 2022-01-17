@@ -1,18 +1,22 @@
 <template>
       <a-modal
             v-model:visible="is_open"
-            title="修改密码"
+            :title="$t('user.password.title')"
             @ok="handlePassword"
             @cancel="Object.assign(formItem, initItem)"
       >
-            <a-form ref="formRef" :model="formItem" :rules="rules" v-bind="layout">
-                  <a-form-item label="原密码" name="origin" has-feedback>
+            <a-form ref="formRef" :model="formItem" :rules="rules" layout="vertical">
+                  <a-form-item :label="$t('user.password.old')" name="origin" has-feedback>
                         <a-input-password v-model:value="formItem.origin" password></a-input-password>
                   </a-form-item>
-                  <a-form-item label="新密码" name="password" has-feedback>
+                  <a-form-item :label="$t('user.password.new')" name="password" has-feedback>
                         <a-input-password v-model:value="formItem.password"></a-input-password>
                   </a-form-item>
-                  <a-form-item label="确认密码" name="confirm_password" has-feedback>
+                  <a-form-item
+                        :label="$t('user.password.confirm')"
+                        name="confirm_password"
+                        has-feedback
+                  >
                         <a-input-password v-model:value="formItem.confirm_password"></a-input-password>
                   </a-form-item>
             </a-form>

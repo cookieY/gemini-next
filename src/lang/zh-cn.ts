@@ -3,6 +3,7 @@ import common from "@/lang/zh-cn/common"
 import menu from "@/lang/zh-cn/menu"
 import autoTask from "./zh-cn/autoTask";
 import order from "./zh-cn/order";
+import user from "./zh-cn/user";
 import antdZhCN from 'ant-design-vue/es/locale/zh_CN';
 
 
@@ -17,5 +18,6 @@ export default {
       ...common,
       ...menu,
       ...autoTask,
-      ...order
+      ...order,
+      ...user
 }

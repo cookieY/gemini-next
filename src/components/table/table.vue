@@ -1,5 +1,11 @@
 <template>
-      <a-table :columns="col" size="small" :dataSource="tData" :pagination="false"></a-table>
+      <a-table
+            :columns="col"
+            size="small"
+            :dataSource="tData"
+            :pagination="false"
+            :bordered="bordered"
+      ></a-table>
       <br />
       <a-pagination
             :total="page"
@@ -19,7 +25,8 @@ const { t } = useI18n()
 
 const props = defineProps<{
       col: any[],
-      tData: any[]
+      tData: any[],
+      bordered: boolean
 }>()
 
 const page = computed(() => {

@@ -41,7 +41,9 @@
                                     <a-tooltip title="查看审核流程">
                                           <UserSwitchOutlined />
                                     </a-tooltip>
-                                    <a-tooltip :title="$t('order.apply.card.env', { 'env': item.idc })">
+                                    <a-tooltip
+                                          :title="$t('order.apply.card.env', { 'env': item.idc })"
+                                    >
                                           <ShareAltOutlined />
                                     </a-tooltip>
                                     <a-dropdown>
@@ -66,8 +68,10 @@ import { UserSwitchOutlined, EnterOutlined, ShareAltOutlined, CodepenCircleOutli
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { onMounted, ref } from "@vue/runtime-core";
-import { FetchSourceApis, RespFetchSource } from "@/apis/listAppApis"
+import { RespFetchSource } from "@/apis/listAppApis"
+import { Request as Query } from "@/apis/query";
 import { useRouter } from "vue-router"
+import { Request } from "@/apis/fetchSchema";
 
 const props = defineProps<{
       type: string,
@@ -92,6 +96,12 @@ const selected = ref("all")
 
 const emit = defineEmits(['RespIsOk'])
 
+const request = new Request
+
+const query = new Query
+
+const isQuery = ref(false)
+
 let tmpSource = [] as RespFetchSource[]
 
 let source = ref([] as RespFetchSource[])
@@ -101,7 +111,12 @@ let options = ref([] as RespFetchSource[])
 let loading = ref(true)
 
 onMounted(() => {
-      FetchSourceApis(props.type).then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
+
+      if (props.type === 'query') {
+            query.IsQuery().then((res: AxiosResponse<Res<boolean>>) => isQuery.value === res.data.payload)
+      }
+
+      request.Source(props.type).then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
             tmpSource = res.data.payload
             source.value = res.data.payload
             options.value = res.data.payload
@@ -109,6 +124,8 @@ onMounted(() => {
       }).finally(() => {
             loading.value = false
       })
+
+
 })
 
 </script>

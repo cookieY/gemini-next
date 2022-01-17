@@ -27,7 +27,7 @@ export interface SQLAuditOrder {
 export interface OrderExpr {
       type?: number;
       status?: number;
-      desc?: string;
+      text?: string;
       picker?: string[];
       user?: string;
 }
