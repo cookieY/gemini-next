@@ -1,4 +1,4 @@
-import { OrderState } from "@/types"
+import { OrderState, QueryState } from "@/types"
 import { CheckCircleOutlined, SyncOutlined, CloseCircleOutlined } from "@ant-design/icons-vue"
 import mitt from 'mitt'
 
@@ -22,8 +22,23 @@ export const StateUsege = (state: number) => {
                   return { color: "#EA495F", title: t('order.state.error'), icon: CloseCircleOutlined }
             default:
                   return {}
-
       }
 }
+
+export const StateQueryUsege = (state: number) => {
+      switch (state) {
+            case QueryState.AUDIT:
+                  return { color: "#408B9B", title: t('order.state.audit'), icon: SyncOutlined }
+            case QueryState.PROCESS:
+                  return { color: "#408B9B", title: t('order.query.audit.state.process'), icon: SyncOutlined }
+            case QueryState.DONE:
+                  return { color: "#EA495F", title: t('order.query.audit.state.done'), icon: CloseCircleOutlined }
+            case QueryState.REJECT:
+                  return { color: "#EA495F", title: t('order.state.reject'), icon: CloseCircleOutlined }
+            default:
+                  return {}
+      }
+}
+
 
 export const EventBus = mitt()

@@ -69,7 +69,6 @@ import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { onMounted, ref } from "@vue/runtime-core";
 import { RespFetchSource } from "@/apis/listAppApis"
-import { Request as Query } from "@/apis/query";
 import { useRouter } from "vue-router"
 import { Request } from "@/apis/fetchSchema";
 
@@ -98,10 +97,6 @@ const emit = defineEmits(['RespIsOk'])
 
 const request = new Request
 
-const query = new Query
-
-const isQuery = ref(false)
-
 let tmpSource = [] as RespFetchSource[]
 
 let source = ref([] as RespFetchSource[])
@@ -111,11 +106,6 @@ let options = ref([] as RespFetchSource[])
 let loading = ref(true)
 
 onMounted(() => {
-
-      if (props.type === 'query') {
-            query.IsQuery().then((res: AxiosResponse<Res<boolean>>) => isQuery.value === res.data.payload)
-      }
-
       request.Source(props.type).then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
             tmpSource = res.data.payload
             source.value = res.data.payload

@@ -25,6 +25,10 @@ export interface QueryResp {
       export: number
 }
 
+export interface QueryPost {
+      source_id: string
+      text: string
+}
 
 
 export class Request {
@@ -33,6 +37,34 @@ export class Request {
                   method: 'put',
                   url: `${COMMON_URI}/audit/query/list`,
                   data: args
+            })
+      }
+
+      Post (args: QueryPost): AxiosPromise {
+            return request({
+                  method: 'post',
+                  url: `${COMMON_URI}/query/post`,
+                  data: args
+            })
+      }
+
+      Agree (work_id: string): AxiosPromise {
+            return request({
+                  method: 'post',
+                  url: `${COMMON_URI}/audit/query/agreed`,
+                  data: {
+                        work_id: work_id
+                  }
+            })
+      }
+
+      Reject (work_id: string): AxiosPromise {
+            return request({
+                  method: 'post',
+                  url: `${COMMON_URI}/audit/query/reject`,
+                  data: {
+                        work_id: work_id
+                  }
             })
       }
 

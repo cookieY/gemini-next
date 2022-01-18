@@ -60,11 +60,19 @@ export default {
       "order.query.title": "Query Audit",
       "order.query.desc": "Enquiry application approval",
 
+      "order.query.audit.agreed.tips": "Are you sure agree this order?",
+      "order.query.audit.reject.tips": "Are you sure reject this order?",
+      "order.query.audit.state.process": "process",
+      "order.query.audit.state.done": "done",
       "order.query.table.work_id": "Work Id",
       "order.query.table.username": "Username",
       "order.query.table.real_name": "RealName",
       "order.query.table.time": "Time",
       "order.query.table.export": "Is Export",
       "order.query.table.status": "Status",
+      "order.query.audit.source": "Apply source",
+      "order.query.audit.remark": "Remark",
+      "order.query.audit.title": "Warning",
+      "order.query.audit.tips": "1. You must fill in the description <br>2. Estimate the query time based on the query conditions <br>3. All submitted query statements are audited. <br>4. Only query statements are supported, not non-query statements <br>5. The maximum limit has been set. If the limit you enter is greater than the maximum limit configured for the platform, the limit configured for the platform prevails"
 
 }

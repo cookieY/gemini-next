@@ -16,6 +16,14 @@ export enum OrderState {
       WAIT,
 }
 
+export enum QueryState {
+      AUDIT = 1,
+      PROCESS,
+      DONE,
+      REJECT
+
+}
+
 export interface Template {
       auditor: string[]
       type: number

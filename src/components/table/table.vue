@@ -1,14 +1,16 @@
 <template>
       <a-table
             :columns="col"
-            size="small"
+            :size="size"
             :dataSource="tData"
             :pagination="false"
             :bordered="bordered"
-      ></a-table>
+      >
+            <slot></slot>
+      </a-table>
       <br />
       <a-pagination
-            :total="page"
+            :total="pageCount"
             :page-size.sync="pagination.pageSize"
             :show-total="(total) => $t('common.count', { 'count': total })"
             @change="currentPage"
@@ -18,19 +20,18 @@
 <script lang="ts" setup>
 
 import CommonMixins from "@/mixins/common"
-import { computed, defineEmits } from "vue"
-import { useI18n } from 'vue-i18n';
+import { defineEmits } from "vue"
 
-const { t } = useI18n()
-
-const props = defineProps<{
-      col: any[],
-      tData: any[],
+interface propsAttr {
+      col: any[]
+      tData: any[]
       bordered: boolean
-}>()
+      pageCount: number
+      size?: string
+}
 
-const page = computed(() => {
-      return props.tData.length
+const props = withDefaults(defineProps<propsAttr>(), {
+      size: "small"
 })
 
 const emit = defineEmits(["change"])
@@ -41,4 +42,4 @@ const currentPage = (page: number) => {
       emit("change", page)
 }
 
-</script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </script>

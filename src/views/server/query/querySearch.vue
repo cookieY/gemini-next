@@ -16,7 +16,7 @@
                               <a-col :xs="24" :sm="8">
                                     <a-form-item :label="$t('order.query.table.status')">
                                           <a-select v-model:value="expr.status">
-                                                <a-select-option value="all">{{ $t('common.all') }}</a-select-option>
+                                                <a-select-option :value="7">{{ $t('common.all') }}</a-select-option>
                                                 <a-select-option
                                                       value="super"
                                                 >{{ $t('common.super') }}</a-select-option>
@@ -69,19 +69,15 @@
 
 <script lang="ts" setup>
 import { QueryExpr } from '@/apis/query';
-import { reactive, ref, unref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { ref, unref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
-import exp from 'constants';
-
-const { t } = useI18n()
 
 const emit = defineEmits(['search'])
 
 
 let expr = ref<QueryExpr>({
       username: "",
-      status: 0,
+      status: 7,
       work_id: "",
       export: 0,
       real_name: "",

@@ -23,12 +23,16 @@
                         ></ListApp>
                   </a-tab-pane>
             </template>
+            <a-tab-pane :tab="$t('order.apply.query.tab')">
+                  <QueryApp></QueryApp>
+            </a-tab-pane>
       </a-tabs>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import ListApp from "@/components/listApp/listApp.vue";
+import QueryApp from "@/components/listApp/queryApp.vue";
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
@@ -44,7 +48,6 @@ const count = reactive<{ [key: string]: number }>({
 const tags = [
       { title: t('order.apply.dml.tab'), key: "dml", id: 1 },
       { title: t('order.apply.ddl.tab'), key: "ddl", id: 0 },
-      { title: t('order.apply.query.tab'), key: "query", id: 2 }
 ]
 
 </script>

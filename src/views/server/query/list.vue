@@ -1,12 +1,61 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
       <QuerySearch @search="(exp) => { expr.find = exp; currentPage() }"></QuerySearch>
-      <Table :col="col" :t-data="tData" bordered @change="changePage"></Table>
+      <a-table :columns="col" :dataSource="tData" :pagination="false" bordered>
+            <template #bodyCell="{ column, text, record }">
+                  <template v-if="column.dataIndex === 'action'">
+                        <a-space>
+                              <template v-if="record.status === 1">
+                                    <a-popconfirm
+                                          :title="$t('order.query.audit.agreed.tips')"
+                                          @confirm="() => request.Agree(record.work_id)"
+                                    >
+                                          <a-button
+                                                size="small"
+                                                type="primary"
+                                                ghost
+                                          >{{ $t('order.agree') }}</a-button>
+                                    </a-popconfirm>
+                                    <a-popconfirm
+                                          :title="$t('order.query.audit.reject.tips')"
+                                          @confirm="() => request.Reject(record.work_id)"
+                                    >
+                                          <a-button size="small" danger>{{ $t('order.reject') }}</a-button>
+                                    </a-popconfirm>
+                              </template>
+
+                              <a-button size="small">{{ $t('common.profile') }}</a-button>
+                        </a-space>
+                  </template>
+                  <template v-if="column.dataIndex === 'status'">
+                        <a-tag :color="StateQueryUsege(text).color">
+                              <template #icon>
+                                    <component
+                                          :is="StateQueryUsege(text).icon"
+                                          :spin="StateQueryUsege(text).color === '#408B9B'"
+                                    />
+                              </template>
+                              {{ StateQueryUsege(text).title }}
+                        </a-tag>
+                  </template>
+                  <template v-if="column.dataIndex === 'export'">
+                        <span>{{ text === 0 ? $t('common.no') : $t('common.yes') }}</span>
+                  </template>
+            </template>
+      </a-table>
+      <br />
+      <a-pagination
+            :total="pagination.pageCount"
+            :page-size.sync="pagination.pageSize"
+            :show-total="(total) => $t('common.count', { 'count': total })"
+            @change="changePage"
+      />
 </template>
 <script lang="ts"  setup>
-import { QueryExpr, QueryParams, QueryResp, Request } from "@/apis/query";
+import { QueryExpr, QueryParams, Request } from "@/apis/query";
 import PageHeader from "@/components/pageHeader/pageHeader.vue";
-import Table from "@/components/table/table.vue";
+import { StateQueryUsege, StateUsege } from "@/lib"
+import CommonMixins from "@/mixins/common"
 import QuerySearch from "./querySearch.vue";
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
@@ -55,12 +104,14 @@ const title = {
       subTitle: t('order.query.desc')
 }
 
+const { pagination } = CommonMixins()
+
 let expr = reactive<QueryParams>({
       page: 1,
       find: {
             work_id: "",
             username: "",
-            status: 0
+            status: 7
       } as QueryExpr
 })
 
@@ -71,7 +122,10 @@ const changePage = (page: number) => {
 
 
 const currentPage = () => {
-      request.List(expr).then((res: AxiosResponse<Res<any>>) => tData.value = res.data.payload.data)
+      request.List(expr).then((res: AxiosResponse<Res<any>>) => {
+            tData.value = res.data.payload.data
+            pagination.pageCount = res.data.payload.page
+      })
 }
 
 onMounted(() => {
