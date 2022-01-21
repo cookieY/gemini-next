@@ -56,12 +56,14 @@ export default {
 
       "order.agree": "Agree",
       "order.reject": "Rejected",
+      "order.end": "End",
 
       "order.query.title": "Query Audit",
       "order.query.desc": "Enquiry application approval",
 
       "order.query.audit.agreed.tips": "Are you sure agree this order?",
       "order.query.audit.reject.tips": "Are you sure reject this order?",
+      "order.query.audit.end.tips": "Are you sure end of this order?",
       "order.query.audit.state.process": "process",
       "order.query.audit.state.done": "done",
       "order.query.table.work_id": "Work Id",

@@ -20,6 +20,7 @@ export default {
       "common.super": "Super",
       "common.selected": "Selected",
       "common.leave": "Are you sure to leave the current page? Unsaved data will be lost",
+      "common.back": "Back",
 
       "common.table.name": "Name",
       "common.table.type": "Type",

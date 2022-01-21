@@ -58,6 +58,16 @@ export class Request {
             })
       }
 
+      Stop (work_id: string): AxiosPromise {
+            return request({
+                  method: 'post',
+                  url: `${COMMON_URI}/audit/query/stop`,
+                  data: {
+                        work_id: work_id
+                  }
+            })
+      }
+
       Reject (work_id: string): AxiosPromise {
             return request({
                   method: 'post',

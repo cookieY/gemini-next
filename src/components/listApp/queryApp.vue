@@ -1,5 +1,5 @@
 <template>
-      <template v-if="isQuery">
+      <template v-if="!isQuery">
             <a-row type="flex" align="middle">
                   <a-col :span="6" offset="2">
                         <a-alert :message="$t('order.query.audit.title')" type="warning" show-icon>
@@ -42,7 +42,7 @@
 <script lang="ts" setup>
 import { Res } from "@/config/request"
 import { AxiosResponse } from "axios"
-import { onMounted, reactive, ref, UnwrapRef } from "vue"
+import { onMounted, reactive, ref } from "vue"
 import { QueryPost, Request as Query } from "@/apis/query";
 import { Request } from "@/apis/fetchSchema";
 import { RespFetchSource } from "@/apis/listAppApis";
@@ -50,7 +50,7 @@ import ListApp from "./listApp.vue";
 
 const loading = ref(true)
 
-const isQuery = ref(true)
+const isQuery = ref(false)
 
 const request = new Request
 
@@ -68,8 +68,10 @@ const postQuery = () => {
 }
 
 onMounted(() => {
-      query.IsQuery().then((res: AxiosResponse<Res<boolean>>) => isQuery.value = res.data.payload).finally(() => {
-            isQuery.value ? request.Source("query").then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
+      query.IsQuery().then((res: AxiosResponse<Res<any>>) => {
+            isQuery.value = res.data.payload
+      }).finally(() => {
+            !isQuery.value ? request.Source("query").then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
                   options.value = res.data.payload
             }).finally(() => {
                   loading.value = false

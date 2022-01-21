@@ -20,6 +20,7 @@ export default {
       "common.super": "超级管理员",
       "common.selected": "已选",
       "common.leave": "确认离开当前页面吗？未保存的数据将会丢失",
+      "common.back": "返回",
 
 
       "common.table.name": "名称",

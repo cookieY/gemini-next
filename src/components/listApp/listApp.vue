@@ -71,6 +71,7 @@ import { onMounted, ref } from "@vue/runtime-core";
 import { RespFetchSource } from "@/apis/listAppApis"
 import { useRouter } from "vue-router"
 import { Request } from "@/apis/fetchSchema";
+import { nextTick } from "vue";
 
 const props = defineProps<{
       type: string,
@@ -106,16 +107,14 @@ let options = ref([] as RespFetchSource[])
 let loading = ref(true)
 
 onMounted(() => {
-      request.Source(props.type).then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
+      nextTick(() => request.Source(props.type).then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
             tmpSource = res.data.payload
             source.value = res.data.payload
             options.value = res.data.payload
             emit("RespIsOk", res.data.payload.length)
       }).finally(() => {
             loading.value = false
-      })
-
-
+      }))
 })
 
 </script>

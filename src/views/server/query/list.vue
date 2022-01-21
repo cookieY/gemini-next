@@ -8,7 +8,7 @@
                               <template v-if="record.status === 1">
                                     <a-popconfirm
                                           :title="$t('order.query.audit.agreed.tips')"
-                                          @confirm="() => request.Agree(record.work_id)"
+                                          @confirm="() => request.Agree(record.work_id).then(() => currentPage())"
                                     >
                                           <a-button
                                                 size="small"
@@ -18,9 +18,17 @@
                                     </a-popconfirm>
                                     <a-popconfirm
                                           :title="$t('order.query.audit.reject.tips')"
-                                          @confirm="() => request.Reject(record.work_id)"
+                                          @confirm="() => request.Reject(record.work_id).then(() => currentPage())"
                                     >
                                           <a-button size="small" danger>{{ $t('order.reject') }}</a-button>
+                                    </a-popconfirm>
+                              </template>
+                              <template v-if="record.status === 2">
+                                    <a-popconfirm
+                                          :title="$t('order.query.audit.end.tips')"
+                                          @confirm="() => request.Stop(record.work_id).then(() => currentPage())"
+                                    >
+                                          <a-button size="small" danger>{{ $t('order.end') }}</a-button>
                                     </a-popconfirm>
                               </template>
 

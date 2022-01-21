@@ -58,9 +58,11 @@ export default {
 
       "order.agree": "同意",
       "order.reject": "驳回",
+      "order.end": "结束",
 
       "order.query.audit.agreed.tips": "确认同意该查询工单吗?",
       "order.query.audit.reject.tips": "确认驳回该查询工单吗?",
+      "order.query.audit.end.tips": "确认结束该查询工单吗?",
       "order.query.title": "查询审批",
       "order.query.desc": "查询申请审批",
       "order.query.table.work_id": "工单编号",

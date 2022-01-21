@@ -1,5 +1,8 @@
 <template>
-      <a-card>
+      <a-card title="数据列">
+            <template #extra>
+                  <a-button type="link" @click="$router.go(-1)">{{ $t('common.back') }}</a-button>
+            </template>
             <a-input-search
                   v-model:value="searchValue"
                   style="margin-bottom: 8px"
