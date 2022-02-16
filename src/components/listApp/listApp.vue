@@ -71,11 +71,12 @@ import { onMounted, ref } from "@vue/runtime-core";
 import { RespFetchSource } from "@/apis/listAppApis"
 import { useRouter } from "vue-router"
 import { Request } from "@/apis/fetchSchema";
-import { nextTick } from "vue";
+import { Request as Query } from "@/apis/query"
 
 const props = defineProps<{
       type: string,
-      id: number
+      id: number,
+      export: number
 }>()
 
 const router = useRouter()
@@ -94,9 +95,11 @@ const handleChange = (value: string) => {
 
 const selected = ref("all")
 
-const emit = defineEmits(['RespIsOk'])
+const emit = defineEmits(['RespIsOk', 'enter'])
 
 const request = new Request
+
+const query = new Query
 
 let tmpSource = [] as RespFetchSource[]
 
@@ -107,14 +110,15 @@ let options = ref([] as RespFetchSource[])
 let loading = ref(true)
 
 onMounted(() => {
-      nextTick(() => request.Source(props.type).then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
+      request.Source(props.type).then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
             tmpSource = res.data.payload
             source.value = res.data.payload
             options.value = res.data.payload
             emit("RespIsOk", res.data.payload.length)
       }).finally(() => {
             loading.value = false
-      }))
+      })
+
 })
 
 </script>

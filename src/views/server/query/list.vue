@@ -32,7 +32,10 @@
                                     </a-popconfirm>
                               </template>
 
-                              <a-button size="small">{{ $t('common.profile') }}</a-button>
+                              <a-button
+                                    size="small"
+                                    @click="() => $router.push({ path: '/server/order/profile', query: { order: JSON.stringify(record) } })"
+                              >{{ $t('common.profile') }}</a-button>
                         </a-space>
                   </template>
                   <template v-if="column.dataIndex === 'status'">
@@ -62,7 +65,7 @@
 <script lang="ts"  setup>
 import { QueryExpr, QueryParams, Request } from "@/apis/query";
 import PageHeader from "@/components/pageHeader/pageHeader.vue";
-import { StateQueryUsege, StateUsege } from "@/lib"
+import { StateQueryUsege } from "@/lib"
 import CommonMixins from "@/mixins/common"
 import QuerySearch from "./querySearch.vue";
 import { Res } from "@/config/request";

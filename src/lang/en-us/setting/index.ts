@@ -25,6 +25,8 @@ export default {
       "setting.adv.query.limit": "Query maximum limit",
       "setting.adv.query.expire": "Query time",
       "setting.adv.query.mins": "mins",
+      "setting.adv.query.export": "Query Export",
+      "setting.adv.query.register": "Register",
 
       "setting.ldap": "LDAP Settings",
       "setting.ldap.url": "Ldap addr",

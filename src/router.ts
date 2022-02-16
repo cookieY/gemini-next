@@ -68,6 +68,21 @@ const router = createRouter({
                               ]
                         },
                         {
+                              path: '/comptroller',
+                              name: 'comptroller',
+                              component: () => import('@/views/common/subLayout.vue'),
+                              children: [
+                                    {
+                                          path: '/comptroller/order',
+                                          meta: {
+                                                title: '工单审计'
+                                          },
+                                          component: () => import('@/views/record/order.vue'),
+                                    },
+                              ]
+
+                        },
+                        {
                               path: '/server',
                               name: 'server',
                               component: () => import('@/views/common/subLayout.vue'),
@@ -85,6 +100,13 @@ const router = createRouter({
                                                 title: '查询审核'
                                           },
                                           component: () => import('@/views/server/query/list.vue'),
+                                    },
+                                    {
+                                          path: '/server/order/profile',
+                                          meta: {
+                                                title: 'Query - 查询详情'
+                                          },
+                                          component: () => import('@/components/queryProfile/queryProfile.vue'),
                                     },
                                     {
                                           path: '/server/order/:tp/list',

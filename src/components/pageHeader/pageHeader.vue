@@ -5,7 +5,6 @@
 </template>
 <script lang="ts" setup>
 
-import { defineProps } from "@vue/runtime-core";
 
 const props = defineProps<{
       title: string,

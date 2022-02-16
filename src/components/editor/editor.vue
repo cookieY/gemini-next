@@ -76,6 +76,7 @@ const RunEditor = (highlight: { [key: string]: string }[]) => {
                   }
             }
       });
+      model.focus()
 }
 
 const ChangeEditorText = (sql: string) => {

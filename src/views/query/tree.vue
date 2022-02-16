@@ -1,7 +1,10 @@
 <template>
-      <a-card title="数据列">
-            <template #extra>
-                  <a-button type="link" @click="$router.go(-1)">{{ $t('common.back') }}</a-button>
+      <a-card>
+            <template #title>
+                  <a-space>
+                        <ArrowLeftOutlined @click="$router.go(-1)" />
+                        <span>数据列</span>
+                  </a-space>
             </template>
             <a-input-search
                   v-model:value="searchValue"
@@ -58,12 +61,12 @@
 
 <script lang="ts" setup>
 
-import { onMounted, ref, defineEmits, watch } from "vue"
+import { onMounted, ref, watch } from "vue"
 import { Request } from "@/apis/query";
 import { useRoute } from "vue-router";
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
-import { HddOutlined, TableOutlined, CloudOutlined } from "@ant-design/icons-vue";
+import { HddOutlined, TableOutlined, CloudOutlined, ArrowLeftOutlined } from "@ant-design/icons-vue";
 import { useStore } from "@/store";
 import { EventBus } from "@/lib";
 

@@ -75,6 +75,7 @@ export default {
       "order.query.audit.state.done": "查询结束",
       "order.query.audit.source": "申请数据源",
       "order.query.audit.remark": "说明",
+      "order.query.audit.export": "是否导出",
       "order.query.audit.title": "注意事项",
       "order.query.audit.tips": "1.必须填写查询说明<br>2.根据查询条件预估所需的查询时间<br>3.所有提交的查询语句均会进行审计记录<br>4.仅支持查询语句,不可使用非查询语句<br>5.已限制最大limit数，如自己输入的limit数大于平台配置的最大limit数则以平台配置的Limit数为准"
 }

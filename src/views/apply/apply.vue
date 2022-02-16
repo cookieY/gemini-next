@@ -19,6 +19,7 @@
                         <ListApp
                               :type="i.key"
                               :id="i.id"
+                              :export="0"
                               @RespIsOk="(length) => count[i.key] = length"
                         ></ListApp>
                   </a-tab-pane>

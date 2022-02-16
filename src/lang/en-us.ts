@@ -5,6 +5,8 @@ import autoTask from "./en-us/autoTask";
 import order from "./en-us/order";
 import antdEnUS from 'ant-design-vue/es/locale/en_US';
 import user from "@/lang/en-us/user"
+import reocrd from "./en-us/record"
+import query from "./en-us/query";
 
 
 const components = {
@@ -19,5 +21,7 @@ export default {
       ...menu,
       ...autoTask,
       ...order,
-      ...user
+      ...user,
+      ...reocrd,
+      ...query
 }

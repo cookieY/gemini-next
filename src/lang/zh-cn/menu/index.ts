@@ -13,5 +13,8 @@ export default {
       "menu.manage.rule": "审核规则",
       "menu.manage.auto": "自动任务",
       "menu.manage.setting": "设置",
-      "menu.loginout": "退出"
+      "menu.loginout": "退出",
+      "menu.comptroller.order": "工单审计",
+      "menu.comptroller.query": "查询审计",
+      "menu.comptroller": "审计"
 }

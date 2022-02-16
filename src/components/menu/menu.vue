@@ -25,6 +25,19 @@
                         <span>{{ $t('menu.order.query') }}</span>
                   </a-menu-item>
             </a-sub-menu>
+            <!-- <a-sub-menu :title="$t('menu.comptroller')">
+                  <template #icon>
+                        <ZoomInOutlined />
+                  </template>
+                  <a-menu-item key="/comptroller/order">
+                        <IssuesCloseOutlined />
+                        <span>{{ $t('menu.comptroller.order') }}</span>
+                  </a-menu-item>
+                  <a-menu-item key="/comptroller/query">
+                        <CheckCircleOutlined />
+                        <span>{{ $t('menu.comptroller.query') }}</span>
+                  </a-menu-item>
+            </a-sub-menu>-->
 
             <a-sub-menu :title="$t('menu.manage')">
                   <template #icon>
@@ -66,17 +79,13 @@
       </a-menu>
 </template>
 <script lang="ts"  setup>
-import { HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
+import { CheckCircleOutlined, IssuesCloseOutlined, ZoomInOutlined, HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
-
-const props = defineProps<{
-      mode?: string
-}>()
 
 const emit = defineEmits(['close'])
 

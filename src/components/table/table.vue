@@ -20,7 +20,6 @@
 <script lang="ts" setup>
 
 import CommonMixins from "@/mixins/common"
-import { defineEmits } from "vue"
 
 interface propsAttr {
       col: any[]

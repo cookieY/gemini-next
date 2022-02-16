@@ -24,6 +24,8 @@ export default {
       "setting.adv.query.limit": "查询最大Limit限制",
       "setting.adv.query.expire": "查询时限",
       "setting.adv.query.mins": "分",
+      "setting.adv.query.export": "查询导出",
+      "setting.adv.query.register": "开启用户注册",
 
       "setting.ldap": "LDAP设置",
       "setting.ldap.enabled": "Ldap地址",

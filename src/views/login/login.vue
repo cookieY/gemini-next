@@ -1,21 +1,32 @@
 <template>
-      <div class="login_container">
-            <div class="hero">
-                  <a-row type="flex" justify="space-around" align="bottom">
-                        <a-col :span="6" offset="1">
-                              <login-form></login-form>
-                        </a-col>
-                        <a-col :span="12" offset="1">
-                              <img src="../../assets/login/logo.png" style="width:350px" />
-                              <p>{{ subject }}</p>
-                              <a-button type="dashed" ghost @click="openSponsor">赞助</a-button>
-                        </a-col>
+      <div>
+            <div style="margin-left: 2%;">
+                  <a-space>
+                        <span>version 3.0.0</span>
+                        <a-button
+                              type="dashed"
+                              v-if="is_register"
+                              @click="is_open = true"
+                              ghost
+                              size="small"
+                        >用户注册</a-button>
+                  </a-space>
+            </div>
+            <video id="v1" autoplay loop muted>
+                  <source src="../../assets/login/mountain.mp4" type="video/mp4" />
+            </video>
+            <div class="login_container">
+                  <login-form></login-form>
+                  <a-row>
+                        <a-col :span="8"></a-col>
+                        <a-col :span="4"></a-col>
                   </a-row>
             </div>
+
             <div class="footer">
                   <a-row>
                         <a-col :span="24">
-                              <div style="text-align: center;">
+                              <div style="text-align: center">
                                     <a-space size="large">
                                           <a-typography-link
                                                 href="https://yearning.io"
@@ -26,6 +37,10 @@
                                                 <template #title>Q群: 363323798</template>
                                                 社区
                                           </a-tooltip>
+                                          <a-typography-link
+                                                @click="openSponsor"
+                                                style="color: #FFFFFF"
+                                          >赞助</a-typography-link>
                                           <a-typography-link
                                                 href="https://www.gnu.org/licenses/agpl-3.0.en.html"
                                                 target="_blank"
@@ -39,6 +54,10 @@
             </div>
 
             <Sponsor ref="sponsor"></Sponsor>
+
+            <a-modal v-model:visible="is_open" title="用户注册" @ok="signUp" @cancel="resetForm">
+                  <register ref="register" @closeState="() => is_open = false"></register>
+            </a-modal>
       </div>
 </template>
 
@@ -48,30 +67,48 @@ import LoginForm from "@/views/login/login-form.vue";
 import Sponsor from "@/views/common/sponsor.vue";
 import { ref } from "@vue/reactivity";
 import { Copyright } from "@/config/vars";
-const imgUrl = `url(${new URL('../../assets/login/backgroud.jpg', import.meta.url)})`
+import { onMounted } from "vue";
+import { IsRegister } from "@/apis/loginApi";
+import { AxiosResponse } from "axios";
+import { Res } from "@/config/request";
+import CommonMixin from "@/mixins/common";
+import Register from "@/components/user/registerForm.vue";
+// const subject = ` Dream what you want to dream; go where you want to go; be what you want to be,
+//                   because you have only one life and one chance to do all the things you want to do.`
 
-const subject = ` Dream what you want to dream; go where you want to go; be what you want to be,
-                  because you have only one life and one chance to do all the things you want to do.`
-
-
+const is_register = ref(false)
 
 const sponsor = ref()
+
+const register = ref()
+
+const { is_open } = CommonMixin()
 
 const openSponsor = () => {
       sponsor.value.open()
 }
 
+const resetForm = () => {
+      register.value.resetFields()
+}
+
+const signUp = () => {
+      register.value.registered()
+}
+
+onMounted(() => {
+      IsRegister().then((res: AxiosResponse<Res<boolean>>) => {
+            is_register.value = res.data.payload
+      })
+})
+
 </script>
 
 <style scoped>
 .login_container {
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      background-attachment: fixed;
-      background-image: v-bind(imgUrl);
-      width: 100%;
       position: absolute;
-      height: 100%;
+      margin-top: 10%;
+      margin-left: 40%;
 }
 .hero {
       display: flex;
@@ -87,8 +124,26 @@ const openSponsor = () => {
       bottom: 6px;
       height: 40px; /*脚部的高度*/
       clear: both;
-      margin-left: 6rem;
+      margin-left: 2%;
       z-index: 999;
       color: white;
+}
+
+video {
+      position: fixed;
+      right: 0px;
+      bottom: 0px;
+      min-width: 100%;
+      min-height: 100%;
+      height: auto;
+      width: auto;
+
+      z-index: -11;
+}
+source {
+      min-width: 100%;
+      min-height: 100%;
+      height: auto;
+      width: auto;
 }
 </style>

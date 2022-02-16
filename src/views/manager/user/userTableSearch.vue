@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts"  setup>
-import { ref, UnwrapRef, reactive, defineEmits, unref } from "@vue/runtime-core";
+import { ref, UnwrapRef, reactive, unref } from "@vue/runtime-core";
 import { UserExpr } from "@/apis/user";
 
 const advanced = ref(false)

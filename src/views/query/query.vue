@@ -2,11 +2,27 @@
       <a-spin :spinning="spinning">
             <a-row>
                   <a-col :span="5">
+                        <a-space>
+                              <a-button
+                                    size="small"
+                                    @click="() => hide = !hide"
+                                    type="primary"
+                              >{{ $t('common.hide') }}/{{ $t('common.visible') }}</a-button>
+                              <a-button
+                                    size="small"
+                                    @click="m.turnState()"
+                              >{{ $t('common.new') }}{{ $t('common.clip') }}</a-button>
+                        </a-space>
+                  </a-col>
+            </a-row>
+            <br />
+            <a-row>
+                  <a-col :span="hide ? 0 : 5">
                         <Tree @showTableRef="showTableRef"></Tree>
                   </a-col>
-                  <a-col :span="18" :offset="1">
+                  <a-col :span="hide ? 24 : 18" :offset="hide ? 0 : 1">
                         <a-tabs v-model:activeKey="feat">
-                              <a-tab-pane key="edit" tab="查询">
+                              <a-tab-pane key="edit" :tab="$t('query.query')">
                                     <a-tabs
                                           v-model:activeKey="activeKey"
                                           type="editable-card"
@@ -22,12 +38,14 @@
                                           </a-tab-pane>
                                     </a-tabs>
                               </a-tab-pane>
-                              <a-tab-pane key="table" tab="表" forceRender>
+                              <a-tab-pane key="table" :tab="$t('query.table')" forceRender>
                                     <Table ref="tbl" :height="800"></Table>
                               </a-tab-pane>
                         </a-tabs>
                   </a-col>
             </a-row>
+            <Clip></Clip>
+            <Modal ref="m"></Modal>
       </a-spin>
 </template>
 
@@ -35,18 +53,24 @@
 import Tree from "./tree.vue"
 import Input from "./input.vue"
 import Table from "./table.vue"
-import { computed, ref } from "vue"
+import Clip from "./clip.vue"
+import Modal from "./modal.vue"
+import { computed, onMounted, ref } from "vue"
 import { useStore } from "@/store"
 
 const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }])
 
 const activeKey = ref()
 
+const hide = ref(false)
+
 const newTabIndex = ref(1);
 
 const feat = ref("edit")
 
 const tbl = ref()
+
+const m = ref()
 
 const store = useStore()
 
@@ -58,6 +82,10 @@ const onEdit = (targetKey: string, action: string) => {
       } else {
             remove(targetKey);
       }
+}
+
+const paste = () => {
+      console.log('ok')
 }
 
 const showTableRef = (vl: any) => {
@@ -88,5 +116,4 @@ const remove = (targetKey: string) => {
             }
       }
 }
-
 </script>

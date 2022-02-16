@@ -1,82 +1,53 @@
 <template>
-      <template v-if="!isQuery">
-            <a-row type="flex" align="middle">
-                  <a-col :span="6" offset="2">
-                        <a-alert :message="$t('order.query.audit.title')" type="warning" show-icon>
-                              <template #description>
-                                    <div v-html="$t('order.query.audit.tips')"></div>
-                              </template>
-                        </a-alert>
-                  </a-col>
-                  <a-col :span="6" offset="1">
-                        <a-form layout="vertical">
-                              <a-form-item :label="$t('order.query.audit.source')">
-                                    <a-select v-model:value="form.source_id">
-                                          <a-select-option
-                                                v-for="i in options"
-                                                :key="i.source_id"
-                                                :value="i.source_id"
-                                          >{{ i.source }}</a-select-option>
-                                    </a-select>
-                              </a-form-item>
-                              <a-form-item :label="$t('order.query.audit.remark')">
-                                    <a-textarea :rows="5" v-model:value="form.text"></a-textarea>
-                              </a-form-item>
-                              <a-form-item>
-                                    <a-button
-                                          type="primary"
-                                          block
-                                          @click="postQuery"
-                                    >{{ $t('common.commit') }}</a-button>
-                              </a-form-item>
-                        </a-form>
-                  </a-col>
-            </a-row>
-      </template>
-      <template v-else>
-            <ListApp type="query" :id="110"></ListApp>
-      </template>
+      <component :is="com" type="query" :id="110" @enter="clickPage" :isExport="isExport" />
 </template>
 
 
 <script lang="ts" setup>
 import { Res } from "@/config/request"
 import { AxiosResponse } from "axios"
-import { onMounted, reactive, ref } from "vue"
+import { onMounted, ref, shallowRef } from "vue"
 import { QueryPost, Request as Query } from "@/apis/query";
-import { Request } from "@/apis/fetchSchema";
-import { RespFetchSource } from "@/apis/listAppApis";
 import ListApp from "./listApp.vue";
+import QueryBanner from "./queryBanner.vue";
+import QueryOrder from "./queryOrder.vue";
 
-const loading = ref(true)
+const com = shallowRef<any>(QueryBanner)
 
 const isQuery = ref(false)
 
-const request = new Request
-
-const options = ref<any[]>([])
+const isExport = ref<boolean>(false)
 
 const query = new Query
 
-const form = reactive<QueryPost>({
-      source_id: "",
-      text: ""
-})
+const clickPage = () => {
+      if (isQuery.value) {
+            com.value = QueryOrder
+      } else {
+            com.value = ListApp
+            query.Post({
+                  export: isExport ? 1 : 0
+            } as QueryPost)
+      }
+}
 
-const postQuery = () => {
-      query.Post(form)
+const fetchState = () => {
+      query.IsQuery().then((res: AxiosResponse<Res<any>>) => {
+            isQuery.value = res.data.payload.status
+            isExport.value = res.data.payload.export
+      })
 }
 
 onMounted(() => {
-      query.IsQuery().then((res: AxiosResponse<Res<any>>) => {
-            isQuery.value = res.data.payload
-      }).finally(() => {
-            !isQuery.value ? request.Source("query").then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
-                  options.value = res.data.payload
-            }).finally(() => {
-                  loading.value = false
-            }) : null
+      query.QueryStatus().then((res: AxiosResponse<Res<boolean>>) => {
+            !res.data.payload ? com.value = ListApp : fetchState()
       })
 })
 
 </script>
+
+<style scoped>
+.desc p {
+      margin-bottom: 1em;
+}
+</style>

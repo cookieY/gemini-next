@@ -20,7 +20,6 @@
             is-query
             @getValues="getValues"
       ></Editor>
-
       <br />
       <Table ref="tbl" :height="300"></Table>
 </template>
@@ -48,6 +47,10 @@ const schema = ref("")
 const getValues = (vl: string) => {
       tbl.value.runResults(source_id.value, schema.value, vl)
 
+}
+
+const paste = () => {
+      console.log(1231)
 }
 
 onUnmounted(() => {

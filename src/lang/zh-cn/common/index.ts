@@ -21,7 +21,12 @@ export default {
       "common.selected": "已选",
       "common.leave": "确认离开当前页面吗？未保存的数据将会丢失",
       "common.back": "返回",
-
+      "common.enter": "进入",
+      "common.hide": "显示",
+      "common.visible": "隐藏",
+      "common.copy": "复制",
+      "common.clip": "剪贴板",
+      "common.new": "新建",
 
       "common.table.name": "名称",
       "common.table.type": "类型",
@@ -38,6 +43,7 @@ export default {
       "common.table.result": "执行结果",
       "common.table.rows": "执行行数",
       "common.table.time": "执行时间",
+      "common.table.ex_time": "查询耗时",
       "common.table.work_id": "工单编号",
       "common.table.remark": "工单说明",
       "common.table.post.time": "提交时间",

@@ -1,9 +1,11 @@
 <template>
+      <img src="../../assets/login/logo.png" width="350" />
+      <br />
       <a-form :model="loginForm" class="login-title">
             <a-form-item>
                   <a-input
                         v-model:value="loginForm.username"
-                        placeholder="请输入用户名:"
+                        placeholder="用户名:"
                         style=" border-radius: 10px;"
                   />
             </a-form-item>
@@ -11,7 +13,7 @@
                   <a-input
                         v-model:value="loginForm.password"
                         type="password"
-                        placeholder="请输入密码"
+                        placeholder="密码"
                         style="border-radius: 10px;"
                   />
             </a-form-item>
@@ -20,43 +22,20 @@
                         <a-checkbox v-model:checked="loginForm.is_ldap">
                               <span>AD域登录</span>
                         </a-checkbox>
-                        <a-button type="text" v-if="is_register" @click="is_open = true">
-                              <span>用户注册</span>
-                        </a-button>
                   </a-space>
             </a-form-item>
-            <a-button type="primary" block @click="signIn">登录</a-button>
+            <a-button type="dashed" block @click="signIn" ghost>登录</a-button>
       </a-form>
-
-      <a-modal v-model:visible="is_open" title="用户注册" @ok="signUp" @cancel="resetForm">
-            <register ref="register" @closeState="() => is_open = false"></register>
-      </a-modal>
 </template>
 
 <script setup lang="ts">
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
 import { UnwrapRef, reactive, ref, onMounted } from "vue";
-import { IsRegister, LoginApi, LoginFrom } from "@/apis/loginApi";
+import { LoginApi, LoginFrom } from "@/apis/loginApi";
 import { LoginRespPayload } from "@/types"
-import Register from "@/components/user/registerForm.vue";
 import router from "@/router";
-import CommonMixin from "@/mixins/common";
 import { useStore } from "@/store";
-
-const is_register = ref<boolean>(true)
-
-const { is_open } = CommonMixin()
-
-const register = ref()
-
-const signUp = () => {
-      register.value.registered()
-}
-
-const resetForm = () => {
-      register.value.resetFields()
-}
 
 const loginForm: UnwrapRef<LoginFrom> = reactive({
       username: "",
@@ -75,14 +54,6 @@ const signIn = async () => {
             router.replace("/home")
       })
 }
-
-onMounted(() => {
-      IsRegister().then((res: AxiosResponse<Res<boolean>>) => {
-            is_register.value = res.data.payload
-      })
-})
-
-
 </script>
 
 <style scoped>

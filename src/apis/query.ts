@@ -28,6 +28,7 @@ export interface QueryResp {
 export interface QueryPost {
       source_id: string
       text: string
+      export: number
 }
 
 
@@ -93,6 +94,24 @@ export class Request {
             return request({
                   method: 'get',
                   url: `${COMMON_URI}/fetch/is_query`,
+            })
+      }
+
+      QueryStatus (): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/query_status`,
+            })
+      }
+
+      QueryProfile (work_id: string, page: number): AxiosPromise {
+            return request({
+                  method: 'put',
+                  url: `${COMMON_URI}/audit/query/profile`,
+                  data: {
+                        work_id: work_id,
+                        page: page
+                  }
             })
       }
 

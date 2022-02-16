@@ -32,6 +32,8 @@ export interface Other {
       ex_query_time: number
       query_expire: Dayjs[]
       overdue: Dayjs[]
+      export: boolean
+      register: boolean
 }
 
 export interface Settings {

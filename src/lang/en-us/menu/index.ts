@@ -13,5 +13,8 @@ export default {
       "menu.manage.rule": "Rule",
       "menu.manage.auto": "AutoTask",
       "menu.manage.setting": "Settings",
-      "menu.loginout": "LoginOut"
+      "menu.loginout": "LoginOut",
+      "menu.comptroller.order": "Order",
+      "menu.comptroller.query": "Query",
+      "menu.comptroller": "Comptroller"
 }

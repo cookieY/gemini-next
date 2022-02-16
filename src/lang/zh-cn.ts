@@ -5,6 +5,8 @@ import autoTask from "./zh-cn/autoTask";
 import order from "./zh-cn/order";
 import user from "./zh-cn/user";
 import antdZhCN from 'ant-design-vue/es/locale/zh_CN';
+import record from "./zh-cn/record"
+import query from "./zh-cn/query";
 
 
 const components = {
@@ -19,5 +21,7 @@ export default {
       ...menu,
       ...autoTask,
       ...order,
-      ...user
+      ...user,
+      ...record,
+      ...query
 }

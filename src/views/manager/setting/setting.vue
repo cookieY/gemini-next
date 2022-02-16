@@ -126,6 +126,15 @@
                         <a-form-item :label="$t('setting.adv.query.open')">
                               <a-switch v-model:checked="config.other.query"></a-switch>
                         </a-form-item>
+                        <a-form-item :label="$t('setting.adv.query.register')">
+                              <a-switch v-model:checked="config.other.register"></a-switch>
+                        </a-form-item>
+                        <a-form-item :label="$t('setting.adv.query.export')">
+                              <a-radio-group v-model:value="config.other.export" name="radioGroup">
+                                    <a-radio :value="false">{{ $t('common.no') }}</a-radio>
+                                    <a-radio :value="true">{{ $t('common.yes') }}</a-radio>
+                              </a-radio-group>
+                        </a-form-item>
                         <a-form-item :label="$t('setting.adv.query.expire')">
                               <a-input-number v-model:value="config.other.ex_query_time" :min="1"></a-input-number>
                               {{ $t('setting.adv.query.mins') }}
@@ -197,6 +206,7 @@ import { onMounted, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { defaultLang } from '@/lang';
 import { useI18n } from 'vue-i18n';
+import { Request as Query } from '@/apis/query';
 
 const { t } = useI18n({
 
@@ -212,10 +222,14 @@ const { layout } = CommonMixins()
 const config = ref({
       message: {},
       ldap: {},
-      other: {}
+      other: {
+            export: false
+      }
 } as Settings)
 
 const request = new Request
+
+const query = new Query
 
 const dateRanges = defaultLang === 'en-US' ? { "this month": [dayjs().startOf('month'), dayjs().endOf('month')] } : { "本月": [dayjs().startOf('month'), dayjs().endOf('month')] }
 

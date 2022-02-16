@@ -86,3 +86,8 @@ export interface LabelInValue {
       label: string
       value: string
 }
+
+export interface Clip {
+      title: string
+      desc: string
+}
