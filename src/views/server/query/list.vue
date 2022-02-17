@@ -5,24 +5,6 @@
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space>
-                              <template v-if="record.status === 1">
-                                    <a-popconfirm
-                                          :title="$t('order.query.audit.agreed.tips')"
-                                          @confirm="() => request.Agree(record.work_id).then(() => currentPage())"
-                                    >
-                                          <a-button
-                                                size="small"
-                                                type="primary"
-                                                ghost
-                                          >{{ $t('order.agree') }}</a-button>
-                                    </a-popconfirm>
-                                    <a-popconfirm
-                                          :title="$t('order.query.audit.reject.tips')"
-                                          @confirm="() => request.Reject(record.work_id).then(() => currentPage())"
-                                    >
-                                          <a-button size="small" danger>{{ $t('order.reject') }}</a-button>
-                                    </a-popconfirm>
-                              </template>
                               <template v-if="record.status === 2">
                                     <a-popconfirm
                                           :title="$t('order.query.audit.end.tips')"
@@ -34,6 +16,7 @@
 
                               <a-button
                                     size="small"
+                                    type="primary"
                                     @click="() => $router.push({ path: '/server/order/profile', query: { order: JSON.stringify(record) } })"
                               >{{ $t('common.profile') }}</a-button>
                         </a-space>

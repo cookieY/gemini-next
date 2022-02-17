@@ -3,6 +3,21 @@
             :title="$t('order.profile.work_id', { id: order.work_id })"
             @back="() => $router.go(-1)"
       >
+            <template #extra>
+                  <template v-if="order.status === 1">
+                        <a-button
+                              key="2"
+                              danger
+                              ghost
+                              @click="() => query.Reject(order.work_id).then(() => $router.go(-1))"
+                        >{{ $t('order.reject') }}</a-button>
+                        <a-button
+                              key="1"
+                              type="primary"
+                              @click="() => query.Agree(order.work_id).then(() => $router.go(-1))"
+                        >{{ $t('order.agree') }}</a-button>
+                  </template>
+            </template>
             <a-row type="flex" justify="center" align="middle">
                   <a-col :span="16">
                         <a-descriptions :column="2">
@@ -74,6 +89,8 @@ import CommonMixins from '@/mixins/common'
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
 import { StateQueryUsege } from "@/lib"
+import { QueryState } from "@/types"
+
 
 
 interface QueryRef {

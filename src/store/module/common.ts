@@ -1,5 +1,5 @@
 import { Request } from "@/apis/fetchSchema";
-import { FetchFlowApis, RespTPLs } from "@/apis/flow";
+import { Request as Flow, RespTPLs } from "@/apis/flow";
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
 import { Module } from "vuex";
@@ -36,7 +36,8 @@ export const common: Module<commonStore, RootStore> = {
                   request.IDC().then((res: AxiosResponse<Res<string[]>>) => state.idc = res.data.payload).finally(() => state.idc)
             },
             GET_FLOWS (state) {
-                  FetchFlowApis().then((res: AxiosResponse<Res<RespTPLs[]>>) => state.flow = res.data.payload)
+                  const request = new Flow
+                  request.List().then((res: AxiosResponse<Res<RespTPLs[]>>) => state.flow = res.data.payload)
             },
             SET_SOURCE_SCHEMA (state, query) {
                   state.queryInfo = query

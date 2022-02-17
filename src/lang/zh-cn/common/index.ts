@@ -59,4 +59,9 @@ export default {
       "common.step.execute": "执行阶段",
       "common.step.audit": "审核阶段",
       "common.step.commit": "提交阶段",
+
+      "common.bash.self.dml": "我提交的DML工单",
+      "common.bash.self.ddl": "我提交的DDL工单",
+      "common.bash.self.query": "我提交的查询工单",
+      "common.bash.self.audit": "等待我审核的工单",
 }

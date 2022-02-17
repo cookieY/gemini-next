@@ -59,4 +59,9 @@ export default {
       "common.step.execute": "Execution stage",
       "common.step.audit": "Review stage",
       "common.step.commit": "Commit stage",
+
+      "common.bash.self.dml": "My DML work order",
+      "common.bash.self.ddl": "My DDL work order",
+      "common.bash.self.query": "My Query work order",
+      "common.bash.self.audit": "My review Order",
 }

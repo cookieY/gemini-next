@@ -2,7 +2,7 @@
       <div>
             <a-row :gutter="24">
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" title="工单总数" total="10000">
+                        <ChartCard :loading="loading" title="工单总数" :total="banner.order">
                               <template v-slot:action>
                                     <a-tooltip title="3213131">
                                           <InfoCircleOutlined />
@@ -11,15 +11,10 @@
                               <template v-slot:content>
                                     <MiniArea containerId="order" color="#2094F3" />
                               </template>
-
-                              <template v-slot:footer>
-                                    昨日提交数：
-                                    <span>12</span>
-                              </template>
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" title="查询总数" total="10000">
+                        <ChartCard :loading="loading" title="查询总数" :total="banner.query">
                               <template v-slot:action>
                                     <a-tooltip title="3213131">
                                           <InfoCircleOutlined />
@@ -28,15 +23,10 @@
                               <template v-slot:content>
                                     <MiniArea containerId="query" color="#Ff9900" />
                               </template>
-
-                              <template v-slot:footer>
-                                    昨日查询数：
-                                    <span>12</span>
-                              </template>
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" title="数据源" total="10000">
+                        <ChartCard :loading="loading" title="数据源" :total="banner.source">
                               <template v-slot:action>
                                     <a-tooltip title="3213131">
                                           <InfoCircleOutlined />
@@ -45,15 +35,10 @@
                               <template v-slot:content>
                                     <MiniCol container-id="source" color="#009485"></MiniCol>
                               </template>
-
-                              <template v-slot:footer>
-                                    昨日查询数：
-                                    <span>12</span>
-                              </template>
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" title="用户数" total="10000">
+                        <ChartCard :loading="loading" title="用户数" :total="banner.user">
                               <template v-slot:action>
                                     <a-tooltip title="3213131">
                                           <InfoCircleOutlined />
@@ -71,11 +56,6 @@
                                           }"
                                     />
                               </template>
-
-                              <template v-slot:footer>
-                                    昨日查询数：
-                                    <span>12</span>
-                              </template>
                         </ChartCard>
                   </a-col>
             </a-row>
@@ -83,16 +63,28 @@
             <a-card style="text-align: center;">
                   <a-row :gutter="24">
                         <a-col :xs="24" :md="12" :xl="6">
-                              <a-statistic title="我提交工单数" :value="112893" />
+                              <a-statistic
+                                    :title="$t('common.bash.self.dml')"
+                                    :value="banner.self_dml"
+                              />
                         </a-col>
                         <a-col :xs="24" :md="12" :xl="6">
-                              <a-statistic title="我正在审核中工单数" :value="112893" />
+                              <a-statistic
+                                    :title="$t('common.bash.self.ddl')"
+                                    :value="banner.self_ddl"
+                              />
                         </a-col>
                         <a-col :xs="24" :md="12" :xl="6">
-                              <a-statistic title="我的查询总数" :value="112893" />
+                              <a-statistic
+                                    :title="$t('common.bash.self.query')"
+                                    :value="banner.self_query"
+                              />
                         </a-col>
                         <a-col :xs="24" :md="12" :xl="6">
-                              <a-statistic title="等待我审核的工单" :value="112893" />
+                              <a-statistic
+                                    :title="$t('common.bash.self.audit')"
+                                    :value="banner.self_audit"
+                              />
                         </a-col>
                   </a-row>
             </a-card>
@@ -118,8 +110,20 @@ import MiniArea from "@/components/chartCard/miniArea.vue";
 import MiniCol from "@/components/chartCard/miniCol.vue";
 import MiniBar from "@/components/chartCard/miniBar.vue";
 import { InfoCircleOutlined } from '@ant-design/icons-vue';
+import { Request } from "@/apis/dash";
+import { onMounted, ref } from "vue";
+import { AxiosResponse } from "axios";
+import { Res } from "@/config/request";
 
 const loading = false
 
+const request = new Request
+
+const banner = ref<any>([])
+
+
+onMounted(() => {
+      request.Banner().then((res: AxiosResponse<Res<any>>) => banner.value = res.data.payload)
+})
 
 </script>

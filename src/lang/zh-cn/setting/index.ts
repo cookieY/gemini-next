@@ -45,8 +45,8 @@ export default {
 
       "setting.data.clear": "数据清除",
       "setting.data.clear.tips": "你确定要删除工单吗?",
-      "setting.data.clear.order": "删除指定时间内的工单",
-      "setting.data.clear.query": "删除指定时间内的查询工单",
+      "setting.data.clear.order": "指定时间内工单",
+      "setting.data.clear.query": "指定时间内查询工单",
       "setting.data.clear.alert": "1.设置最大Limit数后，所有的查询语句的查询结果都不会超过这个数值。<br><br>2.查询审核开关开启后，所有的查询都必须通过管理员同意才能进行。关闭则可自主查询"
 
 }

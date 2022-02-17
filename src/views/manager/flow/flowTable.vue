@@ -14,7 +14,7 @@
                               >详情</a-button>
                               <a-popconfirm
                                     title="确认要删除该流程吗?"
-                                    @confirm="() => TplDeleteApi(record.id).finally(() => currentPage())"
+                                    @confirm="() => request.Delete(record.id).finally(() => currentPage())"
                               >
                                     <a-button type="primary" size="small" danger ghost>删除</a-button>
                               </a-popconfirm>
@@ -63,7 +63,7 @@ import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
 import { ref, reactive, onMounted } from "vue";
 import { SearchOutlined } from '@ant-design/icons-vue';
-import { FetchFlowApis, RespTPLs, TplDeleteApi } from "@/apis/flow";
+import { Request, RespTPLs } from "@/apis/flow";
 import FlowModel from "./flowModal.vue"
 
 let tData = ref([] as RespTPLs[])
@@ -73,6 +73,8 @@ const searchInput = ref();
 const title = ref("新建流程")
 
 const flow = ref()
+
+const request = new Request
 
 const col = [
       {
@@ -110,7 +112,7 @@ const handleReset = (clearFilters: () => void) => {
 };
 
 const currentPage = () => {
-      FetchFlowApis().then((res: AxiosResponse<Res<RespTPLs[]>>) => tData.value = res.data.payload)
+      request.List().then((res: AxiosResponse<Res<RespTPLs[]>>) => tData.value = res.data.payload)
 }
 
 onMounted(() => {

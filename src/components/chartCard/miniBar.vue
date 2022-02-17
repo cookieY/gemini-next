@@ -3,48 +3,49 @@
 </template>
 
 <script lang="ts"  setup>
-import { onMounted } from "@vue/runtime-core"
+import { onMounted, ref } from "vue"
 import { Chart } from "@antv/g2"
-import dayjs from 'dayjs';
+import { Request } from "@/apis/dash";
+import { AxiosResponse } from "axios";
+import { Res } from "@/config/request";
 
 const props = defineProps<{
       containerId: string,
-      color: string
+      color: string,
 }>()
-
-const Randomdata = () => {
-      let data = [] as { [key: string]: any }[]
-      for (let i = 0; i < 10; i++) {
-            data.push({
-                  x: dayjs(new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * i)).format('YYYY-MM-DD'),
-                  y: Math.round(Math.random() * 5)
-            })
-      }
-      return data
-}
+const request = new Request
 
 onMounted(() => {
-      const chart = new Chart({
-            container: props.containerId,
-            autoFit: true,
-            height: 450
-      });
-      chart.data(Randomdata());
-      chart.axis('x', {
-            title: null,
-            tickLine: null,
-            line: null,
-      });
+      request.Top().then((res: AxiosResponse<Res<any>>) => {
+            const chart = new Chart({
+                  container: props.containerId,
+                  autoFit: true,
+                  height: 450
+            });
+            chart.data(res.data.payload);
+            chart.scale({
+                  value: {
+                        alias: 'SQL执行数',
+                  },
+            });
+            chart.axis('source', {
+                  title: null,
+                  tickLine: null,
+                  line: null,
+            });
 
-      chart.axis('y', false);
-      chart.coordinate().transpose();
-      chart
-            .interval()
-            .position('x*y')
-            .size(26)
-      chart.interaction('element-active');
-      chart.theme({ "styleSheet": { "brandColor": props.color, } })
-      chart.render();
+            chart.axis('count', false);
+            chart.legend(false);
+            chart.coordinate().transpose();
+            chart
+                  .interval()
+                  .position('source*count')
+                  .size(26)
+            chart.interaction('element-active');
+            chart.theme({ "styleSheet": { "brandColor": props.color, } })
+            chart.render();
+      })
+
 })
 
 </script>

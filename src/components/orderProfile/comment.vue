@@ -43,10 +43,11 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Comment, Request } from "@/apis/orderPostApis"
-import { onMounted, ref, nextTick } from 'vue';
+import { onMounted, ref, nextTick, onUnmounted } from 'vue';
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
 import { useI18n } from 'vue-i18n';
+import Socket from "@/socket"
 
 dayjs.extend(relativeTime);
 
@@ -64,6 +65,8 @@ const data = ref<Comment[]>([])
 
 const content = ref("")
 
+let sock: Socket | null = null
+
 const scrollTop = () => {
       let h = document.getElementById("comment") as HTMLElement
       h.scrollTop = h.scrollHeight
@@ -71,21 +74,28 @@ const scrollTop = () => {
 
 const postComment = () => {
       request.CommentPost({ work_id: props.work_id, content: content.value }).then(() => {
-            currentPage()
             content.value = ""
       })
 }
 
-const currentPage = () => {
-      request.CommentList(props.work_id).then((res: AxiosResponse<Res<Comment[]>>) => {
-            data.value = res.data.payload
-            nextTick(() => {
-                  scrollTop()
-            })
+const currentPage = (e: any) => {
+      data.value = JSON.parse(e.detail.data)
+      nextTick(() => {
+            scrollTop()
       })
 }
 
 onMounted(() => {
-      currentPage()
+      window.addEventListener('comment', currentPage)
+      sock = new Socket(`/fetch/comment?work_id=${props.work_id}`, "comment")
+      sock.create()
 })
+
+onUnmounted(() => {
+      window.removeEventListener('comment', currentPage)
+      sock?.send("1")
+      sock?.close()
+
+})
+
 </script>

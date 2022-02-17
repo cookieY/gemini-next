@@ -40,5 +40,8 @@ export const StateQueryUsege = (state: number) => {
       }
 }
 
+interface wsRecv {
+      data: any
+}
 
 export const EventBus = mitt()

@@ -17,6 +17,11 @@
                         <a-switch v-if="record.tp === 0" v-model:checked="engine[record.name]"></a-switch>
                         <a-input-number v-if="record.tp === 1" v-model:value="engine[record.name]"></a-input-number>
                         <a-input v-if="record.tp === 2" v-model:value="engine[record.name]"></a-input>
+                        <a-textarea
+                              v-if="record.tp === 3"
+                              v-model:value="engine[record.name]"
+                              :rows="6"
+                        ></a-textarea>
                   </template>
             </template>
       </a-table>

@@ -247,16 +247,10 @@ const rule: Rule[] = [
             tp: 2
       },
       {
-            name: 'OscSize',
-            desc: '当表体积大于该值且开启pt-osc时,该表DDL语句将使用pt-osc进行变更 单位:M',
+            name: 'OSCExpr',
+            desc: '同步工具参数。如: PT-OSC中的--dry-run 请注意! 此处仅填写参数 不填写例如--host --port --sql等实际操作数据信息',
             type: 'Pt-osc',
-            tp: 1
-      },
-      {
-            name: 'OscChunkSize',
-            desc: '--chunk-time 当需要复制的块大于设置的chunk_size时则不复制',
-            type: 'Pt-osc',
-            tp: 1
+            tp: 3
       },
 ]
 

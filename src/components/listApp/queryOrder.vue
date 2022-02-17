@@ -33,7 +33,11 @@
                               <a-textarea :rows="5" v-model:value="form.text"></a-textarea>
                         </a-form-item>
                         <a-form-item>
-                              <a-button block @click="postQuery">{{ $t('common.commit') }}</a-button>
+                              <a-button
+                                    block
+                                    @click="postQuery"
+                                    :disabled="disabled"
+                              >{{ $t('common.commit') }}</a-button>
                         </a-form-item>
                   </a-form>
             </a-col>
@@ -60,6 +64,8 @@ const form = reactive<QueryPost>({
       export: 0
 })
 
+const disabled = ref(false)
+
 const { t } = useI18n()
 
 const filterOption = (input: string, option: any) => {
@@ -75,7 +81,7 @@ const request = new Request
 const loading = ref(true)
 
 const postQuery = () => {
-      query.Post(form)
+      query.Post(form).finally(() => disabled.value = true)
 }
 
 onMounted(() => {

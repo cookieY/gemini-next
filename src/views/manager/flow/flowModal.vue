@@ -37,7 +37,7 @@
                   <a-col :span="14" :offset="1">
                         <a-steps direction="vertical" progress-dot size="small" :current="0">
                               <a-step
-                                    v-for="(element,idx) in flow.steps"
+                                    v-for="(element, idx) in flow.steps"
                                     :title="`${element.desc} (${element.type !== 0 ? '执行阶段' : '审核阶段'})`"
                                     class="empty"
                               >
@@ -108,8 +108,7 @@
 import CommonMixins from "@/mixins/common"
 import { Step as aStep, Steps as aSteps } from 'ant-design-vue';
 import { onMounted, ref } from "vue"
-import { RespSteps, Steps, TplCreateOrEditApi } from "@/apis/flow"
-import { FetchAuditorGetApis } from "@/apis/common"
+import { RespSteps, Steps, Request } from "@/apis/flow"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { AuditorList } from "@/types"
@@ -131,6 +130,8 @@ const flow = ref({
             }
       ] as Steps[]
 } as RespSteps)
+
+const request = new Request
 
 const step = ref({} as Steps)
 
@@ -179,7 +180,7 @@ const postFlow = () => {
             message.error("最后步骤必须为执行类型！保存失败!")
             return
       }
-      TplCreateOrEditApi(flow.value).then(() => {
+      request.Post(flow.value).then(() => {
             turnState()
             emit('success')
       })
@@ -191,7 +192,7 @@ const editFlow = (vl: RespSteps) => {
 }
 
 onMounted(() => {
-      FetchAuditorGetApis().then((res: AxiosResponse<Res<AuditorList[]>>) => auditor.value = res.data.payload)
+      request.User().then((res: AxiosResponse<Res<AuditorList[]>>) => auditor.value = res.data.payload)
 })
 
 defineExpose({

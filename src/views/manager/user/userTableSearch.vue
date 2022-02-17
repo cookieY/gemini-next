@@ -2,7 +2,7 @@
       <div class="table-page-search-wrapper">
             <a-form>
                   <a-row :gutter="12">
-                        <a-col :sm="8" :xs="24">
+                        <a-col :xs="24" :sm="8">
                               <a-form-item :label="$t('user.form.user')">
                                     <a-input v-model:value="expr.username"></a-input>
                               </a-form-item>
@@ -13,22 +13,6 @@
                               </a-form-item>
                         </a-col>
                         <template v-if="advanced">
-                              <a-col :sm="8" :xs="24">
-                                    <a-form-item :label="$t('user.form.role')">
-                                          <a-select placeholder="请选择" v-model:value="expr.rule">
-                                                <a-select-option value="all">{{ $t('common.all') }}</a-select-option>
-                                                <a-select-option
-                                                      value="super"
-                                                >{{ $t('common.super') }}</a-select-option>
-                                                <a-select-option
-                                                      value="guest"
-                                                >{{ $t('user.role.guest') }}</a-select-option>
-                                                <a-select-option
-                                                      value="admin"
-                                                >{{ $t('user.role.auditor') }}</a-select-option>
-                                          </a-select>
-                                    </a-form-item>
-                              </a-col>
                               <a-col :xs="24" :sm="8">
                                     <a-form-item :label="$t('user.form.real_name')">
                                           <a-input v-model:value="expr.real_name"></a-input>
@@ -40,7 +24,7 @@
                                     </a-form-item>
                               </a-col>
                         </template>
-                        <a-col :xs="24" :sm="8">
+                        <a-col :xs="24" :sm="8" :offset="advanced ? 8 : 0">
                               <span
                                     class="table-page-search-submitButtons"
                                     :style="advanced && { overflow: 'hidden' } || {}"

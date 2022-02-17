@@ -51,16 +51,6 @@
                         <span v-if="!is_edit">{{ text }}</span>
                         <a-input v-model:value="record[column.dataIndex]" v-else></a-input>
                   </template>
-                  <template v-if="column.dataIndex === 'rule'">
-                        <span v-if="!is_edit">{{ coverRule[text] }}</span>
-                        <a-select
-                              v-model:value="record[column.dataIndex]"
-                              v-if="is_edit && text !== 'super'"
-                        >
-                              <a-select-option value="admin">{{ $t('user.role.auditor') }}</a-select-option>
-                              <a-select-option value="guest">{{ $t('user.role.guest') }}</a-select-option>
-                        </a-select>
-                  </template>
             </template>
       </a-table>
       <br />
@@ -103,10 +93,6 @@ const col = [
       {
             title: t('user.form.dept'),
             dataIndex: 'department',
-      },
-      {
-            title: t('user.form.role'),
-            dataIndex: 'rule',
       },
       {
             title: t('user.form.email'),

@@ -12,12 +12,6 @@
             <a-form-item :label="$t('user.form.real_name')" name="real_name" has-feedback>
                   <a-input v-model:value="registerForm.real_name"></a-input>
             </a-form-item>
-            <a-form-item :label="$t('user.form.role')" name="rule" has-feedback>
-                  <a-select v-model:value="registerForm.rule">
-                        <a-select-option value="admin">{{ $t('user.role.auditor') }}</a-select-option>
-                        <a-select-option value="guest">{{ $t('user.role.guest') }}</a-select-option>
-                  </a-select>
-            </a-form-item>
             <a-form-item :label="$t('user.form.dept')" name="department" has-feedback>
                   <a-input v-model:value="registerForm.department"></a-input>
             </a-form-item>
@@ -60,7 +54,6 @@ const registerForm: UnwrapRef<RegisterForm> = reactive({
       email: '',
       real_name: '',
       department: '',
-      rule: ''
 })
 
 const { regExpPassword } = CommonMixins()
@@ -79,7 +72,6 @@ const rules = {
       confirm_password: [{ trigger: 'blur', message: t('user.form.valid.confirm'), required: true }, { required: true, validator: validPassword, trigger: 'blur' }],
       real_name: [{ trigger: 'blur', message: t('user.form.valid.real_name'), required: true }],
       department: [{ trigger: 'blur', message: t('user.form.valid.dept'), required: true }],
-      rule: [{ trigger: 'change', message: t('user.form.valid.role'), required: true }],
       email: [{ type: 'email', message: t('user.form.valid.email'), trigger: 'blur', required: true }],
 
 }

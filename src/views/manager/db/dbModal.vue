@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts" setup>
-import { FetchDBFlowApis } from "@/apis/flow"
+import { Request as Flow } from "@/apis/flow"
 import CommonMixins from "@/mixins/common"
 import { ref, computed } from "vue"
 import { useStore } from '@/store'
@@ -112,6 +112,8 @@ const steps = ref([] as Steps[])
 
 const request = new Request
 
+const flowReq = new Flow
+
 let dbForm = ref(
       {
             idc: "",
@@ -135,7 +137,7 @@ const excludeDB = ref<string[]>([])
 const insulateWord = ref<string[]>([])
 
 const mergeFlow = (vl: number) => {
-      FetchDBFlowApis(vl).then((res: AxiosResponse<Res<RespSteps>>) => steps.value = res.data.payload.steps)
+      flowReq.Profile(vl).then((res: AxiosResponse<Res<RespSteps>>) => steps.value = res.data.payload.steps)
 }
 
 const editDB = () => {
@@ -150,7 +152,7 @@ const fillInfo = (vl: any) => {
       excludeDB.value = dbForm.value.exclude_db_list.split(",")
       insulateWord.value = dbForm.value.insulate_word_list.split(",")
       request.Schema(dbForm.value.source_id, "schema").then((res: AxiosResponse<Res<any>>) => schemaList.value = res.data.payload.results)
-      FetchDBFlowApis(dbForm.value.flow_id).then((res: AxiosResponse<Res<RespSteps>>) => steps.value = res.data.payload.steps)
+      flowReq.Profile(dbForm.value.flow_id).then((res: AxiosResponse<Res<RespSteps>>) => steps.value = res.data.payload.steps)
 }
 
 defineExpose({

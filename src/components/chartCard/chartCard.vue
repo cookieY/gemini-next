@@ -32,7 +32,7 @@
 
 const props = defineProps<{
       title: string
-      total?: string
+      total?: number
       loading?: boolean
 }>()
 
@@ -59,7 +59,7 @@ const props = defineProps<{
       right: 0;
 }
 .chart-card-footer {
-      border-top: 1px solid #e8e8e8;
+      border-top: 0.5px solid #e8e8e8;
       padding-top: 9px;
       margin-top: 8px;
       > * {

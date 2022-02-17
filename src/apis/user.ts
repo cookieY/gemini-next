@@ -8,14 +8,12 @@ export interface UserParams {
 export interface UserExpr {
       dept: string
       username: string
-      rule: string
       real_name: string
       email: string
 }
 
 export interface UserTableData {
       username: string
-      rule: string
       id: string
       department: string
       real_name: string
@@ -34,7 +32,6 @@ export interface RegisterForm {
       real_name: string;
       department: string;
       email: string;
-      rule: string
 }
 
 export interface Password {

@@ -1,4 +1,5 @@
 import { request, COMMON_URI } from "@/config/request";
+import { AxiosPromise } from "axios";
 
 export interface Steps {
       desc: string
@@ -18,38 +19,52 @@ export interface RespTPLs {
       source: string
 }
 
-export function FetchDBFlowApis (s: number) {
-      return request({
-            method: 'put',
-            url: `${COMMON_URI}/manage/tpl`,
-            data: {
-                  id: s
-            }
-      })
-}
+export class Request {
+      Post (args: RespSteps): AxiosPromise {
+            return request({
+                  method: 'post',
+                  data: args,
+                  url: `${COMMON_URI}/manage/tpl`
+            })
+      }
 
-export function FetchFlowApis () {
-      return request({
-            method: 'get',
-            url: `${COMMON_URI}/manage/tpl`,
-      })
-}
+      Profile (id: number): AxiosPromise {
+            return request({
+                  method: 'put',
+                  url: `${COMMON_URI}/manage/tpl`,
+                  data: {
+                        id: id
+                  }
+            })
+      }
 
+      List (): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/manage/tpl`,
+                  params: {
+                        tp: "flow"
+                  }
+            })
+      }
 
-export function TplCreateOrEditApi (args: RespSteps) {
-      return request({
-            method: 'post',
-            data: args,
-            url: `${COMMON_URI}/manage/tpl`
-      })
-}
+      User (): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/manage/tpl`,
+                  params: {
+                        tp: "user"
+                  }
+            })
+      }
 
-export function TplDeleteApi (args: string) {
-      return request({
-            method: 'DELETE',
-            url: `${COMMON_URI}/manage/tpl`,
-            params: {
-                  id: args
-            }
-      })
+      Delete (args: string): AxiosPromise {
+            return request({
+                  method: 'DELETE',
+                  url: `${COMMON_URI}/manage/tpl`,
+                  params: {
+                        id: args
+                  }
+            })
+      }
 }
