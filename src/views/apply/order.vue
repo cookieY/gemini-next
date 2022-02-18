@@ -213,10 +213,11 @@ const fetchTableArch = () => {
 }
 
 const testResults = (sql: string) => {
+      console.log(orderItems.type)
       spin.value = !spin.value
       request.Test({
             source: orderItems.source,
-            kind: orderItems.type === 'ddl' ? 0 : 1,
+            kind: orderItems.type,
             data_base: orderItems.data_base,
             sql: sql
       } as SQLTestParams)

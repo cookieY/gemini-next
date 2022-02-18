@@ -42,14 +42,15 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { Comment, Request } from "@/apis/orderPostApis"
 import { onMounted, ref, nextTick, onUnmounted } from 'vue';
-import { AxiosResponse } from 'axios';
-import { Res } from '@/config/request';
 import { useI18n } from 'vue-i18n';
 import Socket from "@/socket"
+import { useStore } from '@/store';
 
 dayjs.extend(relativeTime);
+dayjs.extend(customParseFormat)
 
 const { t } = useI18n()
 
@@ -72,23 +73,27 @@ const scrollTop = () => {
       h.scrollTop = h.scrollHeight
 }
 
+const store = useStore()
+
 const postComment = () => {
       request.CommentPost({ work_id: props.work_id, content: content.value }).then(() => {
+            data.value.push({ username: store.state.user.account.user, time: dayjs().format("YY-MM-DD HH:mm"), content: content.value, work_id: props.work_id } as Comment)
             content.value = ""
+            scrollTop()
       })
 }
 
 const currentPage = (e: any) => {
       data.value = JSON.parse(e.detail.data)
-      nextTick(() => {
-            scrollTop()
-      })
 }
 
 onMounted(() => {
       window.addEventListener('comment', currentPage)
       sock = new Socket(`/fetch/comment?work_id=${props.work_id}`, "comment")
       sock.create()
+      nextTick(() => {
+            scrollTop()
+      })
 })
 
 onUnmounted(() => {

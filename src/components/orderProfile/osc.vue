@@ -1,21 +1,36 @@
 <template>
-      <div id="terminal"></div>
+      <pre style="height: 500px; overflow: auto;">
+            {{ pre }}
+      </pre>
 </template>
 <script lang="ts" setup>
-import { Terminal } from 'xterm';
-import { onMounted, ref } from "vue"
-import 'xterm/css/xterm.css'
+import { onMounted, onUnmounted, ref } from "vue"
+import Socket from "@/socket"
 
-const term = new Terminal()
+const pre = ref("")
+
+const props = defineProps<{
+      work_id: string
+}>()
+
+let sock: Socket | null = null
+
+const recv = (e: any) => {
+      pre.value = e.detail.data
+}
 
 onMounted(() => {
-      const cols: number = Math.floor((document.body.clientWidth - 250) / 10)
-      const rows: number = Math.floor((600 - 80) / 16)
-      term.resize(cols, rows)
-      term.open(document.getElementById('terminal') as HTMLElement);
-      term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+      window.addEventListener('osc', recv)
+      sock = new Socket(`/audit/order/osc?work_id=${props.work_id}`, "osc")
+      sock.create()
 })
 
+onUnmounted(() => {
+      window.removeEventListener('osc', recv)
+      sock?.send("1")
+      sock?.close()
+
+})
 </script>
 
 <style>

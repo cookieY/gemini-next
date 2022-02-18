@@ -3,7 +3,7 @@
             <span>查询耗时:{{ executeTime }} ms</span>
       </a-space>
 
-      <a-tabs :activeKey="0">
+      <a-tabs v-model:activeKey="activeKey">
             <a-tab-pane :key="idx" :tab="`结果 ${idx}`" v-for="(i, idx) in results">
                   <template v-if="isExport">
                         <a-button size="small" type="primary" ghost @click="downloadXLS(i.data)">导出</a-button>
@@ -37,6 +37,8 @@ const props = defineProps<{
       height: number
       isExport?: boolean
 }>()
+
+const activeKey = ref(0)
 
 const request = new Request
 

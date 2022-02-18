@@ -247,6 +247,12 @@ const rule: Rule[] = [
             tp: 2
       },
       {
+            name: 'OscSize',
+            desc: '表体系大于该值后出发OSC同步，单位:M',
+            type: 'Pt-osc',
+            tp: 1
+      },
+      {
             name: 'OSCExpr',
             desc: '同步工具参数。如: PT-OSC中的--dry-run 请注意! 此处仅填写参数 不填写例如--host --port --sql等实际操作数据信息',
             type: 'Pt-osc',

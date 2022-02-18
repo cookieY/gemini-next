@@ -121,7 +121,9 @@
                   <Results :work_id="order.work_id"></Results>
             </a-tab-pane>
 
-            <a-tab-pane key="4" tab="OSC进度" v-if="order.type === 0"></a-tab-pane>
+            <a-tab-pane key="4" tab="OSC进度" v-if="order.type === 0">
+                  <OSC :work_id="order.work_id"></OSC>
+            </a-tab-pane>
       </a-tabs>
 
       <RejectModal :work_id="order.work_id" ref="r"></RejectModal>
@@ -133,6 +135,7 @@ import Comment from "./comment.vue";
 import Results from "./results.vue";
 import Step from '@/components/steps/steps.vue'
 import router from "@/router";
+import OSC from "./osc.vue";
 import { useStore } from "@/store";
 import { computed, ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";

@@ -26,7 +26,7 @@ export default class WsSocket {
             let vm = this
             this.timer = setInterval(() => {
                   vm.socket?.send("0")
-            }, 1000)
+            }, 2000)
 
       }
 
