@@ -55,7 +55,8 @@
 
             <Sponsor ref="sponsor"></Sponsor>
 
-            <a-modal v-model:visible="is_open" title="用户注册" @ok="signUp" @cancel="resetForm">
+            <a-modal v-model:visible="is_open" title="用户注册">
+                  <template #footer></template>
                   <register ref="register" @closeState="() => is_open = false"></register>
             </a-modal>
       </div>

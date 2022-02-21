@@ -76,7 +76,7 @@ import { Request as Query } from "@/apis/query"
 const props = defineProps<{
       type: string,
       id: number,
-      export: number
+      isExport?: boolean
 }>()
 
 const router = useRouter()

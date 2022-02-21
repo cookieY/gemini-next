@@ -23,24 +23,21 @@
 
 <script lang="ts" setup>
 
-import { ref } from 'vue';
-import { Request } from "@/apis/query";
-import { AxiosResponse } from 'axios';
-import { Res } from '@/config/request';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import { useStore } from '@/store';
 import router from '@/router';
 import { message } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from 'xlsx';
+import { encode, decode } from "@msgpack/msgpack";
 
 const props = defineProps<{
       height: number
       isExport?: boolean
+      id: string
 }>()
 
 const activeKey = ref(0)
-
-const request = new Request
 
 const store = useStore()
 
@@ -68,16 +65,32 @@ const downloadXLS = (data: any) => {
       worksheet['!cols'] = options['!cols'];
       const workbook: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-      XLSX.writeFile(workbook, '排庭表.xlsx');
+      XLSX.writeFile(workbook, 'Yearning_Table_Data.xlsx');
 }
 
+const sock = computed(() => store.state.common.sock)
+
 const runResults = (source_id: string, schema: string, sql: string) => {
+      sock.value.race(recv)
+      const encoded: Uint8Array = encode({ "type": "0", "sql": sql, "schema": schema, "source_id": source_id });
       store.commit("common/SET_SPINNING")
-      request.QueryData(source_id, schema, sql).then((res: AxiosResponse<Res<any>>) => {
-            results.value = res.data.payload.results
-            executeTime.value = res.data.payload.query_time
-            res.data.payload.status ? (router.go(-1), message.error(t('query.expire'))) : null
-      }).finally(() => store.commit("common/SET_SPINNING"))
+      sock?.value.send(encoded)
+}
+
+const recv = async (e: any) => {
+      const h = e.data as Blob
+      if (h.size > 0) {
+            const resp = decode(await h.arrayBuffer()) as any
+            console.log(resp)
+            if (resp.error !== "") {
+                  message.error(resp.error)
+                  return
+            }
+            results.value = resp.results
+            executeTime.value = resp.query_time
+            resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
+      }
+      store.commit("common/SET_SPINNING")
 }
 
 defineExpose({

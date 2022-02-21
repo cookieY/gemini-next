@@ -79,7 +79,7 @@
       </a-menu>
 </template>
 <script lang="ts"  setup>
-import { CheckCircleOutlined, IssuesCloseOutlined, ZoomInOutlined, HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
+import { HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';

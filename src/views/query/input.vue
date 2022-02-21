@@ -21,7 +21,7 @@
             @getValues="getValues"
       ></Editor>
       <br />
-      <Table ref="tbl" :height="300"></Table>
+      <Table ref="tbl" :height="300" :id="id"></Table>
 </template>
 <script lang="ts" setup>
 import Editor from "@/components/editor/editor.vue";

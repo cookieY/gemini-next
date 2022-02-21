@@ -84,23 +84,22 @@ const postComment = () => {
 }
 
 const currentPage = (e: any) => {
-      data.value = JSON.parse(e.detail.data)
+      data.value = JSON.parse(e.data)
 }
 
 onMounted(() => {
-      window.addEventListener('comment', currentPage)
-      sock = new Socket(`/fetch/comment?work_id=${props.work_id}`, "comment")
+      sock = new Socket(`/fetch/comment?work_id=${props.work_id}`)
       sock.create()
+      sock.race(currentPage)
+      sock.ping()
       nextTick(() => {
             scrollTop()
       })
 })
 
 onUnmounted(() => {
-      window.removeEventListener('comment', currentPage)
       sock?.send("1")
       sock?.close()
-
 })
 
 </script>

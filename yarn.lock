@@ -293,6 +293,11 @@
     "@intlify/core-base" "9.2.0-beta.30"
     "@intlify/shared" "9.2.0-beta.30"
 
+"@msgpack/msgpack@^2.7.2":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@msgpack/msgpack/-/msgpack-2.7.2.tgz#f34b8aa0c49f0dd55eb7eba577081299cbf3f90b"
+  integrity sha512-rYEi46+gIzufyYUAoHDnRzkWGxajpD9vVXFQ3g1vbjrBm6P7MBmm+s/fqPa46sxa+8FOUdEuRQKaugo5a4JWpw==
+
 "@simonwep/pickr@~1.8.0":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@simonwep/pickr/-/pickr-1.8.2.tgz#96dc86675940d7cad63d69c22083dd1cbb9797cb"
@@ -1683,11 +1688,6 @@ xlsx@^0.18.2:
     ssf "~0.11.2"
     wmf "~1.0.1"
     word "~0.3.0"
-
-xterm@^4.16.0:
-  version "4.17.0"
-  resolved "https://registry.yarnpkg.com/xterm/-/xterm-4.17.0.tgz#e48ba6eeb83e118ec163f5512c3cfe9dbbf3f838"
-  integrity sha512-WGXlIHvLvZKtwMdFaL6kUwp+c9abd2Pcakp/GmuefBuOtGCu9fP9tBDPKyL/A17N+5tt44EYk3YsBbvkPBubMw==
 
 yallist@^4.0.0:
   version "4.0.0"

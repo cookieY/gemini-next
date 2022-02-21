@@ -33,6 +33,11 @@
 import router from "@/router";
 import { PushpinFilled } from "@ant-design/icons-vue";
 
+const props = defineProps<{
+      isExport: boolean,
+      type: string
+}>()
+
 const emit = defineEmits(['enter'])
 
 const go = () => {

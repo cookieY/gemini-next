@@ -39,7 +39,7 @@
                                     </a-tabs>
                               </a-tab-pane>
                               <a-tab-pane key="table" :tab="$t('query.table')" forceRender>
-                                    <Table ref="tbl" :height="800"></Table>
+                                    <Table ref="tbl" :height="800" id="tblInfo"></Table>
                               </a-tab-pane>
                         </a-tabs>
                   </a-col>
@@ -55,8 +55,10 @@ import Input from "./input.vue"
 import Table from "./table.vue"
 import Clip from "./clip.vue"
 import Modal from "./modal.vue"
-import { computed, onMounted, ref } from "vue"
+import Socket from "@/socket"
+import { computed, onMounted, onUnmounted, ref } from "vue"
 import { useStore } from "@/store"
+import { encode } from "@msgpack/msgpack";
 
 const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }])
 
@@ -82,10 +84,6 @@ const onEdit = (targetKey: string, action: string) => {
       } else {
             remove(targetKey);
       }
-}
-
-const paste = () => {
-      console.log('ok')
 }
 
 const showTableRef = (vl: any) => {
@@ -116,4 +114,18 @@ const remove = (targetKey: string) => {
             }
       }
 }
+
+onMounted(() => {
+      const sock = new Socket(`/query/results?user=${store.state.user.account.user}`)
+      sock.create()
+      store.commit("common/QUERY_CONN", sock)
+})
+
+onUnmounted(() => {
+      const encoded: Uint8Array = encode({ "type": "1" });
+      store.state.common.sock?.send(encode(encoded))
+      store.state.common.sock.close()
+})
+
+
 </script>

@@ -70,6 +70,9 @@
                                           :max-tag-count="6"
                                     ></a-select>
                               </a-form-item>
+                              <a-form-item :label="$t('common.action')">
+                                    <a-button ghost @click="checkConn">测试连接</a-button>
+                              </a-form-item>
                         </a-form>
                   </a-col>
                   <a-col :span="8" offset="1">
@@ -153,6 +156,11 @@ const fillInfo = (vl: any) => {
       insulateWord.value = dbForm.value.insulate_word_list.split(",")
       request.Schema(dbForm.value.source_id, "schema").then((res: AxiosResponse<Res<any>>) => schemaList.value = res.data.payload.results)
       flowReq.Profile(dbForm.value.flow_id).then((res: AxiosResponse<Res<RespSteps>>) => steps.value = res.data.payload.steps)
+}
+
+
+const checkConn = () => {
+      OpsDBApis({ db: dbForm.value, tp: "test", encrypt: true })
 }
 
 defineExpose({

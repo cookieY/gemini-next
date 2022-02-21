@@ -1,6 +1,7 @@
 import { Request } from "@/apis/fetchSchema";
 import { Request as Flow, RespTPLs } from "@/apis/flow";
 import { Res } from "@/config/request";
+import WsSocket from "@/socket";
 import { AxiosResponse } from "axios";
 import { Module } from "vuex";
 import { RootStore } from "../types";
@@ -11,7 +12,8 @@ export interface commonStore {
       queryInfo: QueryInfo
       schemaList: string[]
       spinning: boolean
-      sql: string
+      sql: string,
+      sock: any
 }
 
 export interface QueryInfo {
@@ -28,7 +30,8 @@ export const common: Module<commonStore, RootStore> = {
             queryInfo: {} as QueryInfo,
             schemaList: [],
             spinning: false,
-            sql: ""
+            sql: "",
+            sock: null
       },
       mutations: {
             GET_IDC (state) {
@@ -52,6 +55,10 @@ export const common: Module<commonStore, RootStore> = {
             },
             ORDER_SET_SQL (state, vl) {
                   state.sql = vl
+            },
+            QUERY_CONN (state, vl) {
+                  console.log(vl)
+                  state.sock = vl
             }
       }
 }

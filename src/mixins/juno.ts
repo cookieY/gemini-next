@@ -9,7 +9,7 @@ export default function () {
       const col = [
             {
                   title: t('common.table.stage'),
-                  dataIndex: "status"
+                  dataIndex: "status",
             },
             {
                   title: t('common.table.level'),
@@ -22,7 +22,7 @@ export default function () {
             {
                   title: t('common.table.sql'),
                   dataIndex: 'sql',
-                  tooltip: true
+                  ellipsis: true
             },
             {
                   title: t('common.table.max'),

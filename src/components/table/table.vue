@@ -10,7 +10,7 @@
       </a-table>
       <br />
       <a-pagination
-            :total="pageCount"
+            :total="tData.length"
             :page-size.sync="pagination.pageSize"
             :show-total="(total) => $t('common.count', { 'count': total })"
             @change="currentPage"
@@ -25,7 +25,6 @@ interface propsAttr {
       col: any[]
       tData: any[]
       bordered: boolean
-      pageCount: number
       size?: string
 }
 
@@ -41,4 +40,4 @@ const currentPage = (page: number) => {
       emit("change", page)
 }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </script>
+</script>

@@ -20,10 +20,10 @@
       <br />
       <a-collapse v-model:activeKey="activeKey" accordion>
             <a-collapse-panel key="1" :header="$t('order.profile.results.result')">
-                  <Table :col="col" :t-data="tData" @change="currentPage"></Table>
+                  <Table :col="col" :t-data="tData" @change="currentPage" bordered></Table>
             </a-collapse-panel>
             <a-collapse-panel key="2" :header="$t('order.profile.results.roll')">
-                  <Table :col="rolling" :t-data="rollingData" @change="currentRolling"></Table>
+                  <Table :col="rolling" :t-data="rollingData" @change="currentRolling" bordered></Table>
             </a-collapse-panel>
       </a-collapse>
 </template>

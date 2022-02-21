@@ -10,6 +10,7 @@
       "dependencies": {
             "@ant-design/icons-vue": "^6.0.1",
             "@antv/g2": "^4.1.34",
+            "@msgpack/msgpack": "^2.7.2",
             "ant-design-vue": "3.0.0-beta.9",
             "axios": "^0.21.1",
             "clipboard": "^2.0.10",
@@ -25,8 +26,7 @@
             "vuedraggable": "^4.1.0",
             "vuex": "^4.0.2",
             "vuex-persistedstate": "^4.0.0",
-            "xlsx": "^0.18.2",
-            "xterm": "^4.16.0"
+            "xlsx": "^0.18.2"
       },
       "devDependencies": {
             "@types/node": "^16.6.1",

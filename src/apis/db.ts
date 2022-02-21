@@ -33,7 +33,8 @@ export interface DBResp {
 
 export interface RequestDB {
       tp: string
-      db: Source<string[]>
+      db: Source[] | Source
+      encrypt?: boolean
 }
 
 

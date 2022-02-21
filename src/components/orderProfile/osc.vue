@@ -23,6 +23,7 @@ onMounted(() => {
       window.addEventListener('osc', recv)
       sock = new Socket(`/audit/order/osc?work_id=${props.work_id}`, "osc")
       sock.create()
+      sock.ping()
 })
 
 onUnmounted(() => {

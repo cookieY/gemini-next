@@ -51,6 +51,7 @@ const signIn = async () => {
                   return
             }
             store.commit("user/USER_STORE", res.data.payload)
+            store.commit("menu/CHANGE_SELECTED", ["/home"])
             router.replace("/home")
       })
 }

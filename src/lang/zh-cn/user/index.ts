@@ -1,5 +1,5 @@
 export default {
-      "user.titile": "用户",
+      "user.title": "用户",
       "user.desc": "用户管理页面",
       "user.form.title": "用户注册",
       "user.form.user": "用户名",

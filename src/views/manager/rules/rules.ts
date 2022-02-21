@@ -103,7 +103,7 @@ const rule: Rule[] = [
             tp: 0
       },
       {
-            name: 'DDLMultiToSubmit',
+            name: 'DDLMultiToCommit',
             desc: '允许单个工单提交多条DDL语句',
             type: 'DDL',
             tp: 0

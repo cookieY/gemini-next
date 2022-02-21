@@ -31,14 +31,24 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { computed, reactive } from "vue";
 import ListApp from "@/components/listApp/listApp.vue";
 import QueryApp from "@/components/listApp/queryApp.vue";
 import { useI18n } from 'vue-i18n';
+import { useStore } from "@/store";
 
 const { t } = useI18n()
 
-const activeKey = ref("dml")
+const store = useStore()
+
+const activeKey = computed({
+      get () {
+            return store.state.menu.activeKey
+      },
+      set (val: string) {
+            store.commit("menu/CHANGE_ACTIVE_TABS", val)
+      }
+})
 
 const count = reactive<{ [key: string]: number }>({
       dml: 0,
