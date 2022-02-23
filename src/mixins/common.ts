@@ -1,10 +1,11 @@
 import { reactive, ref } from "vue";
 import { RuleObject } from 'ant-design-vue/es/form/interface';
-import i18n from "@/lang"
-
+import i18n from "@/lang";
+// @ts-ignore
 const { t } = i18n.global
 
 export default function () {
+
       const is_open = ref(false)
 
       function close () {

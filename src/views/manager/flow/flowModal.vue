@@ -1,22 +1,22 @@
 <template>
       <a-modal v-model:visible="is_open" :title="props.title" :width="800" @ok="postFlow">
             <a-row>
-                  <a-col :span="9">
-                        <a-form v-bind="layout">
-                              <a-form-item label="流程名称">
+                  <a-col :span="10">
+                        <a-form :model="step" :rules="rules" ref="formRef">
+                              <a-form-item label="流程名称" required>
                                     <a-input v-model:value="flow.source"></a-input>
                               </a-form-item>
                               <a-divider orientation="left">步骤编辑</a-divider>
-                              <a-form-item label="阶段名称">
+                              <a-form-item label="阶段名称" name="desc">
                                     <a-input v-model:value="step.desc"></a-input>
                               </a-form-item>
-                              <a-form-item label="步骤类型">
+                              <a-form-item label="步骤类型" name="type">
                                     <a-select v-model:value="step.type">
                                           <a-select-option :value="0">审核</a-select-option>
                                           <a-select-option :value="1">执行</a-select-option>
                                     </a-select>
                               </a-form-item>
-                              <a-form-item label="审核人员">
+                              <a-form-item label="审核人员" name="auditor">
                                     <a-select v-model:value="step.auditor" mode="multiple">
                                           <a-select-option
                                                 v-for="i in auditor"
@@ -34,7 +34,7 @@
                               </a-form-item>
                         </a-form>
                   </a-col>
-                  <a-col :span="14" :offset="1">
+                  <a-col :span="13" :offset="1">
                         <a-steps direction="vertical" progress-dot size="small" :current="0">
                               <a-step
                                     v-for="(element, idx) in flow.steps"
@@ -107,16 +107,21 @@
 <script lang="ts" setup>
 import CommonMixins from "@/mixins/common"
 import { Step as aStep, Steps as aSteps } from 'ant-design-vue';
-import { onMounted, ref } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import { RespSteps, Steps, Request } from "@/apis/flow"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { AuditorList } from "@/types"
 import { message } from 'ant-design-vue';
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
       title: string
 }>()
+
+const formRef = ref()
+
+const { t } = useI18n()
 
 const emit = defineEmits(['success'])
 
@@ -139,6 +144,13 @@ let auditor = ref([] as AuditorList[])
 
 const { is_open, layout, turnState } = CommonMixins()
 
+const rules = {
+      desc: [{ required: true, trigger: 'blur', message: t('common.check.flow') }],
+      type: [{ required: true, trigger: 'change', message: t('common.check.type') }],
+      auditor: [{ required: true, trigger: 'change', message: t('common.check.auditor') }],
+
+}
+
 const addStep = () => {
       if (step.value.type === 1) {
             for (let i of flow.value.steps) {
@@ -152,8 +164,10 @@ const addStep = () => {
             message.error("中间审核环节最多支持5层")
             return
       }
-      flow.value.steps.push(Object.assign({}, step.value))
-      step.value = {} as Steps
+      formRef.value.validateFields().then(() => {
+            flow.value.steps.push(Object.assign({}, step.value))
+            step.value = {} as Steps
+      })
 }
 
 const upward = (idx: number) => {
@@ -191,12 +205,17 @@ const editFlow = (vl: RespSteps) => {
       turnState()
 }
 
+const newFlow = () => {
+      step.value = {} as Steps
+      turnState()
+}
+
 onMounted(() => {
       request.User().then((res: AxiosResponse<Res<AuditorList[]>>) => auditor.value = res.data.payload)
 })
 
 defineExpose({
-      turnState,
+      newFlow,
       editFlow
 })
 

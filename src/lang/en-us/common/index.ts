@@ -51,10 +51,14 @@ export default {
       "common.table.post.real_name": "RealName",
 
       "common.check.name": "Please enter name",
+      "common.check.text": "Please enter text",
       "common.check.env": "Please select environment",
       "common.check.source": "Please select source",
       "common.check.schema": "Please select schema",
       "common.check.table": "Please select table",
+      "common.check.auditor": "Please select the auditor/executor",
+      "common.check.flow": "Please fill in the flow name ",
+      "common.check.type": "Please select the type",
 
       "common.step.execute": "Execution stage",
       "common.step.audit": "Review stage",

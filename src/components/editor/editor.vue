@@ -6,7 +6,6 @@ import * as monaco from 'monaco-editor';
 import { createSQLToken } from "@/components/editor/impl"
 import { onMounted, onUnmounted } from '@vue/runtime-core';
 import { format } from 'sql-formatter';
-import { useStore } from '@/store';
 
 
 interface Props {
@@ -24,8 +23,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits(['getValues'])
-
-const store = useStore()
 
 let model = {} as monaco.editor.IStandaloneCodeEditor
 
@@ -52,7 +49,8 @@ const GetValueFunc: monaco.editor.IActionDescriptor = {
       contextMenuGroupId: 'navigation',
       contextMenuOrder: 1.5,
       run: function (ed: monaco.editor.ICodeEditor) {
-            let sel = ed.getModel().getValueInRange(ed.getSelection())
+            let s = ed.getModel() as monaco.editor.ITextModel
+            let sel = s.getValueInRange(ed.getSelection() as monaco.Selection)
             if (sel !== "") {
                   emit("getValues", sel)
             } else {

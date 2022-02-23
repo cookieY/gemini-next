@@ -110,12 +110,6 @@ const r = ref()
 
 const u = ref("")
 
-const coverRule = {
-      admin: t('user.role.auditor'),
-      guest: t('user.role.guest'),
-      super: t('common.super')
-}
-
 const openPasswordModal = (user: string) => {
       p.value.turnState()
       u.value = user
@@ -133,7 +127,7 @@ let expr = reactive<UserParams>({
       find: {
             dept: "",
             username: "",
-            rule: "all"
+            email: ""
       } as UserExpr
 })
 const { pagination } = CommonMixins()

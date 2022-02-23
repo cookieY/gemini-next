@@ -22,7 +22,7 @@
             </template>
       </a-list>
       <a-comment>
-            <a-avatar slot="avatar" src="/src/assets/comment/rockets.svg" />
+            <a-avatar slot="avatar" :src="comment" />
             <div slot="content"></div>
       </a-comment>
       <a-form>
@@ -44,21 +44,19 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { Comment, Request } from "@/apis/orderPostApis"
-import { onMounted, ref, nextTick, onUnmounted } from 'vue';
+import { onMounted, ref, nextTick, onUnmounted, onUpdated } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Socket from "@/socket"
 import { useStore } from '@/store';
+import comment from "@/assets/comment/rockets.svg"
+import icon from "@/assets/comment/comment.svg"
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat)
 
-const { t } = useI18n()
-
 const props = defineProps<{
       work_id: string
 }>()
-
-const icon = "/src/assets/comment/comment.svg"
 
 const request = new Request
 
@@ -69,8 +67,10 @@ const content = ref("")
 let sock: Socket | null = null
 
 const scrollTop = () => {
-      let h = document.getElementById("comment") as HTMLElement
-      h.scrollTop = h.scrollHeight
+      nextTick(() => {
+            let h = document.getElementById("comment") as HTMLElement
+            h.scrollTop = h.scrollHeight
+      })
 }
 
 const store = useStore()
@@ -87,14 +87,16 @@ const currentPage = (e: any) => {
       data.value = JSON.parse(e.data)
 }
 
+onUpdated(() => {
+      scrollTop()
+})
+
 onMounted(() => {
       sock = new Socket(`/fetch/comment?work_id=${props.work_id}`)
       sock.create()
       sock.race(currentPage)
       sock.ping()
-      nextTick(() => {
-            scrollTop()
-      })
+
 })
 
 onUnmounted(() => {

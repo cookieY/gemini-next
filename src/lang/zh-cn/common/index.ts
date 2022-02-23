@@ -51,10 +51,14 @@ export default {
       "common.table.post.real_name": "真实姓名",
 
       "common.check.name": "输入名称",
+      "common.check.text": "输入内容",
       "common.check.env": "请选择环境",
       "common.check.source": "请选择数据源",
       "common.check.schema": "请选择数据库",
       "common.check.table": "请选择数据表",
+      "common.check.auditor": "请选择审核/执行人",
+      "common.check.flow": "请填写流程名称",
+      "common.check.type": "请选择类型",
 
       "common.step.execute": "执行阶段",
       "common.step.audit": "审核阶段",

@@ -39,7 +39,7 @@
                   </a-menu-item>
             </a-sub-menu>-->
 
-            <a-sub-menu :title="$t('menu.manage')">
+            <a-sub-menu :title="$t('menu.manage')" v-if="store.state.user.account.user === 'admin'">
                   <template #icon>
                         <CloudSyncOutlined />
                   </template>

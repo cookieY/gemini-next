@@ -107,12 +107,14 @@
                               <a-input-number v-model:value="config.other.limit" :min="1000"></a-input-number>
                         </a-form-item>
                         <a-form-item :label="$t('setting.adv.env')">
-                              <a-tag
-                                    v-for="item in config.other.idc"
-                                    color="#B38D57"
-                                    closable
-                                    @close="closeTag(item)"
-                              >{{ item }}</a-tag>
+                              <template v-for="item in config.other.idc" :key="item">
+                                    <a-tag
+                                          color="#B38D57"
+                                          closable
+                                          @close="closeTag(item)"
+                                    >{{ item }}</a-tag>
+                              </template>
+
                               <br />
                               <br />
                               <a-space>
@@ -203,10 +205,9 @@ import CommonMixins from "@/mixins/common"
 import { SmileOutlined } from '@ant-design/icons-vue';
 import { AxiosResponse } from 'axios';
 import { onMounted, ref } from 'vue';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { defaultLang } from '@/lang';
 import { useI18n } from 'vue-i18n';
-import { Request as Query } from '@/apis/query';
 
 const { t } = useI18n({
 
@@ -229,8 +230,6 @@ const config = ref({
 
 const request = new Request
 
-const query = new Query
-
 const dateRanges = defaultLang === 'en-US' ? { "this month": [dayjs().startOf('month'), dayjs().endOf('month')] } : { "本月": [dayjs().startOf('month'), dayjs().endOf('month')] }
 
 const pushEnv = () => {
@@ -243,8 +242,9 @@ const currentPage = () => {
             config.value = res.data.payload
       })
 }
-const closeTag = (e: string) => {
-      config.value.other.idc = config.value.other.idc.filter(item => item !== e);
+const closeTag = (removedTag: string) => {
+      const tags = config.value.other.idc.filter(tag => tag !== removedTag);
+      config.value.other.idc = tags;
 }
 
 onMounted(() => {

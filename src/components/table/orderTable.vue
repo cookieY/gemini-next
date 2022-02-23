@@ -33,7 +33,6 @@
 </template>
 
 <script lang="ts" setup>
-import auditTable from "@/mixins/auditTable";
 import StateTags from "./stateTags.vue"
 import OrderTableSearch from "./orderTableSearch.vue"
 import CommonMixins from "@/mixins/common"
@@ -58,7 +57,52 @@ let expr = reactive<OrderParams>({
       } as OrderExpr
 })
 
-const { col } = auditTable()
+const col = [
+      {
+            title: t('common.table.work_id'),
+            dataIndex: 'work_id',
+            width: 200
+      },
+      {
+            title: t('common.table.remark'),
+            dataIndex: 'text',
+      },
+      {
+            title: t('common.table.type'),
+            dataIndex: 'type',
+      },
+      {
+            title: t('common.table.post.time'),
+            dataIndex: 'date',
+      },
+      {
+            title: t('common.table.post.user'),
+            dataIndex: 'username',
+      },
+      {
+            title: t('common.table.post.real_name'),
+            dataIndex: 'real_name',
+
+      },
+      {
+            title: t('order.profile.timing'),
+            dataIndex: 'delay',
+      },
+      {
+            title: t('order.profile.auditor'),
+            dataIndex: 'assigned',
+      },
+      {
+            title: t('common.table.state'),
+            dataIndex: 'status',
+
+      },
+      {
+            title: t('common.action'),
+            dataIndex: 'action',
+            width: 200,
+      }
+];
 
 const { pagination } = CommonMixins()
 

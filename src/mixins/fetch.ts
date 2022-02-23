@@ -1,6 +1,5 @@
-import { DBRelated, Timeline, Request } from "@/apis/fetchSchema"
-import { Res, request, COMMON_URI } from "@/config/request"
-import { AxiosResponse } from "axios"
+import { Timeline, Request } from "@/apis/fetchSchema"
+import { request, COMMON_URI } from "@/config/request"
 import { reactive, ref } from "vue"
 
 export default function () {
@@ -24,13 +23,12 @@ export default function () {
             })
       }
 
-      const FetchProfileSQL = (work_id: string, limit: string) => {
+      const FetchProfileSQL = (work_id: string) => {
             return request({
                   method: "GET",
                   url: `${COMMON_URI}/fetch/sql`,
                   params: {
                         work_id: work_id,
-                        limit: limit
                   }
             })
       }

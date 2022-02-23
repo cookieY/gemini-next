@@ -1,11 +1,9 @@
 import { reactive, UnwrapRef } from "vue";
 import { OrderItem } from "@/types";
-import i18n from "@/lang"
-
+import i18n from "@/lang";
+// @ts-ignore
 const { t } = i18n.global
-
 export default function () {
-
       const col = [
             {
                   title: t('common.table.stage'),

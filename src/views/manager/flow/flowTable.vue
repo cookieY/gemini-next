@@ -1,5 +1,5 @@
 <template>
-      <a-button type="primary" @click="flow.turnState()">新建流程</a-button>
+      <a-button type="primary" @click="flow.newFlow()">新建流程</a-button>
       <br />
       <br />
       <a-table :columns="col" :dataSource="tData" rowKey="source" bordered>

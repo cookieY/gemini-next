@@ -16,18 +16,17 @@ const props = defineProps<{
 let sock: Socket | null = null
 
 const recv = (e: any) => {
-      pre.value = e.detail.data
+      pre.value = e.data
 }
 
 onMounted(() => {
-      window.addEventListener('osc', recv)
-      sock = new Socket(`/audit/order/osc?work_id=${props.work_id}`, "osc")
+      sock = new Socket(`/audit/order/osc?work_id=${props.work_id}`)
       sock.create()
+      sock.race(recv)
       sock.ping()
 })
 
 onUnmounted(() => {
-      window.removeEventListener('osc', recv)
       sock?.send("1")
       sock?.close()
 

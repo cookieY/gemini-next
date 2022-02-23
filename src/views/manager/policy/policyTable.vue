@@ -3,12 +3,16 @@
             <a-col :span="24">
                   <a-form layout="inline">
                         <a-form-item>
-                              <a-button type="primary" @click="p.newPolicy()">新建权限组</a-button>
+                              <a-button
+                                    type="primary"
+                                    @click="() => { title = '新建权限组'; p.newPolicy() }"
+                              >新建权限组</a-button>
                         </a-form-item>
                         <a-form-item>
                               <a-input-search
                                     placeholder="输入权限组名称"
                                     enter-button
+                                    allowClear
                                     @search="onSearch"
                               />
                         </a-form-item>
@@ -25,13 +29,18 @@
                                     type="primary"
                                     size="small"
                                     ghost
-                                    @click="p.editPolicy(record)"
+                                    @click="() => { title = '编辑权限组'; p.editPolicy(record) }"
                               >详情</a-button>
                               <a-popconfirm
                                     title="确认要删除该权限组吗?"
                                     @confirm="request.Drop(record.group_id).then(() => currentPage())"
                               >
-                                    <a-button type="primary" size="small" danger ghost>删除</a-button>
+                                    <a-button
+                                          type="primary"
+                                          size="small"
+                                          danger
+                                          ghost
+                                    >{{ $t('common.delete') }}</a-button>
                               </a-popconfirm>
                         </a-space>
                   </template>

@@ -5,12 +5,18 @@
 <script lang="ts"  setup>
 import { ref } from "@vue/runtime-core";
 import { useRoute, onBeforeRouteUpdate } from "vue-router";
-import { checkTitle } from "./impl"
 import PageHeader from "@/components/pageHeader/pageHeader.vue";
 import OrderTable from "@/components/table/orderTable.vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n()
 
 const route = useRoute()
+
+const checkTitle = (audit: string): { [key: string]: string } => {
+      return audit === "audit" ? { title: t('menu.order.order') + t('menu.order.title'), subTitle: t('order.desc.audit') } : { title: t('menu.order.self'), subTitle: t('order.desc.self') }
+}
+
 
 let title = ref(checkTitle(route.params.tp as string))
 

@@ -1,9 +1,8 @@
+import i18n from "@/lang"
 import { OrderState, QueryState } from "@/types"
 import { CheckCircleOutlined, SyncOutlined, CloseCircleOutlined } from "@ant-design/icons-vue"
 import mitt from 'mitt'
-
-import i18n from '@/lang'
-
+// @ts-ignore
 const { t } = i18n.global
 
 export const StateUsege = (state: number) => {

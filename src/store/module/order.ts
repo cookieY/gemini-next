@@ -17,6 +17,9 @@ export const order: Module<orderStore, RootStore> = {
             ORDER_STORE (state, vl: OrderTableData) {
                   state.order = vl
             },
+            SET_ORDER_STATUS (state, vl: number) {
+                  state.order.status = vl
+            },
             IS_ENABLED (state, vl: boolean) {
                   state.enabled = vl
             }

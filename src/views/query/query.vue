@@ -122,8 +122,8 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-      const encoded: Uint8Array = encode({ "type": "1" });
-      store.state.common.sock?.send(encode(encoded))
+      const encoded: Uint8Array = encode({ "type": "1", "sql": "", "schema": "", "source_id": "" });
+      store.state.common.sock?.send(encoded)
       store.state.common.sock.close()
 })
 

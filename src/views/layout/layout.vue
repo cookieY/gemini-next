@@ -14,7 +14,7 @@
                                     <a-col :span="3" :offset="19">
                                           <a-dropdown>
                                                 <div>
-                                                      <a-avatar src="src/assets/comment/3.svg" />
+                                                      <a-avatar :src="profile" />
                                                       <span
                                                             style="margin-left: 5%;font-weight: bold;"
                                                       >{{ store.state.user.account.user }}</span>
@@ -56,6 +56,7 @@ import CommonMixin from "@/mixins/common";
 import Menu from "@/components/menu/menu.vue";
 import { overrideHeaders } from "@/config/request"
 import { useStore } from "@/store";
+import profile from "@/assets/comment/3.svg"
 
 const { is_open, close } = CommonMixin()
 

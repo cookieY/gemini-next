@@ -71,13 +71,14 @@ import { onMounted, ref } from "@vue/runtime-core";
 import { RespFetchSource } from "@/apis/listAppApis"
 import { useRouter } from "vue-router"
 import { Request } from "@/apis/fetchSchema";
-import { Request as Query } from "@/apis/query"
 
 const props = defineProps<{
       type: string,
       id: number,
       isExport?: boolean
 }>()
+
+const emit = defineEmits(['enter'])
 
 const router = useRouter()
 
@@ -95,11 +96,7 @@ const handleChange = (value: string) => {
 
 const selected = ref("all")
 
-const emit = defineEmits(['RespIsOk', 'enter'])
-
 const request = new Request
-
-const query = new Query
 
 let tmpSource = [] as RespFetchSource[]
 
@@ -114,7 +111,6 @@ onMounted(() => {
             tmpSource = res.data.payload
             source.value = res.data.payload
             options.value = res.data.payload
-            emit("RespIsOk", res.data.payload.length)
       }).finally(() => {
             loading.value = false
       })

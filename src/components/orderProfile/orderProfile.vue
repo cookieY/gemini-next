@@ -113,7 +113,7 @@
                   </a-row>
             </a-tab-pane>
 
-            <a-tab-pane key="2" :tab="$t('order.profile.comment')">
+            <a-tab-pane key="2" :tab="$t('order.profile.comment')" forceRender>
                   <Comment :work_id="order.work_id"></Comment>
             </a-tab-pane>
 
@@ -149,6 +149,8 @@ import { useRoute } from "vue-router";
 import { Timeline } from "@/apis/fetchSchema";
 import { useI18n } from 'vue-i18n';
 import JunoMixin from '@/mixins/juno'
+import WsSocket from "@/socket";
+import { onUnmounted } from "vue";
 
 const { t } = useI18n()
 
@@ -179,9 +181,13 @@ const route = useRoute()
 
 const order = computed(() => store.state.order.order)
 
+const sock = new WsSocket(`/fetch/order_state?work_id=${order.value.work_id}`)
+
 const { FetchStepUsege, FetchProfileSQL, orderProfileArch, fetchRequest } = FetchMixins()
 
 const usege = ref([] as stepUsege[])
+
+const isCurrent = ref(-1)
 
 const testResults = (sql: string) => {
       spin.value = !spin.value
@@ -215,20 +221,38 @@ const next = () => {
       })
 }
 
-const isCurrent = ref(-1)
+const recv = (e: any) => {
+      console.log(e.data)
+      store.commit("order/SET_ORDER_STATUS", JSON.parse(e.data))
+}
 
 onMounted(() => {
-
+      sock.create()
+      sock.ping()
+      sock.race(recv)
       fetchRequest.TimeLine(order.value.source_id as string).then((res: AxiosResponse<Res<Timeline[]>>) => {
-            res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload; isCurrent.value = orderProfileArch.timeline[order.value.current_step].auditor.indexOf(store.state.user.account.user)
+            if (res.data.code === 5555) {
+                  router.go(-1)
+            } else {
+                  orderProfileArch.timeline = res.data.payload
+                  orderProfileArch.timeline[order.value.current_step] !== undefined ? isCurrent.value = orderProfileArch.timeline[order.value.current_step].auditor.indexOf(store.state.user.account.user) : null
+            }
+
 
       })
+
       FetchStepUsege(order.value.work_id).then((res: AxiosResponse<Res<stepUsege[]>>) => {
             usege.value = res.data.payload
       })
-      FetchProfileSQL(order.value.work_id, "10").then((res: AxiosResponse<Res<{ [key: string]: string }>>) => {
+
+      FetchProfileSQL(order.value.work_id).then((res: AxiosResponse<Res<{ [key: string]: string }>>) => {
             profile.value.ChangeEditorText(res.data.payload.sqls)
       })
+})
+
+onUnmounted(() => {
+      sock.send("1")
+      sock.close()
 })
 
 

@@ -98,8 +98,9 @@ const signUp = () => {
 }
 
 onMounted(() => {
-      IsRegister().then((res: AxiosResponse<Res<boolean>>) => {
-            is_register.value = res.data.payload
+      IsRegister().then((res: AxiosResponse<Res<any>>) => {
+            console.log(res.data.payload.reg)
+            is_register.value = res.data.payload.reg
       })
 })
 

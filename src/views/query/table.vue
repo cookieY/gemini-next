@@ -33,7 +33,6 @@ import { encode, decode } from "@msgpack/msgpack";
 
 const props = defineProps<{
       height: number
-      isExport?: boolean
       id: string
 }>()
 
@@ -44,6 +43,8 @@ const store = useStore()
 const executeTime = ref(0)
 
 const { t } = useI18n()
+
+const isExport = ref(false)
 
 let results = ref<any[]>([])
 
@@ -84,11 +85,12 @@ const recv = async (e: any) => {
             console.log(resp)
             if (resp.error !== "") {
                   message.error(resp.error)
-                  return
+            } else {
+                  isExport.value = resp.export
+                  results.value = resp.results
+                  executeTime.value = resp.query_time
+                  resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
             }
-            results.value = resp.results
-            executeTime.value = resp.query_time
-            resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
       }
       store.commit("common/SET_SPINNING")
 }
