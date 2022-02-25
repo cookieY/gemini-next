@@ -92,7 +92,7 @@
             <a-row :gutter="24">
                   <a-col :xs="24" :md="24" :xl="16" :style="{ marginBottom: '24px' }">
                         <a-card title="公告" style="height: 560px;width: 100%;">
-                              <div></div>
+                              <div v-html="boardContent"></div>
                         </a-card>
                   </a-col>
                   <a-col :xs="24" :md="24" :xl="8" :style="{ marginBottom: '24px' }">
@@ -111,6 +111,7 @@ import MiniCol from "@/components/chartCard/miniCol.vue";
 import MiniBar from "@/components/chartCard/miniBar.vue";
 import { InfoCircleOutlined } from '@ant-design/icons-vue';
 import { Request } from "@/apis/dash";
+import { Request as Board } from "@/apis/board"
 import { onMounted, ref } from "vue";
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
@@ -119,11 +120,16 @@ const loading = false
 
 const request = new Request
 
+const board = new Board
+
 const banner = ref<any>([])
+
+const boardContent = ref<string>("")
 
 
 onMounted(() => {
       request.Banner().then((res: AxiosResponse<Res<any>>) => banner.value = res.data.payload)
+      board.Get().then((res: AxiosResponse<Res<string>>) => boardContent.value = res.data.payload)
 })
 
 </script>

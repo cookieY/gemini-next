@@ -42,7 +42,14 @@ const tbl = ref()
 
 const source_id = computed(() => store.state.common.queryInfo.source_id)
 
-const schema = ref("")
+const schema = computed({
+      get () {
+            return store.state.common.schema
+      },
+      set (v: string) {
+            store.commit("common/SET_SCHEMA", v)
+      }
+})
 
 const getValues = (vl: string) => {
       tbl.value.runResults(source_id.value, schema.value, vl)

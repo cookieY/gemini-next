@@ -487,10 +487,10 @@ adler-32@~1.3.0:
   dependencies:
     printj "~1.2.2"
 
-ant-design-vue@3.0.0-beta.9:
-  version "3.0.0-beta.9"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.0.0-beta.9.tgz#2febf71e6d9aacbfc88ca3ea6f857419269b42e6"
-  integrity sha512-5wRfrnj6n5E4Xrqd4A8DsnThCNa4HD3jUPVV9cDb4aH2C2a1QcuxNCXB0kvPUDJRyOJ4+6Qr547n0fCN+CVOhg==
+ant-design-vue@3.0.0-beta.10:
+  version "3.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.0.0-beta.10.tgz#a8ee7c57bfbe298e26f2966fed2a3f69d47a8ea5"
+  integrity sha512-OTti+yNp0rcj01EnLNnsiuKhIcnOOmHrscdIeaO83nrxfiIi6l20Z0p9/7t8XyFgn1dPiJB1F/xk+1YlEAgkJw==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons-vue" "^6.0.0"
@@ -586,6 +586,11 @@ codepage@~1.15.0:
   resolved "https://registry.yarnpkg.com/codepage/-/codepage-1.15.0.tgz#2e00519024b39424ec66eeb3ec07227e692618ab"
   integrity sha512-3g6NUTPd/YtuuGrhMnOMRjFc+LJw/bnMp3+0r/Wcz3IXUuCosKRJvMphm5+Q+bvTVGcJJuRvVLuYba+WojaFaA==
 
+commander@^2.20.3:
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+
 compute-scroll-into-view@^1.0.17:
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.17.tgz#6a88f18acd9d42e9cf4baa6bec7e0522607ab7ab"
@@ -618,6 +623,11 @@ crc-32@~1.2.0, crc-32@~1.2.1:
   dependencies:
     exit-on-epipe "~1.0.1"
     printj "~1.3.1"
+
+cssfilter@0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/cssfilter/-/cssfilter-0.0.10.tgz#c6d2672632a2e5c83e013e6864a42ce8defd20ae"
+  integrity sha1-xtJnJjKi5cg+AT5oZKQs6N79IK4=
 
 csstype@^2.6.8:
   version "2.6.19"
@@ -943,6 +953,16 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+highlight.js-async-webpack@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/highlight.js-async-webpack/-/highlight.js-async-webpack-1.0.4.tgz#c06b67bf99f049045d62b756e5855b0912ec616c"
+  integrity sha1-wGtnv5nwSQRdYrdW5YVbCRLsYWw=
+
+highlight.js@^9.11.0:
+  version "9.18.5"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.18.5.tgz#d18a359867f378c138d6819edfc2a8acd5f29825"
+  integrity sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==
+
 htmlparser2@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-6.1.0.tgz#c4d762b6c3371a05dbe65e94ae43a9f845fb8fb7"
@@ -1086,6 +1106,15 @@ make-dir@^2.1.0:
   dependencies:
     pify "^4.0.1"
     semver "^5.6.0"
+
+mavon-editor@3.0.0-beta:
+  version "3.0.0-beta"
+  resolved "https://registry.yarnpkg.com/mavon-editor/-/mavon-editor-3.0.0-beta.tgz#47073f7daaf7e1bf1e265ed97055a69f3b65fcba"
+  integrity sha512-cmGKbkgrlvFtrhEVyEUIO2X30R+0p0cWpWcYZ97p2E7zn5flKakgv3gq/4mrzjb6UTmhUiHis38k+a6fP6XUEQ==
+  dependencies:
+    highlight.js "^9.11.0"
+    highlight.js-async-webpack "^1.0.4"
+    xss "^1.0.6"
 
 mime@^1.4.1:
   version "1.6.0"
@@ -1585,7 +1614,7 @@ vscode-vue-languageservice@^0.27.0:
     vscode-pug-languageservice "^0.27.24"
     vscode-typescript-languageservice "^0.27.25"
 
-vue-i18n@9.2.0-beta.30:
+vue-i18n@^9.2.0-beta.30:
   version "9.2.0-beta.30"
   resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-9.2.0-beta.30.tgz#e58effd4e1dcd328c3c40ad945aaf914146237c6"
   integrity sha512-5DqrgG9ffgC7j3RRAfViC0WUcdz0C3Ix1qq1AyQItpF7UkSB6iSJGEjBG6KdspbRQq/8t1YzDx4JRXbL05l6ow==
@@ -1688,6 +1717,14 @@ xlsx@^0.18.2:
     ssf "~0.11.2"
     wmf "~1.0.1"
     word "~0.3.0"
+
+xss@^1.0.6:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/xss/-/xss-1.0.10.tgz#5cd63a9b147a755a14cb0455c7db8866120eb4d2"
+  integrity sha512-qmoqrRksmzqSKvgqzN0055UFWY7OKx1/9JWeRswwEVX9fCG5jcYRxa/A2DHcmZX6VJvjzHRQ2STeeVcQkrmLSw==
+  dependencies:
+    commander "^2.20.3"
+    cssfilter "0.0.10"
 
 yallist@^4.0.0:
   version "4.0.0"

@@ -12,8 +12,9 @@ export interface commonStore {
       queryInfo: QueryInfo
       schemaList: string[]
       spinning: boolean
-      sql: string,
+      sql: string
       sock: any
+      schema: string
 }
 
 export interface QueryInfo {
@@ -31,7 +32,8 @@ export const common: Module<commonStore, RootStore> = {
             schemaList: [],
             spinning: false,
             sql: "",
-            sock: null
+            sock: null,
+            schema: ""
       },
       mutations: {
             GET_IDC (state) {
@@ -49,6 +51,9 @@ export const common: Module<commonStore, RootStore> = {
                   state.schemaList = f.schema
                   state.queryInfo.source = f.source
                   state.queryInfo.source_id = f.source_id
+            },
+            SET_SCHEMA (state, v) {
+                  v === "" ? state.schema = state.schemaList[0] : state.schema = v
             },
             SET_SPINNING (state) {
                   state.spinning = !state.spinning

@@ -67,6 +67,10 @@
                         <PaperClipOutlined />
                         <span>{{ $t('menu.manage.auto') }}</span>
                   </a-menu-item>
+                  <a-menu-item key="/manager/board">
+                        <PaperClipOutlined />
+                        <span>{{ $t('menu.manage.board') }}</span>
+                  </a-menu-item>
                   <a-menu-item key="/manager/setting">
                         <ToolOutlined />
                         <span>{{ $t('menu.manage.setting') }}</span>

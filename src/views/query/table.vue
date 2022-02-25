@@ -82,12 +82,11 @@ const recv = async (e: any) => {
       const h = e.data as Blob
       if (h.size > 0) {
             const resp = decode(await h.arrayBuffer()) as any
-            console.log(resp)
             if (resp.error !== "") {
                   message.error(resp.error)
             } else {
                   isExport.value = resp.export
-                  results.value = resp.results
+                  resp.results.length[0] !== null ? results.value = resp.results : null
                   executeTime.value = resp.query_time
                   resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
             }

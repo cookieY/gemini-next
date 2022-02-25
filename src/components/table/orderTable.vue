@@ -1,6 +1,6 @@
 <template>
       <order-table-search
-            @search="(exp) => { expr.find = exp; currentPage(route.params.tp === 'audit') }"
+            @search="(exp) => { expr.find = exp; expr.page = 1; currentPage(route.params.tp === 'audit') }"
       ></order-table-search>
       <a-table :columns="col" :dataSource="tData" :pagination="false" rowKey="work_id" bordered>
             <template #bodyCell="{ column, text, record }">

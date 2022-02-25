@@ -148,13 +148,17 @@ onMounted(() => {
             gData.value = res.data.payload.info
             dataList = res.data.payload.info
             expandedKeys.value = [res.data.payload.info.key]
-            store.commit("common/SET_SCHEMA_List",
-                  {
-                        schema: res.data.payload.info.map((item: { key: string; }) => item.key),
-                        source: route.query.source as string,
-                        source_id: route.query.source_id as string
-                  }
-            )
+            if (res.data.payload.info.length > 0) {
+                  store.commit("common/SET_SCHEMA_List",
+                        {
+                              schema: res.data.payload.info.map((item: { key: string; }) => item.key),
+                              source: route.query.source as string,
+                              source_id: route.query.source_id as string
+                        }
+                  )
+                  store.commit("common/SET_SCHEMA", "")
+            }
+
             EventBus.emit("highlight", res.data.payload.highlight)
       }
       ).finally(() => spin())

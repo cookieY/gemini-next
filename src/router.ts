@@ -179,6 +179,14 @@ const router = createRouter({
                                           component: () => import('@/views/manager/autotask/autotask.vue'),
                                     },
                                     {
+                                          path: '/manager/board',
+                                          name: 'manager/board',
+                                          meta: {
+                                                title: 'Board - 公告'
+                                          },
+                                          component: () => import('@/views/manager/board/board.vue'),
+                                    },
+                                    {
                                           path: '/manager/setting',
                                           name: 'manager/setting',
                                           meta: {

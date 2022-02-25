@@ -70,7 +70,7 @@ const dbForm = ref(
             idc: "",
             source: "",
             ip: "",
-            port: 0,
+            port: 3306,
             password: "",
             username: "",
             is_query: 2,
@@ -89,7 +89,7 @@ const fill = (vl: Source) => {
 }
 
 const createSource = () => {
-       OpsDBApis({ db: dbForm.value, tp: "create" }).then(() => EventBus.emit("postOk"))
+      OpsDBApis({ db: dbForm.value, tp: "create" }).then(() => EventBus.emit("postOk"))
 }
 
 const checkConn = () => {

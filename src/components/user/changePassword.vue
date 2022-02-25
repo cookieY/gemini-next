@@ -6,7 +6,12 @@
             @cancel="Object.assign(formItem, initItem)"
       >
             <a-form ref="formRef" :model="formItem" :rules="rules" layout="vertical">
-                  <a-form-item :label="$t('user.password.old')" name="origin" has-feedback>
+                  <a-form-item
+                        :label="$t('user.password.old')"
+                        name="origin"
+                        has-feedback
+                        v-if="!isManager"
+                  >
                         <a-input-password v-model:value="formItem.origin" password></a-input-password>
                   </a-form-item>
                   <a-form-item :label="$t('user.password.new')" name="password" has-feedback>
@@ -66,11 +71,6 @@ const rules = {
 const handlePassword = () => {
       ChangePasswordApi(formItem, props.user, props.isManager).then(() => turnState()).finally(() => Object.assign(formItem, initItem))
 }
-
-const layout = {
-      labelCol: { span: 5 },
-      wrapperCol: { span: 19 },
-};
 
 defineExpose({
       turnState,

@@ -1,6 +1,5 @@
 import { COMMON_URI } from "@/config/request"
 import { useStore } from "@/store"
-import { message } from "ant-design-vue"
 
 
 export default class WsSocket {
@@ -13,8 +12,8 @@ export default class WsSocket {
 
       constructor(prefix: string) {
             document.location.protocol === "https:" ? this.scheme = "wss://" : this.scheme = "ws://"
-            // this.url = `${this.scheme}${document.location.host}${COMMON_URI}${prefix}`
-            this.url = `${this.scheme}127.0.0.1:8000${COMMON_URI}${prefix}`
+            this.url = `${this.scheme}${document.location.host}${COMMON_URI}${prefix}`
+            // this.url = `${this.scheme}127.0.0.1:8000${COMMON_URI}${prefix}`
             this.socket = null as any
             this.timer = null
       }
@@ -40,8 +39,6 @@ export default class WsSocket {
       send (data: string | ArrayBufferLike | Blob | ArrayBufferView) {
             if (this.socket?.readyState === 1) {
                   this.socket.send(data)
-            } else {
-                  message.info("webSocket 连接已断开,请重新连接")
             }
       }
 

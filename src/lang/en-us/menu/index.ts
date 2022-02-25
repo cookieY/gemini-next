@@ -9,6 +9,7 @@ export default {
       "menu.manage.user": "User",
       "menu.manage.source": "Source",
       "menu.manage.flow": "Flow",
+      "menu.manage.board": "Board",
       "menu.manage.policy": "Policy",
       "menu.manage.rule": "Rule",
       "menu.manage.auto": "AutoTask",

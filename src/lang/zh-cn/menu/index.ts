@@ -9,6 +9,7 @@ export default {
       "menu.manage.user": "用户",
       "menu.manage.source": "数据源",
       "menu.manage.flow": "流程",
+      "menu.manage.board": "公告",
       "menu.manage.policy": "权限组",
       "menu.manage.rule": "审核规则",
       "menu.manage.auto": "自动任务",

@@ -74,7 +74,7 @@
                   <a-row :gutter="24">
                         <a-col :xs="24" :sm="5">
                               <a-card
-                                    style="height: 500px;"
+                                    style="height: 500px;overflow: auto;"
                                     :title="$t('order.profile.progress')"
                                     size="small"
                               >
