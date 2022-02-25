@@ -15,7 +15,7 @@ export class Request {
       Get (): AxiosPromise {
             return request({
                   method: 'get',
-                  url: `${COMMON_URI}/manage/board/get`,
+                  url: `${COMMON_URI}/board/get`,
             })
       }
 }
