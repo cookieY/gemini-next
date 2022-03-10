@@ -19,7 +19,39 @@
                         <ListApp :type="i.key" :id="i.id"></ListApp>
                   </a-tab-pane>
             </template>
-            <a-tab-pane :tab="$t('order.apply.query.tab')">
+            <a-tab-pane tab="人工审核" key="only">
+                  <a-row type="flex" justify="center" align="middle">
+                        <a-col :span="12">
+                              <a-card style="width: 500px;text-align: center;" title="仅审核工单填写">
+                                    <a-form layout="vertical">
+                                          <a-form-item label="数据源">
+                                                <a-input v-model:value="onlyAudit.source"></a-input>
+                                          </a-form-item>
+                                          <a-form-item label="文件上传">
+                                                <a-upload-dragger
+                                                      v-model:fileList="onlyAudit.fileList"
+                                                      name="file"
+                                                      :multiple="true"
+                                                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                                >
+                                                      <p class="ant-upload-drag-icon">
+                                                            <inbox-outlined></inbox-outlined>
+                                                      </p>
+                                                      <p class="ant-upload-text">上传SQL文件</p>
+                                                      <p
+                                                            class="ant-upload-hint"
+                                                      >仅支持zip/rar/text/sql后缀名的文件</p>
+                                                </a-upload-dragger>
+                                          </a-form-item>
+                                    </a-form>
+                                    <a-form-item>
+                                          <a-button block>提交</a-button>
+                                    </a-form-item>
+                              </a-card>
+                        </a-col>
+                  </a-row>
+            </a-tab-pane>
+            <a-tab-pane :tab="$t('order.apply.query.tab')" key="query">
                   <QueryApp></QueryApp>
             </a-tab-pane>
       </a-tabs>
@@ -34,6 +66,11 @@ import { useStore } from "@/store";
 import { Request } from "@/apis/fetchSchema";
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
+
+const onlyAudit = reactive({
+      source: "",
+      fileList: [],
+})
 
 const { t } = useI18n()
 

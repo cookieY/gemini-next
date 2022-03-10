@@ -12,7 +12,7 @@ export default {
       "common.relevant": "相关人员",
       "common.profile": "详情",
       "common.search": "查询",
-      "common.cancel": "重置",
+      "common.cancel": "取消",
       "common.pick": "收起",
       "common.unfold": "展开",
       "common.commit": "提交",

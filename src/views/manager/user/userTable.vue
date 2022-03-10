@@ -7,8 +7,8 @@
                               <a-button
                                     size="small"
                                     ghost
-                                    v-if="!is_edit"
-                                    @click="() => is_edit = true"
+                                    v-if="!record.editable"
+                                    @click="() => record.editable = true"
                               >{{ $t('common.edit') }}</a-button>
                               <template v-else>
                                     <a-button
@@ -19,7 +19,7 @@
                                     <a-button
                                           size="small"
                                           ghost
-                                          @click="() => is_edit = false"
+                                          @click="() => record.editable = false"
                                     >{{ $t('common.cancel') }}</a-button>
                               </template>
                               <a-button
@@ -48,7 +48,7 @@
                         </a-space>
                   </template>
                   <template v-if="['real_name', 'department', 'email'].includes(column.dataIndex)">
-                        <span v-if="!is_edit">{{ text }}</span>
+                        <span v-if="!record.editable">{{ text }}</span>
                         <a-input v-model:value="record[column.dataIndex]" v-else></a-input>
                   </template>
             </template>
