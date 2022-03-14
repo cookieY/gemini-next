@@ -9,7 +9,6 @@
 
 <script lang="ts"  setup>
 import { Template } from '@/types';
-import { defineProps } from 'vue'
 import { useI18n } from 'vue-i18n';
 import CommonMixins from "@/mixins/common"
 

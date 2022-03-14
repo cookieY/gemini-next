@@ -261,7 +261,6 @@ onMounted(() => {
       })
       fetchRequest.TimeLine(orderItems.source_id).then((res: AxiosResponse<Res<Timeline[]>>) => {
             res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload
-
       })
 
       route.query.remark === 'true' ? editor.value.ChangeEditorText(store.state.common.sql) : null

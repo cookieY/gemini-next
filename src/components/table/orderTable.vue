@@ -5,7 +5,7 @@
       <a-table :columns="col" :dataSource="tData" :pagination="false" rowKey="work_id" bordered>
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'type'">
-                        <span>{{ text === 1 ? 'DML' : 'DDL' }}</span>
+                        <span>{{ text === 1 ? 'DML' : text === 0 ? 'DDL' : '仅审核' }}</span>
                   </template>
                   <template v-if="column.dataIndex === 'assigned'">
                         <a-tag v-for="i in text.split(',')">{{ i }}</a-tag>

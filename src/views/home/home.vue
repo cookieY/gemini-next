@@ -92,16 +92,7 @@
             <a-row :gutter="24">
                   <a-col :xs="24" :md="24" :xl="16" :style="{ marginBottom: '24px' }">
                         <a-card title="公告" style="height: 560px;width: 100%;">
-                              <Editor
-                                    v-model="boardContent"
-                                    previewBackground="#2A2e37"
-                                    toolbarsBackground="#2A2e37"
-                                    editorBackground="#2A2e37"
-                                    :ishljs="true"
-                                    :subfield="false"
-                                    defaultOpen="preview"
-                                    :toolbarsFlag="false"
-                              ></Editor>
+                              <div v-html="boardContent"></div>
                         </a-card>
                   </a-col>
                   <a-col :xs="24" :md="24" :xl="8" :style="{ marginBottom: '24px' }">
@@ -114,7 +105,6 @@
 </template>
 
 <script setup lang="ts">
-import mavonEditor from 'mavon-editor'
 import ChartCard from "@/components/chartCard/chartCard.vue"
 import MiniArea from "@/components/chartCard/miniArea.vue";
 import MiniCol from "@/components/chartCard/miniCol.vue";
@@ -125,9 +115,7 @@ import { Request as Board } from "@/apis/board"
 import { onMounted, ref } from "vue";
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
-import 'mavon-editor/dist/css/index.css'
 
-const Editor = mavonEditor.mavonEditor
 
 const loading = false
 
