@@ -10,8 +10,8 @@ import enUS from 'ant-design-vue/es/locale/en_US'
 import dayjs from 'dayjs';
 import 'dayjs/locale';
 import { defaultLang } from "@/lang"
+import { onMounted } from 'vue';
+import { useStore } from './store';
 dayjs.locale(defaultLang);
 const locale = defaultLang === "en-US" ? enUS : zhCN
-
-
 </script>

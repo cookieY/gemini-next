@@ -70,9 +70,8 @@
       </a-page-header>
       <a-tabs>
             <a-tab-pane key="1" :tab="$t('order.profile.profile')">
-                  <a-card :title="$t('order.profile.flow')" size="small">
-                        <Step :current="order.current_step" :step="orderProfileArch.timeline"></Step>
-                  </a-card>
+                  <Step :current="order.current_step" :step="orderProfileArch.timeline"></Step>
+
                   <br />
                   <a-row :gutter="24">
                         <a-col :xs="24" :sm="5">
@@ -102,6 +101,7 @@
                                           container-id="profile"
                                           ref="profile"
                                           readonly
+                                          :height="300"
                                           @getValues="testResults"
                                     ></Editor>
                                     <br />

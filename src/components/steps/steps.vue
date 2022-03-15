@@ -1,7 +1,9 @@
 <template>
       <a-steps type="navigation" size="small" v-model:current="props.current">
             <a-step v-for="i in props.step" :title="i.desc" :sub-title="checkStepState(i.type)">
-                  <template #description>{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</template>
+                  <template #description>
+                        <span>{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</span>
+                  </template>
             </a-step>
       </a-steps>
 </template>

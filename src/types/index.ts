@@ -52,6 +52,7 @@ export interface OrderTableData {
       relevant: []
       source_id?: string
       sql?: string
+      file?: string
 }
 
 export interface OrderItem {

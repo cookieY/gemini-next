@@ -87,7 +87,7 @@
                                           <Editor
                                                 container-id="applys"
                                                 ref="editor"
-                                                :height="400"
+                                                :height="290"
                                                 @getValues="testResults"
                                           ></Editor>
                                           <br />

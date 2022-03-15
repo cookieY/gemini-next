@@ -3,10 +3,16 @@
 </template>
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import { createSQLToken } from "@/components/editor/impl"
 import { onMounted, onUnmounted } from '@vue/runtime-core';
 import { format } from 'sql-formatter';
 
+self.MonacoEnvironment = {
+      getWorker (_, label) {
+            return new editorWorker()
+      }
+}
 
 interface Props {
       containerId: string,
@@ -99,10 +105,10 @@ onMounted(() => {
       model.focus()
 })
 
-onUnmounted(() => {
-      model.dispose()
+// onUnmounted(() => {
+//       model.dispose()
 
-})
+// })
 
 
 

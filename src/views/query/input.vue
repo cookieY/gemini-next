@@ -56,10 +56,6 @@ const getValues = (vl: string) => {
 
 }
 
-const paste = () => {
-      console.log(1231)
-}
-
 onUnmounted(() => {
       EventBus.off("highlight")
 })

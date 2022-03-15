@@ -43,8 +43,8 @@ const props = withDefaults(defineProps<propsAttr>(), {
 })
 
 const layout = {
-      labelCol: { span: 5 },
-      wrapperCol: { span: 19 },
+      labelCol: { span: 6 },
+      wrapperCol: { span: 18 },
 };
 
 const registerForm: UnwrapRef<RegisterForm> = reactive({

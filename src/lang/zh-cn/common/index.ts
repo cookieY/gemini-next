@@ -33,7 +33,7 @@ export default {
       "common.table.env": "环境",
       "common.table.source": "数据源",
       "common.table.schema": "数据库",
-      "common.table.table": "数据库",
+      "common.table.table": "数据表",
       "common.table.max": "影响行数",
       "common.table.state": "状态",
       "common.table.stage": "阶段",
