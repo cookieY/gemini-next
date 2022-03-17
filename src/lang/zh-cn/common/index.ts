@@ -27,6 +27,8 @@ export default {
       "common.copy": "复制",
       "common.clip": "剪贴板",
       "common.new": "新建",
+      "common.success": "成功",
+
 
       "common.table.name": "名称",
       "common.table.type": "类型",
@@ -61,6 +63,7 @@ export default {
       "common.check.type": "请选择类型",
 
       "common.step.execute": "执行阶段",
+      "common.step.done": "完成阶段",
       "common.step.audit": "审核阶段",
       "common.step.commit": "提交阶段",
 

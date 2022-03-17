@@ -7,6 +7,7 @@ export default {
       "order.profile.profile": "详情",
       "order.profile.comment": "评论",
       "order.profile.results": "结果",
+      "order.profile.osc": "OSC进度",
       "order.profile.flow": "流程信息",
       "order.profile.progress": "进度信息",
       "order.profile.roll": "是否回滚",
@@ -19,6 +20,7 @@ export default {
       "order.profile.results.recommit.tips": "确定重新提交工单 ?",
       "order.profile.reject.title": "驳回理由",
       "order.profile.comment.add": "添加评论",
+
 
       "order.apply.title": "服务申请",
       "order.apply.desc": "DML/DDL/查询工单申请及提交",
@@ -34,6 +36,7 @@ export default {
       "order.apply.tab.sql": "填写SQL",
       "order.apply.tab.table": "表结构详情",
       "order.apply.tab.index": "索引详情",
+      "order.apply.form.commit": "请填写必要信息后提交工单",
 
       "order.apply.commit.title": "工单填写",
       "order.apply.commit.desc": "填写提交信息并对SQL进行检测",

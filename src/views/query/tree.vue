@@ -68,7 +68,6 @@ import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
 import { HddOutlined, TableOutlined, CloudOutlined, ArrowLeftOutlined } from "@ant-design/icons-vue";
 import { useStore } from "@/store";
-import { EventBus } from "@/lib";
 
 const emit = defineEmits(["showTableRef"])
 
@@ -158,10 +157,9 @@ onMounted(() => {
                   )
                   store.commit("common/SET_SCHEMA", "")
             }
-
-            EventBus.emit("highlight", res.data.payload.highlight)
       }
       ).finally(() => spin())
+
 })
 
 </script>

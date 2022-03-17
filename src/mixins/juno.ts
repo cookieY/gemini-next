@@ -60,9 +60,6 @@ export default function () {
             {
                   title: t('order.table.isunique'),
                   dataIndex: 'NonUnique',
-                  slots: {
-                        customRender: 'NonUnique'
-                  }
             },
             {
                   title: t('order.table.field'),

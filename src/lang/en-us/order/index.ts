@@ -6,6 +6,7 @@ export default {
       "order.profile.timing": "Timing",
       "order.profile.profile": "Profile",
       "order.profile.comment": "Comment",
+      "order.profile.osc": "OSC Process",
       "order.profile.results": "Results",
       "order.profile.flow": "Flow Info",
       "order.profile.progress": "Progress Info",
@@ -34,6 +35,7 @@ export default {
       "order.apply.tab.sql": "SQL",
       "order.apply.tab.table": "Table structure",
       "order.apply.tab.index": "Index structure",
+      "order.apply.form.commit": "Please fill in the necessary information and submit the work order",
 
       "order.apply.commit.title": "Fill in",
       "order.apply.commit.desc": "Fill in the submission information and test the SQL",

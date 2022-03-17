@@ -1,5 +1,5 @@
 <template>
-      <div :id="props.containerId" :style="{ height: props.height + 'px' }"></div>
+      <div :id="props.containerId" :style="{ height: `${height}px` }"></div>
 </template>
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
@@ -7,6 +7,7 @@ import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import { createSQLToken } from "@/components/editor/impl"
 import { onMounted, onUnmounted } from '@vue/runtime-core';
 import { format } from 'sql-formatter';
+import { ref } from 'vue';
 
 self.MonacoEnvironment = {
       getWorker (_, label) {
@@ -16,14 +17,12 @@ self.MonacoEnvironment = {
 
 interface Props {
       containerId: string,
-      height?: number,
       readonly?: boolean,
       isQuery?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
       containerId: "",
-      height: 400,
       readonly: false,
       isQuery: false
 })
@@ -91,6 +90,12 @@ const GetValue = () => {
       return model.getValue()
 }
 
+const height = ref(250)
+
+
+
+
+
 onMounted(() => {
       model = monaco.editor.create(document.getElementById(props.containerId) as HTMLElement, {
             language: "sql",
@@ -103,6 +108,10 @@ onMounted(() => {
       model.addAction(beautyFunc)
       model.addAction(GetValueFunc)
       model.focus()
+
+      window.onresize = () => {
+            height.value = document.body.clientHeight - 600 > 150 ? document.body.clientHeight - 600 : 150
+      }
 })
 
 // onUnmounted(() => {

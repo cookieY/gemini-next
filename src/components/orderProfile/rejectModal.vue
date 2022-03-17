@@ -1,5 +1,10 @@
 <template>
-      <a-modal v-model:visible="is_open" :title="$t('order.profile.reject.title')" @ok="postReject">
+      <a-modal
+            v-model:visible="is_open"
+            :title="$t('order.profile.reject.title')"
+            @ok="postReject"
+            :confirm-loading="confirmLoading"
+      >
             <a-textarea :rows="5" v-model:value="content"></a-textarea>
       </a-modal>
 </template>
@@ -18,8 +23,12 @@ const content = ref("")
 
 const request = new Request
 
+const confirmLoading = ref(false)
+
 const postReject = () => {
-      request.Next({ work_id: props.work_id, text: content.value, tp: "reject" }).then(() => {
+      confirmLoading.value = true;
+      request.Next({ work_id: props.work_id, text: content.value, tp: "reject" }).finally(() => {
+            confirmLoading.value = false;
             turnState()
             router.go(-1)
       })

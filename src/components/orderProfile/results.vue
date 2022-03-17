@@ -64,6 +64,10 @@ const col = [
       {
             title: t('common.table.time'),
             dataIndex: "time"
+      },
+      {
+            title: t('common.table.error'),
+            dataIndex: "error"
       }
 ]
 

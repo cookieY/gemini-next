@@ -27,6 +27,7 @@ export default {
       "common.copy": "Copy",
       "common.clip": "Clipboard",
       "common.new": "New",
+      "common.success": "Success",
 
       "common.table.name": "Name",
       "common.table.type": "Type",
@@ -61,6 +62,7 @@ export default {
       "common.check.type": "Please select the type",
 
       "common.step.execute": "Execution stage",
+      "common.step.done": "Done stage",
       "common.step.audit": "Review stage",
       "common.step.commit": "Commit stage",
 

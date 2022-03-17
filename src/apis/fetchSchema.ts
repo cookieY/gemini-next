@@ -44,7 +44,7 @@ export class Request {
                   url: `${COMMON_URI}/fetch/base`,
                   params: {
                         source_id: source_id,
-                        tp: tp,
+                        // tp: tp,
                         hide: hide
                   }
             })
@@ -73,6 +73,16 @@ export class Request {
             return request({
                   method: 'get',
                   url: `${COMMON_URI}/fetch/timeline`,
+                  params: {
+                        source_id: source_id
+                  }
+            })
+      }
+
+      HighLight (source_id: string): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/highlight`,
                   params: {
                         source_id: source_id
                   }

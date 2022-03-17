@@ -29,6 +29,10 @@ import Table from "./table.vue";
 import { useStore } from "@/store";
 import { computed, onMounted, onUnmounted, ref } from "vue"
 import { EventBus } from "@/lib"
+import { useRoute } from "vue-router";
+import { Request } from "@/apis/fetchSchema";
+import { AxiosResponse } from "axios";
+import { Res } from "@/config/request";
 
 const props = defineProps<{
       id: string
@@ -38,7 +42,11 @@ const query_editor = ref()
 
 const store = useStore()
 
+const route = useRoute()
+
 const tbl = ref()
+
+const request = new Request()
 
 const source_id = computed(() => store.state.common.queryInfo.source_id)
 
@@ -61,9 +69,16 @@ onUnmounted(() => {
 })
 
 onMounted(() => {
-      EventBus.on("highlight", (highlight: any) => {
-            query_editor.value.RunEditor(highlight)
-      })
+      const source_id = route.query.source_id as string
+      const hightligh = store.state.highlight.highligt
+      if (hightligh[source_id as string] !== undefined) {
+            query_editor.value.RunEditor(hightligh[source_id as string])
+      } else {
+            request.HighLight(source_id).then((res: AxiosResponse<Res<any>>) => {
+                  query_editor.value.RunEditor(res.data.payload)
+                  store.commit("highlight/SAVE_HIGHLIGHT", { key: source_id, highlight: res.data.payload })
+            })
+      }
 })
 
 </script>

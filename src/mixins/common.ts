@@ -26,8 +26,10 @@ export default function () {
                   return t('common.step.commit')
             } else if (type === 0) {
                   return t('common.step.audit')
-            } else {
+            } else if (type === 1) {
                   return t('common.step.execute')
+            } else {
+                  return t('common.step.done')
             }
       }
 

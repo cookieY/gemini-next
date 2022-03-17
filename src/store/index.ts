@@ -4,6 +4,7 @@ import { menu } from "@/store/module/menu"
 import { user } from "@/store/module/user"
 import { order } from './module/order'
 import { common } from './module/common'
+import { highlight } from './module/highlight'
 import { RootStore, AllStoreTypes } from "./types"
 import createPersistedState from "vuex-persistedstate";
 
@@ -13,9 +14,12 @@ export const store = createStore<AllStoreTypes>({
             menu,
             user,
             order,
-            common
+            common,
+            highlight
       },
-      plugins: [createPersistedState({ paths: ["user", "menu", "order"], storage: window.sessionStorage })],
+      plugins: [
+            createPersistedState({ paths: ["user", "menu", "order", "highlight"], storage: window.sessionStorage }),
+      ],
 })
 
 export const key: InjectionKey<Store<RootStore>> = Symbol("vue-store")

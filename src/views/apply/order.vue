@@ -68,9 +68,11 @@
                               <a-form-item :label="$t('common.action')">
                                     <a-space>
                                           <a-button
+                                                :loading="loadingTblBtn"
                                                 @click="fetchTableArch"
                                           >{{ $t('order.apply.table.info') }}</a-button>
                                           <a-button
+                                                :loading="loadingPostBtn"
                                                 @click="postOrder"
                                                 :disabled="enabled"
                                           >{{ $t('common.commit') }}</a-button>
@@ -87,7 +89,6 @@
                                           <Editor
                                                 container-id="applys"
                                                 ref="editor"
-                                                :height="290"
                                                 @getValues="testResults"
                                           ></Editor>
                                           <br />
@@ -115,9 +116,11 @@
                                           bordered
                                           rowKey="IndexName"
                                     >
-                                          <template
-                                                #NonUnique="{ text }"
-                                          >{{ text === 0 ? '是' : '否' }}</template>
+                                          <template #bodyCell="{ column, text, record }">
+                                                <template
+                                                      v-if="column.dataIndex === 'NonUnique'"
+                                                >{{ text === 0 ? $t('common.yes') : $t('common.no') }}</template>
+                                          </template>
                                     </a-table>
                               </a-tab-pane>
                         </a-tabs>
@@ -130,7 +133,7 @@ import Editor from '@/components/editor/editor.vue';
 import JunoMixin from '@/mixins/juno'
 import { onMounted, ref, onUnmounted } from '@vue/runtime-core';
 import { useRoute, onBeforeRouteLeave } from 'vue-router';
-import { OrderItem, SQLTesting } from "@/types"
+import { SQLTesting } from "@/types"
 import FetchMixins from '@/mixins/fetch'
 import PageHeader from "@/components/pageHeader/pageHeader.vue"
 import { AxiosResponse } from 'axios';
@@ -140,12 +143,12 @@ import { Dayjs } from 'dayjs';
 import { message } from 'ant-design-vue';
 import { Request, SQLTestParams } from '@/apis/orderPostApis';
 import { Request as FetchRequest } from "@/apis/fetchSchema"
-import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import CommonMixins from "@/mixins/common"
 import router from '@/router';
-import { store } from '@/store';
+import { store, useStore } from '@/store';
 import { Modal } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
 const { t } = useI18n()
 
@@ -153,6 +156,10 @@ const layout = {
       labelCol: { span: 7 },
       wrapperCol: { span: 20 },
 };
+
+const loadingTblBtn = ref(false)
+
+const loadingPostBtn = ref(false)
 
 const activeKey = ref(1)
 
@@ -166,6 +173,8 @@ const formRef = ref()
 
 const route = useRoute()
 
+const sotre = useStore()
+
 const request = new Request
 
 const fetchRequest = new FetchRequest
@@ -176,10 +185,10 @@ const { checkStepState } = CommonMixins()
 
 const rules = {
       data_base: [
-            { required: true, message: '请选择对应的数据库', trigger: 'change' },
+            { required: true, message: t('common.check.source'), trigger: 'change' },
       ],
       text: [
-            { required: true, message: '请填写工单说明', trigger: 'blur' },
+            { required: true, message: t('common.check.text'), trigger: 'blur' },
       ]
 }
 
@@ -200,6 +209,7 @@ const fetchTable = (data_base: string) => {
 }
 
 const fetchTableArch = () => {
+      loadingTblBtn.value = !loadingTblBtn.value
       fetchRequest.Arch({
             source_id: orderItems.source_id,
             data_base: orderItems.data_base,
@@ -208,12 +218,13 @@ const fetchTableArch = () => {
             archData.value = res.data.payload.rows
             indexData.value = res.data.payload.idx
             activeKey.value = 2
-            message.success('已获取表结构信息')
+            message.success(t('order.apply.table.info') + t('common.success'))
+      }).finally(() => {
+            loadingTblBtn.value = !loadingTblBtn.value
       })
 }
 
 const testResults = (sql: string) => {
-      console.log(orderItems.type)
       spin.value = !spin.value
       request.Test({
             source: orderItems.source,
@@ -235,6 +246,7 @@ const testResults = (sql: string) => {
 }
 
 const postOrder = () => {
+      loadingPostBtn.value = !loadingPostBtn.value
       formRef.value.validate().then(() => {
             let warpper = Object.assign({}, orderItems)
             warpper.sql = editor.value.GetValue()
@@ -242,10 +254,21 @@ const postOrder = () => {
                   warpper.relevant = warpper.relevant.concat(item.auditor)
             })
             request.Post(warpper).finally(() => enabled.value = true)
-      }).catch((error: ValidateErrorEntity<OrderItem>) => {
-            message.error("请填写必要信息后提交工单")
-      })
+      }).catch(() => {
+            message.error(t('order.apply.form.commit'))
+      }).finally(() => loadingPostBtn.value = !loadingPostBtn.value)
+}
 
+const fetchHighLight = () => {
+      const highlightWord = store.state.highlight.highligt
+      if (highlightWord[orderItems.source_id] !== undefined) {
+            editor.value.RunEditor(highlightWord[orderItems.source_id])
+      } else {
+            fetchRequest.HighLight(orderItems.source_id).then((res: AxiosResponse<Res<DBRelated>>) => {
+                  editor.value.RunEditor(res.data.payload)
+                  store.commit("highlight/SAVE_HIGHLIGHT", { key: orderItems.source_id, highlight: res.data.payload })
+            })
+      }
 }
 
 
@@ -257,11 +280,13 @@ onMounted(() => {
 
       fetchRequest.Schema(orderItems.source_id, "", true).then((res: AxiosResponse<Res<DBRelated>>) => {
             orderProfileArch.db = res.data.payload.results
-            editor.value.RunEditor(res.data.payload.highlight)
       })
+
       fetchRequest.TimeLine(orderItems.source_id).then((res: AxiosResponse<Res<Timeline[]>>) => {
             res.data.code === 5555 ? router.go(-1) : orderProfileArch.timeline = res.data.payload
       })
+
+      fetchHighLight()
 
       route.query.remark === 'true' ? editor.value.ChangeEditorText(store.state.common.sql) : null
 
