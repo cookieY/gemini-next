@@ -20,7 +20,9 @@
                                                       >{{ store.state.user.account.user }}</span>
                                                 </div>
                                                 <template #overlay>
-                                                      <a-menu>
+                                                      <a-menu
+                                                            @click="() => router.push({ path: '/home/profile' })"
+                                                      >
                                                             <a-menu-item>
                                                                   <a href="javascript:;">个人详情</a>
                                                             </a-menu-item>
@@ -57,10 +59,13 @@ import Menu from "@/components/menu/menu.vue";
 import { overrideHeaders } from "@/config/request"
 import { useStore } from "@/store";
 import profile from "@/assets/comment/3.svg"
+import { useRouter } from "vue-router";
 
 const { is_open, close } = CommonMixin()
 
 const store = useStore()
+
+const router = useRouter()
 
 overrideHeaders()
 

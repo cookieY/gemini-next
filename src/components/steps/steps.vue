@@ -25,10 +25,6 @@ const props = defineProps<{
       status: number
 }>()
 
-onUpdated(() => {
-      props.step.push({ desc: "已完成", type: 2, auditor: [] })
-})
-
 const { checkStepState } = CommonMixins()
 
 </script>

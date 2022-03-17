@@ -29,6 +29,9 @@ export default {
       "common.new": "New",
       "common.success": "Success",
 
+      "common.profile.title": "Account",
+      "common.profile.subtitle": "Account Settings",
+
       "common.table.name": "Name",
       "common.table.type": "Type",
       "common.table.env": "Env",

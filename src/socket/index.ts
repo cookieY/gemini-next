@@ -12,8 +12,8 @@ export default class WsSocket {
 
       constructor(prefix: string) {
             document.location.protocol === "https:" ? this.scheme = "wss://" : this.scheme = "ws://"
-            this.url = `${this.scheme}${document.location.host}${COMMON_URI}${prefix}`
-            // this.url = `${this.scheme}127.0.0.1:8000${COMMON_URI}${prefix}`
+            // this.url = `${this.scheme}${document.location.host}${COMMON_URI}${prefix}`
+            this.url = `${this.scheme}127.0.0.1:8000${COMMON_URI}${prefix}`
             this.socket = null as any
             this.timer = null
       }

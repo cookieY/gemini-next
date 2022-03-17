@@ -36,6 +36,7 @@ export default {
       "order.apply.tab.sql": "填写SQL",
       "order.apply.tab.table": "表结构详情",
       "order.apply.tab.index": "索引详情",
+      "order.apply.tab.source_id": "数据源ID:{env}",
       "order.apply.form.commit": "请填写必要信息后提交工单",
 
       "order.apply.commit.title": "工单填写",

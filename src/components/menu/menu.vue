@@ -68,7 +68,7 @@
                         <span>{{ $t('menu.manage.auto') }}</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/board">
-                        <PaperClipOutlined />
+                        <DotChartOutlined />
                         <span>{{ $t('menu.manage.board') }}</span>
                   </a-menu-item>
                   <a-menu-item key="/manager/setting">
@@ -83,7 +83,7 @@
       </a-menu>
 </template>
 <script lang="ts"  setup>
-import { HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
+import { DotChartOutlined, HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';

@@ -291,21 +291,30 @@ onMounted(() => {
       route.query.remark === 'true' ? editor.value.ChangeEditorText(store.state.common.sql) : null
 
       window.onbeforeunload = function () {
-            return t('common.leave')
+            if (editor.value.GetValue() !== '') {
+                  return t('common.leave')
+            }
+
       }
 })
 
 onBeforeRouteLeave((to, from, next) => {
-      Modal.warn({
-            content: t('common.leave'),
-            onOk: () => {
-                  next()
-            },
-            onCancel: () => {
-                  router.go(1)
-            },
-            okCancel: true
-      })
+      console.log(editor.value.GetValue())
+      if (editor.value.GetValue() !== '') {
+            Modal.warn({
+                  content: t('common.leave'),
+                  onOk: () => {
+                        next()
+                  },
+                  onCancel: () => {
+                        router.go(11)
+                  },
+                  okCancel: true
+            })
+      } else {
+            next()
+      }
+
 })
 
 onUnmounted(() => {

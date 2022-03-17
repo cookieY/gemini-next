@@ -6,12 +6,7 @@
             @cancel="Object.assign(formItem, initItem)"
       >
             <a-form ref="formRef" :model="formItem" :rules="rules" layout="vertical">
-                  <a-form-item
-                        :label="$t('user.password.old')"
-                        name="origin"
-                        has-feedback
-                        v-if="!isManager"
-                  >
+                  <a-form-item :label="$t('user.password.old')" name="origin" has-feedback>
                         <a-input-password v-model:value="formItem.origin" password></a-input-password>
                   </a-form-item>
                   <a-form-item :label="$t('user.password.new')" name="password" has-feedback>
@@ -35,11 +30,10 @@ import { RuleObject } from 'ant-design-vue/es/form/interface';
 
 interface propsAttr {
       user: string
-      isManager?: boolean
 }
 
 const props = withDefaults(defineProps<propsAttr>(), {
-      isManager: false
+      user: ""
 })
 
 const formItem: UnwrapRef<Password> = reactive({
@@ -69,7 +63,7 @@ const rules = {
 }
 
 const handlePassword = () => {
-      ChangePasswordApi(formItem, props.user, props.isManager).then(() => turnState()).finally(() => Object.assign(formItem, initItem))
+      ChangePasswordApi(formItem, props.user, true).then(() => turnState()).finally(() => Object.assign(formItem, initItem))
 }
 
 defineExpose({

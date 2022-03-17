@@ -29,6 +29,8 @@ export default {
       "common.new": "新建",
       "common.success": "成功",
 
+      "common.profile.title": "个人详情",
+      "common.profile.subtitle": "个人信息修改",
 
       "common.table.name": "名称",
       "common.table.type": "类型",

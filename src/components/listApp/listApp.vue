@@ -24,47 +24,53 @@
       >
             <template #renderItem="{ item }">
                   <a-list-item>
-                        <a-card :body-style="{ paddingBottom: 20 }">
-                              <a-card-meta :title="item.source">
-                                    <template
-                                          v-slot:description
-                                    >{{ $t('order.apply.card.env', { 'env': item.idc }) }}</template>
-                                    <template v-slot:avatar>
-                                          <a-avatar :style="{ backgroundColor: '#Ff9900' }">
-                                                <template v-slot:icon>
-                                                      <CodepenCircleOutlined />
-                                                </template>
-                                          </a-avatar>
-                                    </template>
-                              </a-card-meta>
-                              <template v-slot:actions>
-                                    <a-tooltip title="查看审核流程">
-                                          <UserSwitchOutlined />
-                                    </a-tooltip>
-                                    <a-tooltip
-                                          :title="$t('order.apply.card.env', { 'env': item.idc })"
-                                    >
-                                          <ShareAltOutlined />
-                                    </a-tooltip>
-                                    <a-dropdown>
-                                          <a-tooltip :title="$t('order.apply.card.enter')">
-                                                <a
-                                                      class="ant-dropdown-link"
-                                                      @click="() => router.push({ path: props.type !== 'query' ? '/apply/order' : '/apply/query', query: { type: props.id, idc: item.idc, source: item.source, source_id: item.source_id } })"
-                                                >
-                                                      <EnterOutlined />
-                                                </a>
+                        <div
+                              @click="() => router.push({ path: props.type !== 'query' ? '/apply/order' : '/apply/query', query: { type: props.id, idc: item.idc, source: item.source, source_id: item.source_id } })"
+                        >
+                              <a-card :body-style="{ paddingBottom: 20 }" hoverable>
+                                    <a-card-meta :title="item.source">
+                                          <template
+                                                v-slot:description
+                                          >{{ $t('order.apply.card.env', { 'env': item.idc }) }}</template>
+                                          <template v-slot:avatar>
+                                                <a-avatar :style="{ backgroundColor: '#Ff9900' }">
+                                                      <template v-slot:icon>
+                                                            <CodepenCircleOutlined />
+                                                      </template>
+                                                </a-avatar>
+                                          </template>
+                                    </a-card-meta>
+                                    <template v-slot:actions>
+                                          <a-tooltip
+                                                :title="$t('order.apply.tab.source_id', { 'env': item.source_id })"
+                                          >
+                                                <SubnodeOutlined />
                                           </a-tooltip>
-                                    </a-dropdown>
-                              </template>
-                        </a-card>
+                                          <a-tooltip
+                                                :title="$t('order.apply.card.env', { 'env': item.idc })"
+                                          >
+                                                <ShareAltOutlined />
+                                          </a-tooltip>
+                                          <a-dropdown>
+                                                <a-tooltip :title="$t('order.apply.card.enter')">
+                                                      <a
+                                                            class="ant-dropdown-link"
+                                                            @click="() => router.push({ path: props.type !== 'query' ? '/apply/order' : '/apply/query', query: { type: props.id, idc: item.idc, source: item.source, source_id: item.source_id } })"
+                                                      >
+                                                            <EnterOutlined />
+                                                      </a>
+                                                </a-tooltip>
+                                          </a-dropdown>
+                                    </template>
+                              </a-card>
+                        </div>
                   </a-list-item>
             </template>
       </a-list>
 </template>
 
 <script lang="ts" setup>
-import { UserSwitchOutlined, EnterOutlined, ShareAltOutlined, CodepenCircleOutlined } from "@ant-design/icons-vue"
+import { SubnodeOutlined, EnterOutlined, ShareAltOutlined, CodepenCircleOutlined } from "@ant-design/icons-vue"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { onMounted, ref } from "@vue/runtime-core";

@@ -19,9 +19,6 @@
                         <ListApp :type="i.key" :id="i.id"></ListApp>
                   </a-tab-pane>
             </template>
-            <a-tab-pane tab="人工审核" key="only">
-                  <Manual></Manual>
-            </a-tab-pane>
             <a-tab-pane :tab="$t('order.apply.query.tab')" key="query">
                   <QueryApp></QueryApp>
             </a-tab-pane>
@@ -31,7 +28,6 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive } from "vue";
 import ListApp from "@/components/listApp/listApp.vue";
-import Manual from "@/components/listApp/manual.vue";
 import QueryApp from "@/components/listApp/queryApp.vue";
 import { useI18n } from 'vue-i18n';
 import { useStore } from "@/store";

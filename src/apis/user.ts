@@ -1,4 +1,5 @@
 import { request, COMMON_URI } from "@/config/request"
+import { AxiosPromise } from "axios"
 
 export interface UserParams {
       page: number
@@ -26,7 +27,7 @@ export interface UserResp {
 }
 
 export interface RegisterForm {
-      username: string;
+      username?: string;
       password: string;
       confirm_password: string;
       real_name: string;
@@ -56,6 +57,23 @@ export interface RespGroups {
 export interface Groups {
       name: string
       id: number
+}
+
+
+export class Request {
+      UserInfo (): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/userinfo`,
+            })
+      }
+      Edit (register: RegisterForm, isManager: boolean): AxiosPromise {
+            return request({
+                  url: isManager ? `${COMMON_URI}/manage/user?tp=password` : `${COMMON_URI}/common/edit`,
+                  method: isManager ? "POST" : "PUT",
+                  data: register
+            })
+      }
 }
 
 export function FetchUserListApis (args: UserParams) {

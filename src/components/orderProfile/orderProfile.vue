@@ -8,9 +8,6 @@
                         <template
                               v-if="route.params.tp === 'audit' && isCurrent > -1 && order.status === 2"
                         >
-                              <template v-if="order.type === 2">
-                                    <a :href="`/download/${order.file}`">下载文件</a>
-                              </template>
                               <a-button
                                     key="2"
                                     danger
@@ -30,7 +27,7 @@
                               <a-descriptions :column="2">
                                     <a-descriptions-item
                                           :label="$t('common.table.type')"
-                                    >{{ order.type === 0 ? 'DDL' : order.type === 1 ? 'DML' : '仅审核' }}</a-descriptions-item>
+                                    >{{ order.type === 0 ? 'DDL' : 'DML' }}</a-descriptions-item>
                                     <a-descriptions-item
                                           :label="$t('common.table.env')"
                                     >{{ order.idc }}</a-descriptions-item>

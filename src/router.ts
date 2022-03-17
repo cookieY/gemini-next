@@ -30,7 +30,27 @@ const router = createRouter({
                               meta: {
                                     title: 'Home - 工作台'
                               },
-                              component: () => import('@/views/home/home.vue')
+                              redirect: "/home/workplace",
+                              component: () => import('@/views/common/subLayout.vue'),
+                              children: [
+                                    {
+                                          path: '/home/workplace',
+                                          name: 'workplace',
+                                          meta: {
+                                                title: 'Home - 工作台'
+                                          },
+                                          component: () => import('@/views/home/home.vue'),
+                                    },
+                                    {
+                                          path: '/home/profile',
+                                          name: 'profile',
+                                          meta: {
+                                                title: 'Profile - 个人详情'
+                                          },
+                                          component: () => import('@/views/home/profile.vue'),
+                                    }
+                              ]
+
                         },
                         {
                               path: '/apply',

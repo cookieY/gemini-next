@@ -1,17 +1,17 @@
 <template>
       <a-table
-            :columns="col"
-            :size="size"
-            :dataSource="tData"
+            :columns="props.col"
+            :size="props.size"
+            :dataSource="props.tData"
             :pagination="false"
-            :bordered="bordered"
+            :bordered="props.bordered"
       >
             <slot></slot>
       </a-table>
       <br />
       <a-pagination
-            :total="tData.length"
-            :page-size.sync="pagination.pageSize"
+            :total="props.count"
+            :page-size="10"
             :show-total="(total) => $t('common.count', { 'count': total })"
             @change="currentPage"
       />
@@ -26,6 +26,7 @@ interface propsAttr {
       tData: any[]
       bordered: boolean
       size?: string
+      count: number
 }
 
 const props = withDefaults(defineProps<propsAttr>(), {
@@ -33,8 +34,6 @@ const props = withDefaults(defineProps<propsAttr>(), {
 })
 
 const emit = defineEmits(["change"])
-
-const { pagination } = CommonMixins()
 
 const currentPage = (page: number) => {
       emit("change", page)

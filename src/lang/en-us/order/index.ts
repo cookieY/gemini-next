@@ -35,6 +35,7 @@ export default {
       "order.apply.tab.sql": "SQL",
       "order.apply.tab.table": "Table structure",
       "order.apply.tab.index": "Index structure",
+      "order.apply.tab.source_id": "Source ID:{env}",
       "order.apply.form.commit": "Please fill in the necessary information and submit the work order",
 
       "order.apply.commit.title": "Fill in",
