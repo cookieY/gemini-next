@@ -23,7 +23,7 @@ export default function () {
             ip: [{ required: true, message: '请填写连接地址', trigger: 'blur' }],
             username: [{ required: true, message: '请填写用户名', trigger: 'blur' }],
             port: [{ required: true, message: '请填写端口', trigger: 'blur', type: 'number' }],
-            flow: [{ required: true, message: '请选择流程', trigger: 'change' }],
+            flow_id: [{ required: true, message: '请选择流程', trigger: 'change' }],
             password: [{ required: true, message: '请填写密码', trigger: 'blur' }, { validator: regExp_password, trigger: 'blur' }]
       }
 

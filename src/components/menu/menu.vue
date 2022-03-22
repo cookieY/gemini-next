@@ -25,20 +25,6 @@
                         <span>{{ $t('menu.order.query') }}</span>
                   </a-menu-item>
             </a-sub-menu>
-            <!-- <a-sub-menu :title="$t('menu.comptroller')">
-                  <template #icon>
-                        <ZoomInOutlined />
-                  </template>
-                  <a-menu-item key="/comptroller/order">
-                        <IssuesCloseOutlined />
-                        <span>{{ $t('menu.comptroller.order') }}</span>
-                  </a-menu-item>
-                  <a-menu-item key="/comptroller/query">
-                        <CheckCircleOutlined />
-                        <span>{{ $t('menu.comptroller.query') }}</span>
-                  </a-menu-item>
-            </a-sub-menu>-->
-
             <a-sub-menu :title="$t('menu.manage')" v-if="store.state.user.account.user === 'admin'">
                   <template #icon>
                         <CloudSyncOutlined />

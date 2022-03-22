@@ -4,9 +4,7 @@
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" title="工单总数" :total="banner.order">
                               <template v-slot:action>
-                                    <a-tooltip title="3213131">
-                                          <InfoCircleOutlined />
-                                    </a-tooltip>
+                                    <InfoCircleOutlined />
                               </template>
                               <template v-slot:content>
                                     <MiniArea containerId="order" color="#2094F3" />
@@ -16,9 +14,7 @@
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" title="查询总数" :total="banner.query">
                               <template v-slot:action>
-                                    <a-tooltip title="3213131">
-                                          <InfoCircleOutlined />
-                                    </a-tooltip>
+                                    <InfoCircleOutlined />
                               </template>
                               <template v-slot:content>
                                     <MiniArea containerId="query" color="#Ff9900" />
@@ -28,9 +24,7 @@
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" title="数据源" :total="banner.source">
                               <template v-slot:action>
-                                    <a-tooltip title="3213131">
-                                          <InfoCircleOutlined />
-                                    </a-tooltip>
+                                    <InfoCircleOutlined />
                               </template>
                               <template v-slot:content>
                                     <MiniCol container-id="source" color="#009485"></MiniCol>
@@ -40,9 +34,7 @@
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" title="用户数" :total="banner.user">
                               <template v-slot:action>
-                                    <a-tooltip title="3213131">
-                                          <InfoCircleOutlined />
-                                    </a-tooltip>
+                                    <InfoCircleOutlined />
                               </template>
                               <template v-slot:content>
                                     <a-progress

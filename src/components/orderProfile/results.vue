@@ -20,26 +20,10 @@
       <br />
       <a-collapse v-model:activeKey="activeKey" accordion>
             <a-collapse-panel key="1" :header="$t('order.profile.results.result')">
-                  <Table
-                        :col="col"
-                        :t-data="tData"
-                        @change="currentPage"
-                        bordered
-                        size="small"
-                        :count="page.result"
-                  ></Table>
+                  <Table :tbl-ref="resultTable" @change="currentPage"></Table>
             </a-collapse-panel>
             <a-collapse-panel key="2" :header="$t('order.profile.results.roll')">
-                  <a-table
-                        :columns="rolling"
-                        size="small"
-                        :dataSource="rollingData"
-                        bordered
-                        :pagination="{
-                              showTotal: total => $t('common.count', { 'count': total }),
-                              position: ['bottomLeft'],
-                        }"
-                  ></a-table>
+                  <Table :tbl-ref="rollTable"></Table>
             </a-collapse-panel>
       </a-collapse>
 </template>
@@ -53,6 +37,7 @@ import Table from "@/components/table/table.vue"
 import { useStore } from "@/store"
 import { useRouter } from "vue-router"
 import { useI18n } from 'vue-i18n';
+import { tableRef } from "../table"
 
 const { t } = useI18n()
 
@@ -69,35 +54,44 @@ const activeKey = ref("1")
 
 const request = new Request
 
-const col = [
-      {
-            title: t('common.table.sql'),
-            dataIndex: "sql"
-      },
-      {
-            title: t('common.table.result'),
-            dataIndex: "state"
-      },
-      {
-            title: t('common.table.rows'),
-            dataIndex: "affect_row"
-      },
-      {
-            title: t('common.table.time'),
-            dataIndex: "time"
-      },
-      {
-            title: t('common.table.error'),
-            dataIndex: "error"
-      }
-]
+const resultTable = reactive<tableRef>({
+      col: [
+            {
+                  title: t('common.table.sql'),
+                  dataIndex: "sql",
+                  ellipsis: true
+            },
+            {
+                  title: t('common.table.result'),
+                  dataIndex: "state",
+            },
+            {
+                  title: t('common.table.rows'),
+                  dataIndex: "affect_row",
+            },
+            {
+                  title: t('common.table.time'),
+                  dataIndex: "time",
+            },
+            {
+                  title: t('common.table.error'),
+                  dataIndex: "error",
+            }
+      ],
+      data: [],
+      pageCount: 0
+})
 
-const rolling = [
-      {
-            title: t('common.table.sql'),
-            dataIndex: "sql"
-      },
-]
+const rollTable = reactive<tableRef>({
+      col: [
+            {
+                  title: t('common.table.sql'),
+                  dataIndex: "sql"
+            }
+      ],
+      data: [],
+      pageCount: 0
+})
 
 const router = useRouter()
 
@@ -108,16 +102,19 @@ const tData = ref<any[]>([])
 const rollingData = ref<any[]>([])
 
 const currentPage = (vl: number) => {
-      request.Results(props.work_id, vl).then((res: AxiosResponse<Res<any>>) => {
-            tData.value = res.data.payload.record
-            page.result = res.data.payload.count
-      })
+      setTimeout(() => {
+            request.Results(props.work_id, vl).then((res: AxiosResponse<Res<any>>) => {
+                  resultTable.data = res.data.payload.record
+                  resultTable.pageCount = res.data.payload.count
+            })
+      }, 4000);
+
 }
 
 const currentRolling = (vl: number) => {
       request.Roll(props.work_id, vl).then((res: AxiosResponse<Res<any>>) => {
-            rollingData.value = res.data.payload.sql
-            page.roll = res.data.payload.count
+            rollTable.data = res.data.payload.sql
+            rollTable.pageCount = res.data.payload.count
       })
 }
 

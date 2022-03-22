@@ -148,7 +148,6 @@ import router from '@/router';
 import { store, useStore } from '@/store';
 import { Modal } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
 
 const { t } = useI18n()
 

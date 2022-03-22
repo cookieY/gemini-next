@@ -15,6 +15,7 @@
                         type="password"
                         placeholder="密码"
                         style="border-radius: 10px;"
+                        @pressEnter="() => signIn()"
                   />
             </a-form-item>
             <a-form-item>

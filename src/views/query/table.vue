@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from '@/store';
 import router from '@/router';
 import { message } from 'ant-design-vue';
@@ -86,7 +86,7 @@ const recv = async (e: any) => {
                   message.error(resp.error)
             } else {
                   isExport.value = resp.export
-                  resp.results.length[0] !== null ? results.value = resp.results : null
+                  resp.results !== null ? results.value = resp.results : null
                   executeTime.value = resp.query_time
                   resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
             }

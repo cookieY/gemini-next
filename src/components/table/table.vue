@@ -1,42 +1,56 @@
 <template>
       <a-table
-            :columns="props.col"
+            :columns="props.tblRef.col"
             :size="props.size"
-            :dataSource="props.tData"
-            :pagination="false"
-            :bordered="props.bordered"
-      >
-            <slot></slot>
-      </a-table>
-      <br />
-      <a-pagination
-            :total="props.count"
-            :page-size="10"
-            :show-total="(total) => $t('common.count', { 'count': total })"
+            :dataSource="props.tblRef.data"
+            :loading="loading"
+            :pagination="{
+                  total: props.tblRef.pageCount,
+                  showTotal: total => $t('common.count', { 'count': total }),
+                  position: ['bottomLeft']
+            }"
             @change="currentPage"
-      />
+            :bordered="props.bordered"
+            @resizeColumn="handleResizeColumn"
+      ></a-table>
 </template>
 
 <script lang="ts" setup>
-
-import CommonMixins from "@/mixins/common"
+import { nextTick } from 'process';
+import { onMounted, ref, watch } from 'vue';
+import { tableRef } from '.';
 
 interface propsAttr {
-      col: any[]
-      tData: any[]
-      bordered: boolean
+      tblRef: tableRef
+      bordered?: boolean
       size?: string
-      count: number
+}
+
+const handleResizeColumn = (w: number, col: { width: number }) => {
+      col.width = w;
 }
 
 const props = withDefaults(defineProps<propsAttr>(), {
-      size: "small"
+      size: "small",
+      bordered: true
 })
+
+const loading = ref(true)
+
+watch(props.tblRef, () => {
+      loading.value = false
+})
+
 
 const emit = defineEmits(["change"])
 
-const currentPage = (page: number) => {
-      emit("change", page)
+const currentPage = (page: { current: number }) => {
+      emit("change", page.current)
+      loading.value = true
 }
+
+onMounted(() => {
+      loading.value = props.tblRef.data.length === 0
+})
 
 </script>

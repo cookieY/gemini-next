@@ -20,7 +20,7 @@
             <a-form-item label="密码" name="password">
                   <a-input-password v-model:value="dbForm.password"></a-input-password>
             </a-form-item>
-            <a-form-item label="流程" name="flow">
+            <a-form-item label="流程" name="flow_id">
                   <a-select v-model:value="dbForm.flow_id">
                         <a-select-option v-for="i in flow" :key="i.id" :value="i.id">{{ i.source }}</a-select-option>
                   </a-select>
@@ -50,6 +50,7 @@ import CommonMixins from "@/mixins/common"
 import DBMixins from "@/mixins/db"
 import { useStore } from '@/store'
 import { EventBus } from "@/lib";
+import { message } from "ant-design-vue";
 
 const store = useStore()
 
@@ -74,7 +75,7 @@ const dbForm = ref(
             password: "",
             username: "",
             is_query: 2,
-            flow_id: 1
+            flow_id: null as any
       } as Source
 )
 
@@ -89,10 +90,13 @@ const fill = (vl: Source) => {
 }
 
 const createSource = () => {
-      OpsDBApis({ db: dbForm.value, tp: "create" }).then(() => EventBus.emit("postOk"))
+      formRef.value.validate().then(() => {
+            OpsDBApis({ db: dbForm.value, tp: "create" }).then(() => EventBus.emit("postOk"))
+      })
 }
 
 const checkConn = () => {
+
       OpsDBApis({ db: dbForm.value, tp: "test" })
 }
 
