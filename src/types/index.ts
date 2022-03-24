@@ -92,3 +92,8 @@ export interface Clip {
       title: string
       desc: string
 }
+
+export interface commonPage<T> {
+      expr: T
+      current: number
+}

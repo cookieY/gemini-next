@@ -7,23 +7,28 @@
             :pagination="{
                   total: props.tblRef.pageCount,
                   showTotal: total => $t('common.count', { 'count': total }),
-                  position: ['bottomLeft']
+                  position: ['bottomLeft'],
+                  showSizeChanger: true,
             }"
             @change="currentPage"
             :bordered="props.bordered"
             @resizeColumn="handleResizeColumn"
-      ></a-table>
+      >
+            <template v-for="(_, name) in $slots" #[name]="slotData">
+                  <slot :name="name" v-bind="slotData" />
+            </template>
+      </a-table>
 </template>
 
 <script lang="ts" setup>
-import { nextTick } from 'process';
 import { onMounted, ref, watch } from 'vue';
-import { tableRef } from '.';
+import { tableRef } from '@/components/table';
 
 interface propsAttr {
       tblRef: tableRef
       bordered?: boolean
       size?: string
+      isAll?: boolean
 }
 
 const handleResizeColumn = (w: number, col: { width: number }) => {
@@ -31,26 +36,35 @@ const handleResizeColumn = (w: number, col: { width: number }) => {
 }
 
 const props = withDefaults(defineProps<propsAttr>(), {
-      size: "small",
+      size: "default",
       bordered: true
 })
 
 const loading = ref(true)
 
+const pSize = ref(10)
+
 watch(props.tblRef, () => {
-      loading.value = false
+      !props.isAll ? loading.value = false : null
 })
 
+const currentPage = (page: { current: number, pageSize: number }) => {
+      pSize.value = page.pageSize
+      props.tblRef.fn !== undefined ? props.tblRef.fn({ expr: props.tblRef.expr, current: page.current, pageSize: page.pageSize }) : null
+      !props.isAll ? loading.value = true : null
+}
 
-const emit = defineEmits(["change"])
-
-const currentPage = (page: { current: number }) => {
-      emit("change", page.current)
-      loading.value = true
+const manual = () => {
+      props.tblRef.fn({ expr: props.tblRef.expr, current: 1, pageSize: pSize.value })
 }
 
 onMounted(() => {
-      loading.value = props.tblRef.data.length === 0
+      props.isAll ? loading.value = false : loading.value = props.tblRef.data.length === 0
+      props.tblRef.fn !== undefined ? manual() : null
+})
+
+defineExpose({
+      manual
 })
 
 </script>

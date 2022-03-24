@@ -21,7 +21,6 @@
                                     height: '300px',
                               }"
                               show-search
-                              @change="handleChange"
                         >
                               <template #render="item">
                                     <a-tooltip>
@@ -36,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { EditUserMargeGroupsApi, GetUserGroupsApi, GetUserMargeGroupsApi, RespGroups, Target } from "@/apis/user"
+import { Request, RespGroups, Target } from "@/apis/user"
 import CommonMixins from "@/mixins/common"
 import { ref } from "vue"
 import { AxiosResponse } from "axios"
@@ -53,6 +52,8 @@ const { is_open, turnState } = CommonMixins()
 
 const user = ref("")
 
+const request = new Request
+
 let rules = ref<RespGroups>(
       {
             groups: [],
@@ -61,18 +62,12 @@ let rules = ref<RespGroups>(
       }
 )
 
-const handleChange = (nextTargetKeys: string[], direction: string, moveKeys: string[]) => {
-      console.log('targetKeys: ', nextTargetKeys);
-      console.log('direction: ', direction);
-      console.log('moveKeys: ', moveKeys);
-};
-
 const marge = (groups: string[]) => {
-      GetUserMargeGroupsApi(groups).then((res: AxiosResponse<Res<Target>>) => rules.value.target = res.data.payload)
+      request.MargeGroup(groups).then((res: AxiosResponse<Res<Target>>) => rules.value.target = res.data.payload)
 }
 
 const lazy = (u: string) => {
-      GetUserGroupsApi(u).then((res: AxiosResponse<Res<RespGroups>>) => {
+      request.GetGroup(u).then((res: AxiosResponse<Res<RespGroups>>) => {
             rules.value = res.data.payload
       })
       user.value = u
@@ -80,7 +75,7 @@ const lazy = (u: string) => {
 
 const editUserGroups = () => {
       if (props.isManager) {
-            EditUserMargeGroupsApi(rules.value.own, user.value).then(() => turnState())
+            request.EditGroup(rules.value.own, user.value).then(() => turnState())
       }
 }
 

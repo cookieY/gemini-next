@@ -1,4 +1,5 @@
 import { request, COMMON_URI } from "@/config/request"
+import { commonPage } from "@/types"
 import { AxiosPromise } from "axios"
 
 export interface UserParams {
@@ -67,81 +68,71 @@ export class Request {
                   url: `${COMMON_URI}/fetch/userinfo`,
             })
       }
-      Edit (register: RegisterForm, isManager: boolean): AxiosPromise {
+      Register (register: RegisterForm, isManager: boolean): AxiosPromise {
             return request({
-                  url: isManager ? `${COMMON_URI}/manage/user?tp=password` : `${COMMON_URI}/common/edit`,
-                  method: isManager ? "POST" : "PUT",
+                  url: isManager ? `${COMMON_URI}/manage/user?tp=add` : "/register",
+                  method: "POST",
                   data: register
             })
       }
-}
 
-export function FetchUserListApis (args: UserParams) {
-      return request({
-            method: 'put',
-            url: `${COMMON_URI}/manage/user`,
-            data: args
-      })
-}
+      List (args: commonPage<UserExpr>): AxiosPromise {
+            return request({
+                  method: 'put',
+                  url: `${COMMON_URI}/manage/user`,
+                  data: args
+            })
+      }
 
-export const RegisterApi = (register: RegisterForm, isManager: boolean) => {
-      return request({
-            url: isManager ? `${COMMON_URI}/manage/user?tp=add` : "/register",
-            method: "POST",
-            data: register
-      })
-}
+      Edit (user: RegisterForm): AxiosPromise {
+            return request({
+                  url: `${COMMON_URI}/manage/user?tp=edit`,
+                  method: "POST",
+                  data: user
+            })
+      }
 
-export const ChangePasswordApi = (password: Password, user: string, isManager: boolean) => {
-      return request({
-            url: isManager ? `${COMMON_URI}/manage/user?tp=password` : `${COMMON_URI}/common/edit?tp=password`,
-            method: isManager ? "POST" : "PUT",
-            data: {
-                  password: password.password,
-                  origin: password.origin,
-                  username: user
-            }
-      })
-}
+      GetGroup (user: string): AxiosPromise {
+            return request({
+                  url: `${COMMON_URI}/fetch/groups`,
+                  method: "get",
+                  params: { user: user }
+            })
+      }
 
-export const EditInfoApi = (user: RegisterForm) => {
-      return request({
-            url: `${COMMON_URI}/manage/user?tp=edit`,
-            method: "POST",
-            data: user
-      })
-}
+      MargeGroup (groups: string[]): AxiosPromise {
+            return request({
+                  url: `${COMMON_URI}/manage/policy`,
+                  method: "GET",
+                  params: { group: groups.join(",") }
+            })
+      }
 
+      EditGroup (groups: string[], user: string): AxiosPromise {
+            return request({
+                  url: `${COMMON_URI}/manage/user?tp=policy`,
+                  method: "POST",
+                  data: { group: groups, username: user }
+            })
+      }
 
-export const EditUserMargeGroupsApi = (groups: string[], user: string) => {
-      return request({
-            url: `${COMMON_URI}/manage/user?tp=policy`,
-            method: "POST",
-            data: { group: groups, username: user }
-      })
-}
+      Password (password: Password, user: string, isManager: boolean): AxiosPromise {
+            return request({
+                  url: isManager ? `${COMMON_URI}/manage/user?tp=password` : `${COMMON_URI}/common/edit?tp=password`,
+                  method: isManager ? "POST" : "PUT",
+                  data: {
+                        password: password.password,
+                        origin: password.origin,
+                        username: user
+                  }
+            })
+      }
 
-export const DeleteUserApi = (user: string) => {
-      return request({
-            url: `${COMMON_URI}/manage/user`,
-            method: "DELETE",
-            params: { user: user }
-      })
-}
-
-export const GetUserGroupsApi = (user: string) => {
-      return request({
-            url: `${COMMON_URI}/fetch/groups`,
-            method: "get",
-            params: { user: user }
-      })
-}
-
-export const GetUserMargeGroupsApi = (groups: string[]) => {
-      const g = groups.join(",")
-      return request({
-            url: `${COMMON_URI}/manage/policy`,
-            method: "GET",
-            params: { group: g }
-      })
+      Delete (user: string): AxiosPromise {
+            return request({
+                  url: `${COMMON_URI}/manage/user`,
+                  method: "DELETE",
+                  params: { user: user }
+            })
+      }
 }

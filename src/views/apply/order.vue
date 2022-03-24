@@ -198,7 +198,7 @@ const { col, orderItems, tableArch, indexArch } = JunoMixin()
 const { orderProfileArch, editor } = FetchMixins()
 
 const delayTime = (date: Dayjs) => {
-      orderItems.delay = date.format('yyyy-MM-DD HH:mm')
+      orderItems.delay = date.format('YYYY-MM-DD HH:mm')
 }
 
 const fetchTable = (data_base: string) => {
@@ -298,7 +298,6 @@ onMounted(() => {
 })
 
 onBeforeRouteLeave((to, from, next) => {
-      console.log(editor.value.GetValue())
       if (editor.value.GetValue() !== '') {
             Modal.warn({
                   content: t('common.leave'),

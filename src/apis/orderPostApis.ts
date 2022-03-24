@@ -80,13 +80,14 @@ export class Request {
             })
       }
 
-      Results (work_id: string, page: number): AxiosPromise {
+      Results (work_id: string, page: { current: number, pageSize: number }): AxiosPromise {
             return request({
                   method: 'get',
                   url: `${COMMON_URI}/fetch/detail`,
                   params: {
                         work_id: work_id,
-                        page: page
+                        page: page.current,
+                        page_size: page.pageSize
                   }
             })
       }

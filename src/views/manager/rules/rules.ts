@@ -236,26 +236,20 @@ const rule: Rule[] = [
       },
       {
             name: 'IsOSC',
-            desc: '开启Pt-poc',
-            type: 'Pt-osc',
+            desc: '开启相关在线表变更工具',
+            type: 'Online-DDL',
             tp: 0
       },
       {
-            name: 'OscBinDir',
-            desc: 'pt-osc可执行文件路径,精确到文件本身。 如: /usr/bin/pt-online-schema-change',
-            type: 'Pt-osc',
-            tp: 2
-      },
-      {
             name: 'OscSize',
-            desc: '表体系大于该值后出发OSC同步，单位:M',
-            type: 'Pt-osc',
+            desc: '表体系大于该值后出发在线表变更同步，单位:M',
+            type: 'Online-DDL',
             tp: 1
       },
       {
             name: 'OSCExpr',
-            desc: '同步工具参数。如: PT-OSC中的--dry-run 请注意! 此处仅填写参数 不填写例如--host --port --sql等实际操作数据信息',
-            type: 'Pt-osc',
+            desc: '同步工具参数。如: PT-OSC中的--dry-run 请注意! 此处仅填写参数。请使用以下变量名替换对应输入值 $SQL $ADDR $PORT $USER $PASSWORD $SCHEMA $TABLE。例子: (pt-osc配置) pt-online-schema-change  --alter $SQL --user=$USER  --password=$PASSWORD  --host=$ADDR P=$PORT,D=$SCHEMA,t=$TABLE  --execute',
+            type: 'Online-DDL',
             tp: 3
       },
 ]

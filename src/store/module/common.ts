@@ -61,7 +61,6 @@ export const common: Module<commonStore, RootStore> = {
                   state.sql = vl
             },
             QUERY_CONN (state, vl) {
-                  console.log(vl)
                   state.sock = vl
             }
       }

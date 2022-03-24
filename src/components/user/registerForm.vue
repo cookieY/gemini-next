@@ -27,7 +27,7 @@
 <script lang="ts" setup>
 import CommonMixins from "@/mixins/common"
 import { reactive, UnwrapRef, ref, withDefaults, } from "vue";
-import { RegisterForm, RegisterApi } from "@/apis/user";
+import { RegisterForm, Request } from "@/apis/user";
 import { RuleObject } from 'ant-design-vue/es/form/interface';
 import { EventBus } from "@/lib";
 import { useI18n } from 'vue-i18n';
@@ -56,6 +56,8 @@ const registerForm: UnwrapRef<RegisterForm> = reactive({
       department: '',
 })
 
+const request = new Request
+
 const { regExpPassword } = CommonMixins()
 
 let validPassword = async (rule: RuleObject, value: string) => {
@@ -79,7 +81,7 @@ const rules = {
 const formRef = ref();
 
 const registered = (): boolean => formRef.value.validate().then(() => {
-      RegisterApi(registerForm, props.isManager).then(() => {
+      request.Register(registerForm, props.isManager).then(() => {
             resetFields()
             EventBus.emit("closeState")
       })

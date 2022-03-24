@@ -73,9 +73,6 @@ import { DotChartOutlined, HomeOutlined, LogoutOutlined, MonitorOutlined, Functi
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';
-import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n()
 
 const emit = defineEmits(['close'])
 

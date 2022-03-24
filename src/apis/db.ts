@@ -1,4 +1,5 @@
 import { request, COMMON_URI } from "@/config/request"
+import { AxiosPromise } from "axios"
 
 export interface Source {
       idc: string
@@ -36,6 +37,26 @@ export interface RequestDB {
       db: Source[] | Source
       encrypt?: boolean
 }
+
+export class Request {
+      List (args: DBParams): AxiosPromise {
+            return request({
+                  method: 'put',
+                  url: `${COMMON_URI}/manage/db`,
+                  data: args
+            })
+      }
+
+      Delete (args: string): AxiosPromise {
+            return request({
+                  method: 'DELETE',
+                  url: `${COMMON_URI}/manage/db`,
+                  params: { source_id: args }
+            })
+      }
+
+}
+
 
 
 export function FetchDBListApis (args: DBParams) {

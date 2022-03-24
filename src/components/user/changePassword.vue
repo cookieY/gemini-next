@@ -24,12 +24,12 @@
 </template>
 <script lang="ts" setup>
 import { UnwrapRef, reactive } from "vue"
-import { Password, ChangePasswordApi } from "@/apis/user";
+import { Password, Request } from "@/apis/user";
 import CommonMixins from "@/mixins/common"
 import { RuleObject } from 'ant-design-vue/es/form/interface';
 
 interface propsAttr {
-      user: string
+      user?: string
 }
 
 const props = withDefaults(defineProps<propsAttr>(), {
@@ -45,6 +45,8 @@ const formItem: UnwrapRef<Password> = reactive({
 const initItem = Object.assign({}, formItem)
 
 const { is_open, regExpPassword, turnState } = CommonMixins()
+
+const request = new Request
 
 
 const validPassword = async (rule: RuleObject, value: string) => {
@@ -63,7 +65,7 @@ const rules = {
 }
 
 const handlePassword = () => {
-      ChangePasswordApi(formItem, props.user, true).then(() => turnState()).finally(() => Object.assign(formItem, initItem))
+      request.Password(formItem, props.user, true).then(() => turnState()).finally(() => Object.assign(formItem, initItem))
 }
 
 defineExpose({

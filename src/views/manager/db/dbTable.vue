@@ -1,6 +1,6 @@
 <template>
       <DBTableSearch @search="search"></DBTableSearch>
-      <a-table :columns="col" :dataSource="tData" :pagination="false" rowKey="source" bordered>
+      <c-table :tblRef="tblRef" ref="tbl">
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space size="small">
@@ -12,7 +12,7 @@
                               >详情</a-button>
                               <a-popconfirm
                                     title="确认要删除该用户吗?"
-                                    @confirm="DelDBApis(record.source_id).then(() => currentPage())"
+                                    @confirm="request.Delete(record.source_id).then(() => tbl.manual())"
                               >
                                     <a-button type="primary" size="small" danger ghost>删除</a-button>
                               </a-popconfirm>
@@ -24,75 +24,65 @@
                         <a-tag color="#B38D57" v-if="text === 0">写</a-tag>
                   </template>
             </template>
-      </a-table>
-      <br />
-      <a-pagination
-            :total="pagination.pageCount"
-            :page-size.sync="pagination.pageSize"
-            :show-total="(total) => `共 ${total} 个工单`"
-            v-model:current="expr.page"
-            @change="currentPage"
-      />
-      <DBModal ref="fill" :idc="idc"></DBModal>
+      </c-table>
+      <DBModal ref="modal" :idc="idc"></DBModal>
 </template>
 
 <script lang="ts" setup>
-import { DBExpr, DBParams, Source, FetchDBListApis, DBResp, DelDBApis } from "@/apis/db";
+import { DBExpr, Source, DBResp, DBParams } from "@/apis/db";
 import { Res } from "@/config/request";
 import DBModal from "./dbModal.vue";
-import CommonMixins from "@/mixins/common"
 import DBTableSearch from "./dbTableSearch.vue";
 import { AxiosResponse } from "axios";
 import { ref, reactive, onMounted } from "vue";
 import { EventBus } from "@/lib";
+import { tableRef } from "@/components/table";
+import { Request } from "@/apis/db";
 
-const { pagination } = CommonMixins()
+const request = new Request
 
-const tData = ref([] as Source[])
-
-const col = [
-      { title: "名称", dataIndex: "source" },
-      { title: "环境", dataIndex: "idc" },
-      { title: "ip", dataIndex: "ip" },
-      { title: "类型", dataIndex: "is_query" },
-      { title: "操作", dataIndex: "action" }
-]
-
-const fill = ref()
-
-let expr = reactive<DBParams>({
-      page: 1,
-      find: {
+const tblRef = reactive<tableRef>({
+      col: [
+            { title: "名称", dataIndex: "source" },
+            { title: "环境", dataIndex: "idc" },
+            { title: "ip", dataIndex: "ip" },
+            { title: "类型", dataIndex: "is_query" },
+            { title: "操作", dataIndex: "action" }
+      ],
+      data: [] as Source[],
+      pageCount: 1,
+      expr: {
             source: "",
             ip: "",
             idc: "",
             is_query: -1
-      } as DBExpr
+      } as DBExpr,
+      fn: (expr: DBParams) => {
+            request.List(expr).then((res: AxiosResponse<Res<DBResp>>) => {
+                  tblRef.data = res.data.payload.data;
+                  tblRef.pageCount = res.data.payload.page;
+            });
+      }
 })
+
+const modal = ref()
+
+const tbl = ref()
 
 const idc = ref([] as string[])
 
 const search = (vl: DBExpr) => {
-      expr.find = vl
-      currentPage()
+      tblRef.expr = vl
+      tbl.value.manual()
 }
 
 const fillInfo = (vl: Source) => {
-      fill.value.fillInfo(vl)
-}
-
-const currentPage = () => {
-      pagination.pageSize = 10
-      FetchDBListApis(expr).then((res: AxiosResponse<Res<DBResp>>) => {
-            tData.value = res.data.payload.data
-            pagination.pageCount = res.data.payload.page
-      })
+      modal.value.fillInfo(vl)
 }
 
 onMounted(() => {
-      currentPage()
       EventBus.on('postOk', () => {
-            currentPage()
+            tbl.value.manual()
       })
 })
 

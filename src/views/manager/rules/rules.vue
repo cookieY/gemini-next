@@ -40,20 +40,23 @@ import { Res } from "@/config/request"
 const col = [
       {
             title: '名称',
-            dataIndex: 'name'
+            dataIndex: 'name',
+            width: 50
       },
       {
             title: '规则类型',
-            dataIndex: 'type'
+            dataIndex: 'type',
+            width: 50
       },
       {
             title: '规则描述',
-            dataIndex: 'desc'
+            dataIndex: 'desc',
       },
 
       {
             title: '开关',
             dataIndex: 'action',
+            width: 300
       },
 ]
 

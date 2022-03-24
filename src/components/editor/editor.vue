@@ -92,10 +92,6 @@ const GetValue = () => {
 
 const height = ref(250)
 
-
-
-
-
 onMounted(() => {
       model = monaco.editor.create(document.getElementById(props.containerId) as HTMLElement, {
             language: "sql",
@@ -113,13 +109,6 @@ onMounted(() => {
             height.value = document.body.clientHeight - 600 > 150 ? document.body.clientHeight - 600 : 150
       }
 })
-
-// onUnmounted(() => {
-//       model.dispose()
-
-// })
-
-
 
 defineExpose({
       RunEditor,
