@@ -10,8 +10,8 @@
                                     :placeholder="$t('auto.search.tips')"
                                     enter-button
                                     allowClear
-                                    v-model:value="expr.find.text"
-                                    @search="currentPage"
+                                    v-model:value="tblRef.expr.text"
+                                    @search="tbl.manual()"
                               />
                         </a-form-item>
                   </a-form>
@@ -19,7 +19,7 @@
       </a-row>
 
       <br />
-      <a-table :columns="col" :dataSource="tData" :pagination="false" rowKey="id" bordered>
+      <c-table :tblRef="tblRef" ref="tbl">
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space>
@@ -30,7 +30,7 @@
                               >{{ $t('common.edit') }}</a-button>
                               <a-popconfirm
                                     :title="$t('auto.delete.tips')"
-                                    @confirm="request.Delete(record.task_id).then(() => currentPage())"
+                                    @confirm="request.Delete(record.task_id).then(() => tbl.manual())"
                               >
                                     <a-button ghost size="small" danger>{{ $t('common.delete') }}</a-button>
                               </a-popconfirm>
@@ -48,16 +48,8 @@
                         ></a-switch>
                   </template>
             </template>
-      </a-table>
-      <br />
-      <a-pagination
-            :total="pagination.pageCount"
-            :page-size.sync="pagination.pageSize"
-            :show-total="(total) => $t('common.count', { count: total })"
-            v-model:current="expr.page"
-            @change="currentPage"
-      />
-      <AutotaskModal ref="p" @success="currentPage"></AutotaskModal>
+      </c-table>
+      <AutotaskModal ref="p" @success="tbl.manual()"></AutotaskModal>
 </template>
 
 <script lang="ts" setup>
@@ -69,71 +61,67 @@ import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import AutotaskModal from "./autotaskModal.vue"
 import { useI18n } from 'vue-i18n';
+import { tableRef } from "@/components/table"
 
 const { t } = useI18n()
 
+const tblRef = reactive<tableRef>({
+      col: [
+            {
+                  title: t('common.table.name'),
+                  dataIndex: 'name',
+            },
+            {
+                  title: t('common.table.type'),
+                  dataIndex: 'tp',
+            },
+            {
+                  title: t('common.table.env'),
+                  dataIndex: 'idc',
+            },
+            {
+                  title: t('common.table.source'),
+                  dataIndex: 'source',
+            },
+            {
+                  title: t('common.table.schema'),
+                  dataIndex: 'data_base',
+            },
+            {
+                  title: t('common.table.table'),
+                  dataIndex: 'table',
+            },
+            {
+                  title: t('common.table.max'),
+                  dataIndex: 'affect_rows',
+            },
+            {
+                  title: t('common.table.state'),
+                  dataIndex: 'status',
+            },
+            {
+                  title: t('common.action'),
+                  dataIndex: 'action',
+            },
+      ],
+      data: [] as AutoTask[],
+      pageCount: 0,
+      expr: {} as AutoTaskExpr,
+      fn: (expr: AutoTaskParams) => {
+            request.List(expr).then((res: AxiosResponse<Res<AutoTaskResp>>) => {
+                  tblRef.data = res.data.payload.data
+                  tblRef.pageCount = res.data.payload.page
+            })
+      }
+})
+
 const p = ref()
 
-const col = [
-      {
-            title: t('common.table.name'),
-            dataIndex: 'name',
-      },
-      {
-            title: t('common.table.type'),
-            dataIndex: 'tp',
-      },
-      {
-            title: t('common.table.env'),
-            dataIndex: 'idc',
-      },
-      {
-            title: t('common.table.source'),
-            dataIndex: 'source',
-      },
-      {
-            title: t('common.table.schema'),
-            dataIndex: 'data_base',
-      },
-      {
-            title: t('common.table.table'),
-            dataIndex: 'table',
-      },
-      {
-            title: t('common.table.max'),
-            dataIndex: 'affect_rows',
-      },
-      {
-            title: t('common.table.state'),
-            dataIndex: 'status',
-      },
-      {
-            title: t('common.action'),
-            dataIndex: 'action',
-      },
-]
+const tbl = ref()
 
-const tData = ref([] as AutoTask[])
-
-const { pagination, taskTp } = CommonMixins()
+const { taskTp } = CommonMixins()
 
 const request = new Request
-
-const expr = reactive<AutoTaskParams>({
-      find: {} as AutoTaskExpr,
-      page: 1
-})
-
-const currentPage = () => {
-      request.List(expr).then((res: AxiosResponse<Res<AutoTaskResp>>) => {
-            tData.value = res.data.payload.data
-            pagination.pageCount = res.data.payload.page
-      })
-}
-
-onMounted(() => {
-      currentPage()
-})
 
 
 </script>

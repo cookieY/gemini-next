@@ -39,7 +39,7 @@
                         <template v-if="advanced">
                               <a-col :sm="8" :xs="24">
                                     <a-form-item :label="$t('common.table.post.user')">
-                                          <a-input v-model:value="expr.user"></a-input>
+                                          <a-input v-model:value="expr.username"></a-input>
                                     </a-form-item>
                               </a-col>
                               <a-col :xs="24" :sm="8">
@@ -81,14 +81,12 @@
 </template>
 
 <script lang="ts"  setup>
-import { ref, UnwrapRef, reactive } from "@vue/runtime-core";
+import { ref } from "@vue/runtime-core";
 import dayjs, { Dayjs } from 'dayjs';
 import { OrderExpr } from "@/apis/orderPostApis"
 import { OrderState } from "@/types"
 import { useI18n } from 'vue-i18n';
-import { onMounted } from "vue";
-
-const { t } = useI18n()
+import { onMounted, reactive } from "vue";
 
 const advanced = ref(false)
 
@@ -96,10 +94,13 @@ const picker = ref<Dayjs[]>([])
 
 const expr = ref<OrderExpr>({
       status: 7,
-      type: 2
+      type: 2,
+      text: "",
+      picker: [] as string[],
+      username: ""
 })
 
-let initexpr = {}
+let initexpr = {} as OrderExpr
 
 const emit = defineEmits(['search'])
 
@@ -117,6 +118,7 @@ const toggleAdvanced = () => {
 
 const search = () => {
       onPicker()
+      console.log(expr.value)
       emit('search', expr.value)
 }
 

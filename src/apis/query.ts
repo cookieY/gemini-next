@@ -3,8 +3,9 @@ import { AxiosPromise } from "axios"
 
 
 export interface QueryParams {
-      page: number
-      find: QueryExpr
+      current: number
+      pageSize: number
+      expr: QueryExpr
 }
 
 export interface QueryExpr {

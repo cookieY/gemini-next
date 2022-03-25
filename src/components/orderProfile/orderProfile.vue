@@ -42,7 +42,7 @@
                                     >{{ order.backup ? $t('common.yes') : $t('common.no') }}</a-descriptions-item>
                                     <a-descriptions-item
                                           :label="$t('order.profile.timing')"
-                                    >{{ order.delay }}</a-descriptions-item>
+                                    >{{ order.delay === 'none' ? $t('order.table.delay') : order.delay }}</a-descriptions-item>
                                     <a-descriptions-item :label="$t('order.profile.auditor')">
                                           <template v-for="i in order.assigned.split(',')" :key="i">
                                                 <a-tag v-if="i !== '提交人'" color="#408B9B">{{ i }}</a-tag>

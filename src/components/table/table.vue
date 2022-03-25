@@ -9,6 +9,7 @@
                   showTotal: total => $t('common.count', { 'count': total }),
                   position: ['bottomLeft'],
                   showSizeChanger: true,
+                  defaultPageSize: props.tblRef.defaultPageSize
             }"
             @change="currentPage"
             :bordered="props.bordered"
@@ -21,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import { tableRef } from '@/components/table';
 
 interface propsAttr {
@@ -37,7 +38,7 @@ const handleResizeColumn = (w: number, col: { width: number }) => {
 
 const props = withDefaults(defineProps<propsAttr>(), {
       size: "default",
-      bordered: true
+      bordered: true,
 })
 
 const loading = ref(true)
@@ -49,18 +50,23 @@ watch(props.tblRef, () => {
 })
 
 const currentPage = (page: { current: number, pageSize: number }) => {
+      console.log(page.pageSize)
       pSize.value = page.pageSize
       props.tblRef.fn !== undefined ? props.tblRef.fn({ expr: props.tblRef.expr, current: page.current, pageSize: page.pageSize }) : null
       !props.isAll ? loading.value = true : null
 }
 
 const manual = () => {
+      console.log(pSize.value)
       props.tblRef.fn({ expr: props.tblRef.expr, current: 1, pageSize: pSize.value })
 }
 
 onMounted(() => {
       props.isAll ? loading.value = false : loading.value = props.tblRef.data.length === 0
-      props.tblRef.fn !== undefined ? manual() : null
+      nextTick(() => {
+            props.tblRef.defaultPageSize !== undefined ? pSize.value = props.tblRef.defaultPageSize as number : 10
+            props.tblRef.fn !== undefined ? manual() : null
+      })
 })
 
 defineExpose({

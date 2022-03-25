@@ -24,7 +24,7 @@ export interface AutoTaskExpr {
 
 export interface AutoTaskParams {
       page: number
-      find: AutoTaskExpr
+      expr: AutoTaskExpr
 }
 
 export interface AutoTaskResp {

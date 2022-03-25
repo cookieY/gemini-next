@@ -2,7 +2,7 @@
       <a-button type="primary" @click="flow.newFlow()">新建流程</a-button>
       <br />
       <br />
-      <a-table :columns="col" :dataSource="tData" rowKey="source" bordered>
+      <c-table :tblRef="tblRef" is-all>
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space size="small">
@@ -54,7 +54,7 @@
             <template #customFilterIcon="{ filtered }">
                   <search-outlined :style="{ color: filtered ? '#108ee9' : undefined }" />
             </template>
-      </a-table>
+      </c-table>
       <FlowModel ref="flow" :title="title" @success="currentPage"></FlowModel>
 </template>
 
@@ -65,8 +65,30 @@ import { ref, reactive, onMounted } from "vue";
 import { SearchOutlined } from '@ant-design/icons-vue';
 import { Request, RespTPLs } from "@/apis/flow";
 import FlowModel from "./flowModal.vue"
+import { tableRef } from "@/components/table";
 
-let tData = ref([] as RespTPLs[])
+
+const tblRef = reactive<tableRef>({
+      col: [
+            {
+                  title: "流程名称",
+                  dataIndex: "source",
+                  customFilterDropdown: true,
+                  onFilter: (value: string, record: { source: { toString: () => string; }; }) =>
+                        record.source.toString().toLowerCase().includes(value.toLowerCase()),
+                  onFilterDropdownVisibleChange: (visible: any) => {
+                        if (visible) {
+                              setTimeout(() => {
+                                    searchInput.value.focus();
+                              }, 100);
+                        }
+                  },
+            },
+            { title: "操作", dataIndex: "action" },
+      ] as any,
+      data: [] as RespTPLs[],
+      pageCount: 0
+})
 
 const searchInput = ref();
 
@@ -75,24 +97,6 @@ const title = ref("新建流程")
 const flow = ref()
 
 const request = new Request
-
-const col = [
-      {
-            title: "流程名称",
-            dataIndex: "source",
-            customFilterDropdown: true,
-            onFilter: (value: string, record: { source: { toString: () => string; }; }) =>
-                  record.source.toString().toLowerCase().includes(value.toLowerCase()),
-            onFilterDropdownVisibleChange: (visible: any) => {
-                  if (visible) {
-                        setTimeout(() => {
-                              searchInput.value.focus();
-                        }, 100);
-                  }
-            },
-      },
-      { title: "操作", dataIndex: "action" },
-]
 
 
 const state = reactive({
@@ -112,7 +116,10 @@ const handleReset = (clearFilters: () => void) => {
 };
 
 const currentPage = () => {
-      request.List().then((res: AxiosResponse<Res<RespTPLs[]>>) => tData.value = res.data.payload)
+      request.List().then((res: AxiosResponse<Res<RespTPLs[]>>) => {
+            tblRef.data = res.data.payload
+            tblRef.pageCount = res.data.payload.length
+      })
 }
 
 onMounted(() => {

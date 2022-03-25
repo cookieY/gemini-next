@@ -21,7 +21,6 @@ export default {
       "order.profile.reject.title": "驳回理由",
       "order.profile.comment.add": "添加评论",
 
-
       "order.apply.title": "服务申请",
       "order.apply.desc": "DML/DDL/查询工单申请及提交",
       "order.apply.ddl.desc": "可申请的DDL数据源",
@@ -58,6 +57,7 @@ export default {
       "order.table.extra": "备注",
       "order.table.index": "索引名称",
       "order.table.isunique": "是否唯一",
+      "order.table.delay": "立即执行",
 
 
       "order.agree": "同意",

@@ -45,18 +45,19 @@
 <script lang="ts" setup>
 
 import { ref, computed } from "vue";
-import { OpsDBApis, Source } from "@/apis/db";
+import { Request, Source } from "@/apis/db";
 import CommonMixins from "@/mixins/common"
 import DBMixins from "@/mixins/db"
 import { useStore } from '@/store'
 import { EventBus } from "@/lib";
-import { message } from "ant-design-vue";
 
 const store = useStore()
 
 const { layout } = CommonMixins()
 
 const { rules } = DBMixins()
+
+const request = new Request
 
 const idc = computed(() => {
       return store.state.common.idc
@@ -91,13 +92,13 @@ const fill = (vl: Source) => {
 
 const createSource = () => {
       formRef.value.validate().then(() => {
-            OpsDBApis({ db: dbForm.value, tp: "create" }).then(() => EventBus.emit("postOk"))
+            request.Ops({ db: dbForm.value, tp: "create" }).then(() => EventBus.emit("postOk"))
       })
 }
 
 const checkConn = () => {
 
-      OpsDBApis({ db: dbForm.value, tp: "test" })
+      request.Ops({ db: dbForm.value, tp: "test" })
 }
 
 defineExpose({

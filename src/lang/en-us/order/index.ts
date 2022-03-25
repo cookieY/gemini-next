@@ -56,6 +56,7 @@ export default {
       "order.table.extra": "Extra",
       "order.table.index": "IndexName",
       "order.table.isunique": "Unique",
+      "order.table.delay": "Immediately",
 
       "order.agree": "Agree",
       "order.reject": "Rejected",

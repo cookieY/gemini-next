@@ -25,11 +25,11 @@ export interface SQLAuditOrder {
 }
 
 export interface OrderExpr {
-      type?: number;
-      status?: number;
-      text?: string;
-      picker?: string[];
-      user?: string;
+      type: number;
+      status: number;
+      text: string;
+      picker: string[];
+      username: string;
 }
 
 export interface OrderParams {

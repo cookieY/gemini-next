@@ -96,7 +96,7 @@ import { useStore } from '@/store'
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { RespSteps, Steps } from "@/apis/flow"
-import { Source, OpsDBApis } from "@/apis/db"
+import { Source, Request as DB } from "@/apis/db"
 import { Request } from "@/apis/fetchSchema"
 
 const { is_open, turnState, layout } = CommonMixins()
@@ -114,6 +114,8 @@ const flow = computed(() => {
 const steps = ref([] as Steps[])
 
 const request = new Request
+
+const db = new DB
 
 const flowReq = new Flow
 
@@ -146,7 +148,7 @@ const mergeFlow = (vl: number) => {
 const editDB = () => {
       dbForm.value.exclude_db_list = excludeDB.value.join(",")
       dbForm.value.insulate_word_list = insulateWord.value.join(",")
-      OpsDBApis({ db: dbForm.value, tp: "edit" }).then(() => turnState())
+      db.Ops({ db: dbForm.value, tp: "edit" }).then(() => turnState())
 }
 
 const fillInfo = (vl: any) => {
@@ -160,7 +162,7 @@ const fillInfo = (vl: any) => {
 
 
 const checkConn = () => {
-      OpsDBApis({ db: dbForm.value, tp: "test", encrypt: true })
+      db.Ops({ db: dbForm.value, tp: "test", encrypt: true })
 }
 
 defineExpose({

@@ -13,6 +13,7 @@ export interface tableRef {
       pageCount: number,
       expr?: any,
       fn?: any
+      defaultPageSize?: number
 }
 
 export default {

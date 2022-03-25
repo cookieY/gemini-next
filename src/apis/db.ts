@@ -55,30 +55,12 @@ export class Request {
             })
       }
 
-}
+      Ops (args: RequestDB): AxiosPromise {
+            return request({
+                  method: 'POST',
+                  url: `${COMMON_URI}/manage/db`,
+                  data: args
+            })
+      }
 
-
-
-export function FetchDBListApis (args: DBParams) {
-      return request({
-            method: 'put',
-            url: `${COMMON_URI}/manage/db`,
-            data: args
-      })
-}
-
-export function OpsDBApis (args: RequestDB) {
-      return request({
-            method: 'POST',
-            url: `${COMMON_URI}/manage/db`,
-            data: args
-      })
-}
-
-export function DelDBApis (args: string) {
-      return request({
-            method: 'DELETE',
-            url: `${COMMON_URI}/manage/db`,
-            params: { source_id: args }
-      })
 }

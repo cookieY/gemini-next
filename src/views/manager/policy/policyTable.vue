@@ -21,7 +21,7 @@
       </a-row>
 
       <br />
-      <a-table :columns="col" :dataSource="tData" :pagination="false" rowKey="id" bordered>
+      <c-table :tblRef="tblRef" ref="tbl">
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space size="small">
@@ -33,7 +33,7 @@
                               >详情</a-button>
                               <a-popconfirm
                                     title="确认要删除该权限组吗?"
-                                    @confirm="request.Drop(record.group_id).then(() => currentPage())"
+                                    @confirm="request.Drop(record.group_id).then(() => tbl.manual())"
                               >
                                     <a-button
                                           type="primary"
@@ -45,62 +45,46 @@
                         </a-space>
                   </template>
             </template>
-      </a-table>
-      <br />
-      <a-pagination
-            :total="pagination.pageCount"
-            :page-size.sync="pagination.pageSize"
-            :show-total="(total) => `共 ${total} 个工单`"
-            v-model:current="expr.page"
-            @change="currentPage"
-      />
-      <PolicyModal ref="p" :title="title" @success="currentPage"></PolicyModal>
+      </c-table>
+      <PolicyModal ref="p" :title="title" @success="tbl.manual()"></PolicyModal>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from "vue"
-import CommonMixins from "@/mixins/common"
+import { ref, reactive } from "vue"
 import PolicyModal from "./policyModal.vue"
 import { PolicyParams, PolicyExpr, Policy, PolicyResp, Request } from "@/apis/policy"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
+import { tableRef } from "@/components/table"
 
-const { pagination } = CommonMixins()
-
-const tData = ref([] as Policy[])
-
-const col = [
-      { title: "权限组名称", dataIndex: "name" },
-      { title: "操作", dataIndex: "action" },
-]
+const tblRef = reactive<tableRef>({
+      col: [
+            { title: "权限组名称", dataIndex: "name" },
+            { title: "操作", dataIndex: "action" },
+      ],
+      data: [] as Policy[],
+      pageCount: 0,
+      expr: {
+            text: ""
+      } as PolicyExpr,
+      fn: (expr: PolicyParams) => {
+            request.List(expr).then((res: AxiosResponse<Res<PolicyResp>>) => {
+                  tblRef.data = res.data.payload.data
+                  tblRef.pageCount = res.data.payload.page
+            })
+      }
+})
 
 const p = ref()
 
-const title = ref("新建权限组")
+const tbl = ref()
 
-let expr = reactive<PolicyParams>({
-      page: 1,
-      find: {
-            text: ""
-      } as PolicyExpr
-})
+const title = ref("新建权限组")
 
 const request = new Request()
 
 const onSearch = (vl: string) => {
-      expr.find.text = vl
-      currentPage()
+      tblRef.expr.text = vl
+      tbl.value.manual()
 }
-
-const currentPage = () => {
-      pagination.pageSize = 10
-      request.List(expr).then((res: AxiosResponse<Res<PolicyResp>>) => {
-            tData.value = res.data.payload.data
-            pagination.pageCount = res.data.payload.page
-      })
-}
-
-onMounted(() => {
-      currentPage()
-})
 
 </script>

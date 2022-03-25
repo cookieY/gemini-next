@@ -98,10 +98,6 @@ const router = useRouter()
 
 const store = useStore()
 
-const tData = ref<any[]>([])
-
-const rollingData = ref<any[]>([])
-
 const currentRolling = (vl: number) => {
       request.Roll(props.work_id, vl).then((res: AxiosResponse<Res<any>>) => {
             rollTable.data = res.data.payload.sql
@@ -111,7 +107,8 @@ const currentRolling = (vl: number) => {
 
 const submit = () => {
       const warpper = Object.assign({}, store.state.order.order)
-      warpper.sql = rollingData.value.map(item => item.sql).join("\n")
+      warpper.delay = "none"
+      warpper.sql = rollTable.data.map(item => item.sql).join("\n")
       request.Post(warpper as any).finally(() => router.go(-1))
 }
 
@@ -126,7 +123,7 @@ const recommit = () => {
                   remark: 'true'
             }
       })
-      store.commit("common/ORDER_SET_SQL", tData.value.map(item => item.sql).join("\n"))
+      store.commit("common/ORDER_SET_SQL", resultTable.data.map(item => item.sql).join("\n"))
 }
 
 onMounted(() => {
