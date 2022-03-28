@@ -84,9 +84,9 @@ export class Request {
             })
       }
 
-      Edit (user: RegisterForm): AxiosPromise {
+      Edit (user: RegisterForm, isManager: boolean): AxiosPromise {
             return request({
-                  url: `${COMMON_URI}/manage/user?tp=edit`,
+                  url: isManager ? `${COMMON_URI}/manage/user?tp=edit` : `${COMMON_URI}/common/edit?tp=edit`,
                   method: "POST",
                   data: user
             })

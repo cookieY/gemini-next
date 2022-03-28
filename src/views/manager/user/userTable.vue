@@ -142,7 +142,7 @@ const search = (vl: UserExpr) => {
 }
 
 const editUserInfo = (vl: RegisterForm) => {
-      request.Edit(vl).then(() => {
+      request.Edit(vl, true).then(() => {
             tbl.value.manual()
             is_edit.value = false
       })

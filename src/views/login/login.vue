@@ -42,6 +42,10 @@
                                                 style="color: #FFFFFF"
                                           >赞助</a-typography-link>
                                           <a-typography-link
+                                                @click="announce.open()"
+                                                style="color: #FFFFFF"
+                                          >声明/许可</a-typography-link>
+                                          <a-typography-link
                                                 href="https://www.gnu.org/licenses/agpl-3.0.en.html"
                                                 target="_blank"
                                                 style="color: #FFFFFF"
@@ -54,6 +58,8 @@
             </div>
 
             <Sponsor ref="sponsor"></Sponsor>
+
+            <Announce ref="announce"></Announce>
 
             <a-modal v-model:visible="is_open" title="用户注册">
                   <template #footer></template>
@@ -74,12 +80,15 @@ import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
 import CommonMixin from "@/mixins/common";
 import Register from "@/components/user/registerForm.vue";
+import Announce from "../common/announce.vue";
 // const subject = ` Dream what you want to dream; go where you want to go; be what you want to be,
 //                   because you have only one life and one chance to do all the things you want to do.`
 
 const is_register = ref(false)
 
 const sponsor = ref()
+
+const announce = ref()
 
 const register = ref()
 
@@ -89,17 +98,9 @@ const openSponsor = () => {
       sponsor.value.open()
 }
 
-const resetForm = () => {
-      register.value.resetFields()
-}
-
-const signUp = () => {
-      register.value.registered()
-}
 
 onMounted(() => {
       IsRegister().then((res: AxiosResponse<Res<any>>) => {
-
             is_register.value = res.data.payload.reg
       })
 })
