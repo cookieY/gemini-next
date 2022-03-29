@@ -64,10 +64,6 @@ const getValues = (vl: string) => {
 
 }
 
-onUnmounted(() => {
-      EventBus.off("highlight")
-})
-
 onMounted(() => {
       const source_id = route.query.source_id as string
       const hightligh = store.state.highlight.highligt

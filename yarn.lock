@@ -495,10 +495,10 @@ adler-32@~1.3.0:
   dependencies:
     printj "~1.2.2"
 
-ant-design-vue@3.1.0-rc.3:
-  version "3.1.0-rc.3"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.1.0-rc.3.tgz#f09e50a040060ce398446a90b2a9c41ed553e924"
-  integrity sha512-aSEfNcNFdjOyBE7baK1pQDv+j8UU7OR+DnIWDWDEWfcPT/VIwTAWn8u1TwsWkq6XcOh6m/XCz22QBjWUJvWqMg==
+ant-design-vue@3.1.0-rc.5:
+  version "3.1.0-rc.5"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.1.0-rc.5.tgz#05d2d50cec5c73d978955ca7265e3f64bcfcfbf0"
+  integrity sha512-ntHI5KqHLd4L2oT+Ab+K3vehnDoo26QVWeq1ml7d13uoYS6fLXlnCnrYcHyPGh5fstoaAqFcYm3eh6khcetF/w==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons-vue" "^6.1.0"

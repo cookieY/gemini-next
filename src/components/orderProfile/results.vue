@@ -75,7 +75,6 @@ const resultTable = reactive<tableRef>({
       data: [],
       pageCount: 0,
       fn: ({ expr, current, pageSize }) => {
-            console.log(current, pageSize)
             request.Results(props.work_id, { current: current, pageSize: pageSize }).then((res: AxiosResponse<Res<any>>) => {
                   resultTable.data = res.data.payload.record
                   resultTable.pageCount = res.data.payload.count

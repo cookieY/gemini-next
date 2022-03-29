@@ -31,6 +31,8 @@ const emit = defineEmits(['getValues'])
 
 let model = {} as monaco.editor.IStandaloneCodeEditor
 
+let completionProvider = {} as monaco.IDisposable
+
 const beautyFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-beauty',
       label: 'SQL美化',
@@ -65,7 +67,7 @@ const GetValueFunc: monaco.editor.IActionDescriptor = {
 }
 
 const RunEditor = (highlight: { [key: string]: string }[]) => {
-      monaco.languages.registerCompletionItemProvider('sql', {
+      completionProvider = monaco.languages.registerCompletionItemProvider('sql', {
             provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
                   let word = model.getWordUntilPosition(position);
                   let range = {
@@ -77,7 +79,8 @@ const RunEditor = (highlight: { [key: string]: string }[]) => {
                   return {
                         suggestions: createSQLToken(range, highlight)
                   }
-            }
+            },
+            triggerCharacters: ['.']
       });
       model.focus()
 }
@@ -109,6 +112,12 @@ onMounted(() => {
             height.value = document.body.clientHeight - 600 > 150 ? document.body.clientHeight - 600 : 150
       }
 })
+
+onUnmounted(() => {
+      model.dispose()
+      completionProvider.dispose();
+})
+
 
 defineExpose({
       RunEditor,

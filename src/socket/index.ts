@@ -11,9 +11,10 @@ export default class WsSocket {
 
 
       constructor(prefix: string) {
+            let baseURL = ""
+            import.meta.env.MODE === "dev" ? baseURL = "127.0.0.1:8000" : baseURL = document.location.host
             document.location.protocol === "https:" ? this.scheme = "wss://" : this.scheme = "ws://"
-            this.url = `${this.scheme}${document.location.host}${COMMON_URI}${prefix}`
-            // this.url = `${this.scheme}127.0.0.1:8000${COMMON_URI}${prefix}`
+            this.url = `${this.scheme}${baseURL}${COMMON_URI}${prefix}`
             this.socket = null as any
             this.timer = null
       }

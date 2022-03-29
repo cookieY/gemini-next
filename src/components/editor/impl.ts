@@ -26,7 +26,6 @@ const createSQLToken = (range: any, exact: { [key: string]: string }[]): monaco.
                   }
             )
       });
-
       return token
 }
 

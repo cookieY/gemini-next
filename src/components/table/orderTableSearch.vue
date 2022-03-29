@@ -118,7 +118,6 @@ const toggleAdvanced = () => {
 
 const search = () => {
       onPicker()
-      console.log(expr.value)
       emit('search', expr.value)
 }
 

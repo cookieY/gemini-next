@@ -13,24 +13,18 @@
             />
             <a-spin :spinning="spinning">
                   <a-tree
-                        :expanded-keys="expandedKeys"
+                        v-model:expandedKey="expandedKeys"
                         :auto-expand-parent="autoExpandParent"
                         :tree-data="gData"
+                        :load-data="onLoadData"
                         :height="700"
-                        @expand="onExpand"
+                        show-icon
                   >
                         <template #switcherIcon="{ dataRef, defaultIcon }">
                               <template v-if="dataRef.meta === 'Schema'">
                                     <hdd-outlined />
                               </template>
-                              <template v-else-if="dataRef.meta === 'Table'">
-                                    <table-outlined />
-                              </template>
-                              <template v-else>
-                                    <CloudOutlined />
-                              </template>
                         </template>
-
                         <template #title="{ title, meta, key: treeKey, }">
                               <a-dropdown :trigger="['contextmenu']">
                                     <template v-if="title !== undefined">
@@ -68,6 +62,7 @@ import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
 import { HddOutlined, TableOutlined, CloudOutlined, ArrowLeftOutlined } from "@ant-design/icons-vue";
 import { useStore } from "@/store";
+import type { TreeProps } from 'ant-design-vue';
 
 const emit = defineEmits(["showTableRef"])
 
@@ -79,7 +74,7 @@ const store = useStore()
 
 const expandedKeys = ref<any[]>([])
 
-const autoExpandParent = ref<boolean>(true)
+const autoExpandParent = ref<boolean>(false)
 
 const spinning = ref(false)
 
@@ -94,43 +89,38 @@ const schema = ref("")
 watch(searchValue, value => {
       let expanded: string[] = []
       gData.value.forEach((item: any) => {
-            if (item.children[0].key !== undefined) {
-                  item.children.forEach((el: any) => {
-                        if (el.key.indexOf(value) > -1) {
-                              if (expanded.indexOf(item.key) == -1)
-                                    expanded.push(item.key)
-                        }
-                  });
+            if (item.children !== undefined) {
+                  if (item.children[0].key !== undefined) {
+                        item.children.forEach((el: any) => {
+                              if (el.title.indexOf(value) > -1) {
+                                    if (expanded.indexOf(item.title) == -1)
+                                          expanded.push(item.title)
+                              }
+                        });
 
+                  }
             }
+
       });
       expandedKeys.value = expanded
       searchValue.value = value;
-      autoExpandParent.value = true;
+      autoExpandParent.value = false;
 });
 
-const onExpand = (keys: string[], vl: any) => {
-      if (vl.node.meta === "Table") {
-            return
-      }
-      expandedKeys.value = keys
-      autoExpandParent.value = false
-      if (vl.node.children.length == 1) {
+const onLoadData: TreeProps['loadData'] = (treeNode: any) => {
+      return new Promise(resolve => {
+            if (treeNode.dataRef.meta === "Table") {
+                  resolve();
+                  return;
+            }
             spin()
-            schema.value = vl.node.title
-            request.QueryTable(route.query.source_id as string, vl.node.title).then((res: AxiosResponse<Res<any>>) => {
-                  for (let i = 0; i < gData.value.length; i++) {
-                        if (gData.value[i].key === vl.node.key) {
-                              gData.value[i].children = res.data.payload.table
-                              dataList[i].children = res.data.payload.table
-                        }
-                  }
-            }).finally(() => {
-                  spin()
-            })
-      }
-
-
+            request.QueryTable(route.query.source_id as string, treeNode.dataRef.title).then((res: AxiosResponse<Res<any>>) => {
+                  treeNode.dataRef.children = res.data.payload.table
+                  gData.value = [...gData.value];
+            }).finally(() => spin())
+            expandedKeys.value = [treeNode.dataRef.title]
+            resolve();
+      });
 }
 
 const spin = () => {

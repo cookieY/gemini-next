@@ -50,14 +50,12 @@ watch(props.tblRef, () => {
 })
 
 const currentPage = (page: { current: number, pageSize: number }) => {
-      console.log(page.pageSize)
       pSize.value = page.pageSize
       props.tblRef.fn !== undefined ? props.tblRef.fn({ expr: props.tblRef.expr, current: page.current, pageSize: page.pageSize }) : null
       !props.isAll ? loading.value = true : null
 }
 
 const manual = () => {
-      console.log(pSize.value)
       props.tblRef.fn({ expr: props.tblRef.expr, current: 1, pageSize: pSize.value })
 }
 
