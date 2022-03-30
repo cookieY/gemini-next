@@ -42,7 +42,9 @@ const beautyFunc: monaco.editor.IActionDescriptor = {
       contextMenuGroupId: 'navigation',
       contextMenuOrder: 1.5,
       run: function (ed: monaco.editor.ICodeEditor) {
-            ed.setValue(format(ed.getValue()))
+            ed.setValue(format(ed.getValue(), {
+                  language: "mysql",
+            }))
 
       }
 }

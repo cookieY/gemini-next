@@ -6,9 +6,6 @@
             @cancel="Object.assign(formItem, initItem)"
       >
             <a-form ref="formRef" :model="formItem" :rules="rules" layout="vertical">
-                  <a-form-item :label="$t('user.password.old')" name="origin" has-feedback>
-                        <a-input-password v-model:value="formItem.origin" password></a-input-password>
-                  </a-form-item>
                   <a-form-item :label="$t('user.password.new')" name="password" has-feedback>
                         <a-input-password v-model:value="formItem.password"></a-input-password>
                   </a-form-item>
