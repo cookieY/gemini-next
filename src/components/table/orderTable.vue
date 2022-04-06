@@ -1,28 +1,19 @@
-<template>
-      <order-table-search @search="(exp) => { tblRef.expr = exp; tbl.manual() }"></order-table-search>
-      <c-table :tblRef="tblRef" ref="tbl">
-            <template #bodyCell="{ column, text, record }">
-                  <template v-if="column.dataIndex === 'type'">
-                        <span>{{ text === 0 ? 'DDL' : 'DML' }}</span>
-                  </template>
-                  <template v-if="column.dataIndex === 'assigned'">
-                        <a-tag v-for="i in text.split(',')">{{ i }}</a-tag>
-                  </template>
-                  <template
-                        v-if="column.dataIndex === 'delay'"
-                  >{{ text === 'none' ? $t('order.table.delay') : text }}</template>
-                  <template v-if="column.dataIndex === 'status'">
-                        <state-tags :state="text"></state-tags>
-                  </template>
-                  <template v-if="column.dataIndex === 'action'">
-                        <a-button
-                              type="primary"
-                              size="small"
-                              @click="profie(record)"
-                        >{{ $t('common.profile') }}</a-button>
-                  </template>
-            </template>
-      </c-table>
+<template lang="pug">
+order-table-search(@search="(exp) => { tblRef.expr = exp; tbl.manual() }")
+c-table(:tblRef="tblRef" ref="tbl")
+      template(#bodyCell="{ column, text, record }")
+            template(v-if="column.dataIndex === 'type'")
+                  span {{ text === 0 ? 'DDL' : 'DML' }}
+            template(v-if="column.dataIndex === 'assigned'")
+                  a-tag(v-for="i in text.split(',')")
+                        | {{ i }}
+            template(v-if="column.dataIndex === 'delay'")
+                  | {{ text === 'none' ? $t('order.table.delay') : text }}
+            template(v-if="column.dataIndex === 'status'")
+                  state-tags(:state="text")
+            template(v-if="column.dataIndex === 'action'")
+                  a-button(type="primary" size="small" @click="profie(record)")
+                        | {{ $t('common.profile') }}
 </template>
 
 <script lang="ts" setup>

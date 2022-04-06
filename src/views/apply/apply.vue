@@ -1,28 +1,20 @@
-<template>
-      <a-page-header :title="$t('order.apply.title')" @back="() => $router.go(-1)">
-            <template #tags>
-                  <a-tag color="blue">Running</a-tag>
-            </template>
-            <p>{{ $t('order.apply.desc') }}</p>
-            <a-row type="flex" align="middle" style="text-align: center;">
-                  <a-space :size="30">
-                        <a-statistic :title="$t('order.apply.dml.desc')" :value="count.dml" />
-                        <a-statistic :title="$t('order.apply.ddl.desc')" :value="count.ddl" />
-                        <a-statistic :title="$t('order.apply.query.desc')" :value="count.query" />
-                  </a-space>
-            </a-row>
-      </a-page-header>
-
-      <a-tabs v-model:activeKey="activeKey">
-            <template v-for="i in tags" :key="i.key">
-                  <a-tab-pane :tab="i.title">
-                        <ListApp :type="i.key" :id="i.id"></ListApp>
-                  </a-tab-pane>
-            </template>
-            <a-tab-pane :tab="$t('order.apply.query.tab')" key="query">
-                  <QueryApp></QueryApp>
-            </a-tab-pane>
-      </a-tabs>
+<template lang="pug">
+a-page-header(:title="$t('order.apply.title')" @back="() => $router.go(-1)")
+      template(#tags)
+            a-tag(color="blue")
+                  | Running
+      p {{ $t('order.apply.desc') }}
+      a-row(type="flex" align="middle" style="text-align: center;")
+            a-space(:size="30")
+                  a-statistic(:title="$t('order.apply.dml.desc')" :value="count.dml")
+                  a-statistic(:title="$t('order.apply.ddl.desc')" :value="count.ddl")
+                  a-statistic(:title="$t('order.apply.query.desc')" :value="count.query")
+a-tabs(v-model:activeKey="activeKey")
+      template(v-for="i in tags" :key="i.key")
+            a-tab-pane(:tab="i.title")
+                  ListApp(:type="i.key" :id="i.id")
+      a-tab-pane(:tab="$t('order.apply.query.tab')" key="query")
+            QueryApp
 </template>
 
 <script setup lang="ts">

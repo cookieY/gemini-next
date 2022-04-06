@@ -27,8 +27,7 @@
 import Editor from "@/components/editor/editor.vue";
 import Table from "./table.vue";
 import { useStore } from "@/store";
-import { computed, onMounted, onUnmounted, ref } from "vue"
-import { EventBus } from "@/lib"
+import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router";
 import { Request } from "@/apis/fetchSchema";
 import { AxiosResponse } from "axios";

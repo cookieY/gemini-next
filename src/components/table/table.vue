@@ -1,32 +1,21 @@
-<template>
-      <a-table
-            :columns="props.tblRef.col"
-            :size="props.size"
-            :dataSource="props.tblRef.data"
-            :loading="loading"
-            :pagination="{
-                  total: props.tblRef.pageCount,
-                  showTotal: total => $t('common.count', { 'count': total }),
-                  position: ['bottomLeft'],
-                  showSizeChanger: true,
-                  defaultPageSize: props.tblRef.defaultPageSize
-            }"
-            @change="currentPage"
-            :bordered="props.bordered"
-            @resizeColumn="handleResizeColumn"
-      >
-            <template v-for="(_, name) in $slots" #[name]="slotData">
-                  <slot :name="name" v-bind="slotData" />
-            </template>
-      </a-table>
+<template lang="pug">
+a-table(:columns="props.tblRef.col" :size="props.size" :dataSource="props.tblRef.data" :loading="loading" :pagination=`{
+      total: props.tblRef.pageCount,
+      showTotal: total => $t('common.count', { 'count': total }),
+      position: ['bottomLeft'],
+      showSizeChanger: true,
+      defaultPageSize: props.tblRef.defaultPageSize
+}` @change="currentPage" :bordered="props.bordered" @resizeColumn="handleResizeColumn")
+      template(v-for="(_, name) in $slots" #[name]="slotData")
+            slot(:name="name" v-bind="slotData")
 </template>
 
 <script lang="ts" setup>
 import { nextTick, onMounted, ref, watch } from 'vue';
-import { tableRef } from '@/components/table';
+import * as t from '@/components/table';
 
 interface propsAttr {
-      tblRef: tableRef
+      tblRef: t.tableRef
       bordered?: boolean
       size?: string
       isAll?: boolean

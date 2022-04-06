@@ -1,7 +1,6 @@
 import type { App } from 'vue';
 import CTable from "@/components/table/table.vue"
 import { TableColumnsType } from 'ant-design-vue';
-import { commonPage } from '@/types';
 
 const components = [CTable]
 
