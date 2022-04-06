@@ -6,12 +6,13 @@
                               :class="btnId"
                               data-clipboard-action="copy"
                               :data-clipboard-target="`#${barId}`"
-                              @click="btnClip(clips.desc)"
                         ></CopyOutlined>
                         <CloseOutlined @click="delBtn" />
                   </a-space>
             </template>
-            <div :id="barId">{{ clips.desc }}</div>
+            <div @click="btnClip()">
+                  <div :id="barId">{{ clips.desc }}</div>
+            </div>
       </a-card>
 </template>
 
@@ -37,7 +38,7 @@ const barId = `bar${props.idRef}`
 
 const clipboard = new ClipboardJS(`.${btnId}`);
 
-const btnClip = (desc: string) => {
+const btnClip = () => {
       clipboard.on('success', (e) => {
             message.info(t('query.clip.is.paste'))
             e.clearSelection();

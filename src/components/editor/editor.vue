@@ -31,7 +31,7 @@ const emit = defineEmits(['getValues'])
 
 let model = {} as monaco.editor.IStandaloneCodeEditor
 
-let completionProvider = {} as monaco.IDisposable
+let completionProvider: monaco.IDisposable
 
 const beautyFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-beauty',
@@ -117,7 +117,7 @@ onMounted(() => {
 
 onUnmounted(() => {
       model.dispose()
-      completionProvider.dispose();
+      completionProvider !== undefined ? completionProvider.dispose() : null
 })
 
 

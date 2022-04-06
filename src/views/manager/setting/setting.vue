@@ -57,7 +57,7 @@
                                     v-model:value="config.ldap.url"
                               ></a-input>
                         </a-form-item>
-                        <a-form-item :label="$t('setting.ldap.enabled')">
+                        <a-form-item :label="$t('setting.ldap.ssl')">
                               <a-checkbox v-model:checked="config.ldap.ldaps"></a-checkbox>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.dn')">
