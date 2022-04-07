@@ -1,10 +1,23 @@
-<template lang="pug">
-a-modal(v-model:visible="is_open" :title="$t('user.password.title')" @ok="handlePassword" @cancel="Object.assign(formItem, initItem)")
-      a-form(ref="formRef" :model="formItem" :rules="rules" layout="vertical")
-            a-form-item(:label="$t('user.password.new')" name="password" has-feedback)
-                  a-input-password(v-model:value="formItem.password")
-            a-form-item(:label="$t('user.password.confirm')" name="confirm_password" has-feedback)
-                  a-input-password(v-model:value="formItem.confirm_password")
+<template>
+      <a-modal
+            v-model:visible="is_open"
+            :title="$t('user.password.title')"
+            @ok="handlePassword"
+            @cancel="Object.assign(formItem, initItem)"
+      >
+            <a-form ref="formRef" :model="formItem" :rules="rules" layout="vertical">
+                  <a-form-item :label="$t('user.password.new')" name="password" has-feedback>
+                        <a-input-password v-model:value="formItem.password"></a-input-password>
+                  </a-form-item>
+                  <a-form-item
+                        :label="$t('user.password.confirm')"
+                        name="confirm_password"
+                        has-feedback
+                  >
+                        <a-input-password v-model:value="formItem.confirm_password"></a-input-password>
+                  </a-form-item>
+            </a-form>
+      </a-modal>
 </template>
 <script lang="ts" setup>
 import { UnwrapRef, reactive } from "vue"

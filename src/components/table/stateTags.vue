@@ -1,8 +1,10 @@
-<template lang="pug">
-a-tag(:color="desc.color")
-      template(#icon)
-            component(:is="desc.icon" :spin="desc.color === '#408B9B'")
-      | {{ desc.title }}
+<template>
+      <a-tag :color="desc.color">
+            <template #icon>
+                  <component :is="desc.icon" :spin="desc.color === '#408B9B'"></component>
+            </template>
+            {{ desc.title }}
+      </a-tag>
 </template>
 
 <script setup lang="ts">
