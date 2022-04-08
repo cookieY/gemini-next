@@ -1569,7 +1569,7 @@ vscode-vue-languageservice@^0.27.0:
     vscode-pug-languageservice "^0.27.24"
     vscode-typescript-languageservice "^0.27.25"
 
-vue-i18n@^9.2.0-beta.30:
+vue-i18n@9.2.0-beta.34:
   version "9.2.0-beta.34"
   resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-9.2.0-beta.34.tgz#ab092a4c3635782c49054995265e3e44e3533e8d"
   integrity sha512-AKzOMn91OKBKHTPVWrDF+kBSbYYNGfBeeBhuihkxW2ZTXd1l8vp7WBqA6weV9kb9EDv7HO61Qhctqcr79TmHVw==

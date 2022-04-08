@@ -6,7 +6,9 @@
                               :title="$t('order.profile.results.roll.tips')"
                               @confirm="submit"
                         >
-                              <a-button>{{ $t("order.profile.results.commit.rollback") }}</a-button>
+                              <a-button
+                                    v-if="route.params.tp === 'audit'"
+                              >{{ $t("order.profile.results.commit.rollback") }}</a-button>
                         </a-popconfirm>
                         <a-popconfirm
                               :title="$t('order.profile.results.recommit.tips')"
@@ -34,14 +36,17 @@ import { onMounted, reactive, ref } from "vue"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
 import { useStore } from "@/store"
-import { useRouter } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { useI18n } from 'vue-i18n';
 import { tableRef } from "../table"
 
 const { t } = useI18n()
 
+const route = useRoute()
+
 const props = defineProps<{
-      work_id: string
+      work_id: string,
+      recommit: string
 }>()
 
 const activeKey = ref("1")
@@ -122,7 +127,6 @@ const recommit = () => {
                   remark: 'true'
             }
       })
-      store.commit("common/ORDER_SET_SQL", resultTable.data.map(item => item.sql).join("\n"))
 }
 
 onMounted(() => {

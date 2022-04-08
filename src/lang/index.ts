@@ -17,6 +17,7 @@ export let defaultLang = 'zh-CN'
 
 
 const i18n = createI18n({
+      legacy: false,
       globalInjection: true,
       silentTranslationWarn: true,
       locale: defaultLang,

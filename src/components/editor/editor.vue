@@ -31,7 +31,7 @@ const emit = defineEmits(['getValues'])
 
 let model = {} as monaco.editor.IStandaloneCodeEditor
 
-let completionProvider: monaco.IDisposable
+let completionProvider = null as any
 
 const beautyFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-beauty',
@@ -42,9 +42,7 @@ const beautyFunc: monaco.editor.IActionDescriptor = {
       contextMenuGroupId: 'navigation',
       contextMenuOrder: 1.5,
       run: function (ed: monaco.editor.ICodeEditor) {
-            ed.setValue(format(ed.getValue(), {
-                  language: "mysql",
-            }))
+            ed.setValue(format(ed.getValue()))
 
       }
 }
@@ -83,6 +81,7 @@ const RunEditor = (highlight: { [key: string]: string }[]) => {
                   }
             },
             triggerCharacters: ['.']
+
       });
       model.focus()
 }
@@ -109,7 +108,6 @@ onMounted(() => {
       model.addAction(beautyFunc)
       model.addAction(GetValueFunc)
       model.focus()
-
       window.onresize = () => {
             height.value = document.body.clientHeight - 600 > 150 ? document.body.clientHeight - 600 : 150
       }
@@ -117,9 +115,8 @@ onMounted(() => {
 
 onUnmounted(() => {
       model.dispose()
-      completionProvider !== undefined ? completionProvider.dispose() : null
+      completionProvider !== null ? completionProvider.dispose() : null
 })
-
 
 defineExpose({
       RunEditor,

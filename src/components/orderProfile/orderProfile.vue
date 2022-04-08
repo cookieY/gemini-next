@@ -124,7 +124,7 @@
                   </a-tab-pane>
 
                   <a-tab-pane key="3" :tab="$t('order.profile.results')">
-                        <Results :work_id="order.work_id"></Results>
+                        <Results :work_id="order.work_id" :recommit="recommit"></Results>
                   </a-tab-pane>
 
                   <a-tab-pane key="4" :tab="$t('order.profile.osc')" v-if="order.type === 0">
@@ -195,6 +195,8 @@ const usege = ref([] as stepUsege[])
 
 const isCurrent = ref(-1)
 
+const recommit = ref('')
+
 const testResults = (sql: string) => {
       spin.value = !spin.value
       request.Test({
@@ -253,6 +255,7 @@ onMounted(() => {
 
       FetchProfileSQL(order.value.work_id).then((res: AxiosResponse<Res<{ [key: string]: string }>>) => {
             profile.value.ChangeEditorText(res.data.payload.sqls)
+            store.commit("common/ORDER_SET_SQL", res.data.payload.sqls)
       })
 })
 
