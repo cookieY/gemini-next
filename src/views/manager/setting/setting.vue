@@ -36,14 +36,12 @@
                         </a-form-item>
                         <a-form-item :label="$t('common.action')">
                               <a-space>
-                                    <a-button
-                                          type="primary"
-                                          @click="request.Test('ding', config)"
-                                    >{{ $t('setting.message.action.hook') }}</a-button>
-                                    <a-button
-                                          ghost
-                                          @click="request.Test('mail', config)"
-                                    >{{ $t('setting.message.action.mail') }}</a-button>
+                                    <a-button type="primary" @click="request.Test('ding', config)">{{
+                                          $t('setting.message.action.hook')
+                                    }}</a-button>
+                                    <a-button ghost @click="request.Test('mail', config)">{{
+                                          $t('setting.message.action.mail')
+                                    }}</a-button>
                               </a-space>
                         </a-form-item>
                   </a-form>
@@ -52,41 +50,30 @@
                   <a-divider orientation="left">{{ $t('setting.ldap') }}</a-divider>
                   <a-form v-bind="layout">
                         <a-form-item :label="$t('setting.ldap.url')">
-                              <a-input
-                                    :placeholder="$t('setting.ldap.url.tips')"
-                                    v-model:value="config.ldap.url"
-                              ></a-input>
+                              <a-input :placeholder="$t('setting.ldap.url.tips')" v-model:value="config.ldap.url">
+                              </a-input>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.ssl')">
                               <a-checkbox v-model:checked="config.ldap.ldaps"></a-checkbox>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.dn')">
-                              <a-input
-                                    :placeholder="$t('setting.ldap.dn.tips')"
-                                    v-model="config.ldap.user"
-                              ></a-input>
+                              <a-input :placeholder="$t('setting.ldap.dn.tips')" v-model="config.ldap.user"></a-input>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.password')">
-                              <a-input
-                                    :placeholder="$t('setting.ldap.password.tips')"
-                                    v-model="config.ldap.password"
-                                    type="password"
-                              ></a-input>
+                              <a-input :placeholder="$t('setting.ldap.password.tips')" v-model="config.ldap.password"
+                                    type="password"></a-input>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.filter')">
-                              <a-input
-                                    v-model="config.ldap.type"
-                                    :placeholder="$t('setting.ldap.filter.tips')"
-                              ></a-input>
+                              <a-input v-model="config.ldap.type" :placeholder="$t('setting.ldap.filter.tips')">
+                              </a-input>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.sc')">
                               <a-input placeholder="LDAP Search Base" v-model="config.ldap.sc"></a-input>
                         </a-form-item>
                         <a-form-item :label="$t('common.action')">
-                              <a-button
-                                    type="primary"
-                                    @click="request.Test('ldap', config)"
-                              >{{ $t('setting.ldap.test') }}</a-button>
+                              <a-button type="primary" @click="request.Test('ldap', config)">{{
+                                    $t('setting.ldap.test')
+                              }}</a-button>
                         </a-form-item>
                         <a-alert message="Warning" type="warning" show-icon>
                               <template #icon>
@@ -108,20 +95,14 @@
                         </a-form-item>
                         <a-form-item :label="$t('setting.adv.env')">
                               <template v-for="item in config.other.idc" :key="item">
-                                    <a-tag
-                                          color="#B38D57"
-                                          closable
-                                          @close="closeTag(item)"
-                                    >{{ item }}</a-tag>
+                                    <a-tag color="#B38D57" closable @close="closeTag(item)">{{ item }}</a-tag>
                               </template>
 
                               <br />
                               <br />
                               <a-space>
-                                    <a-input
-                                          :placeholder="$t('setting.adv.env.tips')"
-                                          v-model:value="config.other.foce"
-                                    ></a-input>
+                                    <a-input :placeholder="$t('setting.adv.env.tips')"
+                                          v-model:value="config.other.foce"></a-input>
                                     <a-button @click="pushEnv">{{ $t('setting.adv.env.add') }}</a-button>
                               </a-space>
                         </a-form-item>
@@ -148,32 +129,20 @@
                   <a-form v-bind="layout">
                         <a-form-item :label="$t('setting.data.clear.order')">
                               <a-space>
-                                    <a-range-picker
-                                          show-time
-                                          v-model:value="config.other.overdue"
-                                          format="YYYY/MM/DD HH:mm"
-                                          :ranges="dateRanges"
-                                    />
-                                    <a-popconfirm
-                                          :title="$t('setting.data.clear.tips')"
-                                          @confirm="request.Delete({ date: config.other.overdue.map(item => item.format('YYYY-MM-DD HH:mm')), tp: false })"
-                                    >
+                                    <a-range-picker show-time v-model:value="config.other.overdue"
+                                          format="YYYY/MM/DD HH:mm" :ranges="dateRanges" />
+                                    <a-popconfirm :title="$t('setting.data.clear.tips')"
+                                          @confirm="request.Delete({ date: config.other.overdue.map(item => item.format('YYYY-MM-DD HH:mm')), tp: false })">
                                           <a-button>{{ $t('common.delete') }}</a-button>
                                     </a-popconfirm>
                               </a-space>
                         </a-form-item>
                         <a-form-item :label="$t('setting.data.clear.query')">
                               <a-space>
-                                    <a-range-picker
-                                          show-time
-                                          v-model:value="config.other.query_expire"
-                                          format="YYYY/MM/DD HH:mm"
-                                          :ranges="dateRanges"
-                                    />
-                                    <a-popconfirm
-                                          :title="$t('setting.data.clear.tips')"
-                                          @confirm="request.Delete({ date: config.other.query_expire.map(item => item.format('YYYY-MM-DD HH:mm')), tp: true })"
-                                    >
+                                    <a-range-picker show-time v-model:value="config.other.query_expire"
+                                          format="YYYY/MM/DD HH:mm" :ranges="dateRanges" />
+                                    <a-popconfirm :title="$t('setting.data.clear.tips')"
+                                          @confirm="request.Delete({ date: config.other.query_expire.map(item => item.format('YYYY-MM-DD HH:mm')), tp: true })">
                                           <a-button>{{ $t('common.delete') }}</a-button>
                                     </a-popconfirm>
                               </a-space>
@@ -188,11 +157,7 @@
                         </a-alert>
                   </a-form>
                   <br />
-                  <a-button
-                        type="primary"
-                        block
-                        @click="request.Post(config)"
-                  >{{ $t('common.save') }}</a-button>
+                  <a-button type="primary" block @click="request.Post(config)">{{ $t('common.save') }}</a-button>
             </a-col>
       </a-row>
 </template>
@@ -222,8 +187,10 @@ const { layout } = CommonMixins()
 
 const config = ref({
       message: {},
-      ldap: {},
+      ldap: {
+      },
       other: {
+            limit: 0,
             export: false
       }
 } as Settings)
