@@ -1,28 +1,38 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
       <a-row type="flex" justify="space-around" align="middle">
-            <a-col :span="12">
-                  <a-statistic title="工单数" :value="1128">
-                        <template #suffix>
-                              <like-outlined />
-                        </template>
-                  </a-statistic>
-            </a-col>
-            <a-col :span="12">
-                  <a-statistic title="查询数" :value="93">
-                        <template #suffix>
-                              <span>/ 100</span>
-                        </template>
-                  </a-statistic>
-            </a-col>
+            <div id="app-container">
+                  <div id="g2-customize-tooltip">
+                        <div class="tooltip-title">${title}</div>
+                        <div class="tooltip-items">
+                              <div class="tooltip-item" style="border-left: 2px solid ${color}">
+                                    <div class="tooltip-item-name">${name}</div>
+                                    <div class="tooltip-item-value">${value} °C</div>
+                                    <div class="tooltip-item-info">
+                                          <div class="info-item">
+                                                <div class="info-item-name">最新值</div>
+                                                <div class="info-item-value">9.6</div>
+                                          </div>
+                                          <div class="info-item">
+                                                <div class="info-item-name">平均值</div>
+                                                <div class="info-item-value">4.8</div>
+                                          </div>
+                                          <div class="info-item">
+                                                <div class="info-item-name">最大值</div>
+                                                <div class="info-item-value">16.9</div>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
       </a-row>
+      <br>
       <a-row>
-            <a-col span="12">
+            <a-col :span="24">
                   <div id="container"></div>
             </a-col>
-            <a-col :span="12">
-                  <div id="container1"></div>
-            </a-col>
+
       </a-row>
       <a-row>
             <a-tabs>
@@ -33,84 +43,166 @@
 </template>
 
 <script lang="ts" setup>
+import { Request } from "@/apis/record";
 import PageHeader from "@/components/pageHeader/pageHeader.vue";
 import { Chart } from "@antv/g2"
-import { onMounted } from "vue";
+import { LikeOutlined } from "@ant-design/icons-vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { AxiosResponse } from "axios";
+import { Res } from "@/config/request";
 const { t } = useI18n()
 const title = {
       title: t('record.title'),
-      subTitle: t('record.subtitle')
+      subTitle: ""
 }
 
-const deadline = new Date()
+const count = ref({
+      ddl: 0,
+      dml: 0
+})
+
+const request = new Request
 
 const OrderTypeChart = (id: string, data: any) => {
+
       const chart = new Chart({
             container: id,
             autoFit: true,
-            height: 400,
+            height: 300,
       });
 
       chart.data(data);
-
-      chart.coordinate('theta', {
-            radius: 0.85
-      });
-
-      chart.scale('percent', {
-            formatter: (val) => {
-                  val = val * 100 + '%';
-                  return val;
+      chart.scale({
+            count: {
+                  nice: true,
             },
+            type: {
+                  formatter: (value) => {
+                        if (value === '0') {
+                              return 'DDL'
+                        }
+                        if (value === '1') {
+                              return 'DML'
+                        }
+                  }
+            }
       });
       chart.tooltip({
-            showTitle: false,
-            showMarkers: false,
+            showCrosshairs: true,
+            shared: true,
       });
-      chart.axis(false); // 关闭坐标轴
-      const interval = chart
-            .interval()
-            .adjust('stack')
-            .position('percent')
-            .color('item')
-            .label('percent', {
-                  offset: -40,
-                  style: {
-                        textAlign: 'center',
-                        shadowBlur: 2,
-                        shadowColor: 'rgba(0, 0, 0, .45)',
-                        fill: '#fff',
+
+      chart.axis("count", {
+            label: {
+                  formatter: (val) => {
+                        return val + ' /per';
                   },
-            })
-            .tooltip('item*percent', (item, percent) => {
-                  percent = percent * 100 + '%';
-                  return {
-                        name: item,
-                        value: percent,
-                  };
-            })
-            .style({
-                  lineWidth: 1,
-                  stroke: '#fff',
-            });
-      chart.interaction('element-single-selected');
+            },
+            grid: {
+                  line: {
+                        style: {
+                              opacity: 0
+                        }
+                  }
+            }
+      });
+
+      chart
+            .line()
+            .position('time*count')
+            .color('type')
+            .shape('smooth');
+
+      chart
+            .point()
+            .position('time*count')
+            .color('type')
+            .shape('circle');
+
+      // customize tooltip
+
+
+
+      // chart.on('afterrender', (e) => {
+      //       const elements = e.view.getElements();
+      //       console.log(111, elements);
+      //       // 获取最新值的数据
+
+      //       $tooltip.innerHTML = getTooltipHTML(data);
+      // });
+
+      // chart.on('tooltip:change', (e) => {
+      //       $tooltip.innerHTML = getTooltipHTML(e.data);
+      // });
+
+
       chart.render();
 
-      // 默认选择
-      interval.elements[0].setState('selected', true);
 }
 
 onMounted(() => {
-      const data = [
-            { item: '事例一', count: 40, percent: 0.4 },
-            { item: '事例二', count: 21, percent: 0.21 },
-            { item: '事例三', count: 17, percent: 0.17 },
-            { item: '事例四', count: 13, percent: 0.13 },
-            { item: '事例五', count: 9, percent: 0.09 },
-      ];
-      OrderTypeChart('container', data)
-      OrderTypeChart('container1', data)
+      request.Axis().then((res: AxiosResponse<Res<any>>) => {
+            OrderTypeChart('container', res.data.payload.order)
+            count.value = res.data.payload.count
+      })
+
 })
 
 </script>
+
+<style lang="less" scoped>
+#app-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+}
+
+#g2-container {
+      flex: auto;
+}
+
+#g2-customize-tooltip {
+      margin-bottom: 16px;
+      font-size: 12px;
+}
+
+
+#g2-customize-tooltip .tooltip-title {}
+
+#g2-customize-tooltip .tooltip-items {
+      display: flex;
+      flex-direction: row;
+}
+
+#g2-customize-tooltip .tooltip-item {
+      flex-basis: 240px;
+      padding-left: 8px;
+      margin-right: 12px;
+}
+
+#g2-customize-tooltip .tooltip-item .tooltip-item-value {
+      font-size: 16px;
+      font-weight: bold;
+}
+
+
+
+#g2-customize-tooltip .tooltip-item-info {
+      display: flex;
+      justify-content: space-between;
+}
+
+#g2-customize-tooltip .tooltip-item-info .info-item {
+      display: flex;
+}
+
+#g2-customize-tooltip .tooltip-item-info .info-item .info-item-name {
+      opacity: 0.65;
+}
+
+#g2-customize-tooltip .tooltip-item-info .info-item .info-item-value {
+      margin-left: 8px;
+}
+</style>

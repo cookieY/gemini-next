@@ -12,6 +12,10 @@
                   <ConsoleSqlOutlined />
                   <span>{{ $t('menu.order.apply') }}</span>
             </a-menu-item>
+            <a-menu-item key="/comptroller/order">
+                  <function-outlined />
+                  <span>{{ $t('menu.comptroller.title') }}</span>
+            </a-menu-item>
             <a-sub-menu :title="$t('menu.order.title')">
                   <template #icon>
                         <AuditOutlined />

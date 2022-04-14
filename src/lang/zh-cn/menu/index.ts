@@ -3,6 +3,7 @@ export default {
       "menu.order.self": "我的工单",
       "menu.order.apply": "工单申请",
       "menu.order.title": "审核",
+      "menu.comptroller.title": "审计",
       "menu.order.query": "查询",
       "menu.order.order": "工单",
       "menu.manage": "管理",

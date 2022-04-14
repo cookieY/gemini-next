@@ -1,20 +1,12 @@
 <template>
-      <a-table
-            :columns="props.tblRef.col"
-            :size="props.size"
-            :dataSource="props.tblRef.data"
-            :loading="loading"
+      <a-table :columns="props.tblRef.col" :size="props.size" :dataSource="props.tblRef.data" :loading="loading"
             :pagination="{
                   total: props.tblRef.pageCount,
                   showTotal: total => $t('common.count', { 'count': total }),
                   position: ['bottomLeft'],
                   showSizeChanger: true,
                   defaultPageSize: props.tblRef.defaultPageSize
-            }"
-            @change="currentPage"
-            :bordered="props.bordered"
-            @resizeColumn="handleResizeColumn"
-      >
+            }" @change="currentPage" :bordered="props.bordered" @resizeColumn="handleResizeColumn">
             <template v-for="(_, name) in $slots" #[name]="slotData">
                   <slot :name="name" v-bind="slotData"></slot>
             </template>
