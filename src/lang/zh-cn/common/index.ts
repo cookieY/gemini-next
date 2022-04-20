@@ -73,4 +73,7 @@ export default {
       "common.bash.self.ddl": "我提交的DDL工单",
       "common.bash.self.query": "我提交的查询工单",
       "common.bash.self.audit": "等待我审核的工单",
+
+      "common.order": "工单",
+      "common.query": "查询",
 }

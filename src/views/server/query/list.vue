@@ -1,33 +1,27 @@
 <template>
-      <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
+      <PageHeader :title="title.title" :subTitle="title.subTitle" v-if="!props.isrecord"></PageHeader>
       <QuerySearch @search="(exp) => { tblRef.expr = exp; tbl.manual() }"></QuerySearch>
-      <c-table :tblRef="tblRef" ref="tbl">
+      <c-table :tblRef="tblRef" ref="tbl" :size="props.size">
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space>
-                              <template v-if="record.status === 2">
-                                    <a-popconfirm
-                                          :title="$t('order.query.audit.end.tips')"
-                                          @confirm="() => request.Stop(record.work_id).then(() => tbl.manual())"
-                                    >
+                              <template v-if="record.status === 2 && !props.isrecord">
+                                    <a-popconfirm :title="$t('order.query.audit.end.tips')"
+                                          @confirm="() => request.Stop(record.work_id).then(() => tbl.manual())">
                                           <a-button size="small" danger>{{ $t('order.end') }}</a-button>
                                     </a-popconfirm>
                               </template>
 
-                              <a-button
-                                    size="small"
-                                    type="primary"
-                                    @click="() => $router.push({ path: '/server/order/profile', query: { order: JSON.stringify(record) } })"
-                              >{{ $t('common.profile') }}</a-button>
+                              <a-button size="small" type="primary"
+                                    @click="() => $router.push({ path: '/server/order/profile', query: { order: JSON.stringify(record) } })">
+                                    {{ $t('common.profile') }}</a-button>
                         </a-space>
                   </template>
                   <template v-if="column.dataIndex === 'status'">
                         <a-tag :color="StateQueryUsege(text).color">
                               <template #icon>
-                                    <component
-                                          :is="StateQueryUsege(text).icon"
-                                          :spin="StateQueryUsege(text).color === '#408B9B'"
-                                    />
+                                    <component :is="StateQueryUsege(text).icon"
+                                          :spin="StateQueryUsege(text).color === '#408B9B'" />
                               </template>
                               {{ StateQueryUsege(text).title }}
                         </a-tag>
@@ -48,6 +42,16 @@ import { AxiosResponse } from "axios";
 import { reactive, ref } from "vue";
 import { useI18n } from 'vue-i18n';
 import { tableRef } from "@/components/table";
+
+interface propsAttr {
+      isrecord: boolean
+      size: string
+}
+
+const props = withDefaults(defineProps<propsAttr>(), {
+      isrecord: false,
+      size: "default"
+})
 
 const { t } = useI18n()
 

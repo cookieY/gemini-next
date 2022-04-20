@@ -94,10 +94,27 @@ const router = createRouter({
                               children: [
                                     {
                                           path: '/comptroller/order',
+                                          redirect: "/comptroller/order/record",
                                           meta: {
-                                                title: '工单审计'
+                                                title: '审计'
                                           },
-                                          component: () => import('@/views/record/order.vue'),
+                                          component: () => import('@/views/record/record.vue'),
+                                          children: [
+                                                {
+                                                      path: '/comptroller/order/:tp',
+                                                      meta: {
+                                                            title: '工单审计'
+                                                      },
+                                                      component: () => import('@/views/record/order.vue'),
+                                                },
+                                                {
+                                                      path: '/comptroller/query/list',
+                                                      meta: {
+                                                            title: '查询审计'
+                                                      },
+                                                      component: () => import('@/views/record/query.vue'),
+                                                }
+                                          ]
                                     },
                               ]
 

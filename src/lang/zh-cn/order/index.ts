@@ -21,7 +21,7 @@ export default {
       "order.profile.reject.title": "驳回理由",
       "order.profile.comment.add": "添加评论",
 
-      "order.apply.title": "服务申请",
+      "order.apply.title": "工单申请",
       "order.apply.desc": "DML/DDL/查询工单申请及提交",
       "order.apply.ddl.desc": "可申请的DDL数据源",
       "order.apply.dml.desc": "可申请的DML数据源",

@@ -3,28 +3,10 @@
             <a-form>
                   <a-row :gutter="12">
                         <a-col :sm="8" :xs="24">
-                              <a-form-item :label="$t('common.table.state')">
-                                    <a-select v-model:value="expr.status">
-                                          <a-select-option :value="7">{{ $t('order.state.all') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.WAIT"
-                                          >{{ $t('order.state.wait') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.PROCESS"
-                                          >{{ $t('order.state.process') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.AUDIT"
-                                          >{{ $t('order.state.audit') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.SUCCESS"
-                                          >{{ $t('order.state.success') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.REJECT"
-                                          >{{ $t('order.state.reject') }}</a-select-option>
-                                          <a-select-option
-                                                :value="OrderState.ERROR"
-                                          >{{ $t('order.state.error') }}</a-select-option>
-                                    </a-select>
+                              <a-form-item :label="$t('common.table.post.time')">
+                                    <a-range-picker v-model:value="picker"
+                                          :ranges="{ 'This week': [dayjs().startOf('week'), dayjs().endOf('week')], 'This month': [dayjs().startOf('month'), dayjs().endOf('month')] }">
+                                    </a-range-picker>
                               </a-form-item>
                         </a-col>
                         <a-col :xs="24" :sm="8">
@@ -48,31 +30,40 @@
                                     </a-form-item>
                               </a-col>
                               <a-col :xs="24" :sm="8">
-                                    <a-form-item :label="$t('common.table.post.time')">
-                                          <a-range-picker
-                                                v-model:value="picker"
-                                                :ranges="{ 'This week': [dayjs().startOf('week'), dayjs().endOf('week')], 'This month': [dayjs().startOf('month'), dayjs().endOf('month')] }"
-                                          ></a-range-picker>
+                                    <a-form-item :label="$t('common.table.state')">
+                                          <a-select v-model:value="expr.status">
+                                                <a-select-option :value="7">{{ $t('order.state.all') }}
+                                                </a-select-option>
+                                                <a-select-option :value="OrderState.WAIT">{{ $t('order.state.wait') }}
+                                                </a-select-option>
+                                                <a-select-option :value="OrderState.PROCESS">{{
+                                                      $t('order.state.process')
+                                                }}</a-select-option>
+                                                <a-select-option :value="OrderState.AUDIT">{{ $t('order.state.audit') }}
+                                                </a-select-option>
+                                                <a-select-option :value="OrderState.SUCCESS">{{
+                                                      $t('order.state.success')
+                                                }}</a-select-option>
+                                                <a-select-option :value="OrderState.REJECT">{{
+                                                      $t('order.state.reject')
+                                                }}</a-select-option>
+                                                <a-select-option :value="OrderState.ERROR">{{ $t('order.state.error') }}
+                                                </a-select-option>
+                                          </a-select>
                                     </a-form-item>
+
                               </a-col>
                         </template>
                         <a-col :xs="24" :sm="8">
-                              <span
-                                    class="table-page-search-submitButtons"
-                                    :style="advanced && { overflow: 'hidden' } || {}"
-                              >
-                                    <a-button
-                                          type="primary"
-                                          @click="search"
-                                    >{{ $t('common.search') }}</a-button>
-                                    <a-button
-                                          style="margin-left: 8px"
-                                          @click="cancel"
-                                    >{{ $t('common.cancel') }}</a-button>
-                                    <a
-                                          @click="toggleAdvanced"
-                                          style="margin-left: 8px"
-                                    >{{ advanced ? $t('common.pick') : $t('common.unfold') }}</a>
+                              <span class="table-page-search-submitButtons"
+                                    :style="advanced && { overflow: 'hidden' } || {}">
+                                    <a-button type="primary" @click="search">{{ $t('common.search') }}</a-button>
+                                    <a-button style="margin-left: 8px" @click="cancel">{{ $t('common.cancel') }}
+                                    </a-button>
+                                    <a @click="toggleAdvanced" style="margin-left: 8px">{{
+                                          advanced ? $t('common.pick')
+                                                : $t('common.unfold')
+                                    }}</a>
                               </span>
                         </a-col>
                   </a-row>
@@ -139,16 +130,18 @@ onMounted(() => {
                   display: flex;
                   margin-bottom: 24px;
                   margin-right: 0;
+
                   .ant-form-item-control-wrapper {
                         flex: 1 1;
                         display: inline-block;
                         vertical-align: middle;
                   }
 
-                  > .ant-form-item-label {
+                  >.ant-form-item-label {
                         line-height: 32px;
                         padding-right: 5px;
                   }
+
                   .ant-form-item-control {
                         height: 32px;
                         line-height: 32px;

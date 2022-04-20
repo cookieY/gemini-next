@@ -1,19 +1,13 @@
 <template>
-      <a-form layout="inline">
+      <a-form layout="inline" v-if="route.params.tp !== 'record'">
             <a-form-item>
                   <a-space>
-                        <a-popconfirm
-                              :title="$t('order.profile.results.roll.tips')"
-                              @confirm="submit"
-                        >
-                              <a-button
-                                    v-if="route.params.tp === 'audit'"
-                              >{{ $t("order.profile.results.commit.rollback") }}</a-button>
+                        <a-popconfirm :title="$t('order.profile.results.roll.tips')" @confirm="submit">
+                              <a-button v-if="route.params.tp === 'audit'">{{
+                                    $t("order.profile.results.commit.rollback")
+                              }}</a-button>
                         </a-popconfirm>
-                        <a-popconfirm
-                              :title="$t('order.profile.results.recommit.tips')"
-                              @confirm="recommit"
-                        >
+                        <a-popconfirm :title="$t('order.profile.results.recommit.tips')" @confirm="recommit">
                               <a-button>{{ $t("order.profile.results.commit.recommit") }}</a-button>
                         </a-popconfirm>
                   </a-space>

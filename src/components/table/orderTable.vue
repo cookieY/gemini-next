@@ -1,6 +1,6 @@
 <template>
       <order-table-search @search="(exp) => { tblRef.expr = exp; tbl.manual() }"></order-table-search>
-      <c-table :tblRef="tblRef" ref="tbl">
+      <c-table :tblRef="tblRef" ref="tbl" :size="props.size">
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'type'">
                         <span>{{ text === 0 ? 'DDL' : 'DML' }}</span>
@@ -8,18 +8,15 @@
                   <template v-if="column.dataIndex === 'assigned'">
                         <a-tag v-for="i in text.split(',')">{{ i }}</a-tag>
                   </template>
-                  <template
-                        v-if="column.dataIndex === 'delay'"
-                  >{{ text === 'none' ? $t('order.table.delay') : text }}</template>
+                  <template v-if="column.dataIndex === 'delay'">{{
+                        text === 'none' ? $t('order.table.delay') : text
+                  }}</template>
                   <template v-if="column.dataIndex === 'status'">
                         <state-tags :state="text"></state-tags>
                   </template>
                   <template v-if="column.dataIndex === 'action'">
-                        <a-button
-                              type="primary"
-                              size="small"
-                              @click="profie(record)"
-                        >{{ $t('common.profile') }}</a-button>
+                        <a-button type="primary" size="small" @click="profie(record)">{{ $t('common.profile') }}
+                        </a-button>
                   </template>
             </template>
       </c-table>
@@ -37,6 +34,14 @@ import { OrderTableData } from '@/types'
 import { useStore } from '@/store'
 import { useI18n } from 'vue-i18n';
 import { tableRef } from ".";
+
+interface propsAttr {
+      size: string
+}
+
+const props = withDefaults(defineProps<propsAttr>(), {
+      size: "default"
+})
 
 const { t } = useI18n()
 
@@ -116,21 +121,27 @@ const request = new Request
 
 const tbl = ref()
 
-const isAudit = ref(false)
+const isAudit = ref("")
 
 const profie = (record: OrderTableData) => {
       store.commit("order/ORDER_STORE", record)
-      router.push({ path: route.params.tp === "audit" ? "/server/order/audit/profile" : "/server/order/common/profile" })
+      if (route.params.tp === "audit") {
+            router.push({ path: "/server/order/audit/profile" })
+      } else if (route.params.tp === "common") {
+            router.push({ path: "/server/order/common/profile" })
+      } else {
+            router.push({ path: "/server/order/record/profile" })
+      }
 }
 
 onBeforeRouteUpdate((to) => {
-      isAudit.value = to.params.tp === "audit"
+      isAudit.value = to.params.tp as string
       tbl.value.manual()
 })
 
 
 onMounted(() => {
-      isAudit.value = route.params.tp === "audit"
+      isAudit.value = route.params.tp as string
 })
 
 </script>

@@ -47,6 +47,16 @@ export interface Reject {
       content: string
 }
 
+function checkUri (tp: string) {
+      if (tp === 'audit') {
+            return `${COMMON_URI}/audit/order/list`
+      } else if (tp === 'common') {
+            return `${COMMON_URI}/common/list`
+      } else if (tp === 'record') {
+            return `${COMMON_URI}/record/list`
+      }
+}
+
 export class Request {
       Test (params: SQLTestParams): AxiosPromise {
             return request({
@@ -72,9 +82,11 @@ export class Request {
             })
       }
 
-      List (expr: OrderParams, isAudit: boolean): AxiosPromise {
+      List (expr: OrderParams, tp: string): AxiosPromise {
+            console.log(tp)
+            console.log(checkUri(tp))
             return request({
-                  url: isAudit ? `${COMMON_URI}/audit/order/list` : `${COMMON_URI}/common/list`,
+                  url: checkUri(tp),
                   method: "PUT",
                   data: expr
             })

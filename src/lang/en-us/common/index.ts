@@ -73,4 +73,7 @@ export default {
       "common.bash.self.ddl": "My DDL work order",
       "common.bash.self.query": "My Query work order",
       "common.bash.self.audit": "My review Order",
+
+      "common.order": "Order",
+      "common.query": "Query",
 }
