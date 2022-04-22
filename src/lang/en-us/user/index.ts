@@ -9,6 +9,7 @@ export default {
       "user.form.role": "Role",
       "user.form.dept": "Dept",
       "user.form.email": "Email",
+      "user.form.recorder": "Auditor",
       "user.form.valid.valid": "The entered passwords are inconsistent",
       "user.form.valid.user": "Please enter username",
       "user.form.valid.password": "Contain at least one uppercase letter, one lowercase letter, and one digit",

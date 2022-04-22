@@ -9,6 +9,7 @@ export default {
       "user.form.role": "角色",
       "user.form.dept": "部门",
       "user.form.email": "邮箱",
+      "user.form.recorder": "审计人",
       "user.form.valid.valid": "输入的密码不一致",
       "user.form.valid.user": "请输入用户名",
       "user.form.valid.password": "至少1个大写字母，1个小写字母，1个数字",

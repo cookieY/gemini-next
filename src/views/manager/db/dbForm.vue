@@ -92,12 +92,14 @@ const fill = (vl: Source) => {
 
 const createSource = () => {
       formRef.value.validate().then(() => {
-            request.Ops({ db: dbForm.value, tp: "create" }).then(() => EventBus.emit("postOk"))
+            request.Ops({ db: dbForm.value, tp: "create" }).then(() => {
+                  EventBus.emit("postOk")
+                  resetFields()
+            })
       })
 }
 
 const checkConn = () => {
-
       request.Ops({ db: dbForm.value, tp: "test" })
 }
 

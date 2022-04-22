@@ -12,7 +12,7 @@
                   <ConsoleSqlOutlined />
                   <span>{{ $t('menu.order.apply') }}</span>
             </a-menu-item>
-            <a-menu-item key="/comptroller/order">
+            <a-menu-item key="/comptroller/order" v-if="store.state.user.account.is_record === 1">
                   <function-outlined />
                   <span>{{ $t('menu.comptroller.title') }}</span>
             </a-menu-item>

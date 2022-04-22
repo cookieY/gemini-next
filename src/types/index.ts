@@ -5,6 +5,7 @@ export interface LoginRespPayload {
       real_name: string;
       rule: string;
       user: string;
+      is_record: number;
 }
 
 export enum OrderState {

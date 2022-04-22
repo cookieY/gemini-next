@@ -12,7 +12,8 @@ export const user: Module<userStore, RootStore> = {
             account: {
                   token: "",
                   real_name: "",
-                  user: ""
+                  user: "",
+                  is_record: 2
             } as LoginRespPayload
       },
       mutations: {
