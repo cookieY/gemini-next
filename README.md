@@ -1,27 +1,107 @@
-# Vue 3 + Typescript + Vite
+``<p align="center">
+<img  src="img/logo.jpeg">
+</p>
 
-This template should help get you started developing with Vue 3 and Typescript in Vite.
+# Yearning SQL 审核平台
 
-## Recommended IDE Setup
+![LICENSE](https://img.shields.io/badge/license-AGPL%20-blue.svg)
+![](https://img.shields.io/github/languages/top/cookieY/Yearning)
+![](https://img.shields.io/badge/build-prerelease-brightgreen.svg)
+![](https://img.shields.io/badge/version-v3.0.0-brightgreen.svg)
 
-[VSCode](https://code.visualstudio.com/) + [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur). Make sure to enable `vetur.experimental.templateInterpolationService` in settings!
+##### Gemini-next - Yearning front-end project。
 
-### If Using `<script setup>`
+## US_EN
 
-[`<script setup>`](https://github.com/vuejs/rfcs/pull/227) is a feature that is currently in RFC stage. To get proper IDE support for the syntax, use [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) instead of Vetur (and disable Vetur).
+[US_EN guide](README_EN.md)
 
-## Type Support For `.vue` Imports in TS
+## Depend on 依赖项
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can use the following:
+[Gemini](https://github.com/cookieY/Yearning) backed
 
-### If Using Volar
+[Vue3]()
 
-Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
+## Website 官网
 
-### If Using Vetur
+[www.yearning.io](http://yearning.io)
 
-1. Install and add `@vuedx/typescript-plugin-vue` to the [plugins section](https://www.typescriptlang.org/tsconfig#plugins) in `tsconfig.json`
-2. Delete `src/shims-vue.d.ts` as it is no longer needed to provide module info to Typescript
-3. Open `src/main.ts` in VSCode
-4. Open the VSCode command palette
-5. Search and run "Select TypeScript version" -> "Use workspace version"
+## Community 社区
+
+[Gitter](https://gitter.im/talk-to-yearning/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
+
+Yearning 使用交流QQ群 1群: 747364310(已满) 2群:363323798
+## Feature 功能
+
+-   SQL 查询
+    -   查询工单
+    -   导出
+    -   自动补全，智能提示
+    -   查询语句审计
+    -   查询结果脱敏
+-   SQL 审核
+    -   流程化工单
+    -   SQL语句语法检测
+    -   根据规则检测SQL语句合规性
+    -   自动生成DDL/DML回滚语句
+    -   历史审核记录
+-   推送
+    -   E-mail 工单推送
+    -   钉钉 webhook 机器人工单推送
+-   用户权限及管理
+    -   角色划分
+    -   基于用户的细粒度权限
+    -   注册
+-   其他
+    -   todoList
+    -   LDAP 登录
+    -   动态审核规则配置
+    -   自定义审核层级
+-   AutoTask 自动执行
+
+## Install 安装及使用日志
+
+[使用及安装文档](http://guide.yearning.io) 解决 95%的疑问,不做十万个为什么!
+
+## Develop 二次开发
+
+[二次开发注意事项](https://guide.yearning.io/developer.html)
+
+## About 联系方式
+
+E-mail: henry@yearning.io
+
+## Recommend 推荐
+
+[Spug - 开源轻量自动化运维平台](https://github.com/openspug/spug)
+
+## Snapshot 效果展示
+
+-   Login
+
+![login](img/login.png)
+
+-   Dashboard
+
+![](img/dash.png)
+
+-   审核
+
+![](img/audit.png)
+
+-   查询(SQL 语法高亮及自动补全)
+
+![](img/query.png)
+
+-   审计(工单审计)
+
+![](img/record.png)
+
+
+## License
+
+-   AGPL v3
+
+任何二次开发及二次开源项目请严格遵守相应开源许可
+
+2021 © Henry Yee
+``
