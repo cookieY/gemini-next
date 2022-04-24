@@ -18,83 +18,44 @@
                               </a-form-item>
                               <a-form-item label="审核人员" name="auditor">
                                     <a-select v-model:value="step.auditor" mode="multiple">
-                                          <a-select-option
-                                                v-for="i in auditor"
-                                                :key="i.username"
-                                                :value="i.username"
-                                          >{{ i.username }}</a-select-option>
+                                          <a-select-option v-for="i in auditor" :key="i.username" :value="i.username">{{
+                                                      i.username
+                                          }}</a-select-option>
                                     </a-select>
                               </a-form-item>
                               <a-form-item label="操作">
-                                    <a-button
-                                          type="primary"
-                                          style="margin-left: 10%;"
-                                          @click="addStep"
-                                    >添加</a-button>
+                                    <a-button type="primary" style="margin-left: 10%;" @click="addStep">添加</a-button>
                               </a-form-item>
                         </a-form>
                   </a-col>
                   <a-col :span="13" :offset="1">
                         <a-steps direction="vertical" progress-dot size="small" :current="0">
-                              <a-step
-                                    v-for="(element, idx) in flow.steps"
-                                    :title="`${element.desc} (${element.type !== 0 ? '执行阶段' : '审核阶段'})`"
-                                    class="empty"
-                              >
+                              <a-step v-for="(element, idx) in flow.steps"
+                                    :title="`${element.desc} (${element.type !== 0 ? '执行阶段' : '审核阶段'})`" class="empty">
                                     <template #description>
                                           <template v-if="element.type !== -1">
                                                 <a-space>
-                                                      <a-button
-                                                            ghost
-                                                            size="small"
-                                                            v-if="!element.edit"
-                                                            @click="element.edit = true"
-                                                      >编辑</a-button>
-                                                      <a-button
-                                                            ghost
-                                                            size="small"
-                                                            v-else
-                                                            @click="element.edit = false"
-                                                      >保存</a-button>
-                                                      <a-button
-                                                            ghost
-                                                            size="small"
-                                                            v-if="!element.edit"
-                                                            @click="del(idx)"
-                                                      >删除</a-button>
-                                                      <a-button
-                                                            ghost
-                                                            size="small"
-                                                            v-if="!element.edit"
-                                                            @click="upward(idx)"
-                                                      >向上移动</a-button>
-                                                      <a-button
-                                                            ghost
-                                                            size="small"
-                                                            v-if="!element.edit"
-                                                            @click="down(idx)"
-                                                      >向下移动</a-button>
+                                                      <a-button ghost size="small" v-if="!element.edit"
+                                                            @click="element.edit = true">编辑</a-button>
+                                                      <a-button ghost size="small" v-else @click="element.edit = false">
+                                                            保存</a-button>
+                                                      <a-button ghost size="small" v-if="!element.edit"
+                                                            @click="del(idx)">删除</a-button>
+                                                      <a-button ghost size="small" v-if="!element.edit"
+                                                            @click="upward(idx)">向上移动</a-button>
+                                                      <a-button ghost size="small" v-if="!element.edit"
+                                                            @click="down(idx)">向下移动</a-button>
                                                 </a-space>
                                                 <br />
                                           </template>
 
                                           <div style="margin-top: 2%;">
-                                                <a-tag
-                                                      v-if="!element.edit"
-                                                      v-for="k in element.auditor"
-                                                      color="#108ee9"
-                                                >{{ k }}</a-tag>
-                                                <a-select
-                                                      v-else
-                                                      v-model:value="element.auditor"
-                                                      mode="multiple"
-                                                      style="width:100%"
-                                                >
-                                                      <a-select-option
-                                                            v-for="k in auditor"
-                                                            :key="k.username"
-                                                            :value="k.username"
-                                                      >{{ k.username }}</a-select-option>
+                                                <a-tag v-if="!element.edit" v-for="k in element.auditor"
+                                                      color="#108ee9">{{ k }}</a-tag>
+                                                <a-select v-else v-model:value="element.auditor" mode="multiple"
+                                                      style="width:100%">
+                                                      <a-select-option v-for="k in auditor" :key="k.username"
+                                                            :value="k.username">{{ k.username }}</a-select-option>
                                                 </a-select>
                                           </div>
                                     </template>
@@ -207,6 +168,14 @@ const editFlow = (vl: RespSteps) => {
 
 const newFlow = () => {
       step.value = {} as Steps
+      flow.value.steps = [
+            {
+                  desc: '提交阶段',
+                  auditor: ['提交人'],
+                  type: -1,  // 0 audit 1 executor
+            }
+      ] as Steps[]
+      flow.value.source = ""
       turnState()
 }
 

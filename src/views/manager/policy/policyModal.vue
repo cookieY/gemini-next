@@ -7,16 +7,12 @@
                   <template v-for="i in range">
                         <a-transfer
                               :titles="[' ' + $t('common.all') + `${i.toLocaleUpperCase()}权限`, ' ' + $t('common.selected') + `${i.toLocaleUpperCase()}权限`]"
-                              :rowKey="record => record.source_id"
-                              v-model:target-keys="selfRuse[`${i}_source`]"
-                              :data-source="i === 'query' ? ruse.query : ruse.source"
-                              show-search
-                              :render="item => item.source"
-                              :list-style="{
+                              :rowKey="record => record.source_id" v-model:target-keys="selfRuse[`${i}_source`]"
+                              :data-source="i === 'query' ? ruse.query : ruse.source" show-search
+                              :render="item => item.source" :list-style="{
                                     width: '400px',
                                     height: '300px',
-                              }"
-                        />
+                              }" />
                         <a-divider></a-divider>
                   </template>
             </a-form>
@@ -79,9 +75,9 @@ const editPolicy = (vl: Policy) => {
       isEdit.value = true
       selfRuse.id = vl.id
       selfRuse.name = vl.name
-      selfRuse.dml_source = vl.permissions.dml_source
-      selfRuse.ddl_source = vl.permissions.ddl_source
-      selfRuse.query_source = vl.permissions.query_source
+      vl.permissions.query_source === null ? selfRuse.query_source = [] : selfRuse.query_source = vl.permissions.query_source
+      vl.permissions.dml_source === null ? selfRuse.dml_source = [] : selfRuse.dml_source = vl.permissions.dml_source
+      vl.permissions.ddl_source === null ? selfRuse.ddl_source = [] : selfRuse.ddl_source = vl.permissions.ddl_source
       turnState()
 }
 
