@@ -4,16 +4,9 @@
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space size="small">
-                              <a-button
-                                    type="primary"
-                                    size="small"
-                                    ghost
-                                    @click="fillInfo(record)"
-                              >详情</a-button>
-                              <a-popconfirm
-                                    title="确认要删除该用户吗?"
-                                    @confirm="request.Delete(record.source_id).then(() => tbl.manual())"
-                              >
+                              <a-button type="primary" size="small" ghost @click="fillInfo(record)">详情</a-button>
+                              <a-popconfirm title="确认要删除该数据源吗?"
+                                    @confirm="request.Delete(record.source_id).then(() => tbl.manual())">
                                     <a-button type="primary" size="small" danger ghost>删除</a-button>
                               </a-popconfirm>
                         </a-space>

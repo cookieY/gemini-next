@@ -5,21 +5,12 @@
             </a-form-item>
             <a-form-item label="所选数据库">
                   <a-select v-model:value="schema" style="width: 200px;">
-                        <a-select-option
-                              v-for="i in store.state.common.schemaList"
-                              :value="i"
-                        >{{ i }}</a-select-option>
+                        <a-select-option v-for="i in store.state.common.schemaList" :value="i">{{ i }}</a-select-option>
                   </a-select>
             </a-form-item>
       </a-form>
 
-      <Editor
-            :container-id="props.id"
-            ref="query_editor"
-            :height="300"
-            is-query
-            @getValues="getValues"
-      ></Editor>
+      <Editor :container-id="props.id" ref="query_editor" :height="300" is-query @getValues="getValues"></Editor>
       <br />
       <Table ref="tbl" :height="300" :id="id"></Table>
 </template>
@@ -59,6 +50,7 @@ const schema = computed({
 })
 
 const getValues = (vl: string) => {
+      store.commit("order/SET_QUERY_HISTORY", vl)
       tbl.value.runResults(source_id.value, schema.value, vl)
 
 }

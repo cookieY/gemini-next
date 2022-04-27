@@ -44,8 +44,8 @@ import { useI18n } from 'vue-i18n';
 import { tableRef } from "@/components/table";
 
 interface propsAttr {
-      isrecord: boolean
-      size: string
+      isrecord?: boolean
+      size?: string
 }
 
 const props = withDefaults(defineProps<propsAttr>(), {

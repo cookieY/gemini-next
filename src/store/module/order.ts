@@ -4,7 +4,8 @@ import { OrderTableData } from "@/types"
 
 export interface orderStore {
       order: OrderTableData
-      enabled: boolean
+      enabled: boolean,
+      history: string[]
 }
 
 export const order: Module<orderStore, RootStore> = {
@@ -12,6 +13,7 @@ export const order: Module<orderStore, RootStore> = {
       state: {
             order: {} as OrderTableData,
             enabled: true,
+            history: [] as string[]
       },
       mutations: {
             ORDER_STORE (state, vl: OrderTableData) {
@@ -22,6 +24,14 @@ export const order: Module<orderStore, RootStore> = {
             },
             IS_ENABLED (state, vl: boolean) {
                   state.enabled = vl
+            },
+            SET_QUERY_HISTORY (state, vl: string) {
+                  if (state.history.length < 100) {
+                        state.history.unshift(vl)
+                  } else {
+                        state.history.pop()
+                        state.history.unshift(vl)
+                  }
             }
       }
 }

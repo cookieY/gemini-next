@@ -1,25 +1,9 @@
 <template>
       <a-card>
-            <template #title>
-                  <a-space>
-                        <ArrowLeftOutlined @click="$router.go(-1)" />
-                        <span>数据列</span>
-                  </a-space>
-            </template>
-            <a-input-search
-                  v-model:value="searchValue"
-                  style="margin-bottom: 8px"
-                  placeholder="搜索"
-            />
+            <a-input-search v-model:value="searchValue" style="margin-bottom: 8px" placeholder="搜索" />
             <a-spin :spinning="spinning">
-                  <a-tree
-                        v-model:expandedKey="expandedKeys"
-                        :auto-expand-parent="autoExpandParent"
-                        :tree-data="gData"
-                        :load-data="onLoadData"
-                        :height="700"
-                        show-icon
-                  >
+                  <a-tree v-model:expandedKey="expandedKeys" :auto-expand-parent="autoExpandParent" :tree-data="gData"
+                        :load-data="onLoadData" :height="700" show-icon>
                         <template #switcherIcon="{ dataRef, defaultIcon }">
                               <template v-if="dataRef.meta === 'Schema'">
                                     <hdd-outlined />
@@ -30,20 +14,15 @@
                                     <template v-if="title !== undefined">
                                           <span v-if="title.indexOf(searchValue) > -1">
                                                 {{ title.substr(0, title.indexOf(searchValue)) }}
-                                                <span
-                                                      style="color: #f50"
-                                                >{{ searchValue }}</span>
+                                                <span style="color: #f50">{{ searchValue }}</span>
                                                 {{ title.substr(title.indexOf(searchValue) + searchValue.length) }}
                                           </span>
                                           <span v-else>{{ title }}</span>
                                     </template>
                                     <template #overlay>
                                           <a-menu>
-                                                <a-menu-item
-                                                      key="1"
-                                                      v-if="meta === 'Table'"
-                                                      @click="showTableData(treeKey)"
-                                                >查看表数据</a-menu-item>
+                                                <a-menu-item key="1" v-if="meta === 'Table'"
+                                                      @click="showTableData(treeKey)">查看表数据</a-menu-item>
                                           </a-menu>
                                     </template>
                               </a-dropdown>

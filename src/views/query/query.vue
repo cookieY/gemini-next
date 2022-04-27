@@ -3,37 +3,31 @@
             <a-row>
                   <a-col :span="5">
                         <a-space>
-                              <a-button
-                                    size="small"
-                                    @click="() => hide = !hide"
-                                    type="primary"
-                              >{{ $t('common.hide') }}/{{ $t('common.visible') }}</a-button>
-                              <a-button
-                                    size="small"
-                                    @click="m.turnState()"
-                              >{{ $t('common.new') }}{{ $t('common.clip') }}</a-button>
+                              <a-button size="small" @click="() => hide = !hide" type="primary">{{ $t('common.hide')
+                              }}/{{ $t('common.visible') }}</a-button>
+                              <a-button size="small" @click="m.turnState()">{{ $t('common.new') }}{{ $t('common.clip')
+                              }}</a-button>
                         </a-space>
                   </a-col>
             </a-row>
             <br />
             <a-row>
                   <a-col :span="hide ? 0 : 5">
-                        <Tree @showTableRef="showTableRef"></Tree>
+                        <a-tabs v-model:activeKey="tool">
+                              <a-tab-pane key="tree" tab="数据库">
+                                    <Tree @showTableRef="showTableRef"></Tree>
+                              </a-tab-pane>
+                              <a-tab-pane key="history" tab="历史记录">
+                                    <History></History>
+                              </a-tab-pane>
+                        </a-tabs>
                   </a-col>
                   <a-col :span="hide ? 24 : 18" :offset="hide ? 0 : 1">
                         <a-tabs v-model:activeKey="feat">
                               <a-tab-pane key="edit" :tab="$t('query.query')">
-                                    <a-tabs
-                                          v-model:activeKey="activeKey"
-                                          type="editable-card"
-                                          @edit="onEdit"
-                                    >
-                                          <a-tab-pane
-                                                v-for="pane in panes"
-                                                :key="pane.key"
-                                                :tab="pane.title"
-                                                :closable="pane.closable"
-                                          >
+                                    <a-tabs v-model:activeKey="activeKey" type="editable-card" @edit="onEdit">
+                                          <a-tab-pane v-for="pane in panes" :key="pane.key" :tab="pane.title"
+                                                :closable="pane.closable">
                                                 <Input :id="pane.title" />
                                           </a-tab-pane>
                                     </a-tabs>
@@ -50,6 +44,7 @@
 </template>
 
 <script lang="ts" setup>
+import History from "./history.vue"
 import Tree from "./tree.vue"
 import Input from "./input.vue"
 import Table from "./table.vue"
@@ -69,6 +64,8 @@ const hide = ref(false)
 const newTabIndex = ref(1);
 
 const feat = ref("edit")
+
+const tool = ref("tree")
 
 const tbl = ref()
 
