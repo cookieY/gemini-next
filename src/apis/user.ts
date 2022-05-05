@@ -76,6 +76,13 @@ export class Request {
             })
       }
 
+      Principal (): AxiosPromise {
+            return request({
+                  method: 'post',
+                  url: `${COMMON_URI}/manage/user?tp=principal`,
+            })
+      }
+
       List (args: commonPage<UserExpr>): AxiosPromise {
             return request({
                   method: 'put',

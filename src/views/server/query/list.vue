@@ -97,7 +97,7 @@ const tblRef = reactive<tableRef>({
             status: 7
       } as QueryExpr,
       fn: (expr: QueryParams) => {
-            request.List(expr).then((res: AxiosResponse<Res<any>>) => {
+            request.List(expr, props.isrecord ? "record" : "order").then((res: AxiosResponse<Res<any>>) => {
                   tblRef.data = res.data.payload.data
                   tblRef.pageCount = res.data.payload.page
             })

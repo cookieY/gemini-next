@@ -1,15 +1,9 @@
 <template>
       <PageHeader :title="$t('order.apply.commit.title')" :subTitle="$t('order.apply.commit.desc')"></PageHeader>
       <a-steps type="navigation" size="small">
-            <a-step
-                  v-for="i in orderProfileArch.timeline"
-                  :title="i.desc"
-                  :sub-title="checkStepState(i.type)"
-                  status="process"
-            >
-                  <template
-                        v-slot:description
-                  >{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</template>
+            <a-step v-for="i in orderProfileArch.timeline" :title="i.desc" :sub-title="checkStepState(i.type)"
+                  status="process">
+                  <template v-slot:description>{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</template>
             </a-step>
       </a-steps>
       <br />
@@ -27,55 +21,39 @@
                                     <span>{{ orderItems.source }}</span>
                               </a-form-item>
                               <a-form-item :label="$t('common.table.schema')" name="data_base">
-                                    <a-select
-                                          v-model:value="orderItems.data_base"
-                                          @change="fetchTable"
-                                    >
-                                          <a-select-option
-                                                v-for=" i in orderProfileArch.db"
-                                                :key="i"
-                                          >{{ i }}</a-select-option>
+                                    <a-select v-model:value="orderItems.data_base" @change="fetchTable"
+                                          :dropdownMatchSelectWidth="false">
+                                          <a-select-option v-for=" i in orderProfileArch.db" :key="i">{{ i }}
+                                          </a-select-option>
                                     </a-select>
                               </a-form-item>
                               <a-form-item :label="$t('common.table.table')">
-                                    <a-select v-model:value="orderItems.table">
-                                          <a-select-option
-                                                v-for=" i in orderProfileArch.table"
-                                                :key="i"
-                                          >{{ i }}</a-select-option>
+                                    <a-select v-model:value="orderItems.table" :dropdownMatchSelectWidth="false">
+                                          <a-select-option v-for=" i in orderProfileArch.table" :key="i">{{ i }}
+                                          </a-select-option>
                                     </a-select>
                               </a-form-item>
                               <a-form-item :label="$t('common.table.remark')" nane="text" required>
-                                    <a-textarea
-                                          :rows="3"
-                                          v-model:value="orderItems.text"
-                                          showCount
-                                          allowClear
-                                    ></a-textarea>
+                                    <a-textarea :rows="3" v-model:value="orderItems.text" showCount allowClear>
+                                    </a-textarea>
                               </a-form-item>
                               <a-form-item :label="$t('order.profile.timing')">
                                     <a-date-picker show-time @ok="delayTime" />
                               </a-form-item>
                               <a-form-item :label="$t('order.profile.roll')">
-                                    <a-radio-group
-                                          name="radioGroup"
-                                          v-model:value="orderItems.backup"
-                                    >
+                                    <a-radio-group name="radioGroup" v-model:value="orderItems.backup">
                                           <a-radio :value="1">{{ $t('common.yes') }}</a-radio>
                                           <a-radio :value="0">{{ $t('common.no') }}</a-radio>
                                     </a-radio-group>
                               </a-form-item>
                               <a-form-item :label="$t('common.action')">
                                     <a-space>
-                                          <a-button
-                                                :loading="loadingTblBtn"
-                                                @click="fetchTableArch"
-                                          >{{ $t('order.apply.table.info') }}</a-button>
-                                          <a-button
-                                                :loading="loadingPostBtn"
-                                                @click="postOrder"
-                                                :disabled="enabled"
-                                          >{{ $t('common.commit') }}</a-button>
+                                          <a-button :loading="loadingTblBtn" @click="fetchTableArch">{{
+                                                      $t('order.apply.table.info')
+                                          }}</a-button>
+                                          <a-button :loading="loadingPostBtn" @click="postOrder" :disabled="enabled">{{
+                                                      $t('common.commit')
+                                          }}</a-button>
                                     </a-space>
                               </a-form-item>
                         </a-form>
@@ -86,40 +64,21 @@
                         <a-tabs v-model:activeKey="activeKey">
                               <a-tab-pane :key="1" :tab="$t('order.apply.tab.sql')" forceRender>
                                     <a-spin :spinning="spin" :delay="100">
-                                          <Editor
-                                                container-id="applys"
-                                                ref="editor"
-                                                @getValues="testResults"
-                                          ></Editor>
+                                          <Editor container-id="applys" ref="editor" @getValues="testResults"></Editor>
                                           <br />
-                                          <a-table
-                                                :columns="col"
-                                                :data-source="tData"
-                                                bordered
-                                                rowKey="sql"
-                                          ></a-table>
+                                          <a-table :columns="col" :data-source="tData" bordered rowKey="sql"></a-table>
                                     </a-spin>
                               </a-tab-pane>
                               <a-tab-pane :key="2" :tab="$t('order.apply.tab.table')" force-render>
-                                    <a-table
-                                          :columns="tableArch"
-                                          :data-source="archData"
-                                          bordered
-                                          :scroll="{ y: 400 }"
-                                          rowKey="field"
-                                    ></a-table>
+                                    <a-table :columns="tableArch" :data-source="archData" bordered :scroll="{ y: 400 }"
+                                          rowKey="field"></a-table>
                               </a-tab-pane>
                               <a-tab-pane :key="3" :tab="$t('order.apply.tab.index')">
-                                    <a-table
-                                          :columns="indexArch"
-                                          :data-source="indexData"
-                                          bordered
-                                          rowKey="IndexName"
-                                    >
+                                    <a-table :columns="indexArch" :data-source="indexData" bordered rowKey="IndexName">
                                           <template #bodyCell="{ column, text, record }">
-                                                <template
-                                                      v-if="column.dataIndex === 'NonUnique'"
-                                                >{{ text === 0 ? $t('common.yes') : $t('common.no') }}</template>
+                                                <template v-if="column.dataIndex === 'NonUnique'">{{ text === 0 ?
+                                                            $t('common.yes') : $t('common.no')
+                                                }}</template>
                                           </template>
                                     </a-table>
                               </a-tab-pane>
@@ -148,6 +107,7 @@ import router from '@/router';
 import { store, useStore } from '@/store';
 import { Modal } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
+import { debounce } from "lodash-es"
 
 const { t } = useI18n()
 
@@ -223,7 +183,7 @@ const fetchTableArch = () => {
       })
 }
 
-const testResults = (sql: string) => {
+const testResults = debounce((sql: string) => {
       spin.value = !spin.value
       request.Test({
             source: orderItems.source,
@@ -242,9 +202,9 @@ const testResults = (sql: string) => {
                   enabled.value = counter !== 0
             })
             .finally(() => spin.value = !spin.value)
-}
+}, 200)
 
-const postOrder = () => {
+const postOrder = debounce(() => {
       loadingPostBtn.value = !loadingPostBtn.value
       formRef.value.validate().then(() => {
             let warpper = Object.assign({}, orderItems)
@@ -256,7 +216,7 @@ const postOrder = () => {
       }).catch(() => {
             message.error(t('order.apply.form.commit'))
       }).finally(() => loadingPostBtn.value = !loadingPostBtn.value)
-}
+}, 200)
 
 const fetchHighLight = () => {
       const highlightWord = store.state.highlight.highligt

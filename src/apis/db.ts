@@ -13,6 +13,7 @@ export interface Source {
       source_id: string
       exclude_db_list: string
       insulate_word_list: string
+      principal: string
 }
 
 export interface DBParams {

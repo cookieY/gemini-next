@@ -24,6 +24,7 @@ export default function () {
             username: [{ required: true, message: '请填写用户名', trigger: 'blur' }],
             port: [{ required: true, message: '请填写端口', trigger: 'blur', type: 'number' }],
             flow_id: [{ required: true, message: '请选择流程', trigger: 'change' }],
+            principal: [{ required: true, message: '请选择负责人', trigger: 'change' }],
             password: [{ required: true, message: '请填写密码', trigger: 'blur' }, { validator: regExp_password, trigger: 'blur' }]
       }
 

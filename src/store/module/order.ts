@@ -26,6 +26,9 @@ export const order: Module<orderStore, RootStore> = {
                   state.enabled = vl
             },
             SET_QUERY_HISTORY (state, vl: string) {
+                  if (vl === "") {
+                        return
+                  }
                   if (state.history.length < 100) {
                         state.history.unshift(vl)
                   } else {

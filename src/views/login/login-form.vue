@@ -3,20 +3,11 @@
       <br />
       <a-form :model="loginForm" class="login-title">
             <a-form-item>
-                  <a-input
-                        v-model:value="loginForm.username"
-                        placeholder="用户名:"
-                        style=" border-radius: 10px;"
-                  />
+                  <a-input v-model:value="loginForm.username" placeholder="用户名:" style=" border-radius: 10px;" />
             </a-form-item>
             <a-form-item>
-                  <a-input
-                        v-model:value="loginForm.password"
-                        type="password"
-                        placeholder="密码"
-                        style="border-radius: 10px;"
-                        @pressEnter="() => signIn()"
-                  />
+                  <a-input-password v-model:value="loginForm.password" placeholder="密码" style="border-radius: 10px;"
+                        @pressEnter="() => signIn()" />
             </a-form-item>
             <a-form-item>
                   <a-space :size="50">
@@ -32,11 +23,12 @@
 <script setup lang="ts">
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
-import { UnwrapRef, reactive, ref, onMounted } from "vue";
+import { UnwrapRef, reactive } from "vue";
 import { LoginApi, LoginFrom } from "@/apis/loginApi";
 import { LoginRespPayload } from "@/types"
 import router from "@/router";
 import { useStore } from "@/store";
+import { debounce } from "lodash-es"
 
 const loginForm: UnwrapRef<LoginFrom> = reactive({
       username: "",
@@ -46,8 +38,8 @@ const loginForm: UnwrapRef<LoginFrom> = reactive({
 
 const store = useStore()
 
-const signIn = async () => {
-      await LoginApi(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {
+const signIn = debounce(() => {
+      LoginApi(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {
             if (res.data.code === 1301) {
                   return
             }
@@ -55,11 +47,6 @@ const signIn = async () => {
             store.commit("menu/CHANGE_SELECTED", ["/home"])
             router.replace("/home")
       })
-}
+}, 200)
 </script>
 
-<style scoped>
-.login-title span {
-      color: #ffffff;
-}
-</style>

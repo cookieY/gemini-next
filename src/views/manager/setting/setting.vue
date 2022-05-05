@@ -37,10 +37,10 @@
                         <a-form-item :label="$t('common.action')">
                               <a-space>
                                     <a-button type="primary" @click="request.Test('ding', config)">{{
-                                          $t('setting.message.action.hook')
+                                                $t('setting.message.action.hook')
                                     }}</a-button>
                                     <a-button ghost @click="request.Test('mail', config)">{{
-                                          $t('setting.message.action.mail')
+                                                $t('setting.message.action.mail')
                                     }}</a-button>
                               </a-space>
                         </a-form-item>
@@ -57,22 +57,35 @@
                               <a-checkbox v-model:checked="config.ldap.ldaps"></a-checkbox>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.dn')">
-                              <a-input :placeholder="$t('setting.ldap.dn.tips')" v-model="config.ldap.user"></a-input>
+                              <a-input :placeholder="$t('setting.ldap.dn.tips')" v-model:value="config.ldap.user">
+                              </a-input>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.password')">
-                              <a-input :placeholder="$t('setting.ldap.password.tips')" v-model="config.ldap.password"
-                                    type="password"></a-input>
+                              <a-input-password :placeholder="$t('setting.ldap.password.tips')"
+                                    v-model:value="config.ldap.password"></a-input-password>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.filter')">
-                              <a-input v-model="config.ldap.type" :placeholder="$t('setting.ldap.filter.tips')">
+                              <a-input v-model:value="config.ldap.type" :placeholder="$t('setting.ldap.filter.tips')">
                               </a-input>
                         </a-form-item>
                         <a-form-item :label="$t('setting.ldap.sc')">
-                              <a-input placeholder="LDAP Search Base" v-model="config.ldap.sc"></a-input>
+                              <a-input placeholder="LDAP Search Base" v-model:value="config.ldap.sc"></a-input>
+                        </a-form-item>
+                        <a-form-item :label="$t('setting.ldap.map')">
+                              <a-textarea :rows="5" allowClear :placeholder="$t('setting.ldap.map.tips')"
+                                    v-model:value="config.ldap.map"></a-textarea>
+                        </a-form-item>
+                        <a-form-item :label="$t('setting.ldap.test.user')">
+                              <a-input placeholder="LDAP Test User" v-model:value="config.ldap.test_user"></a-input>
+                        </a-form-item>
+                        <a-form-item :label="$t('setting.ldap.test.password')">
+                              <a-input-password placeholder="LDAP Test User Password"
+                                    v-model:value="config.ldap.test_password">
+                              </a-input-password>
                         </a-form-item>
                         <a-form-item :label="$t('common.action')">
                               <a-button type="primary" @click="request.Test('ldap', config)">{{
-                                    $t('setting.ldap.test')
+                                          $t('setting.ldap.test')
                               }}</a-button>
                         </a-form-item>
                         <a-alert message="Warning" type="warning" show-icon>

@@ -14,6 +14,7 @@ export interface commonStore {
       sql: string
       sock: any
       schema: string,
+      principal: any[]
 }
 
 export interface QueryInfo {
@@ -33,6 +34,7 @@ export const common: Module<commonStore, RootStore> = {
             sql: "",
             sock: null,
             schema: "",
+            principal: []
       },
       mutations: {
             GET_IDC (state) {
@@ -62,6 +64,9 @@ export const common: Module<commonStore, RootStore> = {
             },
             QUERY_CONN (state, vl) {
                   state.sock = vl
+            },
+            DB_SET_PRINCIPAL (state, vl) {
+                  state.principal = vl
             }
       }
 }

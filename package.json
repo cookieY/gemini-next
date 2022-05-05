@@ -17,6 +17,7 @@
             "dayjs": "^1.10.7",
             "insert-css": "^2.0.0",
             "less": "^4.1.1",
+            "lodash-es": "^4.17.21",
             "mitt": "^3.0.0",
             "monaco-editor": "0.27.0",
             "nprogress": "^0.2.0",

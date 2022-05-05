@@ -30,7 +30,6 @@
 import { Request } from "@/apis/record";
 import PageHeader from "@/components/pageHeader/pageHeader.vue";
 import { Chart } from "@antv/g2"
-import { LikeOutlined } from "@ant-design/icons-vue";
 import { onMounted, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { AxiosResponse } from "axios";

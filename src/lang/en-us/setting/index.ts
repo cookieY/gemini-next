@@ -39,6 +39,10 @@ export default {
       "setting.ldap.filter": "LDAP_Search filter",
       "setting.ldap.filter.tips": "For example (&(objectClass=organizationalPerson)(sAMAccountName=%s)), %s must be a placeholder",
       "setting.ldap.sc": "LDAP_SCBASE",
+      "setting.ldap.map": "LDAP User Attr Map",
+      "setting.ldap.test.user": "LDAP Test User",
+      "setting.ldap.test.password": "LDAP Test Password",
+      "Setting.ldap.map.tips": " Currently supports mapping of real_name(real name),email, and department. {'real_name':'name','email':'mail','department':'dept'}",
       "setting.ldap.test": "LDAP test",
       "setting.ldap.alert": "1.LDAP login user name must be globally unique. For ldap configuration, see Grafana. <br><br>2. Different mail service providers have different filtering mechanisms for junk mails. As a result, mails may fail to be received. So please test whether it is stable before using. For STMP connections that use SSL, select the enable SSL port check box <br><br>3. Message push is enabled only after the corresponding message push switch is enabled",
 

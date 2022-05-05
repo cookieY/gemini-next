@@ -3,6 +3,7 @@
             <a-row>
                   <a-col :span="5">
                         <a-space>
+                              <ArrowLeftOutlined @click="$router.go(-1)" />
                               <a-button size="small" @click="() => hide = !hide" type="primary">{{ $t('common.hide')
                               }}/{{ $t('common.visible') }}</a-button>
                               <a-button size="small" @click="m.turnState()">{{ $t('common.new') }}{{ $t('common.clip')
@@ -13,14 +14,17 @@
             <br />
             <a-row>
                   <a-col :span="hide ? 0 : 5">
-                        <a-tabs v-model:activeKey="tool">
-                              <a-tab-pane key="tree" tab="数据库">
-                                    <Tree @showTableRef="showTableRef"></Tree>
-                              </a-tab-pane>
-                              <a-tab-pane key="history" tab="历史记录">
-                                    <History></History>
-                              </a-tab-pane>
-                        </a-tabs>
+                        <a-card>
+
+                              <a-tabs v-model:activeKey="tool">
+                                    <a-tab-pane key="tree" tab="数据库">
+                                          <Tree @showTableRef="showTableRef"></Tree>
+                                    </a-tab-pane>
+                                    <a-tab-pane key="history" tab="历史记录">
+                                          <History></History>
+                                    </a-tab-pane>
+                              </a-tabs>
+                        </a-card>
                   </a-col>
                   <a-col :span="hide ? 24 : 18" :offset="hide ? 0 : 1">
                         <a-tabs v-model:activeKey="feat">
@@ -54,6 +58,7 @@ import Socket from "@/socket"
 import { computed, onMounted, onUnmounted, ref } from "vue"
 import { useStore } from "@/store"
 import { encode } from "@msgpack/msgpack";
+import { ArrowLeftOutlined } from "@ant-design/icons-vue"
 
 const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }])
 

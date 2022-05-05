@@ -3,24 +3,16 @@
             <div style="margin-left: 2%;">
                   <a-space>
                         <span>version 3.0.0</span>
-                        <a-button
-                              type="dashed"
-                              v-if="is_register"
-                              @click="is_open = true"
-                              ghost
-                              size="small"
-                        >用户注册</a-button>
+                        <a-button type="dashed" v-if="is_register" @click="is_open = true" ghost size="small">用户注册
+                        </a-button>
                   </a-space>
             </div>
             <video id="v1" autoplay loop muted>
-                  <source src="../../assets/login/mountain.mp4" type="video/mp4" />
+                  <source src="../../assets/login/1.mp4" type="video/mp4" />
             </video>
+
             <div class="login_container">
                   <login-form></login-form>
-                  <a-row>
-                        <a-col :span="8"></a-col>
-                        <a-col :span="4"></a-col>
-                  </a-row>
             </div>
 
             <div class="footer">
@@ -28,28 +20,18 @@
                         <a-col :span="24">
                               <div style="text-align: center">
                                     <a-space size="large">
-                                          <a-typography-link
-                                                href="https://yearning.io"
-                                                target="_blank"
-                                                style="color: #FFFFFF"
-                                          >关于Yearning</a-typography-link>
+                                          <a-typography-link href="https://yearning.io" target="_blank"
+                                                style="color: #FFFFFF">关于Yearning</a-typography-link>
                                           <a-tooltip>
                                                 <template #title>Q群: 363323798</template>
                                                 社区
                                           </a-tooltip>
-                                          <a-typography-link
-                                                @click="openSponsor"
-                                                style="color: #FFFFFF"
-                                          >赞助</a-typography-link>
-                                          <a-typography-link
-                                                @click="announce.open()"
-                                                style="color: #FFFFFF"
-                                          >声明/许可</a-typography-link>
-                                          <a-typography-link
-                                                href="https://www.gnu.org/licenses/agpl-3.0.en.html"
-                                                target="_blank"
-                                                style="color: #FFFFFF"
-                                          >AGPL3.0</a-typography-link>
+                                          <a-typography-link @click="openSponsor" style="color: #FFFFFF">赞助
+                                          </a-typography-link>
+                                          <a-typography-link @click="announce.open()" style="color: #FFFFFF">声明/许可
+                                          </a-typography-link>
+                                          <a-typography-link href="https://www.gnu.org/licenses/agpl-3.0.en.html"
+                                                target="_blank" style="color: #FFFFFF">AGPL3.0</a-typography-link>
                                           <div style="text-align: center;">{{ Copyright }}</div>
                                     </a-space>
                               </div>
@@ -113,6 +95,7 @@ onMounted(() => {
       margin-top: 10%;
       margin-left: 40%;
 }
+
 .hero {
       display: flex;
       z-index: 0;
@@ -125,7 +108,8 @@ onMounted(() => {
 .footer {
       position: absolute;
       bottom: 6px;
-      height: 40px; /*脚部的高度*/
+      height: 40px;
+      /*脚部的高度*/
       clear: both;
       margin-left: 2%;
       z-index: 999;
@@ -143,6 +127,7 @@ video {
 
       z-index: -11;
 }
+
 source {
       min-width: 100%;
       min-height: 100%;

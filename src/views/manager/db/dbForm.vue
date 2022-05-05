@@ -25,6 +25,13 @@
                         <a-select-option v-for="i in flow" :key="i.id" :value="i.id">{{ i.source }}</a-select-option>
                   </a-select>
             </a-form-item>
+            <a-form-item label="负责人" name="principal">
+                  <a-select v-model:value="dbForm.principal" style="width: 100%" show-search :options="principalList.map(item => ({
+                        label: item.username,
+                        value: item.username
+                  }))">
+                  </a-select>
+            </a-form-item>
             <a-form-item label="类型" name="is_query">
                   <a-radio-group v-model:value="dbForm.is_query" name="radioGroup">
                         <a-radio :value="2">读写</a-radio>
@@ -43,7 +50,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import { ref, computed } from "vue";
 import { Request, Source } from "@/apis/db";
 import CommonMixins from "@/mixins/common"
@@ -58,6 +64,8 @@ const { layout } = CommonMixins()
 const { rules } = DBMixins()
 
 const request = new Request
+
+const principalList = computed(() => store.state.common.principal)
 
 const idc = computed(() => {
       return store.state.common.idc
@@ -76,7 +84,8 @@ const dbForm = ref(
             password: "",
             username: "",
             is_query: 2,
-            flow_id: null as any
+            flow_id: null as any,
+            principal: ""
       } as Source
 )
 
@@ -102,6 +111,7 @@ const createSource = () => {
 const checkConn = () => {
       request.Ops({ db: dbForm.value, tp: "test" })
 }
+
 
 defineExpose({
       fill

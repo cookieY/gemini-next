@@ -5,11 +5,8 @@
                         <a-form :model="dbForm" v-bind="layout">
                               <a-form-item label="环境" name="idc">
                                     <a-select v-model:value="dbForm.idc">
-                                          <a-select-option
-                                                v-for="i in idc"
-                                                :key="i"
-                                                :value="i"
-                                          >{{ i }}</a-select-option>
+                                          <a-select-option v-for="i in idc" :key="i" :value="i">{{ i }}
+                                          </a-select-option>
                                     </a-select>
                               </a-form-item>
                               <a-form-item label="名称" name="source">
@@ -28,10 +25,7 @@
                                     <a-input-password v-model:value="dbForm.password"></a-input-password>
                               </a-form-item>
                               <a-form-item label="类型" name="is_query">
-                                    <a-radio-group
-                                          v-model:value="dbForm.is_query"
-                                          name="radioGroup"
-                                    >
+                                    <a-radio-group v-model:value="dbForm.is_query" name="radioGroup">
                                           <a-radio :value="2">读写</a-radio>
                                           <a-radio :value="0">写</a-radio>
                                           <a-radio :value="1">读</a-radio>
@@ -39,36 +33,27 @@
                               </a-form-item>
                               <a-form-item label="所属流程">
                                     <a-select v-model:value="dbForm.flow_id" @change="mergeFlow">
-                                          <a-select-option
-                                                v-for="i in flow"
-                                                :key="i.id"
-                                                :value="i.id"
-                                          >{{ i.source }}</a-select-option>
+                                          <a-select-option v-for="i in flow" :key="i.id" :value="i.id">{{ i.source }}
+                                          </a-select-option>
+                                    </a-select>
+                              </a-form-item>
+                              <a-form-item label="负责人" name="principal">
+                                    <a-select v-model:value="dbForm.principal" style="width: 100%" show-search :options="principalList.map(item => ({
+                                          label: item.username,
+                                          value: item.username
+                                    }))">
                                     </a-select>
                               </a-form-item>
                               <a-form-item label="排除的数据库">
-                                    <a-select
-                                          mode="multiple"
-                                          show-search
-                                          style="width: 100%"
-                                          v-model:value="excludeDB"
-                                          :max-tag-count="6"
-                                    >
-                                          <a-select-option
-                                                v-for="i in schemaList"
-                                                :key="i"
-                                                :value="i"
-                                          >{{ i }}</a-select-option>
+                                    <a-select mode="multiple" show-search style="width: 100%" v-model:value="excludeDB"
+                                          :max-tag-count="6">
+                                          <a-select-option v-for="i in schemaList" :key="i" :value="i">{{ i }}
+                                          </a-select-option>
                                     </a-select>
                               </a-form-item>
                               <a-form-item label="脱敏字段">
-                                    <a-select
-                                          v-model:value="insulateWord"
-                                          mode="tags"
-                                          style="width: 100%"
-                                          placeholder="Tags Mode"
-                                          :max-tag-count="6"
-                                    ></a-select>
+                                    <a-select v-model:value="insulateWord" mode="tags" style="width: 100%"
+                                          placeholder="Tags Mode" :max-tag-count="6"></a-select>
                               </a-form-item>
                               <a-form-item :label="$t('common.action')">
                                     <a-button ghost @click="checkConn">测试连接</a-button>
@@ -118,6 +103,8 @@ const request = new Request
 const db = new DB
 
 const flowReq = new Flow
+
+const principalList = computed(() => store.state.common.principal)
 
 let dbForm = ref(
       {

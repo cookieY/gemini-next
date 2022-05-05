@@ -34,10 +34,10 @@ export interface QueryPost {
 
 
 export class Request {
-      List (args: QueryParams): AxiosPromise {
+      List (args: QueryParams, tp: string): AxiosPromise {
             return request({
                   method: 'put',
-                  url: `${COMMON_URI}/audit/query/list`,
+                  url: `${COMMON_URI}/audit/query/list?tp=${tp}`,
                   data: args
             })
       }

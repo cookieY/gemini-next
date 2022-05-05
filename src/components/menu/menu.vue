@@ -13,7 +13,7 @@
                   <span>{{ $t('menu.order.apply') }}</span>
             </a-menu-item>
             <a-menu-item key="/comptroller/order" v-if="store.state.user.account.is_record === 1">
-                  <function-outlined />
+                  <area-chart-outlined />
                   <span>{{ $t('menu.comptroller.title') }}</span>
             </a-menu-item>
             <a-sub-menu :title="$t('menu.order.title')">
@@ -73,7 +73,7 @@
       </a-menu>
 </template>
 <script lang="ts"  setup>
-import { DotChartOutlined, HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
+import { AreaChartOutlined, DotChartOutlined, HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';

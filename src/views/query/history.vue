@@ -1,5 +1,5 @@
 <template>
-      <a-list item-layout="horizontal" :data-source="data" bordered size="small" :pagination="{
+      <a-list item-layout="horizontal" :data-source="data" size="small" :pagination="{
             size: 'small',
             total: data.length,
             showTotal: total => $t('common.count', { 'count': total }),

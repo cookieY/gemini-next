@@ -22,6 +22,9 @@ export interface LDAP {
       password: string
       type: string
       sc: string
+      map: string
+      test_user: string
+      test_password: string
 }
 
 export interface Other {
@@ -56,6 +59,7 @@ export class Request {
       }
 
       Test (tp: string, testArgs: Settings): AxiosPromise {
+
             return request({
                   method: 'put',
                   url: `${COMMON_URI}/manage/setting`,

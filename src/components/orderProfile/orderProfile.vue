@@ -120,6 +120,7 @@ import { Timeline } from "@/apis/fetchSchema";
 import JunoMixin from '@/mixins/juno'
 import WsSocket from "@/socket";
 import { onUnmounted } from "vue";
+import { debounce } from "lodash-es"
 
 interface stepUsege {
       action: string
@@ -160,7 +161,7 @@ const isCurrent = ref(-1)
 
 const recommit = ref('')
 
-const testResults = (sql: string) => {
+const testResults = debounce((sql: string) => {
       spin.value = !spin.value
       request.Test({
             source: order.value.source,
@@ -179,7 +180,7 @@ const testResults = (sql: string) => {
                   enabled.value = counter !== 0
             })
             .finally(() => spin.value = !spin.value)
-}
+}, 200)
 
 const next = () => {
       spinning.value = !spinning.value
