@@ -83,8 +83,6 @@ export class Request {
       }
 
       List (expr: OrderParams, tp: string): AxiosPromise {
-            console.log(tp)
-            console.log(checkUri(tp))
             return request({
                   url: checkUri(tp),
                   method: "PUT",
