@@ -1,27 +1,17 @@
 <template>
-      <a-modal
-            v-model:visible="is_open"
-            :title="$t('user.policy')"
-            @ok="editUserGroups"
-            :width="800"
-      >
+      <a-modal v-model:visible="is_open" :title="$t('user.policy')" @ok="editUserGroups" :width="800"
+            :okText="$t('common.save')">
             <a-form layout="vertical">
                   <a-form-item :label="$t('user.form.user')">
                         <span>{{ user }}</span>
                   </a-form-item>
                   <a-form-item :label="$t('common.policy')" v-show="props.isManager">
-                        <a-transfer
-                              :rowKey="record => record.group_id"
-                              :render="item => `${item.name}`"
+                        <a-transfer :rowKey="record => record.group_id" :render="item => `${item.name}`"
                               :titles="[' ' + $t('common.all'), ' ' + $t('common.selected')]"
-                              :data-source="rules.groups"
-                              v-model:target-keys="rules.own"
-                              :list-style="{
+                              :data-source="rules.groups" v-model:target-keys="rules.own" :list-style="{
                                     width: '400px',
                                     height: '300px',
-                              }"
-                              show-search
-                        >
+                              }" show-search>
                               <template #render="item">
                                     <a-tooltip>
                                           <template #title>prompt text</template>

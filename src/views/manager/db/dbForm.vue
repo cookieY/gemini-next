@@ -41,7 +41,7 @@
             </a-form-item>
             <a-form-item label="操作">
                   <a-space size="small">
-                        <a-button type="dashed" @click="checkConn">测试连接</a-button>
+                        <a-button type="dashed" @click="checkConn" :loading="loading">测试连接</a-button>
                         <a-button type="primary" @click="createSource">创建</a-button>
                         <a-button type="primary" danger @click="resetFields">清空</a-button>
                   </a-space>
@@ -62,6 +62,8 @@ const store = useStore()
 const { layout } = CommonMixins()
 
 const { rules } = DBMixins()
+
+const loading = ref(false)
 
 const request = new Request
 
@@ -109,7 +111,8 @@ const createSource = () => {
 }
 
 const checkConn = () => {
-      request.Ops({ db: dbForm.value, tp: "test" })
+      loading.value = !loading.value
+      request.Ops({ db: dbForm.value, tp: "test" }).finally(() => loading.value = !loading.value)
 }
 
 

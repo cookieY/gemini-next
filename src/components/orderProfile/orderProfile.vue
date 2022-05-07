@@ -87,7 +87,7 @@
                   </a-tab-pane>
 
                   <a-tab-pane key="3" :tab="$t('order.profile.results')">
-                        <Results :work_id="order.work_id" :recommit="recommit"></Results>
+                        <Results :work_id="order.work_id" :status="order.status"></Results>
                   </a-tab-pane>
 
                   <a-tab-pane key="4" :tab="$t('order.profile.osc')" v-if="order.type === 0">
@@ -158,8 +158,6 @@ const { FetchStepUsege, FetchProfileSQL, orderProfileArch, fetchRequest } = Fetc
 const usege = ref([] as stepUsege[])
 
 const isCurrent = ref(-1)
-
-const recommit = ref('')
 
 const testResults = debounce((sql: string) => {
       spin.value = !spin.value

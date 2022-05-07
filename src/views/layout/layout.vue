@@ -1,9 +1,7 @@
 <template>
       <div v-watermark="{ text: store.state.user.account.user }">
             <a-layout>
-                  <a-layout-sider
-                        :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
-                  >
+                  <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
                         <img src="../../assets/login/logo.png" style="width: 150px;" />
                         <Menu></Menu>
                   </a-layout-sider>
@@ -15,14 +13,12 @@
                                           <a-dropdown>
                                                 <div>
                                                       <a-avatar :src="profile" />
-                                                      <span
-                                                            style="margin-left: 5%;font-weight: bold;"
-                                                      >{{ store.state.user.account.user }}</span>
+                                                      <span style="margin-left: 5%;font-weight: bold;">{{
+                                                                  store.state.user.account.user
+                                                      }}</span>
                                                 </div>
                                                 <template #overlay>
-                                                      <a-menu
-                                                            @click="() => router.push({ path: '/home/profile' })"
-                                                      >
+                                                      <a-menu @click="() => router.push({ path: '/home/profile' })">
                                                             <a-menu-item>
                                                                   <a href="javascript:;">个人详情</a>
                                                             </a-menu-item>

@@ -1,17 +1,23 @@
 <template>
       <a-form layout="inline" v-if="route.params.tp !== 'record'">
-            <a-form-item>
-                  <a-space>
+
+            <a-space>
+                  <template v-if="route.params.tp === 'audit' && status === 1">
                         <a-popconfirm :title="$t('order.profile.results.roll.tips')" @confirm="submit">
-                              <a-button v-if="route.params.tp === 'audit'">{{
-                                    $t("order.profile.results.commit.rollback")
+                              <a-button>{{
+                                          $t("order.profile.results.commit.rollback")
                               }}</a-button>
                         </a-popconfirm>
+                  </template>
+                  <template v-else-if="route.params.tp === 'common' && (status === 0 || status === 4)">
                         <a-popconfirm :title="$t('order.profile.results.recommit.tips')" @confirm="recommit">
-                              <a-button>{{ $t("order.profile.results.commit.recommit") }}</a-button>
+                              <a-button>{{
+                                          $t("order.profile.results.commit.recommit")
+                              }}</a-button>
                         </a-popconfirm>
-                  </a-space>
-            </a-form-item>
+                  </template>
+            </a-space>
+
       </a-form>
       <br />
       <a-collapse v-model:activeKey="activeKey" accordion>
@@ -40,7 +46,7 @@ const route = useRoute()
 
 const props = defineProps<{
       work_id: string,
-      recommit: string
+      status: number
 }>()
 
 const activeKey = ref("1")

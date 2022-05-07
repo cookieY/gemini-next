@@ -1,5 +1,5 @@
 <template>
-      <a-modal v-model:visible="is_open" :title="props.title" :width="800" @ok="postFlow">
+      <a-modal v-model:visible="is_open" :title="props.title" :width="800" @ok="postFlow" :okText="$t('common.save')">
             <a-row>
                   <a-col :span="10">
                         <a-form :model="step" :rules="rules" ref="formRef">
@@ -10,7 +10,7 @@
                               <a-form-item label="阶段名称" name="desc">
                                     <a-input v-model:value="step.desc"></a-input>
                               </a-form-item>
-                              <a-form-item label="步骤类型" name="type">
+                              <a-form-item label="阶段类型" name="type">
                                     <a-select v-model:value="step.type">
                                           <a-select-option :value="0">审核</a-select-option>
                                           <a-select-option :value="1">执行</a-select-option>
@@ -103,7 +103,7 @@ const step = ref({} as Steps)
 
 let auditor = ref([] as AuditorList[])
 
-const { is_open, layout, turnState } = CommonMixins()
+const { is_open, turnState } = CommonMixins()
 
 const rules = {
       desc: [{ required: true, trigger: 'blur', message: t('common.check.flow') }],
@@ -162,7 +162,7 @@ const postFlow = () => {
 }
 
 const editFlow = (vl: RespSteps) => {
-      flow.value = vl
+      flow.value = Object.assign({}, vl)
       turnState()
 }
 

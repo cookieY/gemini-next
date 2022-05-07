@@ -9,7 +9,7 @@
                         <a-tag v-for="i in text.split(',')">{{ i }}</a-tag>
                   </template>
                   <template v-if="column.dataIndex === 'delay'">{{
-                        text === 'none' ? $t('order.table.delay') : text
+                              text === 'none' ? $t('order.table.delay') : text
                   }}</template>
                   <template v-if="column.dataIndex === 'status'">
                         <state-tags :state="text"></state-tags>
@@ -36,7 +36,7 @@ import { useI18n } from 'vue-i18n';
 import { tableRef } from ".";
 
 interface propsAttr {
-      size: string
+      size?: string
 }
 
 const props = withDefaults(defineProps<propsAttr>(), {

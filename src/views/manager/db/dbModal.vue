@@ -1,5 +1,5 @@
 <template>
-      <a-modal v-model:visible="is_open" title="数据源信息" width="800px" @ok="editDB">
+      <a-modal v-model:visible="is_open" title="数据源信息" width="800px" @ok="editDB" :okText="$t('common.save')">
             <a-row>
                   <a-col :span="15">
                         <a-form :model="dbForm" v-bind="layout">
@@ -56,7 +56,7 @@
                                           placeholder="Tags Mode" :max-tag-count="6"></a-select>
                               </a-form-item>
                               <a-form-item :label="$t('common.action')">
-                                    <a-button ghost @click="checkConn">测试连接</a-button>
+                                    <a-button ghost @click="checkConn" :loading="loading">测试连接</a-button>
                               </a-form-item>
                         </a-form>
                   </a-col>
@@ -87,6 +87,8 @@ import { Request } from "@/apis/fetchSchema"
 const { is_open, turnState, layout } = CommonMixins()
 
 const store = useStore()
+
+const loading = ref(false)
 
 const idc = computed(() => {
       return store.state.common.idc
@@ -149,7 +151,8 @@ const fillInfo = (vl: any) => {
 
 
 const checkConn = () => {
-      db.Ops({ db: dbForm.value, tp: "test", encrypt: true })
+      loading.value = !loading.value
+      db.Ops({ db: dbForm.value, tp: "test", encrypt: true }).finally(() => loading.value = !loading.value)
 }
 
 defineExpose({
