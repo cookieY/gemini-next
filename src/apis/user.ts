@@ -34,6 +34,7 @@ export interface RegisterForm {
       real_name: string;
       department: string;
       email: string;
+      theme?: string
 }
 
 export interface Password {

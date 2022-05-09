@@ -8,6 +8,10 @@ import { createSQLToken } from "@/components/editor/impl"
 import { onMounted, onUnmounted } from '@vue/runtime-core';
 import { format } from 'sql-formatter';
 import { ref } from 'vue';
+import { Request } from '@/apis/orderPostApis';
+import { AxiosResponse } from 'axios';
+import { Res } from '@/config/request';
+import { mod } from '@antv/util';
 
 self.MonacoEnvironment = {
       getWorker (_, label) {
@@ -31,6 +35,8 @@ const emit = defineEmits(['getValues'])
 
 let model = {} as monaco.editor.IStandaloneCodeEditor
 
+const request = new Request
+
 let completionProvider = null as any
 
 const beautyFunc: monaco.editor.IActionDescriptor = {
@@ -43,7 +49,27 @@ const beautyFunc: monaco.editor.IActionDescriptor = {
       contextMenuOrder: 1.5,
       run: function (ed: monaco.editor.ICodeEditor) {
             ed.setValue(format(ed.getValue()))
+      }
+}
 
+const mergeDDL: monaco.editor.IActionDescriptor = {
+      id: 'ms-merge',
+      label: "多条alter语句合并",
+      keybindings: [
+            monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_M,
+      ],
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      run: function (ed: monaco.editor.ICodeEditor) {
+            let s = ed.getModel() as monaco.editor.ITextModel
+            let sel = s.getValueInRange(ed.getSelection() as monaco.Selection)
+            let sqls = ""
+            if (sel !== "") {
+                  sqls = sel
+            } else {
+                  sqls = ed.getValue()
+            }
+            request.Merge(sqls).then((res: AxiosResponse<Res<string>>) => ed.setValue(res.data.payload))
       }
 }
 
@@ -100,13 +126,14 @@ onMounted(() => {
       model = monaco.editor.create(document.getElementById(props.containerId) as HTMLElement, {
             language: "sql",
             fontSize: 16,
-            theme: "vs-dark",
+            theme: localStorage.getItem("theme") === "light" ? "vs-light" : "vs-dark",
             automaticLayout: true,
             readOnly: props.readonly,
             accessibilityHelpUrl: "https://guide.yearning.io",
       });
       model.addAction(beautyFunc)
       model.addAction(GetValueFunc)
+      props.isQuery ? null : model.addAction(mergeDDL)
       model.focus()
       window.onresize = () => {
             height.value = document.body.clientHeight - 600 > 150 ? document.body.clientHeight - 600 : 150

@@ -65,6 +65,15 @@ export class Request {
                   data: params
             })
       }
+      Merge (sql: string): AxiosPromise {
+            return request({
+                  url: `${COMMON_URI}/fetch/merge`,
+                  method: "PUT",
+                  data: {
+                        sqls: sql
+                  }
+            })
+      }
 
       Next (args: SQLAuditOrder): AxiosPromise {
             return request({

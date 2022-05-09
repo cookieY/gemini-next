@@ -22,13 +22,14 @@
                               </a-form-item>
                               <a-form-item :label="$t('common.table.schema')" name="data_base">
                                     <a-select v-model:value="orderItems.data_base" @change="fetchTable"
-                                          :dropdownMatchSelectWidth="false">
+                                          :dropdownMatchSelectWidth="false" show-search>
                                           <a-select-option v-for=" i in orderProfileArch.db" :key="i">{{ i }}
                                           </a-select-option>
                                     </a-select>
                               </a-form-item>
                               <a-form-item :label="$t('common.table.table')">
-                                    <a-select v-model:value="orderItems.table" :dropdownMatchSelectWidth="false">
+                                    <a-select v-model:value="orderItems.table" :dropdownMatchSelectWidth="false"
+                                          show-search>
                                           <a-select-option v-for=" i in orderProfileArch.table" :key="i">{{ i }}
                                           </a-select-option>
                                     </a-select>
@@ -64,7 +65,10 @@
                         <a-tabs v-model:activeKey="activeKey">
                               <a-tab-pane :key="1" :tab="$t('order.apply.tab.sql')" forceRender>
                                     <a-spin :spinning="spin" :delay="100">
-                                          <Editor container-id="applys" ref="editor" @getValues="testResults"></Editor>
+                                          <div class="editor_border">
+                                                <Editor container-id="applys" ref="editor" @getValues="testResults">
+                                                </Editor>
+                                          </div>
                                           <br />
                                           <a-table :columns="col" :data-source="tData" bordered rowKey="sql"></a-table>
                                     </a-spin>

@@ -37,7 +37,7 @@ onMounted(() => {
                   preview: {
                         delay: 500,
                         theme: {
-                              current: "dark"
+                              current: localStorage.getItem("theme") === "light" ? "vs-light" : "dark"
                         },
                         markdown: {
                               sanitize: false
@@ -104,7 +104,7 @@ onMounted(() => {
                   after: () => {
                         instance.setValue(instance.html2md(editValue.value))
                   },
-                  theme: "dark"
+                  theme: localStorage.getItem("theme") === "light" ? "classic" : "dark"
             })
       })
 

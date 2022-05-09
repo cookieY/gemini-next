@@ -2,7 +2,7 @@
       <div v-watermark="{ text: store.state.user.account.user }">
             <a-layout>
                   <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
-                        <img src="../../assets/login/logo.png" style="width: 150px;" />
+                        <img :src="logoUrl" style="width: 150px;" />
                         <Menu></Menu>
                   </a-layout-sider>
 
@@ -56,6 +56,9 @@ import { overrideHeaders } from "@/config/request"
 import { useStore } from "@/store";
 import profile from "@/assets/comment/3.svg"
 import { useRouter } from "vue-router";
+
+
+const logoUrl = localStorage.getItem("theme") === "light" ? new URL("../../assets/login/logo.jpeg", import.meta.url).href : new URL("../../assets/login/logo.png", import.meta.url).href
 
 const { is_open, close } = CommonMixin()
 

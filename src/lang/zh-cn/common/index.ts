@@ -1,6 +1,7 @@
 export default {
       "common.password": "更改密码",
       "common.policy": "权限",
+      "common.theme": "主题更改",
       "common.action": "操作",
       "common.save": "保存",
       "common.delete": "删除",

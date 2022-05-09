@@ -1,11 +1,23 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import routes from '@/router'
+import "@/style/theme.less"
 import Antd from 'ant-design-vue';
 import { store, key } from '@/store/index'
-import "@/style/theme.less"
 import i18n from "@/lang"
 import CTable from "@/components/table/index"
+
+if (localStorage.getItem("theme") === null) {
+      import("@/style/theme.less")
+} else {
+      if (localStorage.getItem("theme") === "dark") {
+            import("@/style/theme.less")
+      } else {
+            import("@/style/light.less")
+      }
+}
+
+
 
 createApp(App).directive(
       'watermark', (el, binding) => {

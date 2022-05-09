@@ -9,13 +9,8 @@
                         <br />
                         <br />
                   </template>
-                  <a-table
-                        bordered
-                        :columns="i.field"
-                        :dataSource="i.data"
-                        :scroll="{ x: i.length * 200, y: props.height }"
-                        @resizeColumn="handleResizeColumn"
-                  ></a-table>
+                  <a-table bordered :columns="i.field" :dataSource="i.data"
+                        :scroll="{ x: i.length * 200, y: props.height }" @resizeColumn="handleResizeColumn"></a-table>
             </a-tab-pane>
       </a-tabs>
 </template>
@@ -81,13 +76,13 @@ const recv = async (e: any) => {
       const h = e.data as Blob
       if (h.size > 0) {
             const resp = decode(await h.arrayBuffer()) as any
+            resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
             if (resp.error !== "") {
                   message.error(resp.error)
             } else {
                   isExport.value = resp.export
                   resp.results !== null ? results.value = resp.results : null
                   executeTime.value = resp.query_time
-                  resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
             }
       }
       store.commit("common/SET_SPINNING")

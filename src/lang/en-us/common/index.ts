@@ -2,6 +2,7 @@ export default {
       "common.password": "Password",
       "common.policy": "Policy",
       "common.action": "Action",
+      "common.theme": "Theme Change",
       "common.save": "Save",
       "common.delete": "Delete",
       "common.edit": "Edit",

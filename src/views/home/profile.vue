@@ -15,6 +15,12 @@
                         <a-form-item :label="$t('user.form.email')">
                               <a-input v-model:value="formItem.email"></a-input>
                         </a-form-item>
+                        <a-form-item :label="$t('common.theme')">
+                              <a-select @change="changeTheme" v-model:value="formItem.theme">
+                                    <a-select-option key="dark" value="dark">暗黑主题</a-select-option>
+                                    <a-select-option key="light" value="light">普通主题</a-select-option>
+                              </a-select>
+                        </a-form-item>
                         <a-form-item :label="$t('user.password.new')" name="password">
                               <a-input-password v-model:value="formItem.password"></a-input-password>
                         </a-form-item>
@@ -22,11 +28,9 @@
                               <a-input-password v-model:value="formItem.confirm_password"></a-input-password>
                         </a-form-item>
                         <a-form-item>
-                              <a-button
-                                    @click="() => request.Edit(formItem, false)"
-                                    block
-                                    type="primary"
-                              >{{ $t('common.save') }}</a-button>
+                              <a-button @click="() => request.Edit(formItem, false)" block type="primary">{{
+                                          $t('common.save')
+                              }}</a-button>
                         </a-form-item>
                   </a-form>
             </a-col>
@@ -42,6 +46,7 @@ import { RuleObject } from 'ant-design-vue/lib/form/interface';
 import { RegisterForm, Request } from '@/apis/user';
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
+import { EventBus } from '@/lib';
 
 const store = useStore()
 
@@ -50,8 +55,15 @@ const formItem = ref<RegisterForm>({
       confirm_password: "",
       real_name: "",
       email: "",
-      department: ""
+      department: "",
+      theme: "dark"
 })
+
+const changeTheme = (e) => {
+      localStorage.setItem("theme", e)
+      location.reload();
+}
+
 
 const validPassword = async (rule: RuleObject, value: string) => {
       if (value !== formItem.value.password && value !== "") {
@@ -75,6 +87,7 @@ const rules = {
 onMounted(() => {
       request.UserInfo().then((res: AxiosResponse<Res<RegisterForm>>) => {
             formItem.value = res.data.payload
+            localStorage.getItem("theme") === null ? formItem.value.theme = "dark" : formItem.value.theme = localStorage.getItem("theme") as string
       })
 })
 

@@ -12,7 +12,7 @@ export default {
       "query.clip.desc": "内容",
       "query.clip.is.paste": "已复制",
       "query.clip.overflow": "剪贴板最多保存6个",
-      "query.expire": "查询时间已经过期请重新进入查询系统",
+      "query.expire": "查询时间已经过期或已被审核人提前结束，请重新进入查询系统",
       "query.profile.realname": "真实姓名",
       "query.profile.username": "用户名",
       "query.profile.export": "是否导出",

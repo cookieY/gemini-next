@@ -1,1 +1,92 @@
 @import 'ant-design-vue/dist/antd.less';
+
+@primary-color: #579fff;
+@error-color: #de4943;
+@popover-background: rgb(255, 255, 255);
+
+@border-width-base: 1px;
+
+
+@body-background: #ffffff;
+@component-background: #ffffff;
+
+
+@input-border-color: @border-color-base;
+
+@layout-header-padding: 0 20px;
+@layout-header-background: rgb(255, 255, 255);
+@btn-default-ghost-color: #579fff;
+@btn-default-ghost-border: #579fff;
+
+
+@menu-bg: @component-background;
+
+.editor_border {
+      border: 1px solid #9c9c9c;
+}
+
+.total {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      white-space: nowrap;
+      color: #000000;
+      margin-top: 4px;
+      margin-bottom: 0;
+      font-size: 30px;
+      line-height: 38px;
+      height: 38px;
+}
+
+.chart-card-header {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+
+      .meta {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            color: fade(#000000, 60);
+            font-size: 14px;
+            line-height: 22px;
+      }
+}
+
+.chart-card-action {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 0;
+}
+
+.chart-card-footer {
+      border-top: 0.5px solid #000000;
+      padding-top: 9px;
+      margin-top: 8px;
+
+      >* {
+            position: relative;
+      }
+
+      .field {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+      }
+}
+
+.chart-card-content {
+      margin-bottom: 30px;
+      position: relative;
+      height: 46px;
+      width: 100%;
+
+      .content-fix {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+      }
+}
