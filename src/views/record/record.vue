@@ -1,28 +1,35 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
       <a-back-top />
-      <br>
+      <a-card>
+            <a-row>
+                  <a-col :span="24">
+                        <div id="app-container">
+                              <div id="g2-customize-tooltip"></div>
+                              <div id="g2-container"></div>
+                        </div>
+                  </a-col>
+
+            </a-row>
+      </a-card>
+
       <a-row>
             <a-col :span="24">
-                  <div id="app-container">
-                        <div id="g2-customize-tooltip"></div>
-                        <div id="g2-container"></div>
-                  </div>
+                  <a-menu mode="horizontal" v-model:selectedKeys="current">
+                        <a-menu-item key="/comptroller/order/list">
+                              <router-link to="/comptroller/order/record"> {{ $t('common.order') }}</router-link>
+                        </a-menu-item>
+                        <a-menu-item key="/comptroller/query/list">
+                              <router-link to="/comptroller/query/list"> {{ $t('common.query') }}</router-link>
+                        </a-menu-item>
+                  </a-menu>
             </a-col>
 
       </a-row>
-      <a-row>
-            <a-menu mode="horizontal" v-model:selectedKeys="current">
-                  <a-menu-item key="/comptroller/order/list">
-                        <router-link to="/comptroller/order/record"> {{ $t('common.order') }}</router-link>
-                  </a-menu-item>
-                  <a-menu-item key="/comptroller/query/list">
-                        <router-link to="/comptroller/query/list"> {{ $t('common.query') }}</router-link>
-                  </a-menu-item>
-            </a-menu>
-      </a-row>
-      <br>
-      <router-view></router-view>
+      <div style="margin-top:5px">
+            <router-view></router-view>
+      </div>
+
 
 </template>
 

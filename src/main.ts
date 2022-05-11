@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import routes from '@/router'
-import "@/style/theme.less"
 import Antd from 'ant-design-vue';
 import { store, key } from '@/store/index'
 import i18n from "@/lang"
@@ -47,7 +46,7 @@ function addWaterMarker (text: string) {
       div.style.pointerEvents = 'none'
       div.style.top = '40px'
       div.style.left = '0px'
-      div.style.opacity = '0.12'
+      div.style.opacity = '0.1'
       div.style.position = 'fixed'
       div.style.zIndex = '100000'
       div.style.width = document.documentElement.clientWidth + 'px'

@@ -86,6 +86,10 @@ const selectedKey = ref(store.state.menu.selectedKey)
 
 const changeMenu = (vl: { keyPath: string[], key: string }) => {
       store.commit("menu/CHANGE_SELECTED", vl.keyPath)
+      if (vl.key === "/exist") {
+            sessionStorage.clear()
+            store.state.user.account.token = ""
+      }
       vl.key === "/exist" ? router.push("/login") : router.push(vl.key).finally(() => emit('close'))
 }
 

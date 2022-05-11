@@ -2,7 +2,7 @@
       <div>
             <div style="margin-left: 2%;">
                   <a-space>
-                        <span>version 3.0.0</span>
+                        <span class="fff">version 3.0.0</span>
                         <a-button type="dashed" v-if="is_register" @click="is_open = true" ghost size="small">用户注册
                         </a-button>
                   </a-space>

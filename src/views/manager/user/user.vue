@@ -2,8 +2,10 @@
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
       <a-row>
             <a-col :xs="24" :sm="6">
-                  <a-divider orientation="left">{{ $t('user.form.title') }}</a-divider>
-                  <RegisterForm isManager></RegisterForm>
+
+                  <a-card :title="$t('user.form.title')">
+                        <RegisterForm isManager></RegisterForm>
+                  </a-card>
             </a-col>
             <a-col :xs="24" :sm="17" :offset="1">
                   <UserTable></UserTable>

@@ -1,47 +1,54 @@
 <template>
-      <UserTableSearch @search="search"></UserTableSearch>
-      <c-table :tblRef="tblRef" ref="tbl">
-            <template #bodyCell="{ column, text, record }">
-                  <template v-if="column.dataIndex === 'action'">
-                        <a-space size="small">
-                              <a-button size="small" ghost v-if="!record.editable"
-                                    @click="() => record.editable = true">{{ $t('common.edit') }}</a-button>
-                              <template v-else>
-                                    <a-button size="small" ghost @click="editUserInfo(record)">{{ $t('common.save') }}
-                                    </a-button>
-                                    <a-button size="small" ghost @click="() => record.editable = false">{{
-                                          $t('common.cancel')
+      <a-card>
+            <UserTableSearch @search="search"></UserTableSearch>
+            <c-table :tblRef="tblRef" ref="tbl">
+                  <template #bodyCell="{ column, text, record }">
+                        <template v-if="column.dataIndex === 'action'">
+                              <a-space size="small">
+                                    <a-button size="small" ghost v-if="!record.editable"
+                                          @click="() => record.editable = true">{{ $t('common.edit') }}</a-button>
+                                    <template v-else>
+                                          <a-button size="small" ghost @click="editUserInfo(record)">{{
+                                                      $t('common.save')
+                                          }}
+                                          </a-button>
+                                          <a-button size="small" ghost @click="() => record.editable = false">{{
+                                                      $t('common.cancel')
+                                          }}</a-button>
+                                    </template>
+                                    <a-button size="small" ghost @click="openPasswordModal(record.username)">{{
+                                                $t('common.password')
                                     }}</a-button>
+                                    <a-button type="primary" size="small" ghost @click="openRuleModal(record.username)">
+                                          {{
+                                                      $t('common.policy')
+                                          }}</a-button>
+                                    <a-popconfirm :title="$t('user.form.delete.tips')"
+                                          @confirm="deleteUser(record.username)">
+                                          <a-button type="primary" danger ghost size="small"
+                                                v-if="record.username !== 'admin'">{{ $t('common.delete') }}</a-button>
+                                    </a-popconfirm>
+                              </a-space>
+                        </template>
+                        <template v-if="['real_name', 'department', 'email', 'is_recorder'].includes(column.dataIndex)">
+                              <template v-if="!record.editable">
+                                    <span v-if="column.dataIndex === 'is_recorder'">{{ text === 2 ? '否' : '是' }}</span>
+                                    <span v-else>{{ text }}</span>
                               </template>
-                              <a-button size="small" ghost @click="openPasswordModal(record.username)">{{
-                                    $t('common.password')
-                              }}</a-button>
-                              <a-button type="primary" size="small" ghost @click="openRuleModal(record.username)">{{
-                                    $t('common.policy')
-                              }}</a-button>
-                              <a-popconfirm :title="$t('user.form.delete.tips')" @confirm="deleteUser(record.username)">
-                                    <a-button type="primary" danger ghost size="small"
-                                          v-if="record.username !== 'admin'">{{ $t('common.delete') }}</a-button>
-                              </a-popconfirm>
-                        </a-space>
-                  </template>
-                  <template v-if="['real_name', 'department', 'email', 'is_recorder'].includes(column.dataIndex)">
-                        <template v-if="!record.editable">
-                              <span v-if="column.dataIndex === 'is_recorder'">{{ text === 2 ? '否' : '是' }}</span>
-                              <span v-else>{{ text }}</span>
-                        </template>
-                        <template v-else>
-                              <a-select v-if="column.dataIndex === 'is_recorder'"
-                                    v-model:value="record[column.dataIndex]">
-                                    <a-select-option :key="2" :value="2">否</a-select-option>
-                                    <a-select-option :key="1" :value="1">是</a-select-option>
-                              </a-select>
-                              <a-input v-model:value="record[column.dataIndex]" v-else></a-input>
-                        </template>
+                              <template v-else>
+                                    <a-select v-if="column.dataIndex === 'is_recorder'"
+                                          v-model:value="record[column.dataIndex]">
+                                          <a-select-option :key="2" :value="2">否</a-select-option>
+                                          <a-select-option :key="1" :value="1">是</a-select-option>
+                                    </a-select>
+                                    <a-input v-model:value="record[column.dataIndex]" v-else></a-input>
+                              </template>
 
+                        </template>
                   </template>
-            </template>
-      </c-table>
+            </c-table>
+      </a-card>
+
       <ChangePassword ref="p" isManager :user="u"></ChangePassword>
       <UserRules ref="r" isManager></UserRules>
 </template>

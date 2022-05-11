@@ -37,16 +37,11 @@
                                     <InfoCircleOutlined />
                               </template>
                               <template v-slot:content>
-                                    <a-progress
-                                          :percent="85"
-                                          status="active"
-                                          :show-info="false"
-                                          :strokeWidth="15"
+                                    <a-progress :percent="85" status="active" :show-info="false" :strokeWidth="15"
                                           :strokeColor="{
                                                 '0%': '#108ee9',
                                                 '100%': '#87d068',
-                                          }"
-                                    />
+                                          }" />
                               </template>
                         </ChartCard>
                   </a-col>
@@ -55,28 +50,16 @@
             <a-card style="text-align: center;">
                   <a-row :gutter="24">
                         <a-col :xs="24" :md="12" :xl="6">
-                              <a-statistic
-                                    :title="$t('common.bash.self.dml')"
-                                    :value="banner.self_dml"
-                              />
+                              <a-statistic :title="$t('common.bash.self.dml')" :value="banner.self_dml" />
                         </a-col>
                         <a-col :xs="24" :md="12" :xl="6">
-                              <a-statistic
-                                    :title="$t('common.bash.self.ddl')"
-                                    :value="banner.self_ddl"
-                              />
+                              <a-statistic :title="$t('common.bash.self.ddl')" :value="banner.self_ddl" />
                         </a-col>
                         <a-col :xs="24" :md="12" :xl="6">
-                              <a-statistic
-                                    :title="$t('common.bash.self.query')"
-                                    :value="banner.self_query"
-                              />
+                              <a-statistic :title="$t('common.bash.self.query')" :value="banner.self_query" />
                         </a-col>
                         <a-col :xs="24" :md="12" :xl="6">
-                              <a-statistic
-                                    :title="$t('common.bash.self.audit')"
-                                    :value="banner.self_audit"
-                              />
+                              <a-statistic :title="$t('common.bash.self.audit')" :value="banner.self_audit" />
                         </a-col>
                   </a-row>
             </a-card>

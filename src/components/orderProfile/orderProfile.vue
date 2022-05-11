@@ -1,6 +1,7 @@
 <template>
       <a-spin :spinning="spinning">
-            <a-page-header :title="$t('order.profile.work_id', { id: order.work_id })" @back="() => $router.go(-1)">
+            <a-page-header :title="$t('order.profile.work_id', { id: order.work_id })" @back="() => $router.go(-1)"
+                  :ghost="false">
                   <template #extra>
                         <template v-if="route.params.tp === 'audit' && isCurrent > -1 && order.status === 2">
                               <a-button key="2" danger ghost @click="r.turnState()">{{ $t('order.reject') }}</a-button>
@@ -42,18 +43,19 @@
                                     :strokeWidth="5" :width="150" :stroke-color="StateUsege(order.status).color"
                                     type="circle" style="position: relative">
                                     <template #format="percent">
-                                          <span style="color: rgb(193, 205, 214);">{{ StateUsege(order.status).title
+                                          <span class="state_color">{{ StateUsege(order.status).title
                                           }}</span>
                                     </template>
                               </a-progress>
                         </a-col>
                   </a-row>
+                 <br>
             </a-page-header>
+            <!-- <a-card> -->
             <a-tabs>
                   <a-tab-pane key="1" :tab="$t('order.profile.profile')">
                         <Step :current="order.current_step" :step="orderProfileArch.timeline" :status="order.status">
                         </Step>
-
                         <br />
                         <a-row :gutter="24">
                               <a-col :xs="24" :sm="5">
@@ -73,27 +75,42 @@
                               </a-col>
                               <a-col :xs="24" :sm="19">
                                     <a-spin :spinning="spin" :delay="100">
-                                          <Editor container-id="profile" ref="profile" readonly
-                                                @getValues="testResults"></Editor>
-                                          <br />
-                                          <a-table :columns="col" bordered size="small" :dataSource="tData"></a-table>
+                                          <a-card size="small">
+                                                <div class="editor_border">
+                                                      <Editor container-id="profile" ref="profile" readonly
+                                                            @getValues="testResults"></Editor>
+                                                </div>
+
+                                                <br />
+                                                <a-table :columns="col" bordered size="small" :dataSource="tData">
+                                                </a-table>
+                                          </a-card>
                                     </a-spin>
                               </a-col>
                         </a-row>
                   </a-tab-pane>
 
                   <a-tab-pane key="2" :tab="$t('order.profile.comment')" forceRender>
-                        <Comment :work_id="order.work_id"></Comment>
+                        <a-card size="small">
+                              <Comment :work_id="order.work_id"></Comment>
+                        </a-card>
                   </a-tab-pane>
 
                   <a-tab-pane key="3" :tab="$t('order.profile.results')">
-                        <Results :work_id="order.work_id" :status="order.status"></Results>
+                        <a-card size="small">
+                              <Results :work_id="order.work_id" :status="order.status"></Results>
+                        </a-card>
+
                   </a-tab-pane>
 
                   <a-tab-pane key="4" :tab="$t('order.profile.osc')" v-if="order.type === 0">
-                        <OSC :work_id="order.work_id"></OSC>
+                        <a-card size="small">
+                              <OSC :work_id="order.work_id"></OSC>
+                        </a-card>
+
                   </a-tab-pane>
             </a-tabs>
+            <!-- </a-card> -->
       </a-spin>
 
       <RejectModal :work_id="order.work_id" ref="r" @spin="() => spinning = !spinning"></RejectModal>

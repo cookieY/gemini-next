@@ -1,23 +1,26 @@
 <template>
-      <DBTableSearch @search="search"></DBTableSearch>
-      <c-table :tblRef="tblRef" ref="tbl">
-            <template #bodyCell="{ column, text, record }">
-                  <template v-if="column.dataIndex === 'action'">
-                        <a-space size="small">
-                              <a-button type="primary" size="small" ghost @click="fillInfo(record)">详情</a-button>
-                              <a-popconfirm title="确认要删除该数据源吗?"
-                                    @confirm="request.Delete(record.source_id).then(() => tbl.manual())">
-                                    <a-button type="primary" size="small" danger ghost>删除</a-button>
-                              </a-popconfirm>
-                        </a-space>
+      <a-card>
+            <DBTableSearch @search="search"></DBTableSearch>
+            <c-table :tblRef="tblRef" ref="tbl">
+                  <template #bodyCell="{ column, text, record }">
+                        <template v-if="column.dataIndex === 'action'">
+                              <a-space size="small">
+                                    <a-button type="primary" size="small" ghost @click="fillInfo(record)">详情</a-button>
+                                    <a-popconfirm title="确认要删除该数据源吗?"
+                                          @confirm="request.Delete(record.source_id).then(() => tbl.manual())">
+                                          <a-button type="primary" size="small" danger ghost>删除</a-button>
+                                    </a-popconfirm>
+                              </a-space>
+                        </template>
+                        <template v-if="column.dataIndex === 'is_query'">
+                              <a-tag color="#43A687" v-if="text === 2">读写</a-tag>
+                              <a-tag color="#EA495F" v-if="text === 1">读</a-tag>
+                              <a-tag color="#B38D57" v-if="text === 0">写</a-tag>
+                        </template>
                   </template>
-                  <template v-if="column.dataIndex === 'is_query'">
-                        <a-tag color="#43A687" v-if="text === 2">读写</a-tag>
-                        <a-tag color="#EA495F" v-if="text === 1">读</a-tag>
-                        <a-tag color="#B38D57" v-if="text === 0">写</a-tag>
-                  </template>
-            </template>
-      </c-table>
+            </c-table>
+      </a-card>
+
       <DBModal ref="modal" :idc="idc"></DBModal>
 </template>
 

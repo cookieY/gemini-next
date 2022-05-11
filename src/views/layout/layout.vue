@@ -31,11 +31,11 @@
                         <br />
                         <br />
                         <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
-                              <a-card size="small">
-                                    <router-view v-slot="{ Component }">
-                                          <component :is="Component" />
-                                    </router-view>
-                              </a-card>
+
+                              <router-view v-slot="{ Component }">
+                                    <component :is="Component" />
+                              </router-view>
+
                         </a-layout-content>
                   </a-layout>
             </a-layout>

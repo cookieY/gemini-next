@@ -1,28 +1,36 @@
 @import 'ant-design-vue/dist/antd.less';
 
 @primary-color: #579fff;
-@error-color: #de4943;
+@error-color: #dd3867;
 @popover-background: rgb(255, 255, 255);
 
 @border-width-base: 1px;
 
 
-@body-background: #ffffff;
-@component-background: #ffffff;
+@body-background: #fff;
+@component-background: #fff;
 
 
-@input-border-color: @border-color-base;
+
+@modal-header-bg: @popover-background;
 
 @layout-header-padding: 0 20px;
 @layout-header-background: rgb(255, 255, 255);
-@btn-default-ghost-color: #579fff;
-@btn-default-ghost-border: #579fff;
-
-
+@btn-default-ghost-color: #293B5F;
+@btn-default-ghost-border: #293B5F;
 @menu-bg: @component-background;
+@list-header-background: #ffffff;
+
+.fff {
+      color: #fff;
+}
 
 .editor_border {
-      border: 1px solid #9c9c9c;
+      border: 1px solid hsv(0, 0, 94%);
+}
+
+.state_color {
+      color: #1b1b1b;
 }
 
 .total {
@@ -36,6 +44,11 @@
       font-size: 30px;
       line-height: 38px;
       height: 38px;
+}
+
+.ant-modal .ant-transfer-list-header {
+      background: #ffffff;
+      border-bottom: 1px solid hsv(0, 0, 94%);
 }
 
 .chart-card-header {

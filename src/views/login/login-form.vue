@@ -1,18 +1,18 @@
 <template>
       <img src="../../assets/login/logo.png" width="350" />
       <br />
-      <a-form :model="loginForm" class="login-title">
+      <a-form :model="loginForm">
             <a-form-item>
                   <a-input v-model:value="loginForm.username" placeholder="用户名:" style=" border-radius: 10px;" />
             </a-form-item>
             <a-form-item>
-                  <a-input-password v-model:value="loginForm.password" placeholder="密码" style="border-radius: 10px;"
-                        @pressEnter="() => signIn()" />
+                  <a-input v-model:value="loginForm.password" placeholder="密码" style="border-radius: 10px;"
+                        @pressEnter="() => signIn()"  type="password"/>
             </a-form-item>
             <a-form-item>
                   <a-space :size="50">
                         <a-checkbox v-model:checked="loginForm.is_ldap">
-                              <span>AD域登录</span>
+                              <span class="fff">AD域登录</span>
                         </a-checkbox>
                   </a-space>
             </a-form-item>
@@ -49,4 +49,34 @@ const signIn = debounce(() => {
       })
 }, 200)
 </script>
+
+<style lang="less" scoped>
+.ant-input {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-variant: tabular-nums;
+      list-style: none;
+      font-feature-settings: 'tnum';
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      min-width: 0;
+      padding: 4px 11px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 14px;
+      line-height: 1.5715;
+      background-color: rgba(255, 255, 255, 0);
+      background-image: none;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 2px;
+      transition: all 0.3s;
+}
+
+
+.ant-btn.ant-btn-background-ghost {
+      color: rgba(255, 255, 255, 0.85);
+      border-color: rgba(255, 255, 255, 0.25);
+}
+</style>
 

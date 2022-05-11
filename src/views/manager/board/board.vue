@@ -1,6 +1,8 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <div id="mavon-editor-id"></div>
+      <a-card>
+            <div id="mavon-editor-id"></div>
+      </a-card>
 </template>
 
 <script lang="ts" setup>

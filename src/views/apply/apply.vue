@@ -1,5 +1,5 @@
 <template>
-      <a-page-header :title="$t('order.apply.title')" @back="() => $router.go(-1)">
+      <a-page-header :title="$t('order.apply.title')" @back="() => $router.go(-1)" :ghost="false">
             <template #tags>
                   <a-tag color="blue">Running</a-tag>
             </template>
@@ -12,16 +12,21 @@
                   </a-space>
             </a-row>
       </a-page-header>
-      <a-tabs v-model:activeKey="activeKey">
-            <template v-for="i in tags" :key="i.key">
-                  <a-tab-pane :tab="i.title">
-                        <ListApp :type="i.key" :id="i.id"></ListApp>
+      <a-card size="small">
+
+            <a-tabs v-model:activeKey="activeKey">
+                  <template v-for="i in tags" :key="i.key">
+                        <a-tab-pane :tab="i.title">
+                              <ListApp :type="i.key" :id="i.id"></ListApp>
+                        </a-tab-pane>
+                  </template>
+                  <a-tab-pane :tab="$t('order.apply.query.tab')" key="query">
+                        <QueryApp></QueryApp>
                   </a-tab-pane>
-            </template>
-            <a-tab-pane :tab="$t('order.apply.query.tab')" key="query">
-                  <QueryApp></QueryApp>
-            </a-tab-pane>
-      </a-tabs>
+            </a-tabs>
+      </a-card>
+
+
 </template>
 
 <script setup lang="ts">

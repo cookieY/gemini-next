@@ -1,30 +1,29 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <a-row>
-            <a-col :span="19">
-                  <a-input-search placeholder="input search text" enter-button @search="onSearch" />
-            </a-col>
-            <a-col :span="4" offset="1">
-                  <a-button type="primary" @click="request.Post(engine)">保存</a-button>
-            </a-col>
-      </a-row>
-
-      <br />
-      <br />
-      <a-table bordered :columns="col" :data-source="rules" :pagination="false">
-            <template #bodyCell="{ column, text, record }">
-                  <template v-if="column.dataIndex === 'action'">
-                        <a-switch v-if="record.tp === 0" v-model:checked="engine[record.name]"></a-switch>
-                        <a-input-number v-if="record.tp === 1" v-model:value="engine[record.name]"></a-input-number>
-                        <a-input v-if="record.tp === 2" v-model:value="engine[record.name]"></a-input>
-                        <a-textarea
-                              v-if="record.tp === 3"
-                              v-model:value="engine[record.name]"
-                              :rows="6"
-                        ></a-textarea>
+      <a-card>
+            <a-row>
+                  <a-col :span="19">
+                        <a-input-search placeholder="input search text" enter-button @search="onSearch" />
+                  </a-col>
+                  <a-col :span="4" offset="1">
+                        <a-button type="primary" @click="request.Post(engine)">保存</a-button>
+                  </a-col>
+            </a-row>
+            <br />
+            <a-table bordered :columns="col" :data-source="rules" :pagination="false">
+                  <template #bodyCell="{ column, text, record }">
+                        <template v-if="column.dataIndex === 'action'">
+                              <a-switch v-if="record.tp === 0" v-model:checked="engine[record.name]"></a-switch>
+                              <a-input-number v-if="record.tp === 1" v-model:value="engine[record.name]">
+                              </a-input-number>
+                              <a-input v-if="record.tp === 2" v-model:value="engine[record.name]"></a-input>
+                              <a-textarea v-if="record.tp === 3" v-model:value="engine[record.name]" :rows="6">
+                              </a-textarea>
+                        </template>
                   </template>
-            </template>
-      </a-table>
+            </a-table>
+      </a-card>
+
       <a-back-top />
 </template>
 

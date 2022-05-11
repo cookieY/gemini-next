@@ -1,36 +1,39 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle" v-if="!props.isrecord"></PageHeader>
-      <QuerySearch @search="(exp) => { tblRef.expr = exp; tbl.manual() }"></QuerySearch>
-      <c-table :tblRef="tblRef" ref="tbl" :size="props.size">
-            <template #bodyCell="{ column, text, record }">
-                  <template v-if="column.dataIndex === 'action'">
-                        <a-space>
-                              <template v-if="record.status === 2 && !props.isrecord">
-                                    <a-popconfirm :title="$t('order.query.audit.end.tips')"
-                                          @confirm="() => request.Stop(record.work_id).then(() => tbl.manual())">
-                                          <a-button size="small" danger>{{ $t('order.end') }}</a-button>
-                                    </a-popconfirm>
-                              </template>
+      <a-card>
+            <QuerySearch @search="(exp) => { tblRef.expr = exp; tbl.manual() }"></QuerySearch>
+            <c-table :tblRef="tblRef" ref="tbl" :size="props.size">
+                  <template #bodyCell="{ column, text, record }">
+                        <template v-if="column.dataIndex === 'action'">
+                              <a-space>
+                                    <template v-if="record.status === 2 && !props.isrecord">
+                                          <a-popconfirm :title="$t('order.query.audit.end.tips')"
+                                                @confirm="() => request.Stop(record.work_id).then(() => tbl.manual())">
+                                                <a-button size="small" danger>{{ $t('order.end') }}</a-button>
+                                          </a-popconfirm>
+                                    </template>
 
-                              <a-button size="small" type="primary"
-                                    @click="() => $router.push({ path: '/server/order/profile', query: { order: JSON.stringify(record) } })">
-                                    {{ $t('common.profile') }}</a-button>
-                        </a-space>
+                                    <a-button size="small" type="primary"
+                                          @click="() => $router.push({ path: '/server/order/profile', query: { order: JSON.stringify(record) } })">
+                                          {{ $t('common.profile') }}</a-button>
+                              </a-space>
+                        </template>
+                        <template v-if="column.dataIndex === 'status'">
+                              <a-tag :color="StateQueryUsege(text).color">
+                                    <template #icon>
+                                          <component :is="StateQueryUsege(text).icon"
+                                                :spin="StateQueryUsege(text).color === '#408B9B'" />
+                                    </template>
+                                    {{ StateQueryUsege(text).title }}
+                              </a-tag>
+                        </template>
+                        <template v-if="column.dataIndex === 'export'">
+                              <span>{{ text === 0 ? $t('common.no') : $t('common.yes') }}</span>
+                        </template>
                   </template>
-                  <template v-if="column.dataIndex === 'status'">
-                        <a-tag :color="StateQueryUsege(text).color">
-                              <template #icon>
-                                    <component :is="StateQueryUsege(text).icon"
-                                          :spin="StateQueryUsege(text).color === '#408B9B'" />
-                              </template>
-                              {{ StateQueryUsege(text).title }}
-                        </a-tag>
-                  </template>
-                  <template v-if="column.dataIndex === 'export'">
-                        <span>{{ text === 0 ? $t('common.no') : $t('common.yes') }}</span>
-                  </template>
-            </template>
-      </c-table>
+            </c-table>
+      </a-card>
+
 </template>
 <script lang="ts"  setup>
 import { QueryExpr, QueryParams, Request } from "@/apis/query";

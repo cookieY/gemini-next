@@ -1,11 +1,6 @@
 <template>
-      <a-list
-            id="comment"
-            style=" height: 300px;overflow:auto"
-            :header="$t('common.count', { 'count': data.length })"
-            item-layout="horizontal"
-            :data-source="data"
-      >
+      <a-list id="comment" style=" height: 300px;overflow:auto" :header="$t('common.count', { 'count': data.length })"
+            item-layout="horizontal" :data-source="data">
             <template #renderItem="{ item }">
                   <a-list-item>
                         <a-comment :author="item.username" :avatar="icon">
@@ -30,11 +25,9 @@
                   <a-textarea :rows="4" v-model:value="content" />
             </a-form-item>
             <a-form-item>
-                  <a-button
-                        html-type="submit"
-                        type="primary"
-                        @click="postComment"
-                  >{{ $t('order.profile.comment.add') }}</a-button>
+                  <a-button html-type="submit" type="primary" @click="postComment">{{
+                              $t('order.profile.comment.add')
+                  }}</a-button>
             </a-form-item>
       </a-form>
 </template>

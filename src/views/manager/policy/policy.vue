@@ -1,6 +1,8 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <RuleTable></RuleTable>
+      <a-card>
+            <RuleTable></RuleTable>
+      </a-card>
 </template>
 <script lang="ts" setup>
 import PageHeader from "@/components/pageHeader/pageHeader.vue";

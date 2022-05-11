@@ -1,6 +1,9 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <AutotaskTable></AutotaskTable>
+      <a-card>
+            <AutotaskTable></AutotaskTable>
+      </a-card>
+
 </template>
 <script lang="ts" setup>
 import PageHeader from '@/components/pageHeader/pageHeader.vue';

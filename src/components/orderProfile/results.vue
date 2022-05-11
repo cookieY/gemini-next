@@ -1,6 +1,5 @@
 <template>
       <a-form layout="inline" v-if="route.params.tp !== 'record'">
-
             <a-space>
                   <template v-if="route.params.tp === 'audit' && status === 1">
                         <a-popconfirm :title="$t('order.profile.results.roll.tips')" @confirm="submit">
