@@ -1,12 +1,12 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <a-row>
+      <a-row :gutter="[16,16]">
             <a-col :xs="24" :sm="6">
                   <a-card title="新建数据源">
                         <DBForm></DBForm>
                   </a-card>
             </a-col>
-            <a-col :xs="24" :sm="17" :offset="1">
+            <a-col :xs="24" :sm="18">
                   <DBTable></DBTable>
             </a-col>
       </a-row>

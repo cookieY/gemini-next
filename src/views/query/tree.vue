@@ -2,12 +2,17 @@
 
       <a-input-search v-model:value="searchValue" style="margin-bottom: 8px" placeholder="搜索" />
       <a-spin :spinning="spinning">
-            <a-tree v-model:expandedKey="expandedKeys" :auto-expand-parent="autoExpandParent" :tree-data="gData"
-                  :load-data="onLoadData" :height="700" show-icon>
+            <a-tree 
+                  v-model:expandedKey="expandedKeys" 
+                  :auto-expand-parent="autoExpandParent" 
+                  :tree-data="gData"
+                  :load-data="onLoadData" 
+                  :height="700"
+                  style="overflow:auto"
+                   show-icon>
+                  <!-- <template #icon><hdd-outlined /></template> -->
                   <template #switcherIcon="{ dataRef, defaultIcon }">
-                        <template v-if="dataRef.meta === 'Schema'">
-                              <hdd-outlined />
-                        </template>
+                    <hdd-outlined  v-if="dataRef.meta === 'Schema'"/>
                   </template>
                   <template #title="{ title, meta, key: treeKey, }">
                         <a-dropdown :trigger="['contextmenu']">

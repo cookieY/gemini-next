@@ -1,12 +1,22 @@
 <template>
       <PageHeader :title="$t('order.apply.commit.title')" :subTitle="$t('order.apply.commit.desc')"></PageHeader>
-      <a-steps type="navigation" size="small">
-            <a-step v-for="i in orderProfileArch.timeline" :title="i.desc" :sub-title="checkStepState(i.type)"
-                  status="process">
-                  <template v-slot:description>{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</template>
-            </a-step>
-      </a-steps>
-      <br />
+      <a-card>
+            <a-steps size="small" progress-dot>
+                  <a-step v-for="i in orderProfileArch.timeline" :title="i.desc" status="process">
+                        <template #subTitle>
+                              <a-tooltip placement="top">
+                                    <template #title>
+                                          <span>{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</span>
+                                    </template>
+                                    {{ checkStepState(i.type) }}
+                              </a-tooltip>
+
+                        </template>
+                        <!-- <template v-slot:description>{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</template> -->
+                  </a-step>
+            </a-steps>
+      </a-card>
+      <br>
       <a-row :gutter="24" type="flex" justify="center">
             <a-col :sm="24" :md="5" :xl="5">
                   <a-card>
@@ -61,12 +71,13 @@
                   </a-card>
             </a-col>
             <a-col :sm="24" :md="19" :xl="19">
-                  <div style="min-height: 600px;">
+                  <a-card style="min-height: 600px;">
                         <a-tabs v-model:activeKey="activeKey">
                               <a-tab-pane :key="1" :tab="$t('order.apply.tab.sql')" forceRender>
                                     <a-spin :spinning="spin" :delay="100">
                                           <div class="editor_border">
-                                                <Editor container-id="applys" ref="editor" @getValues="testResults">
+                                                <Editor container-id="applys" ref="editor" @getValues="testResults"
+                                                      @changeContent="() => !enabled ? enabled = true : null">
                                                 </Editor>
                                           </div>
                                           <br />
@@ -87,7 +98,7 @@
                                     </a-table>
                               </a-tab-pane>
                         </a-tabs>
-                  </div>
+                  </a-card>
             </a-col>
       </a-row>
 </template>
@@ -185,6 +196,11 @@ const fetchTableArch = () => {
       }).finally(() => {
             loadingTblBtn.value = !loadingTblBtn.value
       })
+}
+
+const stepStyle = {
+      marginBottom: '60px',
+      boxShadow: '0px -1px 0 0 #e8e8e8 inset',
 }
 
 const testResults = debounce((sql: string) => {

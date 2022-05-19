@@ -5,7 +5,8 @@
                   <template #extra>
                         <template v-if="route.params.tp === 'audit' && isCurrent > -1 && order.status === 2">
                               <a-button key="2" danger ghost @click="r.turnState()">{{ $t('order.reject') }}</a-button>
-                              <a-popconfirm title="确认审批通过?" @confirm="next">
+                              <a-popconfirm title="确认审批通过?" @confirm="next" :visible="condition"
+                                    @visibleChange="handleVisibleChange">
                                     <a-button key="1" type="primary" :disabled="enabled">{{
                                                 $t('order.agree')
                                     }}</a-button>
@@ -49,7 +50,7 @@
                               </a-progress>
                         </a-col>
                   </a-row>
-                 <br>
+                  <br>
             </a-page-header>
             <!-- <a-card> -->
             <a-tabs>
@@ -175,6 +176,17 @@ const { FetchStepUsege, FetchProfileSQL, orderProfileArch, fetchRequest } = Fetc
 const usege = ref([] as stepUsege[])
 
 const isCurrent = ref(-1)
+
+const condition = ref(false)
+
+const handleVisibleChange = (bool: boolean) => {
+      if (enabled.value) {
+            condition.value = false
+            return
+      }
+      bool ? condition.value = true : condition.value = false
+      // !enabled.value ? condition.value = true : null
+}
 
 const testResults = debounce((sql: string) => {
       spin.value = !spin.value

@@ -1,13 +1,13 @@
 <template>
       <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <a-row>
+      <a-row :gutter="[16,16]">
             <a-col :xs="24" :sm="6">
 
                   <a-card :title="$t('user.form.title')">
                         <RegisterForm isManager></RegisterForm>
                   </a-card>
             </a-col>
-            <a-col :xs="24" :sm="17" :offset="1">
+            <a-col :xs="24" :sm="18" >
                   <UserTable></UserTable>
             </a-col>
       </a-row>

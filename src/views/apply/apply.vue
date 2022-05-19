@@ -13,7 +13,6 @@
             </a-row>
       </a-page-header>
       <a-card size="small">
-
             <a-tabs v-model:activeKey="activeKey">
                   <template v-for="i in tags" :key="i.key">
                         <a-tab-pane :tab="i.title">

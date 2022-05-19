@@ -10,6 +10,9 @@ export default defineConfig({
       },
       server: {
             proxy: {
+                  '/register': {
+                        target: 'http://127.0.0.1:8000'
+                  },
                   '/fetch': {
                         target: 'http://127.0.0.1:8000'
                   },

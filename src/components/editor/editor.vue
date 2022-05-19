@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
       isQuery: false
 })
 
-const emit = defineEmits(['getValues'])
+const emit = defineEmits(['getValues', 'changeContent'])
 
 let model = {} as monaco.editor.IStandaloneCodeEditor
 
@@ -138,6 +138,9 @@ onMounted(() => {
       window.onresize = () => {
             height.value = document.body.clientHeight - 600 > 150 ? document.body.clientHeight - 600 : 150
       }
+      model.onDidChangeModelContent((e) => {
+            emit("changeContent")
+      })
 })
 
 onUnmounted(() => {

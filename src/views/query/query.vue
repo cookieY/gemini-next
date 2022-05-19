@@ -1,5 +1,6 @@
 <template>
       <a-spin :spinning="spinning">
+         <a-card>
             <a-row>
                   <a-col :span="5">
                         <a-space>
@@ -11,11 +12,10 @@
                         </a-space>
                   </a-col>
             </a-row>
-            <br />
-            <a-row>
+         </a-card>
+            <a-row :gutter="[16,16]" style="margin-top: 1%;">
                   <a-col :span="hide ? 0 : 5">
-                        <a-card>
-
+                       <a-card size="small">
                               <a-tabs v-model:activeKey="tool">
                                     <a-tab-pane key="tree" tab="数据库">
                                           <Tree @showTableRef="showTableRef"></Tree>
@@ -26,13 +26,16 @@
                               </a-tabs>
                         </a-card>
                   </a-col>
-                  <a-col :span="hide ? 24 : 18" :offset="hide ? 0 : 1">
+                  <a-col :span="hide ? 24 : 19" >
+                   <a-card size="small">
                         <a-tabs v-model:activeKey="feat">
                               <a-tab-pane key="edit" :tab="$t('query.query')">
                                     <a-tabs v-model:activeKey="activeKey" type="editable-card" @edit="onEdit">
                                           <a-tab-pane v-for="pane in panes" :key="pane.key" :tab="pane.title"
                                                 :closable="pane.closable">
-                                                <Input :id="pane.title" />
+                                                      <div class="editor_border">
+                                                            <Input :id="pane.title" />
+                                                      </div>                                          
                                           </a-tab-pane>
                                     </a-tabs>
                               </a-tab-pane>
@@ -40,8 +43,10 @@
                                     <Table ref="tbl" :height="800" id="tblInfo"></Table>
                               </a-tab-pane>
                         </a-tabs>
+                        </a-card>
                   </a-col>
             </a-row>
+           
             <Clip></Clip>
             <Modal ref="m"></Modal>
       </a-spin>
