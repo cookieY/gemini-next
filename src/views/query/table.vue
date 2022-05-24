@@ -79,6 +79,9 @@ const recv = async (e: any) => {
             resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
             if (resp.error !== "") {
                   message.error(resp.error)
+            }
+            else if (resp.heartbeat === 1) {
+                  return
             } else {
                   isExport.value = resp.export
                   resp.results !== null ? results.value = resp.results : null

@@ -1,21 +1,23 @@
 <template>
       <a-spin :spinning="spinning">
-         <a-card>
-            <a-row>
-                  <a-col :span="5">
-                        <a-space>
-                              <ArrowLeftOutlined @click="$router.go(-1)" />
-                              <a-button size="small" @click="() => hide = !hide" type="primary">{{ $t('common.hide')
-                              }}/{{ $t('common.visible') }}</a-button>
-                              <a-button size="small" @click="m.turnState()">{{ $t('common.new') }}{{ $t('common.clip')
-                              }}</a-button>
-                        </a-space>
-                  </a-col>
-            </a-row>
-         </a-card>
-            <a-row :gutter="[16,16]" style="margin-top: 1%;">
+            <a-card>
+                  <a-row>
+                        <a-col :span="5">
+                              <a-space>
+                                    <ArrowLeftOutlined @click="$router.go(-1)" />
+                                    <a-button size="small" @click="() => hide = !hide" type="primary">{{
+                                                $t('common.hide')
+                                    }}/{{ $t('common.visible') }}</a-button>
+                                    <a-button size="small" @click="m.turnState()">{{ $t('common.new') }}{{
+                                                $t('common.clip')
+                                    }}</a-button>
+                              </a-space>
+                        </a-col>
+                  </a-row>
+            </a-card>
+            <a-row :gutter="[16, 16]" style="margin-top: 1%;">
                   <a-col :span="hide ? 0 : 5">
-                       <a-card size="small">
+                        <a-card size="small">
                               <a-tabs v-model:activeKey="tool">
                                     <a-tab-pane key="tree" tab="数据库">
                                           <Tree @showTableRef="showTableRef"></Tree>
@@ -26,27 +28,27 @@
                               </a-tabs>
                         </a-card>
                   </a-col>
-                  <a-col :span="hide ? 24 : 19" >
-                   <a-card size="small">
-                        <a-tabs v-model:activeKey="feat">
-                              <a-tab-pane key="edit" :tab="$t('query.query')">
-                                    <a-tabs v-model:activeKey="activeKey" type="editable-card" @edit="onEdit">
-                                          <a-tab-pane v-for="pane in panes" :key="pane.key" :tab="pane.title"
-                                                :closable="pane.closable">
+                  <a-col :span="hide ? 24 : 19">
+                        <a-card size="small">
+                              <a-tabs v-model:activeKey="feat">
+                                    <a-tab-pane key="edit" :tab="$t('query.query')">
+                                          <a-tabs v-model:activeKey="activeKey" type="editable-card" @edit="onEdit">
+                                                <a-tab-pane v-for="pane in panes" :key="pane.key" :tab="pane.title"
+                                                      :closable="pane.closable">
                                                       <div class="editor_border">
                                                             <Input :id="pane.title" />
-                                                      </div>                                          
-                                          </a-tab-pane>
-                                    </a-tabs>
-                              </a-tab-pane>
-                              <a-tab-pane key="table" :tab="$t('query.table')" forceRender>
-                                    <Table ref="tbl" :height="800" id="tblInfo"></Table>
-                              </a-tab-pane>
-                        </a-tabs>
+                                                      </div>
+                                                </a-tab-pane>
+                                          </a-tabs>
+                                    </a-tab-pane>
+                                    <a-tab-pane key="table" :tab="$t('query.table')" forceRender>
+                                          <Table ref="tbl" :height="800" id="tblInfo"></Table>
+                                    </a-tab-pane>
+                              </a-tabs>
                         </a-card>
                   </a-col>
             </a-row>
-           
+
             <Clip></Clip>
             <Modal ref="m"></Modal>
       </a-spin>
@@ -122,16 +124,24 @@ const remove = (targetKey: string) => {
       }
 }
 
+const closeWS = () => {
+      const encoded: Uint8Array = encode({ "type": "1" });
+      store.state.common.sock?.send(encoded)
+      store.state.common.sock.close()
+}
+
 onMounted(() => {
       const sock = new Socket(`/query/results?user=${store.state.user.account.user}`)
       sock.create()
+      sock.msgping()
+      sock.check()
       store.commit("common/QUERY_CONN", sock)
 })
 
+
+
 onUnmounted(() => {
-      const encoded: Uint8Array = encode({ "type": "1", "sql": "", "schema": "", "source_id": "" });
-      store.state.common.sock?.send(encoded)
-      store.state.common.sock.close()
+      closeWS()
 })
 
 
