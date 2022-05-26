@@ -84,6 +84,10 @@ const GetValueFunc: monaco.editor.IActionDescriptor = {
       run: function (ed: monaco.editor.ICodeEditor) {
             let s = ed.getModel() as monaco.editor.ITextModel
             let sel = s.getValueInRange(ed.getSelection() as monaco.Selection)
+            if (!props.isQuery) {
+                  emit("getValues", ed.getValue())
+                  return
+            }
             if (sel !== "") {
                   emit("getValues", sel)
             } else {

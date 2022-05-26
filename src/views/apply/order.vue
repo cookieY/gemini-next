@@ -44,7 +44,7 @@
                                           </a-select-option>
                                     </a-select>
                               </a-form-item>
-                              <a-form-item :label="$t('common.table.remark')" nane="text" required>
+                              <a-form-item :label="$t('common.table.remark')" name="text">
                                     <a-textarea :rows="3" v-model:value="orderItems.text" showCount allowClear>
                                     </a-textarea>
                               </a-form-item>

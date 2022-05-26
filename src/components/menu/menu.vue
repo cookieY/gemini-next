@@ -5,7 +5,7 @@
                   <span>{{ $t('menu.home') }}</span>
             </a-menu-item>
             <a-menu-item key="/server/order/common/list">
-                  <UnlockOutlined />
+                  <UserOutlined />
                   <span>{{ $t('menu.order.self') }}</span>
             </a-menu-item>
             <a-menu-item key="/apply">
@@ -73,7 +73,7 @@
       </a-menu>
 </template>
 <script lang="ts"  setup>
-import { AreaChartOutlined, DotChartOutlined, HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, UnlockOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined } from '@ant-design/icons-vue';
+import { AreaChartOutlined, DotChartOutlined, HomeOutlined, LogoutOutlined, MonitorOutlined, FunctionOutlined, AuditOutlined, ToolOutlined, PaperClipOutlined, CloudServerOutlined, CloudSyncOutlined, UsergroupAddOutlined, UserAddOutlined, ConsoleSqlOutlined, PartitionOutlined, CrownOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/store'
 import { ref } from 'vue';
 import router from '@/router';

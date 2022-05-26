@@ -43,7 +43,7 @@ const col = [
             width: 50
       },
       {
-            title: '规则类型',
+            title: '类型',
             dataIndex: 'type',
             width: 50
       },

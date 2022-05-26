@@ -1,6 +1,7 @@
 <template>
       <a-card>
-            <order-table-search @search="(exp) => { tblRef.expr = exp; tbl.manual() }"></order-table-search>
+            <order-table-search @search="(exp) => { tblRef.expr = exp; tbl.manual() }" ref="search">
+            </order-table-search>
             <c-table :tblRef="tblRef" ref="tbl" :size="props.size">
                   <template #bodyCell="{ column, text, record }">
                         <template v-if="column.dataIndex === 'type'">
@@ -44,6 +45,8 @@ interface propsAttr {
 const props = withDefaults(defineProps<propsAttr>(), {
       size: "default"
 })
+
+const search = ref()
 
 const { t } = useI18n()
 
@@ -106,9 +109,11 @@ const tblRef = reactive<tableRef>({
             username: ""
       } as OrderExpr,
       fn: (expr: OrderParams) => {
+            search.value.enterIconLoading()
             request.List(expr, isAudit.value).then((res: AxiosResponse<Res<OrderTableResp>>) => {
                   tblRef.data = res.data.payload.data
                   tblRef.pageCount = res.data.payload.page
+                  search.value.enterIconLoading()
             })
       }
 })

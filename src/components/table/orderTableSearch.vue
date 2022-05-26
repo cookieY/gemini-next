@@ -37,15 +37,15 @@
                                                 <a-select-option :value="OrderState.WAIT">{{ $t('order.state.wait') }}
                                                 </a-select-option>
                                                 <a-select-option :value="OrderState.PROCESS">{{
-                                                      $t('order.state.process')
+                                                            $t('order.state.process')
                                                 }}</a-select-option>
                                                 <a-select-option :value="OrderState.AUDIT">{{ $t('order.state.audit') }}
                                                 </a-select-option>
                                                 <a-select-option :value="OrderState.SUCCESS">{{
-                                                      $t('order.state.success')
+                                                            $t('order.state.success')
                                                 }}</a-select-option>
                                                 <a-select-option :value="OrderState.REJECT">{{
-                                                      $t('order.state.reject')
+                                                            $t('order.state.reject')
                                                 }}</a-select-option>
                                                 <a-select-option :value="OrderState.ERROR">{{ $t('order.state.error') }}
                                                 </a-select-option>
@@ -57,13 +57,21 @@
                         <a-col :xs="24" :sm="8">
                               <span class="table-page-search-submitButtons"
                                     :style="advanced && { overflow: 'hidden' } || {}">
-                                    <a-button type="primary" @click="search">{{ $t('common.search') }}</a-button>
-                                    <a-button style="margin-left: 8px" @click="cancel">{{ $t('common.cancel') }}
-                                    </a-button>
-                                    <a @click="toggleAdvanced" style="margin-left: 8px">{{
-                                          advanced ? $t('common.pick')
-                                                : $t('common.unfold')
-                                    }}</a>
+                                    <a-space>
+                                          <a-button type="primary" @click="search">{{ $t('common.search') }}</a-button>
+                                          <a-button style="margin-left: 8px" @click="cancel">{{ $t('common.cancel') }}
+                                          </a-button>
+                                          <a @click="toggleAdvanced" style="margin-left: 8px">{{
+                                                      advanced ? $t('common.pick')
+                                                            : $t('common.unfold')
+                                          }}</a>
+                                          <a-button type="text" :loading="iconLoading" @click="search">
+                                                <template #icon>
+                                                      <ReloadOutlined />
+                                                </template>
+                                                刷新
+                                          </a-button>
+                                    </a-space>
                               </span>
                         </a-col>
                   </a-row>
@@ -76,12 +84,14 @@ import { ref } from "@vue/runtime-core";
 import dayjs, { Dayjs } from 'dayjs';
 import { OrderExpr } from "@/apis/orderPostApis"
 import { OrderState } from "@/types"
-import { useI18n } from 'vue-i18n';
-import { onMounted, reactive } from "vue";
+import { ReloadOutlined } from "@ant-design/icons-vue";
+import { onMounted } from "vue";
 
 const advanced = ref(false)
 
 const picker = ref<Dayjs[]>([])
+
+const iconLoading = ref(false)
 
 const expr = ref<OrderExpr>({
       status: 7,
@@ -107,6 +117,10 @@ const toggleAdvanced = () => {
       advanced.value = !advanced.value
 }
 
+const enterIconLoading = () => {
+      iconLoading.value = !iconLoading.value
+}
+
 const search = () => {
       onPicker()
       emit('search', expr.value)
@@ -119,6 +133,10 @@ const cancel = () => {
 
 onMounted(() => {
       initexpr = Object.assign({}, expr.value)
+})
+
+defineExpose({
+      enterIconLoading
 })
 
 </script>
