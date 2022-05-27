@@ -108,12 +108,11 @@ const tblRef = reactive<tableRef>({
             picker: [] as string[],
             username: ""
       } as OrderExpr,
+      isloop: true,
       fn: (expr: OrderParams) => {
-            search.value.enterIconLoading()
             request.List(expr, isAudit.value).then((res: AxiosResponse<Res<OrderTableResp>>) => {
                   tblRef.data = res.data.payload.data
                   tblRef.pageCount = res.data.payload.page
-                  search.value.enterIconLoading()
             })
       }
 })

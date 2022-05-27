@@ -65,12 +65,6 @@
                                                       advanced ? $t('common.pick')
                                                             : $t('common.unfold')
                                           }}</a>
-                                          <a-button type="text" :loading="iconLoading" @click="search">
-                                                <template #icon>
-                                                      <ReloadOutlined />
-                                                </template>
-                                                刷新
-                                          </a-button>
                                     </a-space>
                               </span>
                         </a-col>
@@ -90,8 +84,6 @@ import { onMounted } from "vue";
 const advanced = ref(false)
 
 const picker = ref<Dayjs[]>([])
-
-const iconLoading = ref(false)
 
 const expr = ref<OrderExpr>({
       status: 7,
@@ -117,10 +109,6 @@ const toggleAdvanced = () => {
       advanced.value = !advanced.value
 }
 
-const enterIconLoading = () => {
-      iconLoading.value = !iconLoading.value
-}
-
 const search = () => {
       onPicker()
       emit('search', expr.value)
@@ -133,10 +121,6 @@ const cancel = () => {
 
 onMounted(() => {
       initexpr = Object.assign({}, expr.value)
-})
-
-defineExpose({
-      enterIconLoading
 })
 
 </script>

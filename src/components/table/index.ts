@@ -13,6 +13,7 @@ export interface tableRef {
       expr?: any,
       fn?: any
       defaultPageSize?: number
+      isloop?: boolean
 }
 
 export default {
