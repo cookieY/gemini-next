@@ -7,6 +7,7 @@ export default {
       "query.banner.attion.3": "Only query statements are supported, not non-query statements",
       "query.banner.attion.4": "Paste board please use CTRL + Alt + V (Mac Control + Option + V) to open the call ",
       "query.query": "Query",
+      "query.query.switch": "Switch Source",
       "query.table": "Table",
       "query.clip.title": "Clip Title",
       "query.clip.desc": "Clip Content",

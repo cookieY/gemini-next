@@ -11,6 +11,9 @@
                                     <a-button size="small" @click="m.turnState()">{{ $t('common.new') }}{{
                                                 $t('common.clip')
                                     }}</a-button>
+                                    <a-button size="small" @click="ss.turnState()">{{
+                                                $t('query.query.switch')
+                                    }}</a-button>
                               </a-space>
                         </a-col>
                   </a-row>
@@ -49,9 +52,10 @@
                   </a-col>
             </a-row>
 
-            <Clip></Clip>
-            <Modal ref="m"></Modal>
       </a-spin>
+      <Clip></Clip>
+      <Modal ref="m"></Modal>
+      <Switch ref="ss"></Switch>
 </template>
 
 <script lang="ts" setup>
@@ -61,11 +65,13 @@ import Input from "./input.vue"
 import Table from "./table.vue"
 import Clip from "./clip.vue"
 import Modal from "./modal.vue"
+import Switch from "./switch.vue"
 import Socket from "@/socket"
 import { computed, onMounted, onUnmounted, ref } from "vue"
 import { useStore } from "@/store"
 import { encode } from "@msgpack/msgpack";
 import { ArrowLeftOutlined } from "@ant-design/icons-vue"
+import { onBeforeRouteUpdate } from "vue-router"
 
 const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }])
 
@@ -82,6 +88,8 @@ const tool = ref("tree")
 const tbl = ref()
 
 const m = ref()
+
+const ss = ref()
 
 const store = useStore()
 

@@ -471,10 +471,10 @@ adler-32@~1.3.0:
   resolved "https://registry.yarnpkg.com/adler-32/-/adler-32-1.3.1.tgz#1dbf0b36dda0012189a32b3679061932df1821e2"
   integrity sha512-ynZ4w/nUUv5rrsR8UUGoe1VC9hZj6V5hU9Qw1HlMDJGEJw5S7TfTErWTjMys6M7vr0YWcPqs3qAr4ss0nDfP+A==
 
-ant-design-vue@3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.2.3.tgz#adcee802fea8c4a10bae2fcd829cb82ecd9228c3"
-  integrity sha512-yjb+YKfh+61zrdY2DSLzrcGkU9ICn9NKWZJa4PzeA+xaZu/f+tjmaUFbI0K0FZgLQANoVM3FZKP/r/IaFlhlmg==
+ant-design-vue@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.2.5.tgz#caca06fdba370fc351f3408cb16d36c0baac9513"
+  integrity sha512-O6nxTHkRgqI3zIZ702hfBM4pamsYJs5ey63DY3BAq5zy1thLxcjjx4K4V2Zf9QtVQgsD8bgf6qb605P14GIqAw==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons-vue" "^6.1.0"

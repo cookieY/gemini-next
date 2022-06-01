@@ -11,7 +11,8 @@ import { ref } from 'vue';
 import { Request } from '@/apis/orderPostApis';
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
-import { mod } from '@antv/util';
+import { CaretRightOutlined } from '@ant-design/icons-vue';
+import { IDisposable } from 'monaco-editor';
 
 self.MonacoEnvironment = {
       getWorker (_, label) {
@@ -37,7 +38,7 @@ let model = {} as monaco.editor.IStandaloneCodeEditor
 
 const request = new Request
 
-let completionProvider = null as any
+let completionProvider = null as IDisposable
 
 const beautyFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-beauty',
@@ -97,6 +98,7 @@ const GetValueFunc: monaco.editor.IActionDescriptor = {
 }
 
 const RunEditor = (highlight: { [key: string]: string }[]) => {
+      completionProvider !== null ? completionProvider.dispose() : null
       completionProvider = monaco.languages.registerCompletionItemProvider('sql', {
             provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
                   let word = model.getWordUntilPosition(position);
@@ -116,7 +118,12 @@ const RunEditor = (highlight: { [key: string]: string }[]) => {
       model.focus()
 }
 
+
+
 const ChangeEditorText = (sql: string) => {
+      model.onDidChangeModelLanguageConfiguration(() => {
+
+      })
       model.setValue(sql)
 }
 

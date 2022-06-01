@@ -19,7 +19,7 @@ import Editor from "@/components/editor/editor.vue";
 import Table from "./table.vue";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue"
-import { useRoute } from "vue-router";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { Request } from "@/apis/fetchSchema";
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
@@ -55,8 +55,7 @@ const getValues = (vl: string) => {
 
 }
 
-onMounted(() => {
-      const source_id = route.query.source_id as string
+const initial = (source_id: string) => {
       const hightligh = store.state.highlight.highligt
       if (hightligh[source_id as string] !== undefined) {
             query_editor.value.RunEditor(hightligh[source_id as string])
@@ -66,6 +65,14 @@ onMounted(() => {
                   store.commit("highlight/SAVE_HIGHLIGHT", { key: source_id, highlight: res.data.payload })
             })
       }
+}
+
+onBeforeRouteUpdate((to) => {
+      initial(to.query.source_id as string)
+})
+
+onMounted(() => {
+      initial(route.query.source_id as string)
 })
 
 </script>

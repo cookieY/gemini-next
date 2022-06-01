@@ -81,6 +81,7 @@ const router = createRouter({
                                           path: '/apply/query',
                                           name: 'apply/query',
                                           meta: {
+                                                keepalive: true,
                                                 title: 'Query - 查询'
                                           },
                                           component: () => import('@/views/query/query.vue'),

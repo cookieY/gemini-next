@@ -2,17 +2,11 @@
 
       <a-input-search v-model:value="searchValue" style="margin-bottom: 8px" placeholder="搜索" />
       <a-spin :spinning="spinning">
-            <a-tree 
-                  v-model:expandedKey="expandedKeys" 
-                  :auto-expand-parent="autoExpandParent" 
-                  :tree-data="gData"
-                  :load-data="onLoadData" 
-                  :height="700"
-                  style="overflow:auto"
-                   show-icon>
+            <a-tree v-model:expandedKey="expandedKeys" :auto-expand-parent="autoExpandParent" :tree-data="gData"
+                  :load-data="onLoadData" :height="700" style="overflow:auto" show-icon>
                   <!-- <template #icon><hdd-outlined /></template> -->
                   <template #switcherIcon="{ dataRef, defaultIcon }">
-                    <hdd-outlined  v-if="dataRef.meta === 'Schema'"/>
+                        <hdd-outlined v-if="dataRef.meta === 'Schema'" />
                   </template>
                   <template #title="{ title, meta, key: treeKey, }">
                         <a-dropdown :trigger="['contextmenu']">
@@ -41,10 +35,10 @@
 
 import { onMounted, ref, watch } from "vue"
 import { Request } from "@/apis/query";
-import { useRoute } from "vue-router";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
-import { HddOutlined, TableOutlined, CloudOutlined, ArrowLeftOutlined } from "@ant-design/icons-vue";
+import { HddOutlined } from "@ant-design/icons-vue";
 import { useStore } from "@/store";
 import type { TreeProps } from 'ant-design-vue';
 
@@ -62,9 +56,7 @@ const autoExpandParent = ref<boolean>(false)
 
 const spinning = ref(false)
 
-let gData = ref<any>([])
-
-let dataList = [] as any[]
+const gData = ref<any>([])
 
 const request = new Request
 
@@ -115,11 +107,10 @@ const showTableData = (key: string) => {
       emit("showTableRef", { source_id: store.state.common.queryInfo.source_id, schema: schema.value, sql: `select * from ${key}` })
 }
 
-onMounted(() => {
+const initial = (source_id: string) => {
       spin()
-      request.QuerySchema(route.query.source_id as string).then((res: AxiosResponse<Res<any>>) => {
+      request.QuerySchema(source_id).then((res: AxiosResponse<Res<any>>) => {
             gData.value = res.data.payload.info
-            dataList = res.data.payload.info
             expandedKeys.value = [res.data.payload.info.key]
             if (res.data.payload.info.length > 0) {
                   store.commit("common/SET_SCHEMA_List",
@@ -133,7 +124,14 @@ onMounted(() => {
             }
       }
       ).finally(() => spin())
+}
 
+onBeforeRouteUpdate((to) => {
+      initial(to.query.source_id as string)
+})
+
+onMounted(() => {
+      initial(route.query.source_id as string)
 })
 
 </script>

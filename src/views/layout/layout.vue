@@ -55,7 +55,8 @@ import Menu from "@/components/menu/menu.vue";
 import { overrideHeaders } from "@/config/request"
 import { useStore } from "@/store";
 import profile from "@/assets/comment/3.svg"
-import { useRouter } from "vue-router";
+import { onBeforeRouteUpdate, useRouter } from "vue-router";
+import { ref } from "vue";
 
 
 const logoUrl = localStorage.getItem("theme") === "light" ? new URL("../../assets/login/logo.jpeg", import.meta.url).href : new URL("../../assets/login/logo.png", import.meta.url).href
