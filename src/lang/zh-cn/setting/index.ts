@@ -40,7 +40,7 @@ export default {
       "setting.ldap.filter.tips": "例如:(&(objectClass=organizationalPerson)(sAMAccountName=%s))，%s为占位符必须存在",
       "setting.ldap.sc": "LDAP_SCBASE",
       "setting.ldap.test.user": "LDAP 测试用户",
-      "setting.ldap.test.password": "LDAP 测试用户",
+      "setting.ldap.test.password": "LDAP 测试密码",
       "setting.ldap.map": "LDAP 用户属性映射",
       "setting.ldap.map.tips": "当前支持real_name\(真实姓名\),email\(邮箱\),department\(部门\) 3种字段的映射。映射格式如下\(key为需要映射的用户字段,value为LDAP的key\): \n{'{'} \"real_name\":\"name\",\"email\":\"mail\",\"department\":\"dept\" {'}'} ",
       "setting.ldap.test": "ldap测试",

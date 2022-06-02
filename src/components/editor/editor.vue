@@ -38,7 +38,7 @@ let model = {} as monaco.editor.IStandaloneCodeEditor
 
 const request = new Request
 
-let completionProvider = null as IDisposable
+let completionProvider: any
 
 const beautyFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-beauty',
