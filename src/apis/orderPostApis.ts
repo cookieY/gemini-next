@@ -83,6 +83,14 @@ export class Request {
             })
       }
 
+      Undo (args: SQLAuditOrder): AxiosPromise {
+            return request({
+                  method: 'post',
+                  url: `${COMMON_URI}/audit/order/state`,
+                  data: args
+            })
+      }
+
       Post (params: OrderItem): AxiosPromise {
             return request({
                   url: `${COMMON_URI}/common/post`,

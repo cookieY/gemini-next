@@ -98,7 +98,7 @@ const GetValueFunc: monaco.editor.IActionDescriptor = {
 }
 
 const RunEditor = (highlight: { [key: string]: string }[]) => {
-      completionProvider !== null ? completionProvider.dispose() : null
+      completionProvider !== undefined ? completionProvider.dispose() : null
       completionProvider = monaco.languages.registerCompletionItemProvider('sql', {
             provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
                   let word = model.getWordUntilPosition(position);
@@ -140,7 +140,7 @@ onMounted(() => {
             theme: localStorage.getItem("theme") === "light" ? "vs-light" : "vs-dark",
             automaticLayout: true,
             readOnly: props.readonly,
-            accessibilityHelpUrl: "https://guide.yearning.io",
+            accessibilityHelpUrl: "https://next.yearning.io",
       });
       model.addAction(beautyFunc)
       model.addAction(GetValueFunc)
@@ -156,7 +156,7 @@ onMounted(() => {
 
 onUnmounted(() => {
       model.dispose()
-      completionProvider !== null ? completionProvider.dispose() : null
+      completionProvider !== undefined ? completionProvider.dispose() : null
 })
 
 defineExpose({
@@ -165,4 +165,4 @@ defineExpose({
       GetValue
 })
 
-</script>
+</script> 

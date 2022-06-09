@@ -38,7 +38,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { Comment, Request } from "@/apis/orderPostApis"
 import { onMounted, ref, nextTick, onUnmounted, onUpdated } from 'vue';
-import { useI18n } from 'vue-i18n';
 import Socket from "@/socket"
 import { useStore } from '@/store';
 import comment from "@/assets/comment/rockets.svg"

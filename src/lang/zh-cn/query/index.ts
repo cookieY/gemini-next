@@ -7,6 +7,8 @@ export default {
       "query.banner.attion.3": "仅支持查询语句,不可使用非查询语句",
       "query.banner.attion.4": "粘贴板请使用 ctrl+alt+v(Mac control+option+v)开启调用",
       "query.query": "查询",
+      "query.query.end": "结束会话",
+      "query.query.end.tips": "确定结束本次查询会话吗？",
       "query.query.switch": "切换数据源",
       "query.table": "表数据查看",
       "query.clip.title": "名称",

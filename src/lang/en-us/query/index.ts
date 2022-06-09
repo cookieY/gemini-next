@@ -8,6 +8,8 @@ export default {
       "query.banner.attion.4": "Paste board please use CTRL + Alt + V (Mac Control + Option + V) to open the call ",
       "query.query": "Query",
       "query.query.switch": "Switch Source",
+      "query.query.end": "End session",
+      "query.query.end.tips": "Are you sure to end the query session?",
       "query.table": "Table",
       "query.clip.title": "Clip Title",
       "query.clip.desc": "Clip Content",

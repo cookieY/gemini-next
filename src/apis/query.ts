@@ -80,6 +80,13 @@ export class Request {
             })
       }
 
+      Undo (): AxiosPromise {
+            return request({
+                  method: 'post',
+                  url: `${COMMON_URI}/audit/query/undo`,
+            })
+      }
+
       QuerySchema (source_id: string): AxiosPromise {
             return request({
                   method: 'get',
@@ -104,6 +111,8 @@ export class Request {
                   url: `${COMMON_URI}/fetch/query_status`,
             })
       }
+
+
 
       QueryProfile (work_id: string, page: number): AxiosPromise {
             return request({

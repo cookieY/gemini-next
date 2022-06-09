@@ -49,7 +49,6 @@ import { RuleObject } from 'ant-design-vue/lib/form/interface';
 import { RegisterForm, Request } from '@/apis/user';
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
-import { EventBus } from '@/lib';
 
 const store = useStore()
 

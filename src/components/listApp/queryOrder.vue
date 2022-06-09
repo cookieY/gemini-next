@@ -10,17 +10,11 @@
             <a-col :span="7" :offset="1">
                   <a-form layout="vertical">
                         <a-form-item :label="$t('order.query.audit.source')">
-                              <a-select
-                                    v-model:value="form.source_id"
-                                    show-search
-                                    :filter-option="filterOption"
-                                    @select="(e: string, a: any) => form.text = t('common.table.source') + `:${a.key}\n`"
-                              >
-                                    <a-select-option
-                                          v-for="i in options"
-                                          :key="i.source"
-                                          :value="i.source_id"
-                                    >{{ i.source }}</a-select-option>
+                              <a-select v-model:value="form.source_id" show-search :filter-option="filterOption"
+                                    @select="(e: string, a: any) => form.text = t('common.table.source') + `:${a.key}\n`">
+                                    <a-select-option v-for="i in options" :key="i.source" :value="i.source_id">{{
+                                                i.source
+                                    }}</a-select-option>
                               </a-select>
                         </a-form-item>
                         <a-form-item :label="$t('order.query.audit.export')" v-if="isExport">
@@ -33,11 +27,8 @@
                               <a-textarea :rows="5" v-model:value="form.text"></a-textarea>
                         </a-form-item>
                         <a-form-item>
-                              <a-button
-                                    block
-                                    @click="postQuery"
-                                    :disabled="disabled"
-                              >{{ $t('common.commit') }}</a-button>
+                              <a-button block @click="postQuery" :disabled="disabled">{{ $t('common.commit') }}
+                              </a-button>
                         </a-form-item>
                   </a-form>
             </a-col>

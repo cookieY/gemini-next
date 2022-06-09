@@ -9,7 +9,17 @@
             <a-layout :style="{ marginLeft: '200px' }">
                   <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
                         <a-row>
-                              <a-col :span="3" :offset="19">
+                              <a-col :span="2">
+                                    <a-button @click="toggle" type="text">
+                                          <template #icon v-if="isFullscreen">
+                                                <FullscreenExitOutlined />
+                                          </template>
+                                          <template #icon v-else>
+                                                <FullscreenOutlined />
+                                          </template>
+                                    </a-button>
+                              </a-col>
+                              <a-col :span="5" :offset="17">
                                     <a-dropdown>
                                           <div>
                                                 <a-avatar :src="profile" />
@@ -55,9 +65,9 @@ import Menu from "@/components/menu/menu.vue";
 import { overrideHeaders } from "@/config/request"
 import { useStore } from "@/store";
 import profile from "@/assets/comment/3.svg"
-import { onBeforeRouteUpdate, useRouter } from "vue-router";
-import { ref } from "vue";
-
+import { useRouter } from "vue-router";
+import { FullscreenExitOutlined, FullscreenOutlined } from "@ant-design/icons-vue";
+import { useFullscreen } from '@vueuse/core'
 
 const logoUrl = localStorage.getItem("theme") === "light" ? new URL("../../assets/login/logo.jpeg", import.meta.url).href : new URL("../../assets/login/logo.png", import.meta.url).href
 
@@ -66,6 +76,11 @@ const { is_open, close } = CommonMixin()
 const store = useStore()
 
 const router = useRouter()
+
+
+
+
+const { isFullscreen, toggle } = useFullscreen()
 
 overrideHeaders()
 

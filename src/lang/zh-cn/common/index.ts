@@ -29,6 +29,8 @@ export default {
       "common.clip": "剪贴板",
       "common.new": "新建",
       "common.success": "成功",
+      "common.export": "导出",
+      "common.result": "结果",
 
       "common.profile.title": "个人详情",
       "common.profile.subtitle": "个人信息修改",

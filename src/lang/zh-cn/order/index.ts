@@ -60,10 +60,15 @@ export default {
       "order.table.delay": "立即执行",
 
 
+      "order.undo.tips": "确认撤销工单?",
+      "order.undo": "撤销",
       "order.agree": "同意",
+      "order.agree.tips": "确认同意工单?",
       "order.reject": "驳回",
+      "order.reject.tips": "确认驳回工单?",
       "order.end": "结束",
 
+      "order.query.execute.time": "查询耗时",
       "order.query.audit.agreed.tips": "确认同意该查询工单吗?",
       "order.query.audit.reject.tips": "确认驳回该查询工单吗?",
       "order.query.audit.end.tips": "确认结束该查询工单吗?",

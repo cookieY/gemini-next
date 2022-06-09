@@ -11,9 +11,15 @@
                                     <a-button size="small" @click="m.turnState()">{{ $t('common.new') }}{{
                                                 $t('common.clip')
                                     }}</a-button>
-                                    <a-button size="small" @click="ss.turnState()">{{
+                                    <a-button size="small" @click="ss.turnState()" v-if="!isOnly">{{
                                                 $t('query.query.switch')
                                     }}</a-button>
+                                    <a-popconfirm :title="$t('query.query.end.tips')" @confirm="undo">
+                                          <a-button size="small">{{
+                                                      $t('query.query.end')
+                                          }}</a-button>
+                                    </a-popconfirm>
+
                               </a-space>
                         </a-col>
                   </a-row>
@@ -71,7 +77,11 @@ import { computed, onMounted, onUnmounted, ref } from "vue"
 import { useStore } from "@/store"
 import { encode } from "@msgpack/msgpack";
 import { ArrowLeftOutlined } from "@ant-design/icons-vue"
-import { onBeforeRouteUpdate } from "vue-router"
+import { Request } from "@/apis/query"
+import { Request as Query } from "@/apis/fetchSchema"
+import router from "@/router"
+import { AxiosResponse } from "axios"
+import { Res } from "@/config/request"
 
 const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }])
 
@@ -85,7 +95,13 @@ const feat = ref("edit")
 
 const tool = ref("tree")
 
+const query = new Query
+
+const request = new Request
+
 const tbl = ref()
+
+const isOnly = ref(true)
 
 const m = ref()
 
@@ -138,14 +154,18 @@ const closeWS = () => {
       store.state.common.sock.close()
 }
 
+const undo = () => {
+      request.Undo().then(() => router.go(-1))
+}
+
 onMounted(() => {
+      query.IsQuery().then((res: AxiosResponse<Res<any>>) => isOnly.value = res.data.payload.status)
       const sock = new Socket(`/query/results?user=${store.state.user.account.user}`)
       sock.create()
       sock.msgping()
       sock.check()
       store.commit("common/QUERY_CONN", sock)
 })
-
 
 
 onUnmounted(() => {

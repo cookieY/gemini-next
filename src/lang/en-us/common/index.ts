@@ -29,6 +29,9 @@ export default {
       "common.clip": "Clipboard",
       "common.new": "New",
       "common.success": "Success",
+      "common.export": "Export",
+      "common.result": "Result",
+
 
       "common.profile.title": "Account",
       "common.profile.subtitle": "Account Settings",

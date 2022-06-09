@@ -5,13 +5,20 @@
                   <template #extra>
                         <template v-if="route.params.tp === 'audit' && isCurrent > -1 && order.status === 2">
                               <a-button key="2" danger ghost @click="r.turnState()">{{ $t('order.reject') }}</a-button>
-                              <a-popconfirm title="确认审批通过?" @confirm="next" :visible="condition"
+                              <a-popconfirm :title="$t('order.agree.tips')" @confirm="next" :visible="condition"
                                     @visibleChange="handleVisibleChange">
                                     <a-button key="1" type="primary" :disabled="enabled">{{
                                                 $t('order.agree')
                                     }}</a-button>
                               </a-popconfirm>
 
+                        </template>
+                        <template v-if="route.params.tp !== 'audit' && order.status === 2">
+                              <a-popconfirm :title="$t('order.undo.tips')" @confirm="undoNext">
+                                    <a-button key="1" danger ghost>{{
+                                                $t('order.undo')
+                                    }}</a-button>
+                              </a-popconfirm>
                         </template>
                   </template>
                   <a-row type="flex" justify="center" align="middle">
@@ -216,6 +223,16 @@ const next = () => {
             flag: order.value.current_step as number,
             tp: 'agree',
             source_id: order.value.source_id
+      }).then(() => {
+            router.go(-1)
+      }).finally(() => spinning.value = !spinning.value)
+}
+
+const undoNext = () => {
+      spinning.value = !spinning.value
+      request.Undo({
+            work_id: order.value.work_id as string,
+            tp: 'undo',
       }).then(() => {
             router.go(-1)
       }).finally(() => spinning.value = !spinning.value)

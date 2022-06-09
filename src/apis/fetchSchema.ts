@@ -20,6 +20,14 @@ export interface TableArch {
 }
 
 export class Request {
+
+      IsQuery (): AxiosPromise {
+            return request({
+                  method: 'get',
+                  url: `${COMMON_URI}/fetch/is_query`,
+            })
+      }
+
       IDC (): AxiosPromise {
             return request({
                   method: 'get',

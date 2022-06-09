@@ -2,7 +2,7 @@
       <div>
             <div style="margin-left: 2%;">
                   <a-space>
-                        <span class="fff">version 3.0.0</span>
+                        <span class="fff">version 3.0.1</span>
                         <a-button type="dashed" v-if="is_register" @click="is_open = true" ghost size="small">用户注册
                         </a-button>
                   </a-space>
@@ -63,7 +63,7 @@ import { Res } from "@/config/request";
 import CommonMixin from "@/mixins/common";
 import Register from "@/components/user/registerForm.vue";
 import Announce from "../common/announce.vue";
-import {EventBus} from "@/lib"
+import { EventBus } from "@/lib"
 // const subject = ` Dream what you want to dream; go where you want to go; be what you want to be,
 //                   because you have only one life and one chance to do all the things you want to do.`
 
@@ -88,7 +88,7 @@ onMounted(() => {
       })
 
       EventBus.on('closeState', () => {
-           is_open.value = false
+            is_open.value = false
       })
 })
 
@@ -96,9 +96,10 @@ onMounted(() => {
 
 <style scoped>
 .ant-btn.ant-btn-background-ghost {
-    color: #fff;
-    border-color: #fff;
+      color: #fff;
+      border-color: #fff;
 }
+
 .login_container {
       position: absolute;
       margin-top: 10%;

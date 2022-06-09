@@ -1,11 +1,13 @@
 <template>
       <a-space>
-            <span>查询耗时:{{ executeTime }} ms</span>
+            <span>{{ $t('order.query.execute.time') }}:{{ executeTime }} ms</span>
       </a-space>
       <a-tabs v-model:activeKey="activeKey">
-            <a-tab-pane :key="idx" :tab="`结果 ${idx}`" v-for="(i, idx) in results">
+            <a-tab-pane :key="idx" :tab="`${$t('common.result')} ${idx}`" v-for="(i, idx) in results">
                   <template v-if="isExport">
-                        <a-button size="small" type="primary" ghost @click="downloadXLS(i.data)">导出</a-button>
+                        <a-button size="small" type="primary" ghost @click="downloadXLS(i.data)">{{ $t('common.export')
+                        }}
+                        </a-button>
                         <br />
                         <br />
                   </template>
