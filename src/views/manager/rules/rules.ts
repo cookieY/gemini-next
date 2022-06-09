@@ -248,7 +248,7 @@ const rule: Rule[] = [
       },
       {
             name: 'OSCExpr',
-            desc: '同步工具参数。如: PT-OSC中的--dry-run 请注意! 此处仅填写参数。请使用以下变量名替换对应输入值 $SQL $ADDR $PORT $USER $PASSWORD $SCHEMA $TABLE。例子: (pt-osc配置) pt-online-schema-change  --alter $SQL --user=$USER  --password=$PASSWORD  --host=$ADDR P=$PORT,D=$SCHEMA,t=$TABLE  --execute',
+            desc: '同步工具参数。如: PT-OSC 请注意! 此处仅填写参数。请使用以下变量名替换对应输入值 $SQL $ADDR $PORT $USER $PASSWORD $SCHEMA $TABLE。例子: (pt-osc配置) pt-online-schema-change  --alter $SQL --user=$USER  --password=$PASSWORD  --host=$ADDR P=$PORT,D=$SCHEMA,t=$TABLE  --execute',
             type: 'Online-DDL',
             tp: 3
       },

@@ -69,7 +69,6 @@ export default {
       "order.query.title": "Query Audit",
       "order.query.desc": "Enquiry application approval",
       "order.query.execute.time": "Query Time",
-      "order.query.audit.source": "Apply for data source",
       "order.query.audit.agreed.tips": "Are you sure agree this order?",
       "order.query.audit.reject.tips": "Are you sure reject this order?",
       "order.query.audit.end.tips": "Are you sure end of this order?",
