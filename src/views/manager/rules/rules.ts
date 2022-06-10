@@ -236,13 +236,13 @@ const rule: Rule[] = [
       },
       {
             name: 'IsOSC',
-            desc: '开启相关在线表变更工具',
+            desc: '开启在线表变更工具',
             type: 'Online-DDL',
             tp: 0
       },
       {
             name: 'OscSize',
-            desc: '表体系大于该值后出发在线表变更同步，单位:M',
+            desc: '表体积大于该值后触发在线表变更同步，单位:M',
             type: 'Online-DDL',
             tp: 1
       },
