@@ -13,7 +13,7 @@ export default function () {
       const editor = ref()
 
 
-      const FetchStepUsege = (work_id: string) => {
+      const FetchStepUsage = (work_id: string) => {
             return request({
                   method: "GET",
                   url: `${COMMON_URI}/fetch/steps`,
@@ -35,6 +35,6 @@ export default function () {
 
       const fetchRequest = new Request
 
-      return { orderProfileArch, editor, FetchStepUsege, FetchProfileSQL, fetchRequest }
+      return { orderProfileArch, editor, FetchStepUsage, FetchProfileSQL, fetchRequest }
 
 }

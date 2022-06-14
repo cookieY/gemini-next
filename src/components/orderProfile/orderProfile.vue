@@ -178,7 +178,7 @@ const order = computed(() => store.state.order.order)
 
 const sock = new WsSocket(`/fetch/order_state?work_id=${order.value.work_id}`)
 
-const { FetchStepUsege, FetchProfileSQL, orderProfileArch, fetchRequest } = FetchMixins()
+const { FetchStepUsage, FetchProfileSQL, orderProfileArch, fetchRequest } = FetchMixins()
 
 const usege = ref([] as stepUsege[])
 
@@ -198,7 +198,7 @@ const handleVisibleChange = (bool: boolean) => {
 const testResults = debounce((sql: string) => {
       spin.value = !spin.value
       request.Test({
-            source: order.value.source,
+            source_id: order.value.source_id as string,
             kind: order.value.type,
             data_base: order.value.data_base,
             sql: sql
@@ -257,7 +257,7 @@ onMounted(() => {
 
       })
 
-      FetchStepUsege(order.value.work_id).then((res: AxiosResponse<Res<stepUsege[]>>) => {
+      FetchStepUsage(order.value.work_id).then((res: AxiosResponse<Res<stepUsege[]>>) => {
             usege.value = res.data.payload
       })
 

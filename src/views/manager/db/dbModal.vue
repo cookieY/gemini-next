@@ -83,6 +83,7 @@ import { Res } from "@/config/request"
 import { RespSteps, Steps } from "@/apis/flow"
 import { Source, Request as DB } from "@/apis/db"
 import { Request } from "@/apis/fetchSchema"
+import { EventBus } from "@/lib"
 
 const { is_open, turnState, layout } = CommonMixins()
 
@@ -137,11 +138,14 @@ const mergeFlow = (vl: number) => {
 const editDB = () => {
       dbForm.value.exclude_db_list = excludeDB.value.join(",")
       dbForm.value.insulate_word_list = insulateWord.value.join(",")
-      db.Ops({ db: dbForm.value, tp: "edit" }).then(() => turnState())
+      db.Ops({ db: dbForm.value, tp: "edit" }).then(() => {
+            turnState()
+            EventBus.emit("postOk")
+      })
 }
 
 const fillInfo = (vl: any) => {
-      dbForm.value = vl
+      dbForm.value = Object.assign({}, vl)
       turnState()
       excludeDB.value = dbForm.value.exclude_db_list.split(",")
       insulateWord.value = dbForm.value.insulate_word_list.split(",")

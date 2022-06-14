@@ -30,7 +30,7 @@ import { Res } from "@/config/request";
 import DBModal from "./dbModal.vue";
 import DBTableSearch from "./dbTableSearch.vue";
 import { AxiosResponse } from "axios";
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, toRaw, markRaw } from "vue";
 import { EventBus } from "@/lib";
 import { tableRef } from "@/components/table";
 import { Request } from "@/apis/db";

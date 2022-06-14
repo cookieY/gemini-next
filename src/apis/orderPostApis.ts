@@ -10,7 +10,7 @@ export interface Comment {
 }
 
 export interface SQLTestParams {
-      source: string
+      source_id: string
       data_base: string
       sql: string
       kind: number

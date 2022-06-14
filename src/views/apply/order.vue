@@ -206,7 +206,7 @@ const stepStyle = {
 const testResults = debounce((sql: string) => {
       spin.value = !spin.value
       request.Test({
-            source: orderItems.source,
+            source_id: orderItems.source_id,
             kind: orderItems.type,
             data_base: orderItems.data_base,
             sql: sql
