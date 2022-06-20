@@ -168,6 +168,7 @@ const editFlow = (vl: RespSteps) => {
 
 const newFlow = () => {
       step.value = {} as Steps
+      flow.value.id = -1
       flow.value.steps = [
             {
                   desc: '提交阶段',

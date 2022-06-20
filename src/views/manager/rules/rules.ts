@@ -109,6 +109,12 @@ const rule: Rule[] = [
             tp: 0
       },
       {
+            name: 'DDLAllowMultiAlter',
+            desc: 'DDL单个工单允许多alter语句提交',
+            type: 'DDL',
+            tp: 0
+      },
+      {
             name: 'DDLAllowColumnType',
             desc: '允许字段进行类型转换(不同字段之间的转换或长度从长变短。如:int -> bigint,int(50) -> int(20))',
             type: 'DDL',
