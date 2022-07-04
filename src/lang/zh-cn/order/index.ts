@@ -67,6 +67,7 @@ export default {
       "order.reject": "驳回",
       "order.reject.tips": "确认驳回工单?",
       "order.end": "结束",
+      "order.roll.tips": "回滚语句提交不得为空",
 
       "order.query.execute.time": "查询耗时",
       "order.query.audit.agreed.tips": "确认同意该查询工单吗?",

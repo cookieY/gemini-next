@@ -3,8 +3,7 @@
       <a-input-search v-model:value="searchValue" style="margin-bottom: 8px" placeholder="搜索" />
       <a-spin :spinning="spinning">
             <a-tree v-model:expandedKey="expandedKeys" :auto-expand-parent="autoExpandParent" :tree-data="gData"
-                  :load-data="onLoadData" :height="700" style="overflow:auto" show-icon>
-                  <!-- <template #icon><hdd-outlined /></template> -->
+                  @expand="onLoadData" :height="700" style="overflow:auto" show-icon>
                   <template #switcherIcon="{ dataRef, defaultIcon }">
                         <hdd-outlined v-if="dataRef.meta === 'Schema'" />
                   </template>
@@ -83,20 +82,21 @@ watch(searchValue, value => {
       autoExpandParent.value = false;
 });
 
-const onLoadData: TreeProps['loadData'] = (treeNode: any) => {
-      return new Promise(resolve => {
-            if (treeNode.dataRef.meta === "Table") {
-                  resolve();
-                  return;
+const onLoadData = (keys: string, { expanded, node }) => {
+      if (expanded) {
+            if (node.dataRef.meta === "Table") {
+                  return
             }
             spin()
-            request.QueryTable(route.query.source_id as string, treeNode.dataRef.title).then((res: AxiosResponse<Res<any>>) => {
-                  treeNode.dataRef.children = res.data.payload.table
-                  gData.value = [...gData.value];
+            request.QueryTable(route.query.source_id as string, node.dataRef.title).then((res: AxiosResponse<Res<any>>) => {
+                  for (let i of gData.value) {
+                        if (i.key == node.dataRef.key) {
+                              i.children = res.data.payload.table
+                        }
+                  }
+                  expandedKeys.value = [node.dataRef.title]
             }).finally(() => spin())
-            expandedKeys.value = [treeNode.dataRef.title]
-            resolve();
-      });
+      }
 }
 
 const spin = () => {

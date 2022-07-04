@@ -65,6 +65,7 @@ export default {
       "order.reject.tips": "Confirm reject of order?",
       "order.reject": "Rejected",
       "order.end": "End",
+      "order.roll.tips": "SQL must not be empty",
 
       "order.query.title": "Query Audit",
       "order.query.desc": "Enquiry application approval",

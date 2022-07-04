@@ -38,6 +38,7 @@ import { useStore } from "@/store"
 import { useRoute, useRouter } from "vue-router"
 import { useI18n } from 'vue-i18n';
 import { tableRef } from "../table"
+import { message } from "ant-design-vue"
 
 const { t } = useI18n()
 
@@ -112,6 +113,10 @@ const submit = () => {
       const warpper = Object.assign({}, store.state.order.order)
       warpper.delay = "none"
       warpper.sql = rollTable.data.map(item => item.sql).join("\n")
+      if (warpper.sql === "") {
+            message.warning(t("order.roll.tips"))
+            return
+      }
       request.Post(warpper as any).finally(() => router.go(-1))
 }
 

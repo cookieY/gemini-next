@@ -18,7 +18,7 @@ export const store = createStore<AllStoreTypes>({
             highlight
       },
       plugins: [
-            createPersistedState({ paths: ["user", "menu", "order", "highlight"], storage: window.sessionStorage }),
+            createPersistedState({ paths: ["user", "menu", "order"], storage: window.sessionStorage }),
       ],
 })
 

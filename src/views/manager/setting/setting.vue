@@ -148,8 +148,7 @@
                                     <a-space>
                                           <a-range-picker show-time v-model:value="config.other.overdue"
                                                 format="YYYY/MM/DD HH:mm" :ranges="dateRanges" />
-                                          <a-popconfirm :title="$t('setting.data.clear.tips')"
-                                                @confirm="request.Delete({ date: config.other.overdue.map(item => item.format('YYYY-MM-DD HH:mm')), tp: false })">
+                                          <a-popconfirm :title="$t('setting.data.clear.tips')" @confirm="clearOrder">
                                                 <a-button>{{ $t('common.delete') }}</a-button>
                                           </a-popconfirm>
                                     </a-space>
@@ -158,8 +157,7 @@
                                     <a-space>
                                           <a-range-picker show-time v-model:value="config.other.query_expire"
                                                 format="YYYY/MM/DD HH:mm" :ranges="dateRanges" />
-                                          <a-popconfirm :title="$t('setting.data.clear.tips')"
-                                                @confirm="request.Delete({ date: config.other.query_expire.map(item => item.format('YYYY-MM-DD HH:mm')), tp: true })">
+                                          <a-popconfirm :title="$t('setting.data.clear.tips')" @confirm="clearQuery">
                                                 <a-button>{{ $t('common.delete') }}</a-button>
                                           </a-popconfirm>
                                     </a-space>
@@ -214,6 +212,18 @@ const config = ref({
 } as Settings)
 
 const request = new Request
+
+const clearQuery = () => {
+      if (config.value.other.query_expire !== undefined) {
+            request.Delete({ date: config.value.other.query_expire.map(item => item.format('YYYY-MM-DD HH:mm')), tp: true })
+      }
+}
+
+const clearOrder = () => {
+      if (config.value.other.overdue !== undefined) {
+            request.Delete({ date: config.value.other.overdue.map(item => item.format('YYYY-MM-DD HH:mm')), tp: false })
+      }
+}
 
 const dateRanges = defaultLang === 'en-US' ? { "this month": [dayjs().startOf('month'), dayjs().endOf('month')] } : { "本月": [dayjs().startOf('month'), dayjs().endOf('month')] }
 
