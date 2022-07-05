@@ -205,6 +205,12 @@ const rule: Rule[] = [
             tp: 0
       },
       {
+            name: 'DMLAllowInsertNull',
+            desc: '允许insert语句插入Null值',
+            type: 'DML',
+            tp: 0
+      },
+      {
             name: 'DDLImplicitTypeConversion',
             desc: '不允许隐式转换',
             type: 'DML',
