@@ -20,3 +20,10 @@ export const IsRegister = () => {
             method: "GET",
       })
 }
+
+export const OidcStateApi = () => {
+      return request({
+            url: "/oidc/state",
+            method: "GET"
+      })
+} 

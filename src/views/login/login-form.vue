@@ -17,17 +17,20 @@
                   </a-space>
             </a-form-item>
             <a-button type="dashed" block @click="signIn" ghost>登录</a-button>
+            <a-button v-if="oidcEnabled" type="dashed" block @click="oidcSignIn" ghost style="margin-top: 5px">OIDC登录</a-button>
       </a-form>
 </template>
 
 <script setup lang="ts">
+
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
-import { UnwrapRef, reactive } from "vue";
-import { LoginApi, LoginFrom } from "@/apis/loginApi";
+import { UnwrapRef, reactive, ref, onMounted, computed} from "vue";
+import { LoginApi, OidcStateApi, LoginFrom } from "@/apis/loginApi";
 import { LoginRespPayload } from "@/types"
 import router from "@/router";
 import { useStore } from "@/store";
+import { useRoute } from 'vue-router'
 import { debounce } from "lodash-es"
 
 const loginForm: UnwrapRef<LoginFrom> = reactive({
@@ -37,6 +40,33 @@ const loginForm: UnwrapRef<LoginFrom> = reactive({
 })
 
 const store = useStore()
+const route = useRoute()
+
+const oidcEnabled = ref(false)
+const oidcSignInUrl = ref("")
+
+const query = computed(() => route.query).value
+
+onMounted(() => {
+
+      if (query.oidcLogin) {
+            const {oidcLogin, ...rest} = query
+            store.commit("user/USER_STORE", rest)
+            store.commit("menu/CHANGE_SELECTED", ["/home"])
+            router.replace("/home")
+      }
+
+      OidcStateApi().then((res: any) => {
+            if (res.data.code == 1200 && res.data.payload.enabled && res.data.payload.authUrl) {
+                 oidcEnabled.value = true 
+                 oidcSignInUrl.value = res.data.payload.authUrl
+            }
+      })
+})
+
+const oidcSignIn = () => {
+      window.location.href = oidcSignInUrl.value
+} 
 
 const signIn = debounce(() => {
       LoginApi(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {

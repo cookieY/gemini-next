@@ -28,6 +28,9 @@ export default defineConfig({
                   '/downlaod/*': {
                         target: 'http://127.0.0.1:8000'
                   },
+                  '/oidc/state': {
+                        target: 'http://127.0.0.1:8000'
+                  },
             },
       },
       plugins: [
