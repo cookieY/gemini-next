@@ -1,4 +1,12 @@
 export default {
+      "common.create": "Create",
+      "common.add": "Add",
+      "common.qq": "https://gitter.im/talk-to-yearning",
+      "common.statement": "Statement",
+      "common.sponsor": "Sponsor",
+      "common.community": "Community",
+      "common.about": "About Yearning",
+      "common.signin": "Sign In",
       "common.password": "Password",
       "common.policy": "Policy",
       "common.action": "Action",
@@ -11,7 +19,7 @@ export default {
       "common.yes": "yes",
       "common.no": "no",
       "common.relevant": "relevant",
-      "common.profile": "profile",
+      "common.profile": "Profile",
       "common.search": "Search",
       "common.cancel": "Cancel",
       "common.pick": "Collapse",
@@ -24,13 +32,16 @@ export default {
       "common.back": "Back",
       "common.enter": "Enter",
       "common.hide": "Hide",
-      "common.visible": "隐藏",
+      "common.visible": "Visible",
       "common.copy": "Copy",
       "common.clip": "Clipboard",
       "common.new": "New",
       "common.success": "Success",
       "common.export": "Export",
       "common.result": "Result",
+      "common.history": "History",
+      "common.choose": "Selected ",
+      "common.editor.tips": "Right-click in the editor to bring up testing/beauty options",
 
 
       "common.profile.title": "Account",
@@ -80,4 +91,18 @@ export default {
 
       "common.order": "Order",
       "common.query": "Query",
+      "common.board": "Board",
+      "common.board.sub": "Homepage Bulletin board content editing",
+      "common.rule": "Rules",
+      "common.rule.sub": "Set audit rule conditions based on actual application scenarios",
+      "common.flow.sub": "Flow Management page",
+      "common.db.sub": "Data Source Management page",
+      "common.policy.sub": "Policy Management page",
+
+      "common.policy.group": "Policy",
+
+      "common.stmt.title": "welcome to Yearning",
+      "common.sponsor.title": "Keep Yearning providing better services",
+      "common.sponsor.content": "Thank you for your support. On the basis of ensuring the continued development of the community edition, a sponsored version of the community edition is launched in recognition of those who have actively helped on the road.<br/>The sponsored version is based on the latest community version with the following features currently added:<br/>1. Support auditor mobile terminal (mobile phone) audit work order <br/>2. Support custom hook message push <br/>3. Support SQL file upload extract statement <br/>4. Exclusive wechat group, timely problem solving <br/>5. Additional audit rules support <br/>6. Work order replication (suitable for multi-environment work order transfer) <br/>7. Search function supports multi-condition merge search. <br/>Customization Requirements :<br/> Enterprises can seek customized function services from the author based on actual needs. <br/><br/> Contact information <br/>henry@yearning.io",
+      // "common.sponsor.title": "",
 }

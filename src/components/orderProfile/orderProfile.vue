@@ -41,8 +41,14 @@
                                     }}</a-descriptions-item>
                                     <a-descriptions-item :label="$t('order.profile.auditor')">
                                           <template v-for="i in order.assigned.split(',')" :key="i">
-                                                <a-tag v-if="i !== '提交人'" color="#408B9B">{{ i }}</a-tag>
+                                                <a-tag v-if="i !== $t('flow.applicant')" color="#408B9B">{{ i }}</a-tag>
                                           </template>
+                                    </a-descriptions-item>
+                                    <a-descriptions-item :label="$t('common.table.remark')">
+                                          <a-typography-paragraph :style="ellipsis ? { width: '250px' } : {}"
+                                                :ellipsis="ellipsis ? { tooltip: order.text } : false"
+                                                :content="order.text">
+                                          </a-typography-paragraph>
                                     </a-descriptions-item>
                               </a-descriptions>
                         </a-col>
@@ -157,6 +163,8 @@ interface stepUsege {
 const spinning = ref(false)
 
 const { col } = JunoMixin()
+
+const ellipsis = ref(true)
 
 const r = ref()
 

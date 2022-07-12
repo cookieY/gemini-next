@@ -2,7 +2,8 @@
       <div>
             <a-row :gutter="24">
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" title="工单总数" :total="banner.order">
+                        <ChartCard :loading="loading" :title="$t('common.order') + $t('common.count')"
+                              :total="banner.order">
                               <template v-slot:action>
                                     <InfoCircleOutlined />
                               </template>
@@ -12,7 +13,8 @@
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" title="查询总数" :total="banner.query">
+                        <ChartCard :loading="loading" :title="$t('common.query') + $t('common.count')"
+                              :total="banner.query">
                               <template v-slot:action>
                                     <InfoCircleOutlined />
                               </template>
@@ -22,7 +24,8 @@
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" title="数据源" :total="banner.source">
+                        <ChartCard :loading="loading" :title="$t('common.table.source') + $t('common.count')"
+                              :total="banner.source">
                               <template v-slot:action>
                                     <InfoCircleOutlined />
                               </template>
@@ -32,7 +35,8 @@
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" title="用户数" :total="banner.user">
+                        <ChartCard :loading="loading" :title="$t('menu.manage.user') + $t('common.count')"
+                              :total="banner.user">
                               <template v-slot:action>
                                     <InfoCircleOutlined />
                               </template>
@@ -66,12 +70,12 @@
             <br />
             <a-row :gutter="24">
                   <a-col :xs="24" :md="24" :xl="16" :style="{ marginBottom: '24px' }">
-                        <a-card title="公告" style="height: 560px;width: 100%;">
+                        <a-card :title="$t('common.board')" style="height: 560px;width: 100%;">
                               <div v-html="boardContent"></div>
                         </a-card>
                   </a-col>
                   <a-col :xs="24" :md="24" :xl="8" :style="{ marginBottom: '24px' }">
-                        <a-card title="数据源top10">
+                        <a-card :title="$t('common.table.source')+ ' Top10'">
                               <MiniBar container-id="thend" color="#Ff9900"></MiniBar>
                         </a-card>
                   </a-col>

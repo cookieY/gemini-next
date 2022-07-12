@@ -50,6 +50,6 @@ export default {
       "setting.data.clear.tips": "Are you sure to delete the work order?",
       "setting.data.clear.order": "Order before",
       "setting.data.clear.query": "Query before",
-      "setting.data.clear.alert": "1. After the maximum Limit is set, the results of all query statements cannot exceed the Limit. <br><br>2. After the query audit switch is enabled, all queries must be approved by the administrator. Off can be independent query"
-
+      "setting.data.clear.alert": "1. After the maximum Limit is set, the results of all query statements cannot exceed the Limit. <br><br>2. After the query audit switch is enabled, all queries must be approved by the administrator. Off can be independent query",
+      "setting.ldap.ssl": "Enable ldaps",
 }

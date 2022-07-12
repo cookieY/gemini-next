@@ -1,5 +1,6 @@
 <template>
       <div :id="props.containerId" :style="{ height: `${height}px` }"></div>
+      <a-alert :message="$t('common.editor.tips')" type="info" style="margin-top: 1%;" />
 </template>
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
@@ -11,8 +12,6 @@ import { ref } from 'vue';
 import { Request } from '@/apis/orderPostApis';
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
-import { CaretRightOutlined } from '@ant-design/icons-vue';
-import { IDisposable } from 'monaco-editor';
 
 self.MonacoEnvironment = {
       getWorker (_, label) {

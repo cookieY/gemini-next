@@ -7,6 +7,8 @@ import antdEnUS from 'ant-design-vue/es/locale/en_US';
 import user from "@/lang/en-us/user"
 import reocrd from "./en-us/record"
 import query from "./en-us/query";
+import db from "./en-us/db"
+import flow from "./en-us/flow"
 
 
 const components = {
@@ -23,5 +25,7 @@ export default {
       ...order,
       ...user,
       ...reocrd,
-      ...query
+      ...query,
+      ...db,
+      ...flow
 }

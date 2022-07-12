@@ -1,5 +1,5 @@
 <template>
-      <a-button type="primary" @click="flow.newFlow()">新建流程</a-button>
+      <a-button type="primary" @click="flow.newFlow()">{{ $t('common.new') }}{{ $t('menu.manage.flow') }}</a-button>
       <br />
       <br />
       <a-table :columns="tblRef.col" :dataSource="tblRef.data" bordered :pagination="{
@@ -12,10 +12,12 @@
             <template #bodyCell="{ column, text, record }">
                   <template v-if="column.dataIndex === 'action'">
                         <a-space size="small">
-                              <a-button type="primary" size="small" ghost @click="flow.editFlow(record)">详情</a-button>
-                              <a-popconfirm title="确认要删除该流程吗?"
+                              <a-button type="primary" size="small" ghost @click="flow.editFlow(record)">
+                                    {{ $t('common.profile') }}</a-button>
+                              <a-popconfirm :title="$t('flow.delete.tips')"
                                     @confirm="() => request.Delete(record.id).finally(() => currentPage())">
-                                    <a-button type="primary" size="small" danger ghost>删除</a-button>
+                                    <a-button type="primary" size="small" danger ghost>{{ $t('common.delete') }}
+                                    </a-button>
                               </a-popconfirm>
                         </a-space>
                   </template>
@@ -51,12 +53,14 @@ import { SearchOutlined } from '@ant-design/icons-vue';
 import { Request, RespTPLs } from "@/apis/flow";
 import FlowModel from "./flowModal.vue"
 import { tableRef } from "@/components/table";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n()
 
 const tblRef = reactive<tableRef>({
       col: [
             {
-                  title: "流程名称",
+                  title: t('menu.manage.flow') + t('common.table.name'),
                   dataIndex: "source",
                   customFilterDropdown: true,
                   onFilter: (value: string, record: { source: { toString: () => string; }; }) =>
@@ -69,7 +73,7 @@ const tblRef = reactive<tableRef>({
                         }
                   },
             },
-            { title: "操作", dataIndex: "action" },
+            { title: t('common.action'), dataIndex: "action" },
       ] as any,
       data: [] as RespTPLs[],
       pageCount: 0
@@ -77,7 +81,7 @@ const tblRef = reactive<tableRef>({
 
 const searchInput = ref();
 
-const title = ref("新建流程")
+const title = ref(t('common.new') + t('menu.manage.flow'))
 
 const flow = ref()
 

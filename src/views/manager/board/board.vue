@@ -1,5 +1,5 @@
 <template>
-      <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
+      <PageHeader :title="$t('common.board')" :subTitle="$t('common.board.sub')"></PageHeader>
       <a-card>
             <div id="mavon-editor-id"></div>
       </a-card>
@@ -19,11 +19,6 @@ let instance
 const editValue = ref('')
 
 const request = new Request()
-
-const title = {
-      title: "公告",
-      subTitle: "主页公告栏内容编辑"
-}
 
 onMounted(() => {
       request.Get().then((res: AxiosResponse<Res<string>>) => {

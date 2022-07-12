@@ -1,9 +1,9 @@
 <template>
       <a-form layout="inline">
-            <a-form-item label="数据源">
+            <a-form-item :label="$t('common.table.source')">
                   <span>{{ store.state.common.queryInfo.source }}</span>
             </a-form-item>
-            <a-form-item label="所选数据库">
+            <a-form-item :label="$t('common.choose') + $t('common.table.schema')">
                   <a-select v-model:value="schema" style="width: 200px;" show-search :dropdownMatchSelectWidth="false">
                         <a-select-option v-for="i in store.state.common.schemaList" :value="i">{{ i }}</a-select-option>
                   </a-select>

@@ -3,21 +3,24 @@
       <br />
       <a-form :model="loginForm">
             <a-form-item>
-                  <a-input v-model:value="loginForm.username" placeholder="用户名:" style=" border-radius: 10px;" />
+                  <a-input v-model:value="loginForm.username" :placeholder="$t('user.username')"
+                        style=" border-radius: 10px;" />
             </a-form-item>
             <a-form-item>
-                  <a-input v-model:value="loginForm.password" placeholder="密码" style="border-radius: 10px;"
-                        @pressEnter="() => signIn()"  type="password"/>
+                  <a-input v-model:value="loginForm.password" :placeholder="$t('user.password')"
+                        style="border-radius: 10px;" @pressEnter="() => signIn()" type="password" />
             </a-form-item>
             <a-form-item>
                   <a-space :size="50">
                         <a-checkbox v-model:checked="loginForm.is_ldap">
-                              <span class="fff">AD域登录</span>
+                              <span class="fff">LDAP</span>
+                        </a-checkbox>
+                        <a-checkbox v-model:checked="loginForm.is_oidc">
+                              <span class="fff">OIDC</span>
                         </a-checkbox>
                   </a-space>
             </a-form-item>
-            <a-button type="dashed" block @click="signIn" ghost>登录</a-button>
-            <a-button v-if="oidcEnabled" type="dashed" block @click="oidcSignIn" ghost style="margin-top: 5px">OIDC登录</a-button>
+            <a-button type="dashed" block @click="signIn" ghost>{{ $t('common.signin') }}</a-button>
       </a-form>
 </template>
 
@@ -25,7 +28,7 @@
 
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
-import { UnwrapRef, reactive, ref, onMounted, computed} from "vue";
+import { UnwrapRef, reactive, ref, onMounted, computed } from "vue";
 import { LoginApi, OidcStateApi, LoginFrom } from "@/apis/loginApi";
 import { LoginRespPayload } from "@/types"
 import router from "@/router";
@@ -36,7 +39,8 @@ import { debounce } from "lodash-es"
 const loginForm: UnwrapRef<LoginFrom> = reactive({
       username: "",
       password: "",
-      is_ldap: false
+      is_ldap: false,
+      is_oidc: false
 })
 
 const store = useStore()
@@ -50,7 +54,7 @@ const query = computed(() => route.query).value
 onMounted(() => {
 
       if (query.oidcLogin) {
-            const {oidcLogin, ...rest} = query
+            const { oidcLogin, ...rest } = query
             store.commit("user/USER_STORE", rest)
             store.commit("menu/CHANGE_SELECTED", ["/home"])
             router.replace("/home")
@@ -58,17 +62,17 @@ onMounted(() => {
 
       OidcStateApi().then((res: any) => {
             if (res.data.code == 1200 && res.data.payload.enabled && res.data.payload.authUrl) {
-                 oidcEnabled.value = true 
-                 oidcSignInUrl.value = res.data.payload.authUrl
+                  oidcEnabled.value = true
+                  oidcSignInUrl.value = res.data.payload.authUrl
             }
       })
 })
 
-const oidcSignIn = () => {
-      window.location.href = oidcSignInUrl.value
-} 
-
 const signIn = debounce(() => {
+      if (loginForm.is_oidc) {
+            window.location.href = oidcSignInUrl.value
+            return
+      }
       LoginApi(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {
             if (res.data.code === 1301) {
                   return

@@ -1,4 +1,12 @@
 export default {
+      "common.create": "创建",
+      "common.qq": "Q群:363323798",
+      "common.add": "添加",
+      "common.statement": "声明/许可",
+      "common.sponsor": "赞助",
+      "common.community": "社区",
+      "common.about": "关于Yearning",
+      "common.signin": "登录",
       "common.password": "更改密码",
       "common.policy": "权限",
       "common.theme": "主题更改",
@@ -23,14 +31,17 @@ export default {
       "common.leave": "确认离开当前页面吗？未保存的数据将会丢失",
       "common.back": "返回",
       "common.enter": "进入",
-      "common.hide": "显示",
-      "common.visible": "隐藏",
+      "common.hide": "隐藏",
+      "common.visible": "显示",
       "common.copy": "复制",
       "common.clip": "剪贴板",
       "common.new": "新建",
       "common.success": "成功",
       "common.export": "导出",
       "common.result": "结果",
+      "common.history": "历史记录",
+      "common.choose": "所选",
+      "common.editor.tips": "🔼 编辑器内右键调出 检测/美化选项",
 
       "common.profile.title": "个人详情",
       "common.profile.subtitle": "个人信息修改",
@@ -79,4 +90,19 @@ export default {
 
       "common.order": "工单",
       "common.query": "查询",
+      "common.board": "公告",
+      "common.board.sub": "主页公告栏内容编辑",
+
+      "common.rule": "审核规则",
+      "common.rule.sub": "根据实际使用场景设置审核规则条件",
+      "common.db.sub": "数据源管理页面",
+      "common.flow.sub": "流程管理页面",
+      "common.policy.sub": "权限管理页面",
+
+      "common.stmt.title": "欢迎使用Yearning SQL审核平台",
+
+      "common.policy.group": "权限组",
+
+      "common.sponsor.title": "让Yearning持续提供更好的功能与服务",
+      "common.sponsor.content": "感谢您支持Yearning！Yearning在保证社区版持续开发的基础上为了回馈曾经在Yearning开发道路上提供积极帮助的朋友们，现推出了基于社区版的赞助版本。<br/>赞助版基于最新的Yearning社区版本，目前已添加以下功能: <br/>1.支持审核人移动端(手机)审核工单<br/>2.支持自定义hook消息推送<br/>3.支持SQL文件上传提取语句<br/>4.专属微信群,及时解决问题<br/>5.额外的审核规则支持<br/>6.工单复制(适用于多环境工单流转)<br/>7.搜索功能支持多条件合并搜索<br/>定制化需求:<br/>企业可根据实际需要向Yearning作者寻求定制功能服务。<br/><br/>联系方式<br/>henry@yearning.io",
 }

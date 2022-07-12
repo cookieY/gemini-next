@@ -7,6 +7,8 @@ import user from "./zh-cn/user";
 import antdZhCN from 'ant-design-vue/es/locale/zh_CN';
 import record from "./zh-cn/record"
 import query from "./zh-cn/query";
+import db from "./zh-cn/db"
+import flow from "./zh-cn/flow"
 
 
 const components = {
@@ -23,5 +25,7 @@ export default {
       ...order,
       ...user,
       ...record,
-      ...query
+      ...query,
+      ...db,
+      ...flow
 }

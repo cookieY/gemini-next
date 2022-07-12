@@ -1,0 +1,16 @@
+export default {
+      "flow.delete.tips": "确认要删除该流程吗?",
+      "flow.audit": "审核",
+      "flow.execute": "执行",
+      "flow.step": "步骤",
+      "flow.auditor": "审核人员",
+      "flow.up": "向上移动",
+      "flow.down": "向下移动",
+      "flow.commit": "提交阶段",
+      "flow.applicant": "提交人",
+      "flow.phase": "阶段",
+      "flow.execute.tips": "执行阶段仅允许添加一次",
+      "flow.audit.tips": "中间审计流程最多支持5层",
+      "flow.commit.tips": "不可移动到初始步骤",
+      "flow.save.tips": "保存失败,最后步骤必须为执行类型",
+}

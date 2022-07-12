@@ -23,8 +23,23 @@ const Announce = [
       "由Yearning平台所产生的一切后果,Yearning作者本人不负一切责任! 请在进行安全评估及测试体验后使用。",
       "当然用的喜欢,就打赏下我吧 ^_^ 登录界面赞助按钮",
 ]
+
+const AnnounceEN = [
+      "Yearning MYSQL SQL statement auditing platform. Provide query, SQL audit and other functions. You are welcome to try and use Yearning!",
+      "Declaration regarding secondary Development:",
+      "As an open source platform. Ten years ago, we would like to see more developers come together. Companies are also encouraged to re-develop and customize the platform for their own business.",
+      "Yearning is licensed under an AGPL 3.0 license. The following are the obligations and responsibilities associated with this license.",
+      "1. Yearning shall not be used for any commercial purpose without the authorization of the original author. Including providing any jack-based commercial service over the web.",
+      "2. If you change the code, you need to explain it in the modified file.",
+      "3. In the case of secondary development and publication (internal use is not covered by this clause), the software must be an open source project and not commercial software of any commercial nature. To commercialize must obtain original authorship.",
+      "4. All terms of the platform comply with the relevant open source license, please use and develop in strict accordance with the relevant license.",
+      "Disclaimer :",
+      "Yearning platform produced by all the consequences, Yearning author himself is not responsible for all! Please use it after safety evaluation and testing experience.",
+      "Of course you like it, please tip me to login interface sponsorship button ",
+]
+
 const Version = "ver.2.4.0"
 
 const Copyright = `Yearning © 2018-${dayjs().format("YYYY")}  Created by HenryYee `
 
-export { FeatureList, Version, Copyright, Announce }
+export { FeatureList, Version, Copyright, Announce, AnnounceEN }

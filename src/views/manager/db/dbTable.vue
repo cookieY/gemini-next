@@ -5,17 +5,19 @@
                   <template #bodyCell="{ column, text, record }">
                         <template v-if="column.dataIndex === 'action'">
                               <a-space size="small">
-                                    <a-button type="primary" size="small" ghost @click="fillInfo(record)">详情</a-button>
-                                    <a-popconfirm title="确认要删除该数据源吗?"
+                                    <a-button type="primary" size="small" ghost @click="fillInfo(record)">
+                                          {{ $t('common.profile') }}</a-button>
+                                    <a-popconfirm :title="$t('db.delete.tips')"
                                           @confirm="request.Delete(record.source_id).then(() => tbl.manual())">
-                                          <a-button type="primary" size="small" danger ghost>删除</a-button>
+                                          <a-button type="primary" size="small" danger ghost>{{ $t('common.delete') }}
+                                          </a-button>
                                     </a-popconfirm>
                               </a-space>
                         </template>
                         <template v-if="column.dataIndex === 'is_query'">
-                              <a-tag color="#43A687" v-if="text === 2">读写</a-tag>
-                              <a-tag color="#EA495F" v-if="text === 1">读</a-tag>
-                              <a-tag color="#B38D57" v-if="text === 0">写</a-tag>
+                              <a-tag color="#43A687" v-if="text === 2">{{ $t('db.rw') }}</a-tag>
+                              <a-tag color="#EA495F" v-if="text === 1">{{ $t('db.r') }}</a-tag>
+                              <a-tag color="#B38D57" v-if="text === 0">{{ $t('db.w') }}</a-tag>
                         </template>
                   </template>
             </c-table>
@@ -34,16 +36,20 @@ import { ref, reactive, onMounted, toRaw, markRaw } from "vue";
 import { EventBus } from "@/lib";
 import { tableRef } from "@/components/table";
 import { Request } from "@/apis/db";
+import i18n from "@/lang";
+import { useI18n } from "vue-i18n";
 
 const request = new Request
 
+const { t } = useI18n()
+
 const tblRef = reactive<tableRef>({
       col: [
-            { title: "名称", dataIndex: "source" },
-            { title: "环境", dataIndex: "idc" },
-            { title: "ip", dataIndex: "ip" },
-            { title: "类型", dataIndex: "is_query" },
-            { title: "操作", dataIndex: "action" }
+            { title: t('common.table.name'), dataIndex: "source" },
+            { title: t('common.table.env'), dataIndex: "idc" },
+            { title: "IP", dataIndex: "ip" },
+            { title: t('common.table.type'), dataIndex: "is_query" },
+            { title: t('common.action'), dataIndex: "action" }
       ],
       data: [] as Source[],
       pageCount: 1,

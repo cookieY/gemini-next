@@ -4,6 +4,7 @@ export interface LoginFrom {
       username: string;
       password: string;
       is_ldap: boolean;
+      is_oidc: boolean;
 }
 
 export const LoginApi = (login: LoginFrom) => {

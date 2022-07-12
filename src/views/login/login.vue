@@ -2,8 +2,9 @@
       <div>
             <div style="margin-left: 2%;">
                   <a-space>
-                        <span class="fff">version 3.0.1</span>
-                        <a-button type="dashed" v-if="is_register" @click="is_open = true" ghost size="small">用户注册
+                        <span class="fff">version 3.0.2</span>
+                        <a-button type="dashed" v-if="is_register" @click="is_open = true" ghost size="small">
+                              {{ $t('user.form.title') }}
                         </a-button>
                   </a-space>
             </div>
@@ -21,14 +22,16 @@
                               <div style="text-align: center">
                                     <a-space size="large">
                                           <a-typography-link href="https://yearning.io" target="_blank"
-                                                style="color: #FFFFFF">关于Yearning</a-typography-link>
+                                                style="color: #FFFFFF">{{ $t('common.about') }}</a-typography-link>
                                           <a-tooltip>
-                                                <template #title>Q群: 363323798</template>
-                                                社区
+                                                <template #title>{{ $t('common.qq') }}</template>
+                                                {{ $t('common.community') }}
                                           </a-tooltip>
-                                          <a-typography-link @click="openSponsor" style="color: #FFFFFF">赞助
+                                          <a-typography-link @click="openSponsor" style="color: #FFFFFF">
+                                                {{ $t('common.sponsor') }}
                                           </a-typography-link>
-                                          <a-typography-link @click="announce.open()" style="color: #FFFFFF">声明/许可
+                                          <a-typography-link @click="announce.open()" style="color: #FFFFFF">
+                                                {{ $t('common.statement') }}
                                           </a-typography-link>
                                           <a-typography-link href="https://www.gnu.org/licenses/agpl-3.0.en.html"
                                                 target="_blank" style="color: #FFFFFF">AGPL3.0</a-typography-link>
@@ -43,7 +46,7 @@
 
             <Announce ref="announce"></Announce>
 
-            <a-modal v-model:visible="is_open" title="用户注册">
+            <a-modal v-model:visible="is_open" :title="$t('user.form.title')">
                   <template #footer></template>
                   <register ref="register"></register>
             </a-modal>

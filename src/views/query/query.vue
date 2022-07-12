@@ -28,10 +28,10 @@
                   <a-col :span="hide ? 0 : 5">
                         <a-card size="small">
                               <a-tabs v-model:activeKey="tool">
-                                    <a-tab-pane key="tree" tab="数据库">
+                                    <a-tab-pane key="tree" :tab="$t('common.table.schema')">
                                           <Tree @showTableRef="showTableRef"></Tree>
                                     </a-tab-pane>
-                                    <a-tab-pane key="history" tab="历史记录">
+                                    <a-tab-pane key="history" :tab="$t('common.history')">
                                           <History></History>
                                     </a-tab-pane>
                               </a-tabs>

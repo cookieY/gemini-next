@@ -1,5 +1,5 @@
 <template>
-      <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
+      <PageHeader :title="$t('common.rule')" :subTitle="$t('common.rule.sub')"></PageHeader>
       <a-card>
             <a-row>
                   <a-col :span="19">
@@ -58,11 +58,6 @@ const col = [
             width: 300
       },
 ]
-
-const title = {
-      title: "审核规则",
-      subTitle: "根据实际使用场景设置审核规则条件"
-}
 
 let engine = ref({})
 

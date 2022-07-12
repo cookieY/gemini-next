@@ -25,6 +25,8 @@ export default {
 
       "user.policy": "User policy",
 
+      "user.username": "Username",
+      "user.password": "Password",
       "user.password.title": "Change password",
       "user.password.old": "Old password",
       "user.password.new": "New password",

@@ -1,8 +1,8 @@
 <template>
-      <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <a-row :gutter="[16,16]">
+      <PageHeader :title="$t('menu.manage.source')" :subTitle="$t('common.db.sub')"></PageHeader>
+      <a-row :gutter="[16, 16]">
             <a-col :xs="24" :sm="6">
-                  <a-card title="新建数据源">
+                  <a-card :title="$t('common.new') + ' ' + $t('menu.manage.source')">
                         <DBForm></DBForm>
                   </a-card>
             </a-col>
@@ -22,10 +22,6 @@ import { useStore } from '@/store'
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
 
-const title = {
-      title: "数据源",
-      subTitle: "数据源管理页面"
-}
 const store = useStore()
 
 const request = new Request

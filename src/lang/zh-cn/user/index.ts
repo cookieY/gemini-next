@@ -24,7 +24,8 @@ export default {
       "user.role.guest": "普通用户",
 
       "user.policy": "用户权限",
-
+      "user.username": "用户名",
+      "user.password": "密码",
       "user.password.title": "更改密码",
       "user.password.old": "原密码",
       "user.password.new": "新密码",
