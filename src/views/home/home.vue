@@ -2,7 +2,7 @@
       <div>
             <a-row :gutter="24">
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" :title="$t('common.order') + $t('common.count')"
+                        <ChartCard :loading="loading" :title="$t('common.order') + $t('common.sum')"
                               :total="banner.order">
                               <template v-slot:action>
                                     <InfoCircleOutlined />
@@ -13,7 +13,7 @@
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" :title="$t('common.query') + $t('common.count')"
+                        <ChartCard :loading="loading" :title="$t('common.query') + $t('common.sum')"
                               :total="banner.query">
                               <template v-slot:action>
                                     <InfoCircleOutlined />
@@ -24,7 +24,7 @@
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" :title="$t('common.table.source') + $t('common.count')"
+                        <ChartCard :loading="loading" :title="$t('common.table.source') + $t('common.sum')"
                               :total="banner.source">
                               <template v-slot:action>
                                     <InfoCircleOutlined />
@@ -35,7 +35,7 @@
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-                        <ChartCard :loading="loading" :title="$t('menu.manage.user') + $t('common.count')"
+                        <ChartCard :loading="loading" :title="$t('menu.manage.user') + $t('common.sum')"
                               :total="banner.user">
                               <template v-slot:action>
                                     <InfoCircleOutlined />

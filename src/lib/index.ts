@@ -19,6 +19,8 @@ export const StateUsege = (state: number) => {
                   return { color: "#EA495F", title: t('order.state.reject'), icon: CloseCircleOutlined }
             case OrderState.ERROR:
                   return { color: "#EA495F", title: t('order.state.error'), icon: CloseCircleOutlined }
+            case OrderState.Undo:
+                  return { color: "#EA495F", title: t('order.undo'), icon: CloseCircleOutlined }
             default:
                   return {}
       }

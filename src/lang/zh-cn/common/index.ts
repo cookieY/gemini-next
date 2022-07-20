@@ -16,6 +16,7 @@ export default {
       "common.month": "本月",
       "common.edit": "编辑",
       "common.count": "共{count}条",
+      "common.sum": "总数",
       "common.yes": "是",
       "common.no": "否",
       "common.relevant": "相关人员",

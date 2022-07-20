@@ -16,6 +16,7 @@ export default {
       "common.edit": "Edit",
       "common.month": "this month",
       "common.count": "{count} totals",
+      "common.sum": "totals",
       "common.yes": "yes",
       "common.no": "no",
       "common.relevant": "relevant",
