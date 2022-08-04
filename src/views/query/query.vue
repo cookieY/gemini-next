@@ -200,6 +200,7 @@ const initial = (source_id: string) => {
 }
 
 onBeforeRouteUpdate((to) => {
+      monaco_editor.dispose()
       closeWS()
       initial(to.query.source_id as string)
       initQuery(to.query.source_id as string)

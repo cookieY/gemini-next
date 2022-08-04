@@ -39,7 +39,6 @@ import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
 import { HddOutlined } from "@ant-design/icons-vue";
 import { useStore } from "@/store";
-import type { TreeProps } from 'ant-design-vue';
 
 const emit = defineEmits(["showTableRef"])
 

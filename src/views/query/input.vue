@@ -18,7 +18,6 @@ import Editor from "@/components/editor/editor.vue";
 import Table from "./table.vue";
 import { useStore } from "@/store";
 import { computed, ref } from "vue"
-import { useRoute } from "vue-router";
 
 const props = defineProps<{
       id: string
@@ -27,8 +26,6 @@ const props = defineProps<{
 const query_editor = ref()
 
 const store = useStore()
-
-const route = useRoute()
 
 const tbl = ref()
 
