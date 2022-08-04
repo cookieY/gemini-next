@@ -5,7 +5,6 @@
 <script setup lang="ts">
 import * as monaco from 'monaco-editor';
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import { createSQLToken } from "@/components/editor/impl"
 import { onMounted, onUnmounted } from '@vue/runtime-core';
 import { format } from 'sql-formatter';
 import { ref } from 'vue';
@@ -96,29 +95,6 @@ const GetValueFunc: monaco.editor.IActionDescriptor = {
       }
 }
 
-const RunEditor = (highlight: { [key: string]: string }[]) => {
-      completionProvider !== undefined ? completionProvider.dispose() : null
-      completionProvider = monaco.languages.registerCompletionItemProvider('sql', {
-            provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
-                  let word = model.getWordUntilPosition(position);
-                  let range = {
-                        startLineNumber: position.lineNumber,
-                        endLineNumber: position.lineNumber,
-                        startColumn: word.startColumn,
-                        endColumn: word.endColumn
-                  };
-                  return {
-                        suggestions: createSQLToken(range, highlight)
-                  }
-            },
-            triggerCharacters: ['.']
-
-      });
-      model.focus()
-}
-
-
-
 const ChangeEditorText = (sql: string) => {
       model.onDidChangeModelLanguageConfiguration(() => {
 
@@ -159,7 +135,6 @@ onUnmounted(() => {
 })
 
 defineExpose({
-      RunEditor,
       ChangeEditorText,
       GetValue
 })

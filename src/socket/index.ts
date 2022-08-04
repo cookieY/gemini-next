@@ -14,7 +14,7 @@ export default class WsSocket {
 
 
 
-      constructor(prefix: string) {
+      constructor(prefix: string, token: string) {
             let baseURL = ""
             const store = useStore()
             import.meta.env.MODE === "dev" ? baseURL = "127.0.0.1:8000" : baseURL = document.location.host
@@ -23,7 +23,7 @@ export default class WsSocket {
             this.socket = null as any
             this.timer = null
             this.checkTime = null
-            this.token = store.state.user.account.token
+            this.token = token
 
       }
 
@@ -33,8 +33,13 @@ export default class WsSocket {
 
       check () {
             let vm = this
+            let flag = 0
             this.checkTime = setInterval(() => {
+                  if (flag > 5) {
+                        return
+                  }
                   if (vm.isClose()) {
+                        flag++
                         vm.create()
                   }
             }, 1000)
@@ -43,7 +48,15 @@ export default class WsSocket {
       msgping () {
             let vm = this
             this.timer = setInterval(() => {
-                  const encoded: Uint8Array = encode({ "heartbeat": 1 });
+                  const encoded: Uint8Array = encode({ "type": 3 });
+                  vm.socket?.send(encoded)
+            }, 5000)
+      }
+
+      msginit () {
+            let vm = this
+            setTimeout(() => {
+                  const encoded: Uint8Array = encode({ "type": 2 });
                   vm.socket?.send(encoded)
             }, 2000)
       }

@@ -84,7 +84,7 @@ onUpdated(() => {
 })
 
 onMounted(() => {
-      sock = new Socket(`/fetch/comment?work_id=${props.work_id}`)
+      sock = new Socket(`/fetch/comment?work_id=${props.work_id}`, store.state.user.account.token)
       sock.create()
       sock.race(currentPage)
       sock.ping()

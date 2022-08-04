@@ -1,6 +1,7 @@
 import { Request } from "@/apis/fetchSchema";
 import { Request as Flow, RespTPLs } from "@/apis/flow";
 import { Res } from "@/config/request";
+import { encode } from "@msgpack/msgpack";
 import { AxiosResponse } from "axios";
 import { Module } from "vuex";
 import { RootStore } from "../types";
@@ -64,6 +65,11 @@ export const common: Module<commonStore, RootStore> = {
             },
             QUERY_CONN (state, vl) {
                   state.sock = vl
+            },
+            QUERY_CONN_CLOSE (state) {
+                  const encoded: Uint8Array = encode({ "type": 1 });
+                  state.sock.send(encoded)
+                  state.sock.close()
             },
             DB_SET_PRINCIPAL (state, vl) {
                   state.principal = vl

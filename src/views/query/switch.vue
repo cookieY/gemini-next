@@ -6,7 +6,7 @@
                               <a-list-item-meta>
                                     <template #title>
                                           <router-link
-                                                :to="{ path: '/apply/query', query: { type: 110, idc: item.idc, source: item.source, source_id: item.source_id } }"
+                                                :to="{ path: '/apply/query', query: { idc: item.idc, source: item.source, source_id: item.source_id } }"
                                                 replace>
                                                 {{ item.source }}</router-link>
                                     </template>

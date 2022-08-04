@@ -82,6 +82,9 @@ import { Request as Query } from "@/apis/fetchSchema"
 import router from "@/router"
 import { AxiosResponse } from "axios"
 import { Res } from "@/config/request"
+import { onBeforeRouteUpdate, useRoute } from "vue-router"
+import * as monaco from 'monaco-editor';
+import { createSQLToken } from "@/components/editor/impl"
 
 const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }])
 
@@ -109,6 +112,8 @@ const ss = ref()
 
 const store = useStore()
 
+const route = useRoute()
+
 const spinning = computed(() => store.state.common.spinning)
 
 const onEdit = (targetKey: string, action: string) => {
@@ -120,7 +125,7 @@ const onEdit = (targetKey: string, action: string) => {
 }
 
 const showTableRef = (vl: any) => {
-      tbl.value.runResults(vl.source_id, vl.schema, vl.sql)
+      tbl.value.runResults(vl.schema, vl.sql)
       feat.value = "table"
 }
 
@@ -149,7 +154,7 @@ const remove = (targetKey: string) => {
 }
 
 const closeWS = () => {
-      const encoded: Uint8Array = encode({ "type": "1" });
+      const encoded: Uint8Array = encode({ "type": 1 });
       store.state.common.sock?.send(encoded)
       store.state.common.sock.close()
 }
@@ -158,13 +163,50 @@ const undo = () => {
       request.Undo().then(() => router.go(-1))
 }
 
-onMounted(() => {
-      query.IsQuery().then((res: AxiosResponse<Res<any>>) => isOnly.value = res.data.payload.status)
-      const sock = new Socket(`/query/results?user=${store.state.user.account.user}`)
+const initQuery = (source_id: string) => {
+      const sock = new Socket(`/query/results?source_id=${source_id}`, store.state.user.account.token)
       sock.create()
       sock.msgping()
       sock.check()
+      sock.msginit()
       store.commit("common/QUERY_CONN", sock)
+}
+
+const initial = (source_id: string) => {
+      const highlight = store.state.highlight.highlight
+      if (highlight[source_id as string] === undefined) {
+            query.HighLight(source_id).then((res: AxiosResponse<Res<any>>) => {
+                  store.commit("highlight/SAVE_HIGHLIGHT", { key: source_id, highlight: res.data.payload })
+            })
+      }
+      monaco.languages.registerCompletionItemProvider('sql', {
+            provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+                  let word = model.getWordUntilPosition(position);
+                  let range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                  };
+                  return {
+                        suggestions: createSQLToken(range, store.state.highlight.highlight[source_id])
+                  }
+            },
+            triggerCharacters: ['.']
+
+      });
+}
+
+onBeforeRouteUpdate((to) => {
+      closeWS()
+      initial(to.query.source_id as string)
+      initQuery(to.query.source_id as string)
+})
+
+onMounted(() => {
+      query.IsQuery().then((res: AxiosResponse<Res<any>>) => isOnly.value = res.data.payload.status)
+      initQuery(route.query.source_id as string)
+      initial(route.query.source_id as string)
 })
 
 

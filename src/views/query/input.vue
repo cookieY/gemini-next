@@ -9,8 +9,7 @@
                   </a-select>
             </a-form-item>
       </a-form>
-
-      <Editor :container-id="props.id" ref="query_editor" :height="300" is-query @getValues="getValues"></Editor>
+      <Editor :container-id="props.id" ref="query_editor" is-query @getValues="getValues"></Editor>
       <br />
       <Table ref="tbl" :height="300" :id="id"></Table>
 </template>
@@ -18,11 +17,8 @@
 import Editor from "@/components/editor/editor.vue";
 import Table from "./table.vue";
 import { useStore } from "@/store";
-import { computed, onMounted, ref } from "vue"
-import { onBeforeRouteUpdate, useRoute } from "vue-router";
-import { Request } from "@/apis/fetchSchema";
-import { AxiosResponse } from "axios";
-import { Res } from "@/config/request";
+import { computed, ref } from "vue"
+import { useRoute } from "vue-router";
 
 const props = defineProps<{
       id: string
@@ -36,10 +32,6 @@ const route = useRoute()
 
 const tbl = ref()
 
-const request = new Request()
-
-const source_id = computed(() => store.state.common.queryInfo.source_id)
-
 const schema = computed({
       get () {
             return store.state.common.schema
@@ -51,28 +43,7 @@ const schema = computed({
 
 const getValues = (vl: string) => {
       store.commit("order/SET_QUERY_HISTORY", vl)
-      tbl.value.runResults(source_id.value, schema.value, vl)
-
+      tbl.value.runResults(schema.value, vl)
 }
-
-const initial = (source_id: string) => {
-      const hightligh = store.state.highlight.highligt
-      if (hightligh[source_id as string] !== undefined) {
-            query_editor.value.RunEditor(hightligh[source_id as string])
-      } else {
-            request.HighLight(source_id).then((res: AxiosResponse<Res<any>>) => {
-                  query_editor.value.RunEditor(res.data.payload)
-                  store.commit("highlight/SAVE_HIGHLIGHT", { key: source_id, highlight: res.data.payload })
-            })
-      }
-}
-
-onBeforeRouteUpdate((to) => {
-      initial(to.query.source_id as string)
-})
-
-onMounted(() => {
-      initial(route.query.source_id as string)
-})
 
 </script>

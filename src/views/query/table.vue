@@ -67,9 +67,9 @@ const downloadXLS = (data: any) => {
 
 const sock = computed(() => store.state.common.sock)
 
-const runResults = (source_id: string, schema: string, sql: string) => {
+const runResults = (schema: string, sql: string) => {
       sock.value.race(recv)
-      const encoded: Uint8Array = encode({ "type": "0", "sql": sql, "schema": schema, "source_id": source_id });
+      const encoded: Uint8Array = encode({ "type": 4, "sql": sql, "schema": schema });
       store.commit("common/SET_SPINNING")
       sock?.value.send(encoded)
 }

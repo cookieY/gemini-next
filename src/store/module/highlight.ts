@@ -8,18 +8,18 @@ export interface lightWord {
 }
 
 export interface highlightStore {
-      highligt: { [key: string]: lightWord[] }
+      highlight: { [key: string]: string }[]
 }
 
 
 export const highlight: Module<highlightStore, RootStore> = {
       namespaced: true,
       state: {
-            highligt: {}
+            highlight: [{}]
       },
       mutations: {
             SAVE_HIGHLIGHT (state, word) {
-                  state.highligt[word.key] = word.highlight
+                  state.highlight[word.key] = word.highlight
             }
       }
 }

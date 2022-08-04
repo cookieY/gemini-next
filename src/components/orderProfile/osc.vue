@@ -6,8 +6,12 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from "vue"
 import Socket from "@/socket"
+import { useStore } from "@/store";
 
 const pre = ref("")
+
+const store = useStore()
+
 
 const props = defineProps<{
       work_id: string
@@ -20,7 +24,7 @@ const recv = (e: any) => {
 }
 
 onMounted(() => {
-      sock = new Socket(`/audit/order/osc?work_id=${props.work_id}`)
+      sock = new Socket(`/audit/order/osc?work_id=${props.work_id}`, store.state.user.account.token)
       sock.create()
       sock.race(recv)
       sock.ping()
