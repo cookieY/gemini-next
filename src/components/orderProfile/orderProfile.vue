@@ -184,7 +184,7 @@ const route = useRoute()
 
 const order = computed(() => store.state.order.order)
 
-const sock = new WsSocket(`/fetch/order_state?work_id=${order.value.work_id}`)
+const sock = new WsSocket(`/fetch/order_state?work_id=${order.value.work_id}`, store.state.user.account.token)
 
 const { FetchStepUsage, FetchProfileSQL, orderProfileArch, fetchRequest } = FetchMixins()
 

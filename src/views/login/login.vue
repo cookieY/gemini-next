@@ -2,7 +2,7 @@
       <div>
             <div style="margin-left: 2%;">
                   <a-space>
-                        <span class="fff">version 3.0.4</span>
+                        <span class="fff">version 3.0.5</span>
                         <a-button type="dashed" v-if="is_register" @click="is_open = true" ghost size="small">
                               {{ $t('user.form.title') }}
                         </a-button>
