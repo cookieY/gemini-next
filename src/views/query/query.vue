@@ -114,6 +114,8 @@ const store = useStore()
 
 const route = useRoute()
 
+let monaco_editor: any = null
+
 const spinning = computed(() => store.state.common.spinning)
 
 const onEdit = (targetKey: string, action: string) => {
@@ -179,7 +181,7 @@ const initial = (source_id: string) => {
                   store.commit("highlight/SAVE_HIGHLIGHT", { key: source_id, highlight: res.data.payload })
             })
       }
-      monaco.languages.registerCompletionItemProvider('sql', {
+      monaco_editor = monaco.languages.registerCompletionItemProvider('sql', {
             provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
                   let word = model.getWordUntilPosition(position);
                   let range = {
@@ -211,6 +213,7 @@ onMounted(() => {
 
 
 onUnmounted(() => {
+      monaco_editor.dispose()
       closeWS()
 })
 

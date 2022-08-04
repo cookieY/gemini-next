@@ -119,10 +119,12 @@ import { Request, SQLTestParams } from '@/apis/orderPostApis';
 import { Request as FetchRequest } from "@/apis/fetchSchema"
 import CommonMixins from "@/mixins/common"
 import router from '@/router';
-import { store, useStore } from '@/store';
+import { useStore } from '@/store';
 import { Modal } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
 import { debounce } from "lodash-es"
+import { createSQLToken } from '@/components/editor/impl';
+import * as monaco from 'monaco-editor';
 
 const { t } = useI18n()
 
@@ -147,7 +149,7 @@ const formRef = ref()
 
 const route = useRoute()
 
-const sotre = useStore()
+const store = useStore()
 
 const request = new Request
 
@@ -156,6 +158,8 @@ const fetchRequest = new FetchRequest
 const enabled = ref(true)
 
 const { checkStepState } = CommonMixins()
+
+let monaco_editor: any = null
 
 const rules = {
       data_base: [
@@ -198,11 +202,6 @@ const fetchTableArch = () => {
       })
 }
 
-const stepStyle = {
-      marginBottom: '60px',
-      boxShadow: '0px -1px 0 0 #e8e8e8 inset',
-}
-
 const testResults = debounce((sql: string) => {
       spin.value = !spin.value
       request.Test({
@@ -239,15 +238,29 @@ const postOrder = debounce(() => {
 }, 200)
 
 const fetchHighLight = () => {
-      const highlightWord = store.state.highlight.highligt
-      if (highlightWord[orderItems.source_id] !== undefined) {
-            editor.value.RunEditor(highlightWord[orderItems.source_id])
-      } else {
-            fetchRequest.HighLight(orderItems.source_id).then((res: AxiosResponse<Res<DBRelated>>) => {
-                  editor.value.RunEditor(res.data.payload)
+
+      const highlight = store.state.highlight.highlight
+      if (highlight[orderItems.source_id as string] === undefined) {
+            fetchRequest.HighLight(orderItems.source_id).then((res: AxiosResponse<Res<any>>) => {
                   store.commit("highlight/SAVE_HIGHLIGHT", { key: orderItems.source_id, highlight: res.data.payload })
             })
       }
+      monaco_editor = monaco.languages.registerCompletionItemProvider('sql', {
+            provideCompletionItems: (model, position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+                  let word = model.getWordUntilPosition(position);
+                  let range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                  };
+                  return {
+                        suggestions: createSQLToken(range, store.state.highlight.highlight[orderItems.source_id])
+                  }
+            },
+            triggerCharacters: ['.']
+
+      });
 }
 
 
@@ -297,6 +310,7 @@ onBeforeRouteLeave((to, from, next) => {
 
 onUnmounted(() => {
       window.onbeforeunload = null;
+      monaco_editor.dispose()
 })
 
 
