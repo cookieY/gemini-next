@@ -81,13 +81,15 @@ const recv = async (e: any) => {
             resp.status ? (router.go(-1), message.error(t('query.expire'))) : null
             if (resp.error !== "") {
                   message.error(resp.error)
+                  results.value = []
             }
             else if (resp.heartbeat === 1) {
                   return
             } else {
                   isExport.value = resp.export
-                  resp.results !== null ? results.value = resp.results : null
+                  resp.results !== null ? results.value = resp.results : results.value = []
                   executeTime.value = resp.query_time
+                  activeKey.value = 0
             }
       }
       store.commit("common/SET_SPINNING")

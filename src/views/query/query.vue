@@ -6,17 +6,17 @@
                               <a-space>
                                     <ArrowLeftOutlined @click="$router.go(-1)" />
                                     <a-button size="small" @click="() => hide = !hide" type="primary">{{
-                                                $t('common.hide')
+                                    $t('common.hide')
                                     }}/{{ $t('common.visible') }}</a-button>
                                     <a-button size="small" @click="m.turnState()">{{ $t('common.new') }}{{
-                                                $t('common.clip')
+                                    $t('common.clip')
                                     }}</a-button>
                                     <a-button size="small" @click="ss.turnState()" v-if="!isOnly">{{
-                                                $t('query.query.switch')
+                                    $t('query.query.switch')
                                     }}</a-button>
                                     <a-popconfirm :title="$t('query.query.end.tips')" @confirm="undo">
                                           <a-button size="small">{{
-                                                      $t('query.query.end')
+                                          $t('query.query.end')
                                           }}</a-button>
                                     </a-popconfirm>
 

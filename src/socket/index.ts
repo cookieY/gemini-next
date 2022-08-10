@@ -39,8 +39,10 @@ export default class WsSocket {
                   if (vm.isClose()) {
                         flag++
                         vm.create()
+                        vm.msginit()
+                        vm.msgping()
                   }
-            }, 1000)
+            }, 2000)
       }
 
       msgping () {
@@ -53,10 +55,14 @@ export default class WsSocket {
 
       msginit () {
             let vm = this
-            setTimeout(() => {
-                  const encoded: Uint8Array = encode({ "type": 2 });
-                  vm.socket?.send(encoded)
-            }, 2000)
+            const inter = setInterval(() => {
+                  if (this.socket?.readyState === 1) {
+                        const encoded: Uint8Array = encode({ "type": 2 });
+                        vm.socket?.send(encoded)
+                        clearInterval(inter)
+
+                  }
+            }, 1000)
       }
 
       create () {
