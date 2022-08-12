@@ -79,7 +79,7 @@ watch(searchValue, value => {
       expandedKeys.value = expanded
       searchValue.value = value;
       autoExpandParent.value = false;
-});
+})
 
 const onLoadData = (keys: string, { expanded, node }) => {
       if (expanded) {
