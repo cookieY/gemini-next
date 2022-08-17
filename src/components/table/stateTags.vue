@@ -9,14 +9,14 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { StateUsege } from "@/lib"
+import { StateUsage } from "@/lib"
 
 const props = defineProps<{
       state: number
 }>()
 
 const desc = computed(() => {
-      return StateUsege(props.state)
+      return StateUsage(props.state)
 })
 
 </script>

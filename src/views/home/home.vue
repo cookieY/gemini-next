@@ -4,45 +4,45 @@
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" :title="$t('common.order') + $t('common.sum')"
                               :total="banner.order">
-                              <template v-slot:action>
+                              <template #action>
                                     <InfoCircleOutlined />
                               </template>
-                              <template v-slot:content>
-                                    <MiniArea containerId="order" color="#2094F3" />
+                              <template #content>
+                                    <MiniArea container-id="order" color="#2094F3" />
                               </template>
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" :title="$t('common.query') + $t('common.sum')"
                               :total="banner.query">
-                              <template v-slot:action>
+                              <template #action>
                                     <InfoCircleOutlined />
                               </template>
-                              <template v-slot:content>
-                                    <MiniArea containerId="query" color="#Ff9900" />
+                              <template #content>
+                                    <MiniArea container-id="query" color="#Ff9900" />
                               </template>
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" :title="$t('common.table.source') + $t('common.sum')"
                               :total="banner.source">
-                              <template v-slot:action>
+                              <template #action>
                                     <InfoCircleOutlined />
                               </template>
-                              <template v-slot:content>
-                                    <MiniCol container-id="source" color="#009485"></MiniCol>
+                              <template #content>
+                                    <MiniCol container-id="source" color="#009485" />
                               </template>
                         </ChartCard>
                   </a-col>
                   <a-col :xs="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
                         <ChartCard :loading="loading" :title="$t('menu.manage.user') + $t('common.sum')"
                               :total="banner.user">
-                              <template v-slot:action>
+                              <template #action>
                                     <InfoCircleOutlined />
                               </template>
-                              <template v-slot:content>
-                                    <a-progress :percent="85" status="active" :show-info="false" :strokeWidth="15"
-                                          :strokeColor="{
+                              <template #content>
+                                    <a-progress :percent="85" status="active" :show-info="false" :stroke-width="15"
+                                          :stroke-color="{
                                                 '0%': '#108ee9',
                                                 '100%': '#87d068',
                                           }" />
@@ -67,16 +67,16 @@
                         </a-col>
                   </a-row>
             </a-card>
-            <br />
+            <br>
             <a-row :gutter="24">
                   <a-col :xs="24" :md="24" :xl="16" :style="{ marginBottom: '24px' }">
-                        <a-card :title="$t('common.board')" style="height: 560px;width: 100%;">
-                              <div v-html="boardContent"></div>
+                        <a-card :title="$t('common.board')">
+                              <div v-html="boardContent" />
                         </a-card>
                   </a-col>
                   <a-col :xs="24" :md="24" :xl="8" :style="{ marginBottom: '24px' }">
-                        <a-card :title="$t('common.table.source')+ ' Top10'">
-                              <MiniBar container-id="thend" color="#Ff9900"></MiniBar>
+                        <a-card :title="$t('common.table.source') + ' Top10'">
+                              <MiniBar container-id="trend" color="#Ff9900" />
                         </a-card>
                   </a-col>
             </a-row>

@@ -1,6 +1,9 @@
 import { request, COMMON_URI } from "@/config/request"
 import { OrderItem, OrderTableData } from "@/types";
 import { AxiosPromise } from "axios";
+import { Dayjs } from 'dayjs';
+
+export type RangeValue = [Dayjs, Dayjs];
 
 export interface Comment {
       username?: string
@@ -28,7 +31,7 @@ export interface OrderExpr {
       type: number;
       status: number;
       text: string;
-      picker: string[];
+      picker?: RangeValue;
       username: string;
 }
 

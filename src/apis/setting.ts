@@ -30,7 +30,7 @@ export interface LDAP {
 export interface Other {
       limit: number
       idc: string[]
-      foce: string
+      force: string
       query: boolean
       ex_query_time: number
       query_expire: Dayjs[]

@@ -76,7 +76,7 @@
                               <a-tab-pane :key="1" :tab="$t('order.apply.tab.sql')" forceRender>
                                     <a-spin :spinning="spin" :delay="100">
                                           <div class="editor_border">
-                                                <Editor container-id="applys" ref="editor" @getValues="testResults"
+                                                <Editor container-id="apply" ref="editor" @getValues="testResults"
                                                       @changeContent="() => !enabled ? enabled = true : null">
                                                 </Editor>
                                           </div>
@@ -226,12 +226,12 @@ const testResults = debounce((sql: string) => {
 const postOrder = debounce(() => {
       loadingPostBtn.value = !loadingPostBtn.value
       formRef.value.validate().then(() => {
-            let warpper = Object.assign({}, orderItems)
-            warpper.sql = editor.value.GetValue()
+            let wrapper = Object.assign({}, orderItems)
+            wrapper.sql = editor.value.GetValue()
             orderProfileArch.timeline.forEach((item) => {
-                  warpper.relevant = warpper.relevant.concat(item.auditor)
+                  wrapper.relevant = wrapper.relevant.concat(item.auditor)
             })
-            request.Post(warpper).finally(() => enabled.value = true)
+            request.Post(wrapper).finally(() => enabled.value = true)
       }).catch(() => {
             message.error(t('order.apply.form.commit'))
       }).finally(() => loadingPostBtn.value = !loadingPostBtn.value)

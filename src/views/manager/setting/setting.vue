@@ -118,7 +118,7 @@
                                     <br />
                                     <a-space>
                                           <a-input :placeholder="$t('setting.adv.env.tips')"
-                                                v-model:value="config.other.foce"></a-input>
+                                                v-model:value="config.other.force"></a-input>
                                           <a-button @click="pushEnv">{{ $t('setting.adv.env.add') }}</a-button>
                                     </a-space>
                               </a-form-item>
@@ -228,8 +228,8 @@ const clearOrder = () => {
 const dateRanges = defaultLang === 'en-US' ? { "this month": [dayjs().startOf('month'), dayjs().endOf('month')] } : { "本月": [dayjs().startOf('month'), dayjs().endOf('month')] }
 
 const pushEnv = () => {
-      config.value.other.idc.push(config.value.other.foce)
-      config.value.other.foce = ""
+      config.value.other.idc.push(config.value.other.force)
+      config.value.other.force = ""
 }
 
 const currentPage = () => {

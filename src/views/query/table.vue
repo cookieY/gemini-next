@@ -3,7 +3,7 @@
             <span>{{ $t('order.query.execute.time') }}:{{ executeTime }} ms</span>
       </a-space>
       <a-tabs v-model:activeKey="activeKey">
-            <a-tab-pane :key="idx" :tab="`${$t('common.result')} ${idx}`" v-for="(i, idx) in results">
+            <a-tab-pane :key="idx" :tab="`${$t('common.result')} ${idx + 1}`" v-for="(i, idx) in results">
                   <template v-if="isExport">
                         <a-button size="small" type="primary" ghost @click="downloadXLS(i.data)">{{ $t('common.export')
                         }}
@@ -11,8 +11,9 @@
                         <br />
                         <br />
                   </template>
-                  <a-table bordered :columns="i.field" :dataSource="i.data"
-                        :scroll="{ x: i.length * 200, y: props.height }" @resizeColumn="handleResizeColumn"></a-table>
+                  <a-table bordered :columns="i.field" :dataSource="i.data" :scroll="{ x: i.length * 200 }"
+                        @resizeColumn="handleResizeColumn"
+                        :pagination="{ showTotal: total => $t('common.count', { 'count': total }) }"></a-table>
             </a-tab-pane>
       </a-tabs>
 </template>

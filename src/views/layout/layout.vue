@@ -25,14 +25,14 @@
                                                 </template>
                                           </a-button>
                                     </a-col>
-                                    <a-col :span="7" :offset="15">
+                                    <a-col :span="3" :offset="17">
                                           <a-dropdown>
-                                                <div>
+                                                <a-space>
                                                       <a-avatar :src="profile" />
                                                       <span style="font-weight: bold;">{{
                                                                   store.state.user.account.user
                                                       }}</span>
-                                                </div>
+                                                </a-space>
                                                 <template #overlay>
                                                       <a-menu @click="() => router.push({ path: '/home/profile' })">
                                                             <a-menu-item>

@@ -5,6 +5,11 @@ import Antd from 'ant-design-vue';
 import { store, key } from '@/store/index'
 import i18n from "@/lang"
 import CTable from "@/components/table/index"
+import dayjs, { Dayjs } from 'dayjs';
+import weekday from "dayjs/plugin/weekday"
+import localeData from "dayjs/plugin/localeData"
+dayjs.extend(weekday)
+dayjs.extend(localeData)
 
 if (localStorage.getItem("theme") === null) {
       import("@/style/theme.less")
@@ -15,6 +20,7 @@ if (localStorage.getItem("theme") === null) {
             import("@/style/light.less")
       }
 }
+
 
 
 

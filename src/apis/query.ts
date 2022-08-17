@@ -1,5 +1,8 @@
 import { COMMON_URI, request } from "@/config/request"
 import { AxiosPromise } from "axios"
+import { Dayjs } from 'dayjs';
+
+export type RangeValue = [Dayjs, Dayjs];
 
 
 export interface QueryParams {
@@ -14,7 +17,7 @@ export interface QueryExpr {
       status: number,
       real_name: "",
       export: number
-      picker: string[]
+      picker?: RangeValue
 }
 
 export interface QueryResp {

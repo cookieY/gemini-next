@@ -4,8 +4,8 @@
                   <a-row :gutter="12">
                         <a-col :sm="8" :xs="24">
                               <a-form-item :label="$t('common.table.post.time')">
-                                    <a-range-picker v-model:value="picker"
-                                          :ranges="{ 'This week': [dayjs().startOf('week'), dayjs().endOf('week')], 'This month': [dayjs().startOf('month'), dayjs().endOf('month')] }">
+                                    <a-range-picker v-model:value="expr.picker" :ranges="ranges"
+                                          format="YYYY-MM-DD HH:mm" show-time>
                                     </a-range-picker>
                               </a-form-item>
                         </a-col>
@@ -76,51 +76,42 @@
 <script lang="ts"  setup>
 import { ref } from "@vue/runtime-core";
 import dayjs, { Dayjs } from 'dayjs';
-import { OrderExpr } from "@/apis/orderPostApis"
+import { OrderExpr, RangeValue } from "@/apis/orderPostApis"
 import { OrderState } from "@/types"
-import { ReloadOutlined } from "@ant-design/icons-vue";
 import { onMounted } from "vue";
 
 const advanced = ref(false)
 
-const picker = ref<Dayjs[]>([])
+const picker = ref<RangeValue>()
+
+const ranges = { 'This week': [dayjs().startOf('week'), dayjs().endOf('week')] as RangeValue, 'This month': [dayjs().startOf('month'), dayjs().endOf('month')] as RangeValue }
 
 const expr = ref<OrderExpr>({
       status: 7,
       type: 2,
       text: "",
-      picker: [] as string[],
       username: ""
 })
 
-let initexpr = {} as OrderExpr
+let init_expr = {} as OrderExpr
 
 const emit = defineEmits(['search'])
-
-const onPicker = () => {
-      const dateString = [] as string[]
-      for (const i of picker.value) {
-            dateString.push(i.format("YYYY-MM-DD"))
-      }
-      expr.value.picker = dateString
-}
 
 const toggleAdvanced = () => {
       advanced.value = !advanced.value
 }
 
 const search = () => {
-      onPicker()
       emit('search', expr.value)
 }
 
 const cancel = () => {
-      expr.value = Object.assign({}, initexpr)
+      expr.value = Object.assign({}, init_expr)
       emit('search', expr.value)
 }
 
 onMounted(() => {
-      initexpr = Object.assign({}, expr.value)
+      init_expr = Object.assign({}, expr.value)
 })
 
 </script>

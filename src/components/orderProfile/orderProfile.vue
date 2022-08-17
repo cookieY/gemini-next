@@ -53,11 +53,12 @@
                               </a-descriptions>
                         </a-col>
                         <a-col :span="8">
-                              <a-progress :percent="(order.current_step / orderProfileArch.timeline.length) * 100"
-                                    :strokeWidth="5" :width="150" :stroke-color="StateUsege(order.status).color"
+                              <a-progress
+                                    :percent="StateUsage(order.status).isEnd ? 100 : (order.current_step / orderProfileArch.timeline.length) * 100"
+                                    :strokeWidth="5" :width="150" :stroke-color="StateUsage(order.status).color"
                                     type="circle" style="position: relative">
                                     <template #format="percent">
-                                          <span class="state_color">{{ StateUsege(order.status).title
+                                          <span class="state_color">{{ StateUsage(order.status).title
                                           }}</span>
                                     </template>
                               </a-progress>
@@ -76,8 +77,8 @@
                                     <a-card style="height: 500px;overflow: auto;" :title="$t('order.profile.progress')"
                                           size="small">
                                           <a-timeline
-                                                :pending="order.current_step === orderProfileArch.timeline.length ? false : 'Recording...'">
-                                                <a-timeline-item v-for="i in usege" :key="i.id" color="green">{{
+                                                :pending="StateUsage(order.status).isEnd ? false : 'Recording...'">
+                                                <a-timeline-item v-for="i in usage" :key="i.id" color="green">{{
                                                             i.username
                                                 }} {{ i.action }} {{ i.time }}</a-timeline-item>
                                           </a-timeline>
@@ -143,7 +144,7 @@ import { onMounted } from "@vue/runtime-core";
 import FetchMixins from "@/mixins/fetch"
 import { AxiosResponse } from "axios";
 import { Res } from "@/config/request";
-import { StateUsege } from "@/lib"
+import { StateUsage } from "@/lib"
 import { Request, SQLTestParams } from "@/apis/orderPostApis";
 import { SQLTesting } from "@/types";
 import { useRoute } from "vue-router";
@@ -153,7 +154,7 @@ import WsSocket from "@/socket";
 import { onUnmounted } from "vue";
 import { debounce } from "lodash-es"
 
-interface stepUsege {
+interface stepUsage {
       action: string
       time: string
       username: string
@@ -188,7 +189,7 @@ const sock = new WsSocket(`/fetch/order_state?work_id=${order.value.work_id}`, s
 
 const { FetchStepUsage, FetchProfileSQL, orderProfileArch, fetchRequest } = FetchMixins()
 
-const usege = ref([] as stepUsege[])
+const usage = ref([] as stepUsage[])
 
 const isCurrent = ref(-1)
 
@@ -265,8 +266,8 @@ onMounted(() => {
 
       })
 
-      FetchStepUsage(order.value.work_id).then((res: AxiosResponse<Res<stepUsege[]>>) => {
-            usege.value = res.data.payload
+      FetchStepUsage(order.value.work_id).then((res: AxiosResponse<Res<stepUsage[]>>) => {
+            usage.value = res.data.payload
       })
 
       FetchProfileSQL(order.value.work_id).then((res: AxiosResponse<Res<{ [key: string]: string }>>) => {

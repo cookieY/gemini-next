@@ -105,7 +105,6 @@ const tblRef = reactive<tableRef>({
             status: 7,
             type: 2,
             text: "",
-            picker: [] as string[],
             username: ""
       } as OrderExpr,
       isloop: true,

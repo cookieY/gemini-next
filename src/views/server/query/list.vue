@@ -1,12 +1,12 @@
 <template>
-      <PageHeader :title="title.title" :subTitle="title.subTitle" v-if="!props.isrecord"></PageHeader>
+      <PageHeader :title="title.title" :subTitle="title.subTitle" v-if="!props.is_record"></PageHeader>
       <a-card>
             <QuerySearch @search="(exp) => { tblRef.expr = exp; tbl.manual() }"></QuerySearch>
             <c-table :tblRef="tblRef" ref="tbl" :size="props.size">
                   <template #bodyCell="{ column, text, record }">
                         <template v-if="column.dataIndex === 'action'">
                               <a-space>
-                                    <template v-if="record.status === 2 && !props.isrecord">
+                                    <template v-if="record.status === 2 && !props.is_record">
                                           <a-popconfirm :title="$t('order.query.audit.end.tips')"
                                                 @confirm="() => request.Stop(record.work_id).then(() => tbl.manual())">
                                                 <a-button size="small" danger>{{ $t('order.end') }}</a-button>
@@ -19,12 +19,12 @@
                               </a-space>
                         </template>
                         <template v-if="column.dataIndex === 'status'">
-                              <a-tag :color="StateQueryUsege(text).color">
+                              <a-tag :color="StateQueryUsage(text).color">
                                     <template #icon>
-                                          <component :is="StateQueryUsege(text).icon"
-                                                :spin="StateQueryUsege(text).color === '#408B9B'" />
+                                          <component :is="StateQueryUsage(text).icon"
+                                                :spin="StateQueryUsage(text).color === '#408B9B'" />
                                     </template>
-                                    {{ StateQueryUsege(text).title }}
+                                    {{ StateQueryUsage(text).title }}
                               </a-tag>
                         </template>
                         <template v-if="column.dataIndex === 'export'">
@@ -38,7 +38,7 @@
 <script lang="ts"  setup>
 import { QueryExpr, QueryParams, Request } from "@/apis/query";
 import PageHeader from "@/components/pageHeader/pageHeader.vue";
-import { StateQueryUsege } from "@/lib"
+import { StateQueryUsage } from "@/lib"
 import QuerySearch from "./querySearch.vue";
 import { Res } from "@/config/request";
 import { AxiosResponse } from "axios";
@@ -47,12 +47,12 @@ import { useI18n } from 'vue-i18n';
 import { tableRef } from "@/components/table";
 
 interface propsAttr {
-      isrecord?: boolean
+      is_record?: boolean
       size?: string
 }
 
 const props = withDefaults(defineProps<propsAttr>(), {
-      isrecord: false,
+      is_record: false,
       size: "default"
 })
 
@@ -100,7 +100,7 @@ const tblRef = reactive<tableRef>({
             status: 7
       } as QueryExpr,
       fn: (expr: QueryParams) => {
-            request.List(expr, props.isrecord ? "record" : "order").then((res: AxiosResponse<Res<any>>) => {
+            request.List(expr, props.is_record ? "record" : "order").then((res: AxiosResponse<Res<any>>) => {
                   tblRef.data = res.data.payload.data
                   tblRef.pageCount = res.data.payload.page
             })

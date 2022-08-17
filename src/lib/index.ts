@@ -5,28 +5,28 @@ import mitt from 'mitt'
 // @ts-ignore
 const { t } = i18n.global
 
-export const StateUsege = (state: number) => {
+export const StateUsage = (state: number) => {
       switch (state) {
             case OrderState.PROCESS:
-                  return { color: "#408B9B", title: t('order.state.process'), icon: SyncOutlined }
+                  return { color: "#408B9B", title: t('order.state.process'), icon: SyncOutlined, isEnd: false }
             case OrderState.WAIT:
-                  return { color: "#408B9B", title: t('order.state.wait'), icon: SyncOutlined }
+                  return { color: "#408B9B", title: t('order.state.wait'), icon: SyncOutlined, isEnd: false }
             case OrderState.AUDIT:
-                  return { color: "#408B9B", title: t('order.state.audit'), icon: SyncOutlined }
+                  return { color: "#408B9B", title: t('order.state.audit'), icon: SyncOutlined, isEnd: false }
             case OrderState.SUCCESS:
-                  return { color: "#43A687", title: t('order.state.success'), icon: CheckCircleOutlined }
+                  return { color: "#43A687", title: t('order.state.success'), icon: CheckCircleOutlined, isEnd: true }
             case OrderState.REJECT:
-                  return { color: "#EA495F", title: t('order.state.reject'), icon: CloseCircleOutlined }
+                  return { color: "#EA495F", title: t('order.state.reject'), icon: CloseCircleOutlined, isEnd: true }
             case OrderState.ERROR:
-                  return { color: "#EA495F", title: t('order.state.error'), icon: CloseCircleOutlined }
+                  return { color: "#EA495F", title: t('order.state.error'), icon: CloseCircleOutlined, isEnd: true }
             case OrderState.Undo:
-                  return { color: "#EA495F", title: t('order.undo'), icon: CloseCircleOutlined }
+                  return { color: "#EA495F", title: t('order.undo'), icon: CloseCircleOutlined, isEnd: true }
             default:
                   return {}
       }
 }
 
-export const StateQueryUsege = (state: number) => {
+export const StateQueryUsage = (state: number) => {
       switch (state) {
             case QueryState.AUDIT:
                   return { color: "#408B9B", title: t('order.state.audit'), icon: SyncOutlined }
