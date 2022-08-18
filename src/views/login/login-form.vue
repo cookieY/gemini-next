@@ -15,12 +15,11 @@
                         <a-checkbox v-model:checked="loginForm.is_ldap">
                               <span class="fff">LDAP</span>
                         </a-checkbox>
-                        <a-checkbox v-model:checked="loginForm.is_oidc">
-                              <span class="fff">OIDC</span>
-                        </a-checkbox>
                   </a-space>
             </a-form-item>
             <a-button type="dashed" block @click="signIn" ghost>{{ $t('common.signin') }}</a-button>
+            <a-button v-if="oidcEnabled" type="dashed" block @click="oidcSignIn" ghost style="margin-top: 10px">OIDC登录
+            </a-button>
       </a-form>
 </template>
 
@@ -52,7 +51,6 @@ const oidcSignInUrl = ref("")
 const query = computed(() => route.query).value
 
 onMounted(() => {
-
       if (query.oidcLogin) {
             const { oidcLogin, ...rest } = query
             store.commit("user/USER_STORE", rest)
@@ -68,11 +66,11 @@ onMounted(() => {
       })
 })
 
+const oidcSignIn = () => {
+      window.location.href = oidcSignInUrl.value
+}
+
 const signIn = debounce(() => {
-      if (loginForm.is_oidc) {
-            window.location.href = oidcSignInUrl.value
-            return
-      }
       LoginApi(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {
             if (res.data.code === 1301) {
                   return

@@ -33,10 +33,10 @@
                   </a-col>
                   <a-col :span="8">
                         <a-progress :percent="100" :strokeWidth="5" :width="150"
-                              :stroke-color="StateQueryUsege(order.status).color" type="circle"
+                              :stroke-color="StateQueryUsage(order.status).color" type="circle"
                               style="position: relative">
                               <template #format="percent">
-                                    <span class="state_color">{{ StateQueryUsege(order.status).title }}</span>
+                                    <span class="state_color">{{ StateQueryUsage(order.status).title }}</span>
                               </template>
                         </a-progress>
                   </a-col>
@@ -60,7 +60,7 @@ import { useRoute } from 'vue-router';
 import CommonMixins from '@/mixins/common'
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
-import { StateQueryUsege } from "@/lib"
+import { StateQueryUsage } from "@/lib"
 import { QueryState } from "@/types"
 
 

@@ -5,7 +5,8 @@
       <a-tabs v-model:activeKey="activeKey">
             <a-tab-pane :key="idx" :tab="`${$t('common.result')} ${idx + 1}`" v-for="(i, idx) in results">
                   <template v-if="isExport">
-                        <a-button size="small" type="primary" ghost @click="downloadXLS(i.data)">{{ $t('common.export')
+                        <a-button size="small" type="primary" ghost @click="downloadXLS(i.data, i.field)">{{
+                                    $t('common.export')
                         }}
                         </a-button>
                         <br />
@@ -49,7 +50,7 @@ const handleResizeColumn = (w: number, col: { width: number }) => {
       col.width = w;
 }
 
-const downloadXLS = (data: any) => {
+const downloadXLS = (data: any, title: any) => {
       const options = {
             '!cols': [
                   { wpx: 100 },
@@ -59,7 +60,8 @@ const downloadXLS = (data: any) => {
                   { wpx: 100 },
             ]
       };
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data, { header: title.map((item) => item.title) });
       worksheet['!cols'] = options['!cols'];
       const workbook: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
