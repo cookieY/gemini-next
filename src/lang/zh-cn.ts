@@ -9,6 +9,7 @@ import record from "./zh-cn/record"
 import query from "./zh-cn/query";
 import db from "./zh-cn/db"
 import flow from "./zh-cn/flow"
+import rule from "./zh-cn/rule"
 
 
 const components = {
@@ -27,5 +28,6 @@ export default {
       ...record,
       ...query,
       ...db,
-      ...flow
+      ...flow,
+      ...rule,
 }

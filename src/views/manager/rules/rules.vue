@@ -6,7 +6,7 @@
                         <a-input-search placeholder="input search text" enter-button @search="onSearch" />
                   </a-col>
                   <a-col :span="4" offset="1">
-                        <a-button type="primary" @click="request.Post(engine)">保存</a-button>
+                        <a-button type="primary" @click="request.Post(engine)">{{ $t('common.save') }}</a-button>
                   </a-col>
             </a-row>
             <br />
@@ -35,25 +35,28 @@ import { onMounted, ref } from "vue"
 import { AxiosResponse } from 'axios';
 import { Request } from '@/apis/rules';
 import { Res } from "@/config/request"
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const col = [
       {
-            title: '名称',
+            title: t('common.table.name'),
             dataIndex: 'name',
             width: 50
       },
       {
-            title: '类型',
+            title: t('common.table.type'),
             dataIndex: 'type',
             width: 50
       },
       {
-            title: '规则描述',
+            title: t('common.desc'),
             dataIndex: 'desc',
       },
 
       {
-            title: '开关',
+            title: t('common.action'),
             dataIndex: 'action',
             width: 300
       },

@@ -14,5 +14,5 @@ import { ref } from 'vue';
 // import "@/style/theme.less"
 dayjs.locale(defaultLang);
 
-const locale = defaultLang === "en-US" ? enUS : zhCN
+const locale = defaultLang === "en_US" ? enUS : zhCN
 </script>

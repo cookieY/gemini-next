@@ -1,12 +1,12 @@
 <template>
       <a-modal v-model:visible="is_open" :title="props.title" :width="800" @ok="postPolicy">
             <a-form layout="vertical">
-                  <a-form-item label="权限组名称">
+                  <a-form-item :label="$t('common.policy.group') + $t('common.table.name')">
                         <a-input v-model:value="selfRuse.name" :disabled="isEdit"></a-input>
                   </a-form-item>
                   <template v-for="i in range">
                         <a-transfer
-                              :titles="[' ' + $t('common.all') + `${i.toLocaleUpperCase()}权限`, ' ' + $t('common.selected') + `${i.toLocaleUpperCase()}权限`]"
+                              :titles="[' ' + $t('common.all') + `${i.toLocaleUpperCase()} ` + $t('common.policy'), ' ' + $t('common.selected') + `${i.toLocaleUpperCase()} ` + $t('common.policy')]"
                               :rowKey="record => record.source_id" v-model:target-keys="selfRuse[`${i}_source`]"
                               :data-source="i === 'query' ? ruse.query : ruse.source" show-search
                               :render="item => item.source" :list-style="{

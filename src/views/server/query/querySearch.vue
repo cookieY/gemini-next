@@ -77,8 +77,6 @@ const initExpr = Object.assign({}, expr.value)
 
 const advanced = ref(false)
 
-const picker = ref<Dayjs[]>([])
-
 const cancel = () => {
       expr.value = Object.assign({}, initExpr)
       emit('search', unref(initExpr))

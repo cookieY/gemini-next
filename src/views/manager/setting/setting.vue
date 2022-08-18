@@ -225,7 +225,7 @@ const clearOrder = () => {
       }
 }
 
-const dateRanges = defaultLang === 'en-US' ? { "this month": [dayjs().startOf('month'), dayjs().endOf('month')] } : { "本月": [dayjs().startOf('month'), dayjs().endOf('month')] }
+const dateRanges = defaultLang === 'en_US' ? { "this month": [dayjs().startOf('month'), dayjs().endOf('month')] } : { "本月": [dayjs().startOf('month'), dayjs().endOf('month')] }
 
 const pushEnv = () => {
       config.value.other.idc.push(config.value.other.force)

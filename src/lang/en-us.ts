@@ -9,6 +9,7 @@ import reocrd from "./en-us/record"
 import query from "./en-us/query";
 import db from "./en-us/db"
 import flow from "./en-us/flow"
+import rule from "./en-us/rule"
 
 
 const components = {
@@ -27,5 +28,6 @@ export default {
       ...reocrd,
       ...query,
       ...db,
-      ...flow
+      ...flow,
+      ...rule,
 }

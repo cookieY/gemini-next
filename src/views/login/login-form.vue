@@ -18,7 +18,9 @@
                   </a-space>
             </a-form-item>
             <a-button type="dashed" block @click="signIn" ghost>{{ $t('common.signin') }}</a-button>
-            <a-button v-if="oidcEnabled" type="dashed" block @click="oidcSignIn" ghost style="margin-top: 10px">OIDC登录
+            <a-button v-if="oidcEnabled" type="dashed" block @click="oidcSignIn" ghost style="margin-top: 10px">OIDC {{
+                        $t('common.signin')
+            }}
             </a-button>
       </a-form>
 </template>

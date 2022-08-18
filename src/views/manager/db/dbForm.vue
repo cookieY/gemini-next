@@ -41,9 +41,11 @@
             </a-form-item>
             <a-form-item :label="$t('common.action')">
                   <a-space size="small">
-                        <a-button type="dashed" @click="checkConn" :loading="loading">{{ $t('db.test') }}</a-button>
-                        <a-button type="primary" @click="createSource">{{ $t('common.create') }}</a-button>
-                        <a-button type="primary" danger @click="resetFields">{{ $t('common.cancel') }}</a-button>
+                        <a-button type="dashed" @click="checkConn" :loading="loading" size="small">{{ $t('db.test') }}
+                        </a-button>
+                        <a-button type="primary" @click="createSource" size="small">{{ $t('common.create') }}</a-button>
+                        <a-button type="primary" danger @click="resetFields" size="small">{{ $t('common.cancel') }}
+                        </a-button>
                   </a-space>
             </a-form-item>
       </a-form>

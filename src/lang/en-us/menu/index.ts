@@ -3,6 +3,7 @@ export default {
       "menu.order.self": "My Order",
       "menu.order.apply": "Apply",
       "menu.order.title": "Audit",
+      "menu.comptroller.title": "Analysis",
       "menu.order.query": "Query",
       "menu.order.order": "Order",
       "menu.manage": "Manage",

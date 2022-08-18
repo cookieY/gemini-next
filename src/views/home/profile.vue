@@ -18,8 +18,18 @@
                               </a-form-item>
                               <a-form-item :label="$t('common.theme')">
                                     <a-select @change="changeTheme" v-model:value="formItem.theme">
-                                          <a-select-option key="dark" value="dark">暗黑主题</a-select-option>
-                                          <a-select-option key="light" value="light">普通主题</a-select-option>
+                                          <a-select-option key="dark" value="dark">{{ $t('common.theme.dark') }}
+                                          </a-select-option>
+                                          <a-select-option key="light" value="light">{{ $t('common.theme.light') }}
+                                          </a-select-option>
+                                    </a-select>
+                              </a-form-item>
+                              <a-form-item :label="$t('common.lang')">
+                                    <a-select @change="changeLang" v-model:value="formItem.lang">
+                                          <a-select-option key="en_US" value="en_US">{{ $t('common.lang.us') }}
+                                          </a-select-option>
+                                          <a-select-option key="zh_CN" value="zh_CN">{{ $t('common.lang.cn') }}
+                                          </a-select-option>
                                     </a-select>
                               </a-form-item>
                               <a-form-item :label="$t('user.password.new')" name="password">
@@ -58,11 +68,17 @@ const formItem = ref<RegisterForm>({
       real_name: "",
       email: "",
       department: "",
-      theme: "dark"
+      theme: "dark",
+      lang: "en_US",
 })
 
 const changeTheme = (e) => {
       localStorage.setItem("theme", e)
+      location.reload();
+}
+
+const changeLang = (e) => {
+      localStorage.setItem("lang", e)
       location.reload();
 }
 
@@ -90,6 +106,7 @@ onMounted(() => {
       request.UserInfo().then((res: AxiosResponse<Res<RegisterForm>>) => {
             formItem.value = res.data.payload
             localStorage.getItem("theme") === null ? formItem.value.theme = "dark" : formItem.value.theme = localStorage.getItem("theme") as string
+            localStorage.getItem("lang") === null ? formItem.value.lang = "zh_CN" : formItem.value.lang = localStorage.getItem("lang") as string
       })
 })
 

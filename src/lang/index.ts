@@ -4,17 +4,21 @@ import zhCN from "./zh-cn"
 import { createI18n } from "vue-i18n";
 
 const messages = {
-      'en-US': {
+      'en_US': {
             ...enUS
       },
-      'zh-CN': {
+      'zh_CN': {
             ...zhCN
       }
 }
 
 
-export let defaultLang = 'zh-CN'
-
+export let defaultLang = 'en_US'
+if (localStorage.getItem("theme") === null) {
+      defaultLang = 'zh_CN'
+} else {
+      defaultLang = localStorage.getItem("lang") as string
+}
 
 const i18n = createI18n({
       legacy: false,

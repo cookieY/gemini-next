@@ -11,7 +11,7 @@ import { defaultLang } from "@/lang";
 
 const { is_open, close, open } = CommonMixin()
 
-const ll = defaultLang === 'en-US' ? AnnounceEN : Announce
+const ll = defaultLang === 'en_US' ? AnnounceEN : Announce
 
 defineExpose({
       open

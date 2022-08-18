@@ -11,6 +11,7 @@ import { ref } from 'vue';
 import { Request } from '@/apis/orderPostApis';
 import { AxiosResponse } from 'axios';
 import { Res } from '@/config/request';
+import { useI18n } from 'vue-i18n';
 
 self.MonacoEnvironment = {
       getWorker (_, label) {
@@ -32,6 +33,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['getValues', 'changeContent'])
 
+const { t } = useI18n()
+
 let model = {} as monaco.editor.IStandaloneCodeEditor
 
 const request = new Request
@@ -40,7 +43,7 @@ let completionProvider: any
 
 const beautyFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-beauty',
-      label: 'SQL美化',
+      label: t('query.editor.beauty'),
       keybindings: [
             monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_B,
       ],
@@ -53,7 +56,7 @@ const beautyFunc: monaco.editor.IActionDescriptor = {
 
 const mergeDDL: monaco.editor.IActionDescriptor = {
       id: 'ms-merge',
-      label: "多条alter语句合并",
+      label: t('query.editor.merge'),
       keybindings: [
             monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_M,
       ],
@@ -74,7 +77,7 @@ const mergeDDL: monaco.editor.IActionDescriptor = {
 
 const GetValueFunc: monaco.editor.IActionDescriptor = {
       id: 'ms-test',
-      label: props.isQuery ? "查询" : "SQL检测",
+      label: props.isQuery ? t('query.editor.query') : t('query.editor.test'),
       keybindings: [
             monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_E,
       ],

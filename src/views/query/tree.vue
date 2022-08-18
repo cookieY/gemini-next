@@ -1,6 +1,6 @@
 <template>
 
-      <a-input-search v-model:value="searchValue" style="margin-bottom: 8px" placeholder="搜索" />
+      <a-input-search v-model:value="searchValue" style="margin-bottom: 8px" :placeholder="$t('common.search')" />
       <a-spin :spinning="spinning">
             <a-tree v-model:expandedKey="expandedKeys" :auto-expand-parent="autoExpandParent" :tree-data="gData"
                   @expand="onLoadData" :height="700" style="overflow:auto" show-icon>
@@ -20,7 +20,7 @@
                               <template #overlay>
                                     <a-menu>
                                           <a-menu-item key="1" v-if="meta === 'Table'" @click="showTableData(treeKey)">
-                                                查看表数据</a-menu-item>
+                                                {{ $t('query.show.table') }}</a-menu-item>
                                     </a-menu>
                               </template>
                         </a-dropdown>

@@ -1,6 +1,6 @@
 export default {
       "setting.title": "平台设置",
-      "setting.desc": "",
+      "setting.desc": "配置平台参数",
 
       "setting.message.push": "消息推送",
       "setting.message.hook.addr": "webhook地址",

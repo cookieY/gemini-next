@@ -36,7 +36,8 @@
                                                 <template #overlay>
                                                       <a-menu @click="() => router.push({ path: '/home/profile' })">
                                                             <a-menu-item>
-                                                                  <a href="javascript:;">个人详情</a>
+                                                                  <a
+                                                                        href="javascript:;">{{ $t('common.profile.title') }}</a>
                                                             </a-menu-item>
                                                       </a-menu>
                                                 </template>

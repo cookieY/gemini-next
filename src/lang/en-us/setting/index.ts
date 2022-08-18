@@ -1,7 +1,7 @@
 export default {
 
       "setting.title": "Settings",
-      "setting.desc": "The configuration suits your style",
+      "setting.desc": "Configuring Platform Parameters",
 
       "setting.message.push": "Message Push",
       "setting.message.hook.addr": "Dingding hook addr",

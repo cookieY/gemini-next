@@ -14,7 +14,7 @@ const { t } = useI18n()
 const route = useRoute()
 
 const checkTitle = (audit: string): { [key: string]: string } => {
-      return audit === "audit" ? { title: t('menu.order.order') + t('menu.order.title'), subTitle: t('order.desc.audit') } : { title: t('menu.order.self'), subTitle: t('order.desc.self') }
+      return audit === "audit" ? { title: t('order.order.title'), subTitle: t('order.desc.audit') } : { title: t('menu.order.self'), subTitle: t('order.desc.self') }
 }
 
 

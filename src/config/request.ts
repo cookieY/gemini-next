@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from "axios"
 import { notification } from "ant-design-vue";
 import { store } from "@/store"
 import router from "@/router";
+import i18n from "@/lang";
 
 
 interface Res<T> {
@@ -9,6 +10,8 @@ interface Res<T> {
       text: string;
       payload: T;
 }
+
+const { t } = i18n.global
 
 const ACCESS_TOKEN = sessionStorage.getItem("jwt")
 
@@ -19,22 +22,21 @@ const request: AxiosInstance = axios.create({
       headers: {
             'Content-Type': 'application/json'
       },
-      // baseURL: "http://127.0.0.1:8000"
 })
 
 const errorHandler = (error: { response: { data: { message: string }; status: number } }) => {
       if (error.response) {
             if (error.response.status === 401) {
                   notification.error({
-                        message: '会话过期',
-                        description: '会话已失效,请返回登陆页面重新登录！'
+                        message: t('common.session.title'),
+                        description: t('common.session.desc')
                   })
                   router.replace("/login")
                   return Promise.reject(error)
             }
             const data = error.response.data
             notification.error({
-                  message: `状态码:${error.response.status}`,
+                  message: t('common.session.state') + `:${error.response.status}`,
                   description: data.message
             })
       }
@@ -44,14 +46,14 @@ const errorHandler = (error: { response: { data: { message: string }; status: nu
 const responseInject = (res: Res<never>) => {
       if (res.text !== '' && res.code === 1200) {
             notification.info({
-                  message: '状态码:1200',
+                  message: t('common.session.state') + ':1200',
                   description: res.text
             })
       }
 
       if (res.code > 1200) {
             notification.error({
-                  message: `状态码:${res.code}`,
+                  message: t('common.session.state') + `:${res.code}`,
                   description: res.text
             })
       }

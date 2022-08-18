@@ -66,7 +66,7 @@ export default {
       "order.reject": "Rejected",
       "order.end": "End",
       "order.roll.tips": "SQL must not be empty",
-
+      "order.order.title": "Order Audit",
       "order.query.title": "Query Audit",
       "order.query.desc": "Enquiry application approval",
       "order.query.execute.time": "Query Time",

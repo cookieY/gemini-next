@@ -32,14 +32,16 @@
                         </template>
                         <template v-if="['real_name', 'department', 'email', 'is_recorder'].includes(column.dataIndex)">
                               <template v-if="!record.editable">
-                                    <span v-if="column.dataIndex === 'is_recorder'">{{ text === 2 ? '否' : '是' }}</span>
+                                    <span v-if="column.dataIndex === 'is_recorder'">{{ text === 2 ? $t('common.no') :
+                                                $t('common.yes')
+                                    }}</span>
                                     <span v-else>{{ text }}</span>
                               </template>
                               <template v-else>
                                     <a-select v-if="column.dataIndex === 'is_recorder'"
                                           v-model:value="record[column.dataIndex]">
-                                          <a-select-option :key="2" :value="2">否</a-select-option>
-                                          <a-select-option :key="1" :value="1">是</a-select-option>
+                                          <a-select-option :key="2" :value="2">{{ $t('common.no') }}</a-select-option>
+                                          <a-select-option :key="1" :value="1">{{ $t('common.yes') }}</a-select-option>
                                     </a-select>
                                     <a-input v-model:value="record[column.dataIndex]" v-else></a-input>
                               </template>

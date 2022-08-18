@@ -1,3 +1,5 @@
+import i18n from "@/lang"
+
 interface Rule {
       desc: string
       name: string
@@ -5,262 +7,264 @@ interface Rule {
       tp: number
 }
 
+const { t } = i18n.global
+
 const rule: Rule[] = [
       {
             name: 'DDLCheckTableComment',
-            desc: '强制表必须拥有表注释',
+            desc: t('DDLCheckTableComment'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDlCheckColumnComment',
-            desc: '强制表字段必须拥有列注释',
+            desc: t('DDlCheckColumnComment'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLCheckColumnNullable',
-            desc: '强制非timestamp类型字段必须为NOT NULL',
+            desc: t('DDLCheckColumnNullable'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLCheckColumnDefault',
-            desc: '强制非text,blob,json,timestamp类型字段必须拥有默认值',
+            desc: t('DDLCheckColumnDefault'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLCheckFloatDouble',
-            desc: '强制float/double类型变更为decimal类型',
+            desc: t('DDLCheckFloatDouble'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLEnableAutoincrementInit',
-            desc: '强制自增列初始值为1',
+            desc: t('DDLEnableAutoincrementInit'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLPrimaryKeyMust',
-            desc: '强制主键名称为ID',
+            desc: t('DDLPrimaryKeyMust'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLEnableAutoIncrement',
-            desc: '强制主键为自增列',
+            desc: t('DDLEnableAutoIncrement'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLEnableAutoincrementUnsigned',
-            desc: '强制主键必须使用无符号标志unsigned',
+            desc: t('DDLEnableAutoincrementUnsigned'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLIndexNameSpec',
-            desc: '开启索引名称规范(索引名必须以idx_为开头)',
+            desc: t('DDLIndexNameSpec'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'CheckIdentifier',
-            desc: '开启mysql关键词检查',
+            desc: t('CheckIdentifier'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLEnableAcrossDBRename',
-            desc: '允许跨库表迁移',
+            desc: t('DDLEnableAcrossDBRename'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLEnableDropTable',
-            desc: '允许删除表',
+            desc: t('DDLEnableDropTable'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLEnableDropDatabase',
-            desc: '允许删除库',
+            desc: t('DDLEnableDropDatabase'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLAllowPRINotInt',
-            desc: '允许主键类型为非int/bigint',
+            desc: t('DDLAllowPRINotInt'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLEnableNullIndexName',
-            desc: '允许索引名为空',
+            desc: t('DDLEnableNullIndexName'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLMultiToCommit',
-            desc: '允许单个工单提交多条DDL语句',
+            desc: t('DDLMultiToCommit'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLAllowMultiAlter',
-            desc: 'DDL单个工单允许多alter语句提交',
+            desc: t('DDLAllowMultiAlter'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLAllowColumnType',
-            desc: '允许字段进行类型转换(不同字段之间的转换或长度从长变短。如:int -> bigint,int(50) -> int(20))',
+            desc: t('DDLAllowColumnType'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'DDLAllowChangeColumnPosition',
-            desc: '允许使用after/first',
+            desc: t('DDLAllowChangeColumnPosition'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'AllowCreateView',
-            desc: '允许创建视图',
+            desc: t('AllowCreateView'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'AllowCreatePartition',
-            desc: '允许创建分区表',
+            desc: t('AllowCreatePartition'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'AllowSpecialType',
-            desc: '允许添加bit,enum,set类型字段',
+            desc: t('AllowSpecialType'),
             type: 'DDL',
             tp: 0
       },
       {
             name: 'SupportCollation',
-            desc: 'create/alter 表或字段时允许的Collate范围。多个请使用逗号进行分割',
+            desc: t('SupportCollation'),
             type: 'DDL',
             tp: 2
       },
       {
             name: 'SupportCharset',
-            desc: 'create/alter 表或字段时允许的Charset范围。多个请使用逗号进行分割',
+            desc: t('SupportCharset'),
             type: 'DDL',
             tp: 2
       },
       {
             name: 'MustHaveColumns',
-            desc: '建表必须拥有的字段,多个字段请用逗号分隔',
+            desc: t('MustHaveColumns'),
             type: 'DDL',
             tp: 2
       },
       {
             name: 'DDLMaxKeyParts',
-            desc: '单个索引指定字段上限',
+            desc: t('DDLMaxKeyParts'),
             type: 'DDL',
             tp: 1
       },
       {
             name: 'DDLMaxKey',
-            desc: '单个表最多允许几个索引',
+            desc: t('DDLMaxKey'),
             type: 'DDL',
             tp: 1
       },
       {
             name: 'MaxDDLAffectRows',
-            desc: 'DDL最大影响行数',
+            desc: t('MaxDDLAffectRows'),
             type: 'DDL',
             tp: 1
       },
       {
             name: 'DDLMaxCharLength',
-            desc: 'char字段最大长度',
+            desc: t('DDLMaxCharLength'),
             type: 'DDL',
             tp: 1
       },
       {
             name: 'MaxTableNameLen',
-            desc: '表名最大长度限制',
+            desc: t('MaxTableNameLen'),
             type: 'DDL',
             tp: 1
       },
       {
             name: 'DMLMaxInsertRows',
-            desc: 'Insert最大插入行数上限',
+            desc: t('DMLMaxInsertRows'),
             type: 'DML',
             tp: 1
       },
       {
             name: 'DMLAllowLimitSTMT',
-            desc: '允许update/insert 语句使用limit关键字',
+            desc: t('DMLAllowLimitSTMT'),
             type: 'DML',
             tp: 0
       },
       {
             name: 'DMLAllowInsertNull',
-            desc: '允许insert语句插入Null值',
+            desc: t('DMLAllowInsertNull'),
             type: 'DML',
             tp: 0
       },
       {
             name: 'DDLImplicitTypeConversion',
-            desc: '不允许隐式转换',
+            desc: t('DDLImplicitTypeConversion'),
             type: 'DML',
             tp: 0
       },
       {
             name: 'DMLInsertColumns',
-            desc: '检查Insert语句中插入的字段名是否存在',
+            desc: t('DMLInsertColumns'),
             type: 'DML',
             tp: 0
       },
       {
             name: 'DMLWhere',
-            desc: '强制DML语句必须拥有where条件',
+            desc: t('DMLWhere'),
             type: 'DML',
             tp: 0
       },
       {
             name: 'DMLOrder',
-            desc: '禁止DML语句使用Order by子句',
+            desc: t('DMLOrder'),
             type: 'DML',
             tp: 0
       },
       {
             name: 'DMLSelect',
-            desc: '禁止DML语句使用Select子句',
+            desc: t('DMLSelect'),
             type: 'DML',
             tp: 0
       },
       {
             name: 'MaxAffectRows',
-            desc: 'DML最大影响行数',
+            desc: t('MaxAffectRows'),
             type: 'DML',
             tp: 1
       },
       {
             name: 'IsOSC',
-            desc: '开启在线表变更工具',
+            desc: t('IsOSC'),
             type: 'Online-DDL',
             tp: 0
       },
       {
             name: 'OscSize',
-            desc: '表体积大于该值后触发在线表变更同步，单位:M',
+            desc: t('OscSize'),
             type: 'Online-DDL',
             tp: 1
       },
       {
             name: 'OSCExpr',
-            desc: '同步工具参数。如: PT-OSC 请注意! 此处仅填写参数。请使用以下变量名替换对应输入值 $SQL $ADDR $PORT $USER $PASSWORD $SCHEMA $TABLE。例子: (pt-osc配置) pt-online-schema-change  --alter $SQL --user=$USER  --password=$PASSWORD  --host=$ADDR P=$PORT,D=$SCHEMA,t=$TABLE  --execute',
+            desc: t('OSCExpr'),
             type: 'Online-DDL',
             tp: 3
       },

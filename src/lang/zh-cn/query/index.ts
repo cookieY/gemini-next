@@ -22,4 +22,9 @@ export default {
       "query.profile.date": "申请时间",
       "query.profile.text": "查询说明",
       "query.profile.approval": "审批时间",
+      "query.show.table": "查看表数据",
+      "query.editor.beauty": "SQL美化",
+      "query.editor.merge": "多条alter语句合并",
+      "query.editor.query": "查询",
+      "query.editor.test": "SQL检测",
 }
