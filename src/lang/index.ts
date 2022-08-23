@@ -14,7 +14,7 @@ const messages = {
 
 
 export let defaultLang = 'en_US'
-if (localStorage.getItem("theme") === null) {
+if (localStorage.getItem("lang") === null) {
       defaultLang = 'zh_CN'
 } else {
       defaultLang = localStorage.getItem("lang") as string
