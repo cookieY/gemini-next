@@ -1,6 +1,6 @@
 {
       "name": "gemini-next",
-      "version": "3.0.7",
+      "version": "3.0.8",
       "license": "AGPL-3.0-or-later",
       "scripts": {
             "dev": "vite  --mode dev",
