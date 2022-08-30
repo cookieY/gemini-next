@@ -28,7 +28,7 @@ onMounted(() => {
       request.Get().then((res: AxiosResponse<Res<string>>) => {
             editValue.value = res.data.payload
             instance = new Vditor("mavon-editor-id", {
-                  lang: defaultLang,
+                  lang: defaultLang as any,
                   height: 360,
                   toolbarConfig: {
                         pin: true,
