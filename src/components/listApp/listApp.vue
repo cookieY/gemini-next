@@ -3,8 +3,8 @@
             <a-col :xs="24" :md="8">
                   <a-select v-model:value="selected" show-search allowClear placeholder="数据源搜索" style="width: 100%;"
                         :filterOption="filterOption" @change="handleChange">
-                        <a-select-option value="all">{{ $t('order.state.all') }}</a-select-option>
-                        <a-select-option v-for="i in options" :value="i.source">{{ i.source }}</a-select-option>
+                        <a-select-option value="all">{{  $t('order.state.all')  }}</a-select-option>
+                        <a-select-option v-for="i in options" :value="i.source">{{  i.source  }}</a-select-option>
                   </a-select>
             </a-col>
       </a-row>
@@ -17,10 +17,11 @@
                               @click="() => router.push({ path: props.type !== 'query' ? '/apply/order' : '/apply/query', query: { type: props.id, idc: item.idc, source: item.source, source_id: item.source_id } })">
                               <a-card :body-style="{ paddingBottom: 20 }" hoverable>
                                     <a-card-meta :title="item.source">
-                                          <template v-slot:description>{{ $t('order.apply.card.env', {
-                                                      'env': item.idc
-                                                })
-                                          }}</template>
+                                          <template v-slot:description>{{  $t('order.apply.card.env', {
+                                                'env': item.idc
+                                          })
+
+                                                }}</template>
                                           <template v-slot:avatar>
                                                 <a-avatar :style="{ backgroundColor: '#Ff9900' }">
                                                       <template v-slot:icon>

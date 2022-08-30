@@ -4,44 +4,47 @@
                   :ghost="false">
                   <template #extra>
                         <template v-if="route.params.tp === 'audit' && isCurrent > -1 && order.status === 2">
-                              <a-button key="2" danger ghost @click="r.turnState()">{{ $t('order.reject') }}</a-button>
+                              <a-button key="2" danger ghost @click="r.turnState()">{{  $t('order.reject')  }}</a-button>
                               <a-popconfirm :title="$t('order.agree.tips')" @confirm="next" :visible="condition"
                                     @visibleChange="handleVisibleChange">
                                     <a-button key="1" type="primary" :disabled="enabled">{{
-                                                $t('order.agree')
-                                    }}</a-button>
+                                           $t('order.agree') 
+                                          }}</a-button>
                               </a-popconfirm>
 
                         </template>
                         <template v-if="route.params.tp !== 'audit' && order.status === 2">
                               <a-popconfirm :title="$t('order.undo.tips')" @confirm="undoNext">
                                     <a-button key="1" danger ghost>{{
-                                                $t('order.undo')
-                                    }}</a-button>
+                                           $t('order.undo') 
+                                          }}</a-button>
                               </a-popconfirm>
                         </template>
                   </template>
                   <a-row type="flex" justify="center" align="middle">
                         <a-col :span="16">
                               <a-descriptions :column="2">
-                                    <a-descriptions-item :label="$t('common.table.type')">{{ order.type === 0 ? 'DDL' :
-                                                'DML'
-                                    }}</a-descriptions-item>
-                                    <a-descriptions-item :label="$t('common.table.env')">{{ order.idc }}
+                                    <a-descriptions-item :label="$t('common.table.type')">{{  order.type === 0 ? 'DDL' :
+                                    'DML'
+
+                                          }}</a-descriptions-item>
+                                    <a-descriptions-item :label="$t('common.table.env')">{{  order.idc  }}
                                     </a-descriptions-item>
-                                    <a-descriptions-item :label="$t('common.table.source')">{{ order.source }}
+                                    <a-descriptions-item :label="$t('common.table.source')">{{  order.source  }}
                                     </a-descriptions-item>
-                                    <a-descriptions-item :label="$t('common.table.schema')">{{ order.data_base }}
+                                    <a-descriptions-item :label="$t('common.table.schema')">{{  order.data_base  }}
                                     </a-descriptions-item>
-                                    <a-descriptions-item :label="$t('order.profile.roll')">{{ order.backup ?
-                                                $t('common.yes') : $t('common.no')
-                                    }}</a-descriptions-item>
-                                    <a-descriptions-item :label="$t('order.profile.timing')">{{ order.delay === 'none' ?
-                                                $t('order.table.delay') : order.delay
-                                    }}</a-descriptions-item>
+                                    <a-descriptions-item :label="$t('order.profile.roll')">{{  order.backup ?
+                                    $t('common.yes') : $t('common.no')
+
+                                          }}</a-descriptions-item>
+                                    <a-descriptions-item :label="$t('order.profile.timing')">{{  order.delay === 'none' ?
+                                    $t('order.table.delay') : order.delay
+
+                                          }}</a-descriptions-item>
                                     <a-descriptions-item :label="$t('order.profile.auditor')">
                                           <template v-for="i in order.assigned.split(',')" :key="i">
-                                                <a-tag v-if="i !== $t('flow.applicant')" color="#408B9B">{{ i }}</a-tag>
+                                                <a-tag v-if="i !== $t('flow.applicant')" color="#408B9B">{{  i  }}</a-tag>
                                           </template>
                                     </a-descriptions-item>
                                     <a-descriptions-item :label="$t('common.table.remark')">
@@ -58,74 +61,79 @@
                                     :strokeWidth="5" :width="150" :stroke-color="StateUsage(order.status).color"
                                     type="circle" style="position: relative">
                                     <template #format="percent">
-                                          <span class="state_color">{{ StateUsage(order.status).title
-                                          }}</span>
+                                          <span class="state_color">{{  StateUsage(order.status).title 
+                                                }}</span>
                                     </template>
                               </a-progress>
                         </a-col>
                   </a-row>
-                  <br>
-            </a-page-header>
-            <!-- <a-card> -->
-            <a-tabs>
-                  <a-tab-pane key="1" :tab="$t('order.profile.profile')">
-                        <Step :current="order.current_step" :step="orderProfileArch.timeline" :status="order.status">
-                        </Step>
-                        <br />
-                        <a-row :gutter="24">
-                              <a-col :xs="24" :sm="5">
-                                    <a-card style="height: 500px;overflow: auto;" :title="$t('order.profile.progress')"
-                                          size="small">
-                                          <a-timeline
-                                                :pending="StateUsage(order.status).isEnd ? false : 'Recording...'">
-                                                <a-timeline-item v-for="i in usage" :key="i.id" color="green">{{
-                                                            i.username
-                                                }} {{ i.action }} {{ i.time }}</a-timeline-item>
-                                          </a-timeline>
-                                    </a-card>
+
+                  <template #footer>
+                        <a-tabs size="small" defaultActiveKey="1">
+                              <a-tab-pane key="1" :tab="$t('order.profile.profile')">
                                     <br />
-                                    <a-alert message="Info" type="info" show-icon>
-                                          <template #description>{{ $t('order.profile.tips') }}</template>
-                                    </a-alert>
-                              </a-col>
-                              <a-col :xs="24" :sm="19">
-                                    <a-spin :spinning="spin" :delay="100">
-                                          <a-card size="small">
-                                                <div class="editor_border">
-                                                      <Editor container-id="profile" ref="profile" readonly
-                                                            @getValues="testResults"></Editor>
-                                                </div>
-
+                                    <Step :current="order.current_step" :step="orderProfileArch.timeline"
+                                          :status="order.status">
+                                    </Step>
+                                    <br />
+                                    <a-row :gutter="24">
+                                          <a-col :xs="24" :sm="5">
+                                                <a-card style="height: 500px;overflow: auto;"
+                                                      :title="$t('order.profile.progress')" size="small">
+                                                      <a-timeline
+                                                            :pending="StateUsage(order.status).isEnd ? false : 'Recording...'">
+                                                            <a-timeline-item v-for="i in usage" :key="i.id"
+                                                                  color="green">{{
+                                                                   i.username 
+                                                                  }} {{  i.action  }} {{  i.time  }}</a-timeline-item>
+                                                      </a-timeline>
+                                                </a-card>
                                                 <br />
-                                                <a-table :columns="col" bordered size="small" :dataSource="tData">
-                                                </a-table>
-                                          </a-card>
-                                    </a-spin>
-                              </a-col>
-                        </a-row>
-                  </a-tab-pane>
+                                                <a-alert message="Info" type="info" show-icon>
+                                                      <template #description>{{  $t('order.profile.tips')  }}</template>
+                                                </a-alert>
+                                          </a-col>
+                                          <a-col :xs="24" :sm="19">
+                                                <a-spin :spinning="spin" :delay="100">
 
-                  <a-tab-pane key="2" :tab="$t('order.profile.comment')" forceRender>
-                        <a-card size="small">
-                              <Comment :work_id="order.work_id"></Comment>
-                        </a-card>
-                  </a-tab-pane>
+                                                      <div class="editor_border">
+                                                            <Editor container-id="profile" ref="profile" readonly
+                                                                  @getValues="testResults"></Editor>
+                                                      </div>
 
-                  <a-tab-pane key="3" :tab="$t('order.profile.results')">
-                        <a-card size="small">
-                              <Results :work_id="order.work_id" :status="order.status"></Results>
-                        </a-card>
+                                                      <br />
+                                                      <a-table :columns="col" bordered size="small" :dataSource="tData">
+                                                      </a-table>
 
-                  </a-tab-pane>
+                                                </a-spin>
+                                          </a-col>
+                                    </a-row>
+                              </a-tab-pane>
 
-                  <a-tab-pane key="4" :tab="$t('order.profile.osc')" v-if="order.type === 0">
-                        <a-card size="small">
-                              <OSC :work_id="order.work_id"></OSC>
-                        </a-card>
+                              <a-tab-pane key="2" :tab="$t('order.profile.comment')" forceRender>
+                                    <br />
+                                    <a-card size="small">
+                                          <Comment :work_id="order.work_id"></Comment>
+                                    </a-card>
+                              </a-tab-pane>
+                              <a-tab-pane key="3" :tab="$t('order.profile.results')">
 
-                  </a-tab-pane>
-            </a-tabs>
-            <!-- </a-card> -->
+                                    <Results :work_id="order.work_id" :status="order.status"></Results>
+
+
+                              </a-tab-pane>
+
+                              <a-tab-pane key="4" :tab="$t('order.profile.osc')" v-if="order.type === 0">
+                                    <br />
+                                    <a-card size="small">
+                                          <OSC :work_id="order.work_id"></OSC>
+                                    </a-card>
+
+                              </a-tab-pane>
+                        </a-tabs>
+                  </template>
+
+            </a-page-header>
       </a-spin>
 
       <RejectModal :work_id="order.work_id" ref="r" @spin="() => spinning = !spinning"></RejectModal>

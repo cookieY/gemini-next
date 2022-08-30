@@ -3,7 +3,7 @@
             <template #tags>
                   <a-tag color="blue">Running</a-tag>
             </template>
-            <p>{{ $t('order.apply.desc') }}</p>
+            <p>{{  $t('order.apply.desc')  }}</p>
             <a-row type="flex" align="middle" style="text-align: center;">
                   <a-space :size="30">
                         <a-statistic :title="$t('order.apply.dml.desc')" :value="count.dml"></a-statistic>
