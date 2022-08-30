@@ -17,10 +17,10 @@
             <a-col :span="24">
                   <a-menu mode="horizontal" v-model:selectedKeys="current">
                         <a-menu-item key="/comptroller/order/list">
-                              <router-link to="/comptroller/order/record"> {{ $t('common.order') }}</router-link>
+                              <router-link to="/comptroller/order/record"> {{  $t('common.order')  }}</router-link>
                         </a-menu-item>
                         <a-menu-item key="/comptroller/query/list">
-                              <router-link to="/comptroller/query/list"> {{ $t('common.query') }}</router-link>
+                              <router-link to="/comptroller/query/list"> {{  $t('common.query')  }}</router-link>
                         </a-menu-item>
                   </a-menu>
             </a-col>
@@ -233,8 +233,7 @@ const OrderTypeChart = (id: string, data: any) => {
 
 onMounted(() => {
       request.Axis().then((res: AxiosResponse<Res<any>>) => {
-            OrderTypeChart('container', res.data.payload.order)
-            count.value = res.data.payload.count
+            OrderTypeChart('container', res.data.payload)
       })
 
 })
