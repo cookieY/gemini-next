@@ -2,9 +2,9 @@
       <div>
             <div style="margin-left: 2%;">
                   <a-space>
-                        <span class="fff">version 3.0.8</span>
+                        <span class="fff">version 3.0.9</span>
                         <a-button type="dashed" v-if="is_register" @click="is_open = true" ghost size="small">
-                              {{ $t('user.form.title') }}
+                              {{  $t('user.form.title')  }}
                         </a-button>
                   </a-space>
             </div>
@@ -22,20 +22,20 @@
                               <div style="text-align: center">
                                     <a-space size="large">
                                           <a-typography-link href="https://yearning.io" target="_blank"
-                                                style="color: #FFFFFF">{{ $t('common.about') }}</a-typography-link>
+                                                style="color: #FFFFFF">{{  $t('common.about')  }}</a-typography-link>
                                           <a-tooltip>
-                                                <template #title>{{ $t('common.qq') }}</template>
-                                                {{ $t('common.community') }}
+                                                <template #title>{{  $t('common.qq')  }}</template>
+                                                {{  $t('common.community')  }}
                                           </a-tooltip>
                                           <a-typography-link @click="openSponsor" style="color: #FFFFFF">
-                                                {{ $t('common.sponsor') }}
+                                                {{  $t('common.sponsor')  }}
                                           </a-typography-link>
                                           <a-typography-link @click="announce.open()" style="color: #FFFFFF">
-                                                {{ $t('common.statement') }}
+                                                {{  $t('common.statement')  }}
                                           </a-typography-link>
                                           <a-typography-link href="https://www.gnu.org/licenses/agpl-3.0.en.html"
                                                 target="_blank" style="color: #FFFFFF">AGPL3.0</a-typography-link>
-                                          <div style="text-align: center;">{{ Copyright }}</div>
+                                          <div style="text-align: center;">{{  Copyright  }}</div>
                                     </a-space>
                               </div>
                         </a-col>
