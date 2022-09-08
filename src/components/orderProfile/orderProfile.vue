@@ -4,47 +4,47 @@
                   :ghost="false">
                   <template #extra>
                         <template v-if="route.params.tp === 'audit' && isCurrent > -1 && order.status === 2">
-                              <a-button key="2" danger ghost @click="r.turnState()">{{  $t('order.reject')  }}</a-button>
+                              <a-button key="2" danger ghost @click="r.turnState()">{{ $t('order.reject') }}</a-button>
                               <a-popconfirm :title="$t('order.agree.tips')" @confirm="next" :visible="condition"
                                     @visibleChange="handleVisibleChange">
                                     <a-button key="1" type="primary" :disabled="enabled">{{
-                                           $t('order.agree') 
-                                          }}</a-button>
+                                    $t('order.agree')
+                                    }}</a-button>
                               </a-popconfirm>
 
                         </template>
                         <template v-if="route.params.tp !== 'audit' && order.status === 2">
                               <a-popconfirm :title="$t('order.undo.tips')" @confirm="undoNext">
                                     <a-button key="1" danger ghost>{{
-                                           $t('order.undo') 
-                                          }}</a-button>
+                                    $t('order.undo')
+                                    }}</a-button>
                               </a-popconfirm>
                         </template>
                   </template>
                   <a-row type="flex" justify="center" align="middle">
                         <a-col :span="16">
                               <a-descriptions :column="2">
-                                    <a-descriptions-item :label="$t('common.table.type')">{{  order.type === 0 ? 'DDL' :
+                                    <a-descriptions-item :label="$t('common.table.type')">{{ order.type === 0 ? 'DDL' :
                                     'DML'
-
-                                          }}</a-descriptions-item>
-                                    <a-descriptions-item :label="$t('common.table.env')">{{  order.idc  }}
+                                    
+                                    }}</a-descriptions-item>
+                                    <a-descriptions-item :label="$t('common.table.env')">{{ order.idc }}
                                     </a-descriptions-item>
-                                    <a-descriptions-item :label="$t('common.table.source')">{{  order.source  }}
+                                    <a-descriptions-item :label="$t('common.table.source')">{{ order.source }}
                                     </a-descriptions-item>
-                                    <a-descriptions-item :label="$t('common.table.schema')">{{  order.data_base  }}
+                                    <a-descriptions-item :label="$t('common.table.schema')">{{ order.data_base }}
                                     </a-descriptions-item>
-                                    <a-descriptions-item :label="$t('order.profile.roll')">{{  order.backup ?
+                                    <a-descriptions-item :label="$t('order.profile.roll')">{{ order.backup ?
                                     $t('common.yes') : $t('common.no')
-
-                                          }}</a-descriptions-item>
-                                    <a-descriptions-item :label="$t('order.profile.timing')">{{  order.delay === 'none' ?
+                                    
+                                    }}</a-descriptions-item>
+                                    <a-descriptions-item :label="$t('order.profile.timing')">{{ order.delay === 'none' ?
                                     $t('order.table.delay') : order.delay
-
-                                          }}</a-descriptions-item>
+                                    
+                                    }}</a-descriptions-item>
                                     <a-descriptions-item :label="$t('order.profile.auditor')">
                                           <template v-for="i in order.assigned.split(',')" :key="i">
-                                                <a-tag v-if="i !== $t('flow.applicant')" color="#408B9B">{{  i  }}</a-tag>
+                                                <a-tag v-if="i !== $t('flow.applicant')" color="#408B9B">{{ i }}</a-tag>
                                           </template>
                                     </a-descriptions-item>
                                     <a-descriptions-item :label="$t('common.table.remark')">
@@ -61,8 +61,8 @@
                                     :strokeWidth="5" :width="150" :stroke-color="StateUsage(order.status).color"
                                     type="circle" style="position: relative">
                                     <template #format="percent">
-                                          <span class="state_color">{{  StateUsage(order.status).title 
-                                                }}</span>
+                                          <span class="state_color">{{ StateUsage(order.status).title
+                                          }}</span>
                                     </template>
                               </a-progress>
                         </a-col>
@@ -84,13 +84,13 @@
                                                             :pending="StateUsage(order.status).isEnd ? false : 'Recording...'">
                                                             <a-timeline-item v-for="i in usage" :key="i.id"
                                                                   color="green">{{
-                                                                   i.username 
-                                                                  }} {{  i.action  }} {{  i.time  }}</a-timeline-item>
+                                                                  i.username
+                                                                  }} {{ i.action }} {{ i.time }}</a-timeline-item>
                                                       </a-timeline>
                                                 </a-card>
                                                 <br />
                                                 <a-alert message="Info" type="info" show-icon>
-                                                      <template #description>{{  $t('order.profile.tips')  }}</template>
+                                                      <template #description>{{ $t('order.profile.tips') }}</template>
                                                 </a-alert>
                                           </a-col>
                                           <a-col :xs="24" :sm="19">
@@ -268,7 +268,10 @@ onMounted(() => {
                   router.go(-1)
             } else {
                   orderProfileArch.timeline = res.data.payload
-                  orderProfileArch.timeline[order.value.current_step] !== undefined ? isCurrent.value = orderProfileArch.timeline[order.value.current_step].auditor.indexOf(store.state.user.account.user) : null
+                  if (orderProfileArch.timeline[order.value.current_step] !== undefined) {
+                        let currentStep = orderProfileArch.timeline[order.value.current_step]
+                        isCurrent.value = currentStep.auditor.indexOf(store.state.user.account.user)
+                  }
             }
 
 

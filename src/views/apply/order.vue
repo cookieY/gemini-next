@@ -18,7 +18,7 @@
       </a-card>
       <br>
       <a-row :gutter="24" type="flex" justify="center">
-            <a-col :sm="24" :md="5" :xl="5">
+            <a-col :md="24" :xl="7">
                   <a-card>
                         <a-form v-bind="layout" :model="orderItems" :rules="rules" ref="formRef">
                               <a-form-item :label="$t('common.table.type')">
@@ -60,17 +60,17 @@
                               <a-form-item :label="$t('common.action')">
                                     <a-space>
                                           <a-button :loading="loadingTblBtn" @click="fetchTableArch">{{
-                                                      $t('order.apply.table.info')
+                                          $t('order.apply.table.info')
                                           }}</a-button>
                                           <a-button :loading="loadingPostBtn" @click="postOrder" :disabled="enabled">{{
-                                                      $t('common.commit')
+                                          $t('common.commit')
                                           }}</a-button>
                                     </a-space>
                               </a-form-item>
                         </a-form>
                   </a-card>
             </a-col>
-            <a-col :sm="24" :md="19" :xl="19">
+            <a-col :sm="24" :md="24" :xl="17">
                   <a-card style="min-height: 600px;">
                         <a-tabs v-model:activeKey="activeKey">
                               <a-tab-pane :key="1" :tab="$t('order.apply.tab.sql')" forceRender>
@@ -92,7 +92,7 @@
                                     <a-table :columns="indexArch" :data-source="indexData" bordered rowKey="IndexName">
                                           <template #bodyCell="{ column, text, record }">
                                                 <template v-if="column.dataIndex === 'NonUnique'">{{ text === 0 ?
-                                                            $t('common.yes') : $t('common.no')
+                                                $t('common.yes') : $t('common.no')
                                                 }}</template>
                                           </template>
                                     </a-table>
@@ -129,8 +129,8 @@ import * as monaco from 'monaco-editor';
 const { t } = useI18n()
 
 const layout = {
-      labelCol: { span: 7 },
-      wrapperCol: { span: 20 },
+      labelCol: { span: 6 },
+      wrapperCol: { span: 18 },
 };
 
 const loadingTblBtn = ref(false)

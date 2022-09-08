@@ -30,14 +30,14 @@
                                                 <a-space>
                                                       <a-avatar :src="profile" />
                                                       <span style="font-weight: bold;">{{
-                                                                  store.state.user.account.user
+                                                      store.state.user.account.user
                                                       }}</span>
                                                 </a-space>
                                                 <template #overlay>
                                                       <a-menu @click="() => router.push({ path: '/home/profile' })">
                                                             <a-menu-item>
-                                                                  <a
-                                                                        href="javascript:;">{{ $t('common.profile.title') }}</a>
+                                                                  <a href="javascript:;">{{ $t('common.profile.title')
+                                                                  }}</a>
                                                             </a-menu-item>
                                                       </a-menu>
                                                 </template>
@@ -52,9 +52,12 @@
                                     <component :is="Component" />
                               </router-view>
                         </a-layout-content>
-                        <a-layout-footer :style="{ textAlign: 'center', width: '100%' }">{{
-                                    Copyright
-                        }}
+                        <a-layout-footer :style="{ textAlign: 'center', width: '100%' }">
+                              <a-space>
+                                    <span>{{Copyright}}</span>
+                                    <a href="https://next.yearning.io" target="_blank">帮助文档</a>
+                                    <a href="https://next.yearning.io/sponsor.html" target="_blank">获取赞助版</a>
+                              </a-space>
                         </a-layout-footer>
                   </a-layout>
             </a-layout>

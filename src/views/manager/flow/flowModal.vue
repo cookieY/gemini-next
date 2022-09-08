@@ -19,7 +19,7 @@
                               <a-form-item :label="$t('flow.auditor')" name="auditor">
                                     <a-select v-model:value="step.auditor" mode="multiple">
                                           <a-select-option v-for="i in auditor" :key="i.username" :value="i.username">{{
-                                                      i.username
+                                          i.username
                                           }}</a-select-option>
                                     </a-select>
                               </a-form-item>

@@ -65,7 +65,7 @@ export default {
       "common.table.time": "执行时间",
       "common.table.ex_time": "查询耗时",
       "common.table.work_id": "工单编号",
-      "common.table.remark": "工单说明",
+      "common.table.remark": "说明",
       "common.table.post.time": "提交时间",
       "common.table.post.user": "提交账号",
       "common.table.post.real_name": "真实姓名",
