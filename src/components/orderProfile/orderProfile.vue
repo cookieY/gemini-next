@@ -218,7 +218,8 @@ const testResults = debounce((sql: string) => {
             source_id: order.value.source_id as string,
             kind: order.value.type,
             data_base: order.value.data_base,
-            sql: sql
+            sql: sql,
+            work_id: order.value.work_id
       } as SQLTestParams)
             .then((res: AxiosResponse<Res<SQLTesting[]>>) => {
                   let counter = 0
