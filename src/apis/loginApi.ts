@@ -1,4 +1,4 @@
-import { request } from "@/config/request"
+import { request, COMMON_BASE_URI } from "@/config/request"
 
 export interface LoginFrom {
       username: string;
@@ -9,7 +9,7 @@ export interface LoginFrom {
 
 export const LoginApi = (login: LoginFrom) => {
       return request({
-            url: login.is_ldap ? "/ldap" : "/login",
+            url: login.is_ldap ? `${COMMON_BASE_URI}/ldap` : `${COMMON_BASE_URI}/login`,
             method: "POST",
             data: login
       })
@@ -17,14 +17,14 @@ export const LoginApi = (login: LoginFrom) => {
 
 export const IsRegister = () => {
       return request({
-            url: "/fetch",
+            url: `${COMMON_BASE_URI}/fetch`,
             method: "GET",
       })
 }
 
 export const OidcStateApi = () => {
       return request({
-            url: "/oidc/state",
+            url: `${COMMON_BASE_URI}/oidc/state`,
             method: "GET"
       })
 } 

@@ -1,4 +1,4 @@
-import { request, COMMON_URI } from "@/config/request"
+import { request, COMMON_URI, COMMON_BASE_URI } from "@/config/request"
 import { commonPage } from "@/types"
 import { AxiosPromise } from "axios"
 
@@ -72,7 +72,7 @@ export class Request {
       }
       Register (register: RegisterForm, isManager: boolean): AxiosPromise {
             return request({
-                  url: isManager ? `${COMMON_URI}/manage/user?tp=add` : "/register",
+                  url: isManager ? `${COMMON_URI}/manage/user?tp=add` : `${COMMON_BASE_URI}/register`,
                   method: "POST",
                   data: register
             })

@@ -15,7 +15,9 @@ const { t } = i18n.global
 
 const ACCESS_TOKEN = sessionStorage.getItem("jwt")
 
-const COMMON_URI = "/api/v2"
+const COMMON_BASE_URI = ""
+const COMMON_URI = `${COMMON_BASE_URI}/api/v2`
+
 
 const request: AxiosInstance = axios.create({
       timeout: 200000,
@@ -75,5 +77,5 @@ request.interceptors.response.use((response) => {
 const overrideHeaders = () => { request.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.user.account.token }
 
 export {
-      request, COMMON_URI, overrideHeaders, Res
+      request, COMMON_URI, COMMON_BASE_URI, overrideHeaders, Res
 }
