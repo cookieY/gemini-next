@@ -274,8 +274,6 @@ onMounted(() => {
                         isCurrent.value = currentStep.auditor.indexOf(store.state.user.account.user)
                   }
             }
-
-
       })
 
       FetchStepUsage(order.value.work_id).then((res: AxiosResponse<Res<stepUsage[]>>) => {
