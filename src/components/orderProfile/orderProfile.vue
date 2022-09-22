@@ -18,7 +18,7 @@
             :title="$t('order.agree.tips')"
             :visible="condition"
             @confirm="next"
-            @visibleChange="handleVisibleChange"
+            @visible-change="handleVisibleChange"
           >
             <a-button key="1" type="primary" :disabled="enabled">{{
               $t('order.agree')
@@ -82,7 +82,7 @@
             type="circle"
             style="position: relative"
           >
-            <template #format="percent">
+            <template #format>
               <span class="state_color">{{
                 StateUsage(order.status).title
               }}</span>
@@ -137,7 +137,7 @@
                       ref="profile"
                       container-id="profile"
                       readonly
-                      @getValues="testResults"
+                      @get-values="testResults"
                     ></Editor>
                   </div>
 
@@ -157,11 +157,11 @@
           <a-tab-pane key="2" :tab="$t('order.profile.comment')" force-render>
             <br />
             <a-card size="small">
-              <Comment :work_id="order.work_id"></Comment>
+              <Comment :work-id="order.work_id"></Comment>
             </a-card>
           </a-tab-pane>
           <a-tab-pane key="3" :tab="$t('order.profile.results')">
-            <Results :work_id="order.work_id" :status="order.status"></Results>
+            <Results :work-id="order.work_id" :status="order.status"></Results>
           </a-tab-pane>
 
           <a-tab-pane
@@ -181,7 +181,7 @@
 
   <RejectModal
     ref="r"
-    :work_id="order.work_id"
+    :work-id="order.work_id"
     @spin="() => (spinning = !spinning)"
   ></RejectModal>
 </template>

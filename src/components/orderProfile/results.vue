@@ -45,6 +45,11 @@
   import { tableRef } from '../table';
   import { message } from 'ant-design-vue';
 
+  interface page {
+    current: number;
+    pageSize: number;
+  }
+
   const { t } = useI18n();
 
   const route = useRoute();
@@ -84,7 +89,7 @@
     ],
     data: [],
     pageCount: 0,
-    fn: ({ expr, current, pageSize }) => {
+    fn: ({ current, pageSize }: page) => {
       request
         .Results(props.workId, { current: current, pageSize: pageSize })
         .then((res: AxiosResponse<Res<any>>) => {
@@ -117,14 +122,14 @@
   };
 
   const submit = () => {
-    const warpper = Object.assign({}, store.state.order.order);
-    warpper.delay = 'none';
-    warpper.sql = rollTable.data.map((item) => item.sql).join('\n');
-    if (warpper.sql === '') {
+    const wrapper = Object.assign({}, store.state.order.order);
+    wrapper.delay = 'none';
+    wrapper.sql = rollTable.data.map((item) => item.sql).join('\n');
+    if (wrapper.sql === '') {
       message.warning(t('order.roll.tips'));
       return;
     }
-    request.Post(warpper as any).finally(() => router.go(-1));
+    request.Post(wrapper as any).finally(() => router.go(-1));
   };
 
   const recommit = () => {

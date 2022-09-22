@@ -96,4 +96,5 @@ export interface Clip {
 export interface commonPage<T> {
   expr: T;
   current: number;
+  page_size: number;
 }

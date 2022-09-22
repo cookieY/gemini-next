@@ -88,13 +88,11 @@
 
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
-  import dayjs, { Dayjs } from 'dayjs';
+  import dayjs from 'dayjs';
   import { OrderExpr, RangeValue } from '@/apis/orderPostApis';
   import { OrderState } from '@/types';
 
   const advanced = ref(false);
-
-  const picker = ref<RangeValue>();
 
   const ranges = {
     'This week': [dayjs().startOf('week'), dayjs().endOf('week')] as RangeValue,

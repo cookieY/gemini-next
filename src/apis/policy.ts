@@ -1,5 +1,5 @@
-import { request, COMMON_URI, Res } from '@/config/request';
-import { AxiosPromise, AxiosResponse } from 'axios';
+import { request, COMMON_URI } from '@/config/request';
+import { AxiosPromise } from 'axios';
 
 export interface PolicyExpr {
   text: string;

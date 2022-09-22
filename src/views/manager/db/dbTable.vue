@@ -43,10 +43,9 @@
   import DBModal from './dbModal.vue';
   import DBTableSearch from './dbTableSearch.vue';
   import { AxiosResponse } from 'axios';
-  import { ref, reactive, onMounted, toRaw, markRaw } from 'vue';
+  import { ref, reactive, onMounted } from 'vue';
   import { EventBus } from '@/lib';
   import { tableRef } from '@/components/table';
-  import i18n from '@/lang';
   import { useI18n } from 'vue-i18n';
 
   const request = new Request();

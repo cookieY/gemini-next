@@ -93,7 +93,7 @@
     autoExpandParent.value = false;
   });
 
-  const onLoadData = (keys: string, { expanded, node }) => {
+  const onLoadData = (keys: string, { expanded, node }: any) => {
     if (expanded) {
       if (node.dataRef.meta === 'Table') {
         return;

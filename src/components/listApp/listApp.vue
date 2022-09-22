@@ -123,6 +123,7 @@
     isExport?: boolean;
   }>();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const emit = defineEmits(['enter']);
 
   const router = useRouter();

@@ -15,7 +15,7 @@
         :placeholder="$t('user.password')"
         style="border-radius: 10px"
         type="password"
-        @pressEnter="() => signIn()"
+        @press-enter="() => signIn()"
       />
     </a-form-item>
     <a-form-item>

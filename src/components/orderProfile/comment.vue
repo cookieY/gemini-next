@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-  import dayjs from 'dayjs';
+  import dayjs, { extend } from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
   import customParseFormat from 'dayjs/plugin/customParseFormat';
   import { Comment, Request } from '@/apis/orderPostApis';
@@ -48,11 +48,11 @@
   import comment from '@/assets/comment/rockets.svg';
   import icon from '@/assets/comment/comment.svg';
 
-  dayjs.extend(relativeTime);
-  dayjs.extend(customParseFormat);
+  extend(relativeTime);
+  extend(customParseFormat);
 
   const props = defineProps<{
-    work_id: string;
+    workId: string;
   }>();
 
   const request = new Request();
@@ -74,13 +74,13 @@
 
   const postComment = () => {
     request
-      .CommentPost({ work_id: props.work_id, content: content.value })
+      .CommentPost({ work_id: props.workId, content: content.value })
       .then(() => {
         data.value.push({
           username: store.state.user.account.user,
           time: dayjs().format('YY-MM-DD HH:mm'),
           content: content.value,
-          work_id: props.work_id,
+          work_id: props.workId,
         } as Comment);
         content.value = '';
         scrollTop();
@@ -97,7 +97,7 @@
 
   onMounted(() => {
     sock = new Socket(
-      `/fetch/comment?work_id=${props.work_id}`,
+      `/fetch/comment?work_id=${props.workId}`,
       store.state.user.account.token
     );
     sock.create();

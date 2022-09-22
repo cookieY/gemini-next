@@ -93,7 +93,6 @@
   import { AxiosResponse } from 'axios';
   import { Res } from '@/config/request';
   import { StateQueryUsage } from '@/lib';
-  import { QueryState } from '@/types';
 
   interface QueryRef {
     work_id: string;

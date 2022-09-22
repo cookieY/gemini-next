@@ -41,9 +41,6 @@
   import { ref } from 'vue';
   import { AxiosResponse } from 'axios';
   import { Res } from '@/config/request';
-  import { useI18n } from 'vue-i18n';
-
-  const { t } = useI18n();
 
   const props = defineProps<{
     isManager: boolean;
@@ -60,15 +57,6 @@
     own: [],
     target: {} as Target,
   });
-
-  const marge = (groups: string[]) => {
-    request
-      .MargeGroup(groups)
-      .then(
-        (res: AxiosResponse<Res<Target>>) =>
-          (rules.value.target = res.data.payload)
-      );
-  };
 
   const lazy = (u: string) => {
     request.GetGroup(u).then((res: AxiosResponse<Res<RespGroups>>) => {

@@ -7,13 +7,13 @@ export interface lightWord {
 }
 
 export interface highlightStore {
-  highlight: { [key: string]: string }[];
+  highlight: { [key: string]: lightWord[] };
 }
 
 export const highlight: Module<highlightStore, RootStore> = {
   namespaced: true,
   state: {
-    highlight: [{}],
+    highlight: {},
   },
   mutations: {
     SAVE_HIGHLIGHT(state, word) {

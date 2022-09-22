@@ -184,6 +184,7 @@
   };
 
   const initial = (source_id: string) => {
+    console.log(store.state.highlight.highlight);
     const highlight = store.state.highlight.highlight;
     if (highlight[source_id as any] === undefined) {
       query.HighLight(source_id).then((res: AxiosResponse<Res<any>>) => {
@@ -208,7 +209,7 @@
         return {
           suggestions: createSQLToken(
             range,
-            store.state.highlight.highlight[source_id as string]
+            store.state.highlight.highlight[source_id]
           ),
         };
       },

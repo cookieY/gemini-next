@@ -105,6 +105,7 @@
   import ChangePassword from '@/components/user/changePassword.vue';
   import { useI18n } from 'vue-i18n';
   import { tableRef } from '@/components/table';
+  import { commonPage } from '@/types';
 
   const { t } = useI18n();
 
@@ -143,7 +144,7 @@
       email: '',
       real_name: '',
     } as UserExpr,
-    fn: (expr) => {
+    fn: (expr: commonPage<UserExpr>) => {
       request.List(expr).then((res: AxiosResponse<Res<UserResp>>) => {
         tblRef.data = res.data.payload.data;
         tblRef.pageCount = res.data.payload.page;

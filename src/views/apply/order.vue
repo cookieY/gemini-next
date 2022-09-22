@@ -110,8 +110,8 @@
                 <Editor
                   ref="editor"
                   container-id="apply"
-                  @getValues="testResults"
-                  @changeContent="() => (!enabled ? (enabled = true) : null)"
+                  @get-values="testResults"
+                  @change-content="() => (!enabled ? (enabled = true) : null)"
                 >
                 </Editor>
               </div>
@@ -140,7 +140,7 @@
               bordered
               row-key="IndexName"
             >
-              <template #bodyCell="{ column, text, record }">
+              <template #bodyCell="{ column, text }">
                 <template v-if="column.dataIndex === 'NonUnique'">{{
                   text === 0 ? $t('common.yes') : $t('common.no')
                 }}</template>

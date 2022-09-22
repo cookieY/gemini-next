@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue';
+  import { onMounted } from 'vue';
   import { Chart } from '@antv/g2';
   import { Request } from '@/apis/dash';
   import { AxiosResponse } from 'axios';

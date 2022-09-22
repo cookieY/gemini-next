@@ -10,7 +10,7 @@
     bordered
     :pagination="{
       total: tblRef.pageCount,
-      showTotal: (total) => $t('common.count', { count: total }),
+      showTotal: (total:number) => $t('common.count', { count: total }),
       position: ['bottomLeft'],
       showSizeChanger: true,
       defaultPageSize: 10,

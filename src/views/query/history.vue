@@ -57,5 +57,6 @@
 
 <style>
   .paste {
+    src: '';
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider :locale="locale">
+  <a-config-provider :locale="lang">
     <router-view />
   </a-config-provider>
 </template>
@@ -7,10 +7,10 @@
 <script lang="ts" setup>
   import zhCN from 'ant-design-vue/es/locale/zh_CN';
   import enUS from 'ant-design-vue/es/locale/en_US';
-  import dayjs from 'dayjs';
+  import { locale } from 'dayjs';
   import 'dayjs/locale';
   import { defaultLang } from '@/lang';
-  dayjs.locale(defaultLang);
+  locale(defaultLang);
 
-  const locale = defaultLang === 'en_US' ? enUS : zhCN;
+  const lang = defaultLang === 'en_US' ? enUS : zhCN;
 </script>

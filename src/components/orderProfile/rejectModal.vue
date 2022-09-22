@@ -16,7 +16,7 @@
   import { ref } from 'vue';
 
   const props = defineProps<{
-    work_id: string;
+    workId: string;
   }>();
 
   const content = ref('');
@@ -28,7 +28,7 @@
   const postReject = () => {
     confirmLoading.value = true;
     request
-      .Next({ work_id: props.work_id, text: content.value, tp: 'reject' })
+      .Next({ work_id: props.workId, text: content.value, tp: 'reject' })
       .finally(() => {
         confirmLoading.value = false;
         turnState();

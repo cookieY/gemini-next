@@ -110,25 +110,22 @@
               </template>
 
               <div style="margin-top: 2%">
-                <a-tag
-                  v-for="k in element.auditor"
-                  v-if="!element.edit"
-                  color="#108ee9"
-                  >{{ k }}</a-tag
-                >
-                <a-select
-                  v-else
-                  v-model:value="element.auditor"
-                  mode="multiple"
-                  style="width: 100%"
-                >
-                  <a-select-option
-                    v-for="k in auditor"
-                    :key="k.username"
-                    :value="k.username"
-                    >{{ k.username }}</a-select-option
+                <template v-for="k in element.auditor" :key="k">
+                  <a-tag v-if="!element.edit" color="#108ee9">{{ k }}</a-tag>
+                  <a-select
+                    v-else
+                    v-model:value="element.auditor"
+                    mode="multiple"
+                    style="width: 100%"
                   >
-                </a-select>
+                    <a-select-option
+                      v-for="j in auditor"
+                      :key="j.username"
+                      :value="j.username"
+                      >{{ j.username }}</a-select-option
+                    >
+                  </a-select>
+                </template>
               </div>
             </template>
           </a-step>
