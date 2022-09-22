@@ -1,57 +1,57 @@
 <template>
-      <PageHeader :title="title.title" :subTitle="title.subTitle"></PageHeader>
-      <a-back-top />
-      <a-card>
-            <a-row>
-                  <a-col :span="24">
-                        <div id="app-container">
-                              <div id="g2-customize-tooltip"></div>
-                              <div id="g2-container"></div>
-                        </div>
-                  </a-col>
+  <PageHeader :title="title.title" :sub-title="title.subTitle"></PageHeader>
+  <a-back-top />
+  <a-card>
+    <a-row>
+      <a-col :span="24">
+        <div id="app-container">
+          <div id="g2-customize-tooltip"></div>
+          <div id="g2-container"></div>
+        </div>
+      </a-col>
+    </a-row>
+  </a-card>
 
-            </a-row>
-      </a-card>
-
-      <a-row>
-            <a-col :span="24">
-                  <a-menu mode="horizontal" v-model:selectedKeys="current">
-                        <a-menu-item key="/comptroller/order/list">
-                              <router-link to="/comptroller/order/record"> {{  $t('common.order')  }}</router-link>
-                        </a-menu-item>
-                        <a-menu-item key="/comptroller/query/list">
-                              <router-link to="/comptroller/query/list"> {{  $t('common.query')  }}</router-link>
-                        </a-menu-item>
-                  </a-menu>
-            </a-col>
-
-      </a-row>
-      <div style="margin-top:5px">
-            <router-view></router-view>
-      </div>
-
-
+  <a-row>
+    <a-col :span="24">
+      <a-menu v-model:selectedKeys="current" mode="horizontal">
+        <a-menu-item key="/comptroller/order/list">
+          <router-link to="/comptroller/order/record">
+            {{ $t('common.order') }}</router-link
+          >
+        </a-menu-item>
+        <a-menu-item key="/comptroller/query/list">
+          <router-link to="/comptroller/query/list">
+            {{ $t('common.query') }}</router-link
+          >
+        </a-menu-item>
+      </a-menu>
+    </a-col>
+  </a-row>
+  <div style="margin-top: 5px">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { Request } from "@/apis/record";
-import PageHeader from "@/components/pageHeader/pageHeader.vue";
-import { Chart } from "@antv/g2"
-import { onMounted, reactive, ref } from "vue";
-import { useI18n } from "vue-i18n";
-import { AxiosResponse } from "axios";
-import { Res } from "@/config/request";
-import inserCss from 'insert-css';
+  import { Request } from '@/apis/record';
+  import PageHeader from '@/components/pageHeader/pageHeader.vue';
+  import { Chart } from '@antv/g2';
+  import { onMounted, ref } from 'vue';
+  import { useI18n } from 'vue-i18n';
+  import { AxiosResponse } from 'axios';
+  import { Res } from '@/config/request';
+  import insertCss from 'insert-css';
 
-const { t } = useI18n()
-const title = {
-      title: t('record.title'),
-      subTitle: ""
-}
+  const { t } = useI18n();
+  const title = {
+    title: t('record.title'),
+    subTitle: '',
+  };
 
-const current = ref<string[]>(['/comptroller/order/list']);
+  const current = ref<string[]>(['/comptroller/order/list']);
 
-inserCss(`
+  insertCss(`
 #app-container {
   display: flex;
   flex-direction: column;
@@ -109,133 +109,120 @@ inserCss(`
 }
 `);
 
-const count = ref({
-      ddl: 0,
-      dml: 0
-})
+  const request = new Request();
 
-const request = new Request
+  const OrderTypeChart = (id: string, data: any) => {
+    const chart = new Chart({
+      container: 'g2-container',
+      autoFit: true,
+      height: 300,
+    });
 
-const OrderTypeChart = (id: string, data: any) => {
+    chart.data(data);
+    chart.scale({
+      count: {
+        nice: true,
+      },
+      type: {
+        formatter: (value) => {
+          if (value === '0') {
+            return 'DDL';
+          }
+          if (value === '1') {
+            return 'DML';
+          }
+        },
+      },
+    });
+    chart.tooltip({
+      showCrosshairs: true,
+      shared: true,
+    });
 
-      const chart = new Chart({
-            container: "g2-container",
-            autoFit: true,
-            height: 300
+    chart.axis('count', {
+      label: {
+        formatter: (val) => {
+          return val + ' /per';
+        },
+      },
+      grid: {
+        line: {
+          style: {
+            opacity: 0,
+          },
+        },
+      },
+    });
 
-      });
+    chart.line().position('time*count').color('type').shape('smooth');
 
-      chart.data(data);
-      chart.scale({
-            count: {
-                  nice: true,
-            },
-            type: {
-                  formatter: (value) => {
-                        if (value === '0') {
-                              return 'DDL'
-                        }
-                        if (value === '1') {
-                              return 'DML'
-                        }
-                  }
-            }
-      });
-      chart.tooltip({
-            showCrosshairs: true,
-            shared: true,
-      });
+    chart.point().position('time*count').color('type').shape('circle');
 
-      chart.axis("count", {
-            label: {
-                  formatter: (val) => {
-                        return val + ' /per';
-                  },
-            },
-            grid: {
-                  line: {
-                        style: {
-                              opacity: 0
-                        }
-                  }
-            }
-      });
+    // customize tooltip
+    const $tooltip = document.getElementById(
+      'g2-customize-tooltip'
+    ) as HTMLElement;
 
-      chart
-            .line()
-            .position('time*count')
-            .color('type')
-            .shape('smooth');
-
-      chart
-            .point()
-            .position('time*count')
-            .color('type')
-            .shape('circle');
-
-      // customize tooltip
-      const $tooltip = document.getElementById('g2-customize-tooltip') as HTMLElement;
-
-
-
-      function getTooltipHTML (data) {
-            const { title, items } = data;
-            return `
+    function getTooltipHTML(data: { title: string; items: any }) {
+      const { title, items } = data;
+      return `
                   <div class="tooltip-title">${title}</div>
                   <div class="tooltip-items">
-                  ${items.map(datum => {
-                  const color = datum.color;
-                  const name = datum.name;
-                  const value = datum.value;
+                  ${items
+                    .map(
+                      (datum: {
+                        color: string;
+                        name: string;
+                        value: string;
+                      }) => {
+                        const color = datum.color;
+                        const name = datum.name;
+                        const value = datum.value;
 
-                  return `
+                        return `
                         <div class="tooltip-item" style="border-left: 2px solid ${color}">
                         <div class="tooltip-item-name">${name}</div>
                         <div class="tooltip-item-value">${value} /per</div>
                        
                         </div>
         `;
-            }).join('')}
+                      }
+                    )
+                    .join('')}
     </div>
   `;
+    }
 
-      }
+    chart.on('afterrender', () => {
+      // 获取最新值的数据
 
-      chart.on('afterrender', (e) => {
+      const items = [
+        {
+          color: '#5B8FF9',
+          name: 'DML',
+          value: '0',
+        },
+      ];
 
-            // 获取最新值的数据
+      const data = {
+        title: '0000-00-00',
+        items,
+      };
 
-            const items = [
-                  {
-                        color: "#5B8FF9",
-                        name: "DML",
-                        value: "0",
-                  }
-            ]
+      $tooltip.innerHTML = getTooltipHTML(data);
+    });
 
-            const data = {
-                  title: '0000-00-00',
-                  items
-            }
+    // tooltip 的更新
+    chart.on('tooltip:change', (e: any) => {
+      $tooltip.innerHTML = getTooltipHTML(e.data);
+    });
 
-            $tooltip.innerHTML = getTooltipHTML(data);
-      });
+    chart.render();
+  };
 
-      // tooltip 的更新
-      chart.on('tooltip:change', (e) => {
-            $tooltip.innerHTML = getTooltipHTML(e.data);
-      });
-
-
-      chart.render();
-
-}
-
-onMounted(() => {
-      request.Axis().then((res: AxiosResponse<Res<any>>) => {
-            OrderTypeChart('container', res.data.payload)
-      })
-
-})
-
+  onMounted(() => {
+    request.Axis().then((res: AxiosResponse<Res<any>>) => {
+      OrderTypeChart('container', res.data.payload);
+    });
+  });
 </script>

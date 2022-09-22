@@ -1,83 +1,81 @@
-import { request, COMMON_URI, Res } from "@/config/request"
-import { AxiosPromise, AxiosResponse } from "axios"
+import { request, COMMON_URI, Res } from '@/config/request';
+import { AxiosPromise, AxiosResponse } from 'axios';
 
 export interface PolicyExpr {
-      text: string
+  text: string;
 }
 
 export interface PolicyParams {
-      page: number
-      find: PolicyExpr
+  page: number;
+  find: PolicyExpr;
 }
 
 interface line {
-      id: number
-      name: string
+  id: number;
+  name: string;
 }
 
 export interface Policy extends line {
-      permissions: PolicyPost
+  permissions: PolicyPost;
 }
 
 export interface checkList {
-      source?: string
-      source_id?: string
+  source?: string;
+  source_id?: string;
 }
 
 export interface PolicyPost extends line {
-      dml_source: string[]
-      ddl_source: string[]
-      query_source: string[]
+  dml_source: string[];
+  ddl_source: string[];
+  query_source: string[];
 }
 
 export interface checkProps {
-      source: checkList[]
-      query: checkList[]
+  source: checkList[];
+  query: checkList[];
 }
 
 export interface PolicyResp {
-      page: number
-      data: Policy[]
+  page: number;
+  data: Policy[];
 }
 
 export interface PolicyRuse {
-      source: checkList[]
-      query: checkList[]
+  source: checkList[];
+  query: checkList[];
 }
 
 export class Request {
+  List(args: PolicyParams): AxiosPromise {
+    return request({
+      method: 'put',
+      url: `${COMMON_URI}/manage/policy`,
+      data: args,
+    });
+  }
 
-      List (args: PolicyParams): AxiosPromise {
-            return request({
-                  method: 'put',
-                  url: `${COMMON_URI}/manage/policy`,
-                  data: args
-            })
-      }
+  Get(): AxiosPromise {
+    return request({
+      method: 'get',
+      url: `${COMMON_URI}/manage/policy/source`,
+    });
+  }
 
-      Get (): AxiosPromise {
-            return request({
-                  method: 'get',
-                  url: `${COMMON_URI}/manage/policy/source`,
-            })
-      }
+  Post(args: PolicyPost): AxiosPromise {
+    return request({
+      method: 'post',
+      url: `${COMMON_URI}/manage/policy`,
+      data: args,
+    });
+  }
 
-      Post (args: PolicyPost): AxiosPromise {
-            return request({
-                  method: 'post',
-                  url: `${COMMON_URI}/manage/policy`,
-                  data: args
-            })
-      }
-
-      Drop (args: string): AxiosPromise {
-            return request({
-                  method: 'delete',
-                  url: `${COMMON_URI}/manage/policy`,
-                  params: {
-                        group_id: args
-                  }
-            })
-      }
-
+  Drop(args: string): AxiosPromise {
+    return request({
+      method: 'delete',
+      url: `${COMMON_URI}/manage/policy`,
+      params: {
+        group_id: args,
+      },
+    });
+  }
 }

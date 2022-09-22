@@ -1,5 +1,5 @@
 export interface RespFetchSource {
-      idc: string
-      source: string
-      apply?: number
+  idc: string;
+  source: string;
+  apply?: number;
 }

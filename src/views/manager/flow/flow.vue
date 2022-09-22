@@ -1,11 +1,14 @@
 <template>
-      <PageHeader :title="$t('menu.manage.flow')" :subTitle="$t('common.flow.sub')"></PageHeader>
-      <a-card>
-            <FlowTable></FlowTable>
-      </a-card>
-
+  <PageHeader
+    :title="$t('menu.manage.flow')"
+    :sub-title="$t('common.flow.sub')"
+  ></PageHeader>
+  <a-card>
+    <FlowTable></FlowTable>
+  </a-card>
 </template>
+
 <script lang="ts" setup>
-import PageHeader from "@/components/pageHeader/pageHeader.vue";
-import FlowTable from "./flowTable.vue";
+  import PageHeader from '@/components/pageHeader/pageHeader.vue';
+  import FlowTable from './flowTable.vue';
 </script>

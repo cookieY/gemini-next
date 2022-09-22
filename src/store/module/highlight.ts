@@ -1,25 +1,23 @@
-import { Module } from "vuex";
-import { RootStore } from "../types";
-
+import { Module } from 'vuex';
+import { RootStore } from '../types';
 
 export interface lightWord {
-      meta: string
-      vl: string
+  meta: string;
+  vl: string;
 }
 
 export interface highlightStore {
-      highlight: { [key: string]: string }[]
+  highlight: { [key: string]: string }[];
 }
-
 
 export const highlight: Module<highlightStore, RootStore> = {
-      namespaced: true,
-      state: {
-            highlight: [{}]
-      },
-      mutations: {
-            SAVE_HIGHLIGHT (state, word) {
-                  state.highlight[word.key] = word.highlight
-            }
-      }
-}
+  namespaced: true,
+  state: {
+    highlight: [{}],
+  },
+  mutations: {
+    SAVE_HIGHLIGHT(state, word) {
+      state.highlight[word.key] = word.highlight;
+    },
+  },
+};
