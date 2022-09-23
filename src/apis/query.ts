@@ -1,5 +1,4 @@
 import { COMMON_URI, request, Res } from '@/config/request';
-import { AxiosPromise } from 'axios';
 import { Dayjs } from 'dayjs';
 
 export type RangeValue = [Dayjs, Dayjs];
@@ -39,112 +38,74 @@ export interface IQueryStatus {
   export: boolean;
 }
 
+export interface IQueryListResp {
+  data: QueryExpr[];
+  page: number;
+}
+
 export function checkIsQuery() {
   return request.get<Res<IQueryStatus>>(`${COMMON_URI}/fetch/is_query`);
 }
 
-export class Request {
-  List(args: QueryParams, tp: string): AxiosPromise {
-    return request({
-      method: 'put',
-      url: `${COMMON_URI}/audit/query/list?tp=${tp}`,
-      data: args,
-    });
-  }
+export function queryList(args: QueryParams, tp: string) {
+  return request.put<Res<IQueryListResp>>(
+    `${COMMON_URI}/audit/query/list?tp=${tp}`,
+    args
+  );
+}
 
-  Post(args: QueryPost): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/query/post`,
-      data: args,
-    });
-  }
+export function queryPostOrder(args: QueryPost) {
+  return request.post(`${COMMON_URI}/query/post`, {
+    data: args,
+  });
+}
 
-  Agree(work_id: string): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/audit/query/agreed`,
-      data: {
-        work_id: work_id,
-      },
-    });
-  }
+export function queryAgreeOrder(work_id: string) {
+  return request.post(`${COMMON_URI}/audit/query/agreed`, {
+    work_id: work_id,
+  });
+}
 
-  Stop(work_id: string): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/audit/query/stop`,
-      data: {
-        work_id: work_id,
-      },
-    });
-  }
+export function queryRejectOrder(work_id: string) {
+  return request.post(`${COMMON_URI}/audit/query/reject`, {
+    work_id: work_id,
+  });
+}
 
-  Reject(work_id: string): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/audit/query/reject`,
-      data: {
-        work_id: work_id,
-      },
-    });
-  }
+export function queryStopOrder(work_id: string) {
+  return request.post(`${COMMON_URI}/audit/query/stop`, {
+    work_id: work_id,
+  });
+}
 
-  Undo(): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/audit/query/undo`,
-    });
-  }
+export function queryUndoOrder() {
+  return request.post(`${COMMON_URI}/audit/query/undo`);
+}
 
-  QuerySchema(source_id: string): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/query/schema`,
-      params: {
-        source_id: source_id,
-      },
-    });
-  }
+export function querySchemaList(source_id: string) {
+  return request.get<Res<any>>(`${COMMON_URI}/query/schema`, {
+    params: {
+      source_id: source_id,
+    },
+  });
+}
 
-  QueryStatus(): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/fetch/query_status`,
-    });
-  }
+export function queryStatus() {
+  return request.get<Res<boolean>>(`${COMMON_URI}/fetch/query_status`);
+}
 
-  QueryProfile(work_id: string, page: number): AxiosPromise {
-    return request({
-      method: 'put',
-      url: `${COMMON_URI}/audit/query/profile`,
-      data: {
-        work_id: work_id,
-        page: page,
-      },
-    });
-  }
+export function queryProfile(work_id: string, page: number) {
+  return request.put(`${COMMON_URI}/audit/query/profile`, {
+    work_id: work_id,
+    page: page,
+  });
+}
 
-  QueryTable(source_id: string, schema: string): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/query/tables`,
-      params: {
-        source_id: source_id,
-        schema: schema,
-      },
-    });
-  }
-
-  QueryData(source_id: string, schema: string, sql: string): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/query/results`,
-      params: {
-        source_id: source_id,
-        schema: schema,
-        sql: sql,
-      },
-    });
-  }
+export function queryTable(source_id: string, schema: string) {
+  return request.get(`${COMMON_URI}/query/tables`, {
+    params: {
+      source_id: source_id,
+      schema: schema,
+    },
+  });
 }

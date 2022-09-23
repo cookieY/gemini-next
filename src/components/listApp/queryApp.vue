@@ -9,14 +9,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { Res } from '@/config/request';
-  import { AxiosResponse } from 'axios';
   import { onMounted, ref, shallowRef } from 'vue';
   import {
     checkIsQuery,
     IQueryStatus,
     QueryPost,
-    Request as Query,
+    queryPostOrder,
+    queryStatus,
   } from '@/apis/query';
   import ListApp from './listApp.vue';
   import QueryBanner from './queryBanner.vue';
@@ -29,16 +28,12 @@
     status: false,
   });
 
-  const query = new Query();
-
   const clickPage = () => {
     if (state.value.status) {
       com.value = QueryOrder;
     } else {
       com.value = ListApp;
-      query.Post({
-        export: state.value.export ? 1 : 0,
-      } as QueryPost);
+      queryPostOrder({ export: state.value.export ? 1 : 0 } as QueryPost);
     }
   };
 
@@ -47,10 +42,9 @@
     state.value = data.payload;
   };
 
-  onMounted(() => {
-    query.QueryStatus().then((res: AxiosResponse<Res<boolean>>) => {
-      !res.data.payload ? (com.value = ListApp) : fetchState();
-    });
+  onMounted(async () => {
+    const { data } = await queryStatus();
+    !data.payload ? (com.value = ListApp) : fetchState();
   });
 </script>
 

@@ -21,7 +21,7 @@
               <a-popconfirm
                 :title="$t('order.query.audit.end.tips')"
                 @confirm="
-                  () => request.Stop(record.work_id).then(() => tbl.manual())
+                  () => queryStopOrder(record.work_id).then(() => tbl.manual())
                 "
               >
                 <a-button size="small" danger>{{ $t('order.end') }}</a-button>
@@ -63,12 +63,16 @@
 </template>
 
 <script lang="ts" setup>
-  import { QueryExpr, QueryParams, Request } from '@/apis/query';
+  import {
+    IQueryListResp,
+    QueryExpr,
+    queryList,
+    QueryParams,
+    queryStopOrder,
+  } from '@/apis/query';
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
   import { StateQueryUsage } from '@/lib';
   import QuerySearch from './querySearch.vue';
-  import { Res } from '@/config/request';
-  import { AxiosResponse } from 'axios';
   import { reactive, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { tableRef } from '@/components/table';
@@ -118,7 +122,7 @@
         dataIndex: 'action',
       },
     ],
-    data: [] as any[],
+    data: [] as IQueryListResp[],
     pageCount: 0,
     defaultPageSize: 20,
     expr: {
@@ -126,17 +130,15 @@
       username: '',
       status: 7,
     } as QueryExpr,
-    fn: (expr: QueryParams) => {
-      request
-        .List(expr, props.isRecord ? 'record' : 'order')
-        .then((res: AxiosResponse<Res<any>>) => {
-          tblRef.data = res.data.payload.data;
-          tblRef.pageCount = res.data.payload.page;
-        });
+    fn: async (expr: QueryParams) => {
+      const { data } = await queryList(
+        expr,
+        props.isRecord ? 'record' : 'order'
+      );
+      tblRef.data = data.payload.data;
+      tblRef.pageCount = data.payload.page;
     },
   });
-
-  const request = new Request();
 
   const title = {
     title: t('order.query.title'),

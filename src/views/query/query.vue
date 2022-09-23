@@ -81,7 +81,7 @@
   import { useStore } from '@/store';
   import { encode } from '@msgpack/msgpack';
   import { ArrowLeftOutlined } from '@ant-design/icons-vue';
-  import { checkIsQuery, Request } from '@/apis/query';
+  import { checkIsQuery, queryUndoOrder } from '@/apis/query';
   import { queryHighlight } from '@/apis/source';
   import router from '@/router';
   import { onBeforeRouteUpdate, useRoute } from 'vue-router';
@@ -99,8 +99,6 @@
   const feat = ref('edit');
 
   const tool = ref('tree');
-
-  const request = new Request();
 
   const tbl = ref();
 
@@ -163,8 +161,9 @@
     store.state.common.sock.close();
   };
 
-  const undo = () => {
-    request.Undo().then(() => router.go(-1));
+  const undo = async () => {
+    await queryUndoOrder();
+    router.go(-1);
   };
 
   const initQuery = (source_id: string) => {

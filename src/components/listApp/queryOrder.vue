@@ -48,13 +48,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { QueryPost, Request as Query } from '@/apis/query';
-  import { AxiosResponse } from 'axios';
+  import { QueryPost, queryPostOrder } from '@/apis/query';
   import { onMounted, reactive, ref } from 'vue';
-  import { Request } from '@/apis/source';
-  import { RespFetchSource } from '@/apis/listAppApis';
-  import { Res } from '@/config/request';
   import { useI18n } from 'vue-i18n';
+  import { ISource, querySourceList } from '@/apis/source';
 
   defineProps<{
     isExport: boolean;
@@ -77,24 +74,15 @@
 
   const options = ref<any[]>([]);
 
-  const query = new Query();
-
-  const request = new Request();
-
   const loading = ref(true);
 
-  const postQuery = () => {
-    query.Post(form).finally(() => (disabled.value = true));
+  const postQuery = async () => {
+    await queryPostOrder(form);
   };
 
-  onMounted(() => {
-    request
-      .Source('query')
-      .then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
-        options.value = res.data.payload;
-      })
-      .finally(() => {
-        loading.value = false;
-      });
+  onMounted(async () => {
+    const { data } = await querySourceList('query');
+    options.value = data.payload as ISource[];
+    loading.value = false;
   });
 </script>

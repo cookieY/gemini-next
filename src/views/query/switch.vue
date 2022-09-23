@@ -35,34 +35,27 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request } from '@/apis/source';
   import { RespFetchSource } from '@/apis/listAppApis';
-  import { Res } from '@/config/request';
+  import { ISource, querySourceList } from '@/apis/source';
   import CommonMixins from '@/mixins/common';
-  import { AxiosResponse } from 'axios';
   import { onMounted, ref } from 'vue';
   import { onBeforeRouteUpdate } from 'vue-router';
 
   const { is_open, turnState } = CommonMixins();
 
-  const source = ref([] as any[]);
+  const source = ref([] as ISource[]);
 
   const saveHandle = () => {
     turnState();
   };
 
-  const request = new Request();
-
   onBeforeRouteUpdate(() => {
     turnState();
   });
 
-  onMounted(() => {
-    request
-      .Source('query')
-      .then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
-        source.value = res.data.payload;
-      });
+  onMounted(async () => {
+    const { data } = await querySourceList('query');
+    source.value = data.payload as ISource[];
   });
 
   defineExpose({

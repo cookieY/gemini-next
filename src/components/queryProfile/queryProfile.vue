@@ -4,22 +4,14 @@
     :ghost="false"
     @back="() => $router.go(-1)"
   >
-    >
     <template #extra>
       <template v-if="order.status === 1">
-        <a-button
-          key="2"
-          danger
-          ghost
-          @click="() => query.Reject(order.work_id).then(() => $router.go(-1))"
-          >{{ $t('order.reject') }}</a-button
-        >
-        <a-button
-          key="1"
-          type="primary"
-          @click="() => query.Agree(order.work_id).then(() => $router.go(-1))"
-          >{{ $t('order.agree') }}</a-button
-        >
+        <a-button key="2" danger ghost @click="() => queryReject">{{
+          $t('order.reject')
+        }}</a-button>
+        <a-button key="1" type="primary" @click="() => queryAgree">{{
+          $t('order.agree')
+        }}</a-button>
       </template>
     </template>
     <a-row type="flex" justify="center" align="middle">
@@ -85,10 +77,15 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request } from '@/apis/query';
+  import {
+    queryAgreeOrder,
+    queryProfile,
+    queryRejectOrder,
+    Request,
+  } from '@/apis/query';
   import { onMounted, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import CommonMixins from '@/mixins/common';
   import { AxiosResponse } from 'axios';
   import { Res } from '@/config/request';
@@ -139,17 +136,26 @@
 
   const route = useRoute();
 
+  const router = useRouter();
+
   const page = ref(1);
 
   const order = ref<QueryRef>({} as QueryRef);
 
-  const currentPage = (page: number) => {
-    query
-      .QueryProfile(order.value.work_id, page)
-      .then((res: AxiosResponse<Res<any>>) => {
-        tData.value = res.data.payload.data;
-        pagination.pageCount = res.data.payload.page;
-      });
+  const queryAgree = async () => {
+    await queryAgreeOrder(order.value.work_id);
+    router.go(-1);
+  };
+
+  const queryReject = async () => {
+    await queryRejectOrder(order.value.work_id);
+    router.go(-1);
+  };
+
+  const currentPage = async (page: number) => {
+    const { data } = await queryProfile(order.value.work_id, page);
+    tData.value = data.payload.data;
+    pagination.pageCount = data.payload.page;
   };
 
   onMounted(() => {

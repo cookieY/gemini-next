@@ -48,12 +48,11 @@
 
 <script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
-  import { Request } from '@/apis/query';
+  import { querySchemaList, queryTable } from '@/apis/query';
   import { onBeforeRouteUpdate, useRoute } from 'vue-router';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import { HddOutlined } from '@ant-design/icons-vue';
   import { useStore } from '@/store';
+  import { TreeNodeProps } from 'ant-design-vue/lib/vc-tree';
 
   const emit = defineEmits(['showTableRef']);
 
@@ -63,15 +62,13 @@
 
   const store = useStore();
 
-  const expandedKeys = ref<any[]>([]);
+  const expandedKeys = ref<string[]>([]);
 
   const autoExpandParent = ref<boolean>(false);
 
   const spinning = ref(false);
 
-  const gData = ref<any>([]);
-
-  const request = new Request();
+  const gData = ref<TreeNodeProps[]>([]);
 
   const schema = ref('');
 
@@ -93,23 +90,22 @@
     autoExpandParent.value = false;
   });
 
-  const onLoadData = (keys: string, { expanded, node }: any) => {
+  const onLoadData = async (keys: string, { expanded, node }: any) => {
     if (expanded) {
       if (node.dataRef.meta === 'Table') {
         return;
       }
       spin();
-      request
-        .QueryTable(route.query.source_id as string, node.dataRef.title)
-        .then((res: AxiosResponse<Res<any>>) => {
-          for (let i of gData.value) {
-            if (i.key == node.dataRef.key) {
-              i.children = res.data.payload.table;
-            }
-          }
-          expandedKeys.value = [node.dataRef.title];
-        })
-        .finally(() => spin());
+      const { data } = await queryTable(
+        route.query.source_id as string,
+        node.dataRef.title
+      );
+      gData.value.filter((item: any) => {
+        if (item.key === node.dataRef.key) {
+          item.children = data.payload.table;
+        }
+      });
+      spin();
     }
   };
 
@@ -125,25 +121,20 @@
     });
   };
 
-  const initial = (source_id: string) => {
+  const initial = async (source_id: string) => {
     spin();
-    request
-      .QuerySchema(source_id)
-      .then((res: AxiosResponse<Res<any>>) => {
-        gData.value = res.data.payload.info;
-        expandedKeys.value = [res.data.payload.info.key];
-        if (res.data.payload.info.length > 0) {
-          store.commit('common/SET_SCHEMA_List', {
-            schema: res.data.payload.info.map(
-              (item: { key: string }) => item.key
-            ),
-            source: route.query.source as string,
-            source_id: route.query.source_id as string,
-          });
-          store.commit('common/SET_SCHEMA', '');
-        }
-      })
-      .finally(() => spin());
+    const { data } = await querySchemaList(source_id);
+    gData.value = data.payload;
+    expandedKeys.value = [data.payload.key];
+    if (data.payload.length > 0) {
+      store.commit('common/SET_SCHEMA_List', {
+        schema: data.payload.map((item: { key: string }) => item.key),
+        source: route.query.source as string,
+        source_id: route.query.source_id as string,
+      });
+      store.commit('common/SET_SCHEMA', '');
+      spin();
+    }
   };
 
   onBeforeRouteUpdate((to) => {
