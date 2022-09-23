@@ -1,4 +1,4 @@
-import { Timeline, Request } from '@/apis/fetchSchema';
+import { Timeline, Request } from '@/apis/source';
 import { request, COMMON_URI } from '@/config/request';
 import { reactive, ref } from 'vue';
 
@@ -11,7 +11,7 @@ export default function () {
 
   const editor = ref();
 
-  const FetchStepUsage = (work_id: string) => {
+  const fetchStepUsage = (work_id: string) => {
     return request({
       method: 'GET',
       url: `${COMMON_URI}/fetch/steps`,
@@ -21,7 +21,7 @@ export default function () {
     });
   };
 
-  const FetchProfileSQL = (work_id: string) => {
+  const fetchProfileSQL = (work_id: string) => {
     return request({
       method: 'GET',
       url: `${COMMON_URI}/fetch/sql`,
@@ -36,8 +36,8 @@ export default function () {
   return {
     orderProfileArch,
     editor,
-    FetchStepUsage,
-    FetchProfileSQL,
+    fetchStepUsage,
+    fetchProfileSQL,
     fetchRequest,
   };
 }

@@ -203,10 +203,10 @@
   import { Request, SQLTestParams } from '@/apis/orderPostApis';
   import { SQLTesting } from '@/types';
   import { useRoute } from 'vue-router';
-  import { Timeline } from '@/apis/fetchSchema';
   import JunoMixin from '@/mixins/juno';
   import WsSocket from '@/socket';
   import { debounce } from 'lodash-es';
+  import { queryTimeline } from '@/apis/source';
 
   interface stepUsage {
     action: string;
@@ -244,7 +244,7 @@
     store.state.user.account.token
   );
 
-  const { FetchStepUsage, FetchProfileSQL, orderProfileArch, fetchRequest } =
+  const { fetchStepUsage, fetchProfileSQL, orderProfileArch, fetchRequest } =
     FetchMixins();
 
   const usage = ref([] as stepUsage[]);
@@ -259,7 +259,6 @@
       return;
     }
     bool ? (condition.value = true) : (condition.value = false);
-    // !enabled.value ? condition.value = true : null
   };
 
   const testResults = debounce((sql: string) => {
@@ -314,44 +313,34 @@
   };
 
   const recv = (e: any) => {
+    console.log(typeof e);
     store.commit('order/SET_ORDER_STATUS', JSON.parse(e.data));
   };
 
-  onMounted(() => {
+  onMounted(async () => {
     sock.create();
     sock.ping();
     sock.race(recv);
-    fetchRequest
-      .TimeLine(order.value.source_id as string)
-      .then((res: AxiosResponse<Res<Timeline[]>>) => {
-        if (res.data.code === 5555) {
-          router.go(-1);
-        } else {
-          orderProfileArch.timeline = res.data.payload;
-          if (
-            orderProfileArch.timeline[order.value.current_step] !== undefined
-          ) {
-            let currentStep =
-              orderProfileArch.timeline[order.value.current_step];
-            isCurrent.value = currentStep.auditor.indexOf(
-              store.state.user.account.user
-            );
-          }
-        }
-      });
 
-    FetchStepUsage(order.value.work_id).then(
-      (res: AxiosResponse<Res<stepUsage[]>>) => {
-        usage.value = res.data.payload;
+    const { data } = await queryTimeline(order.value.source_id as string);
+    if (data.code === 5555) {
+      router.go(-1);
+    } else {
+      orderProfileArch.timeline = data.payload;
+      if (orderProfileArch.timeline[order.value.current_step] !== undefined) {
+        let currentStep = orderProfileArch.timeline[order.value.current_step];
+        isCurrent.value = currentStep.auditor.indexOf(
+          store.state.user.account.user
+        );
       }
-    );
+    }
 
-    FetchProfileSQL(order.value.work_id).then(
-      (res: AxiosResponse<Res<{ [key: string]: string }>>) => {
-        profile.value.ChangeEditorText(res.data.payload.sqls);
-        store.commit('common/ORDER_SET_SQL', res.data.payload.sqls);
-      }
-    );
+    const step = await fetchStepUsage(order.value.work_id);
+    usage.value = step.data.payload;
+
+    const sql = await fetchProfileSQL(order.value.work_id);
+    profile.value.ChangeEditorText(sql.data.payload.sqls);
+    store.commit('common/ORDER_SET_SQL', sql.data.payload.sqls);
   });
 
   onUnmounted(() => {

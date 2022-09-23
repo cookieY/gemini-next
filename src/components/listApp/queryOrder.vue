@@ -51,7 +51,7 @@
   import { QueryPost, Request as Query } from '@/apis/query';
   import { AxiosResponse } from 'axios';
   import { onMounted, reactive, ref } from 'vue';
-  import { Request } from '@/apis/fetchSchema';
+  import { Request } from '@/apis/source';
   import { RespFetchSource } from '@/apis/listAppApis';
   import { Res } from '@/config/request';
   import { useI18n } from 'vue-i18n';

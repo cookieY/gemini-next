@@ -81,11 +81,9 @@
   import { useStore } from '@/store';
   import { encode } from '@msgpack/msgpack';
   import { ArrowLeftOutlined } from '@ant-design/icons-vue';
-  import { Request } from '@/apis/query';
-  import { Request as Query } from '@/apis/fetchSchema';
+  import { checkIsQuery, Request } from '@/apis/query';
+  import { queryHighlight } from '@/apis/source';
   import router from '@/router';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import { onBeforeRouteUpdate, useRoute } from 'vue-router';
   import * as monaco from 'monaco-editor';
   import { createSQLToken } from '@/components/editor/impl';
@@ -101,8 +99,6 @@
   const feat = ref('edit');
 
   const tool = ref('tree');
-
-  const query = new Query();
 
   const request = new Request();
 
@@ -183,15 +179,13 @@
     store.commit('common/QUERY_CONN', sock);
   };
 
-  const initial = (source_id: string) => {
-    console.log(store.state.highlight.highlight);
+  const initial = async (source_id: string) => {
     const highlight = store.state.highlight.highlight;
     if (highlight[source_id as any] === undefined) {
-      query.HighLight(source_id).then((res: AxiosResponse<Res<any>>) => {
-        store.commit('highlight/SAVE_HIGHLIGHT', {
-          key: source_id,
-          highlight: res.data.payload,
-        });
+      const { data } = await queryHighlight(source_id);
+      store.commit('highlight/SAVE_HIGHLIGHT', {
+        key: source_id,
+        highlight: data.payload,
       });
     }
     monaco_editor = monaco.languages.registerCompletionItemProvider('sql', {
@@ -224,13 +218,9 @@
     initQuery(to.query.source_id as string);
   });
 
-  onMounted(() => {
-    query
-      .IsQuery()
-      .then(
-        (res: AxiosResponse<Res<any>>) =>
-          (isOnly.value = res.data.payload.status)
-      );
+  onMounted(async () => {
+    const { data } = await checkIsQuery();
+    isOnly.value = data.payload.status;
     initQuery(route.query.source_id as string);
     initial(route.query.source_id as string);
   });

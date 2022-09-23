@@ -1,4 +1,3 @@
-import { Request } from '@/apis/fetchSchema';
 import { Request as Flow, RespTPLs } from '@/apis/flow';
 import { Res } from '@/config/request';
 import { encode } from '@msgpack/msgpack';
@@ -38,14 +37,8 @@ export const common: Module<commonStore, RootStore> = {
     principal: [],
   },
   mutations: {
-    GET_IDC(state) {
-      const request = new Request();
-      request
-        .IDC()
-        .then(
-          (res: AxiosResponse<Res<string[]>>) => (state.idc = res.data.payload)
-        )
-        .finally(() => state.idc);
+    GET_IDC(state, idc) {
+      state.idc = idc;
     },
     GET_FLOWS(state) {
       const request = new Flow();

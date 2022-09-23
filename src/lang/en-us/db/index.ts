@@ -8,6 +8,7 @@ export default {
   'db.test': 'Test connect',
   'db.exp.password': 'The password must not contain ? @ ^ $',
   'db.exp.name': 'can be used - and | ',
+  'db.check.env': 'Please fill in the env name',
   'db.check.name': 'Please fill in the connection name',
   'db.check.addr': 'Please fill in the connection addr',
   'db.check.port': 'Please fill in the connection port',

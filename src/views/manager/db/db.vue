@@ -24,13 +24,15 @@
   import { useStore } from '@/store';
   import { AxiosResponse } from 'axios';
   import { Res } from '@/config/request';
+  import { queryIDCList } from '@/apis/source';
 
   const store = useStore();
 
   const request = new Request();
 
-  onMounted(() => {
-    store.commit('common/GET_IDC');
+  onMounted(async () => {
+    const { data } = await queryIDCList();
+    store.commit('common/GET_IDC', data.payload);
     store.commit('common/GET_FLOWS');
     request.Principal().then((res: AxiosResponse<Res<any>>) => {
       store.commit('common/DB_SET_PRINCIPAL', res.data.payload);

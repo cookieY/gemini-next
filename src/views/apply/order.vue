@@ -164,10 +164,12 @@
   import { AxiosResponse } from 'axios';
   import { Res } from '@/config/request';
   import {
-    DBRelated,
-    Timeline,
-    Request as FetchRequest,
-  } from '@/apis/fetchSchema';
+    querySchemaList,
+    queryTableList,
+    queryTableArch,
+    queryTimeline,
+    queryHighlight,
+  } from '@/apis/source';
   import { Dayjs } from 'dayjs';
   import { message, Modal } from 'ant-design-vue';
   import { Request, SQLTestParams } from '@/apis/orderPostApis';
@@ -206,8 +208,6 @@
 
   const request = new Request();
 
-  const fetchRequest = new FetchRequest();
-
   const enabled = ref(true);
 
   const { checkStepState } = CommonMixins();
@@ -233,31 +233,19 @@
     orderItems.delay = date.format('YYYY-MM-DD HH:mm');
   };
 
-  const fetchTable = (data_base: string) => {
-    fetchRequest
-      .Table(orderItems.source_id, data_base)
-      .then((res: AxiosResponse<Res<DBRelated>>) => {
-        orderProfileArch.table = res.data.payload.results;
-      });
+  const fetchTable = async (schema: string) => {
+    const { data } = await queryTableList(orderItems.source_id, schema);
+    orderProfileArch.table = data.payload;
   };
 
-  const fetchTableArch = () => {
+  const fetchTableArch = async () => {
     loadingTblBtn.value = !loadingTblBtn.value;
-    fetchRequest
-      .Arch({
-        source_id: orderItems.source_id,
-        data_base: orderItems.data_base,
-        table: orderItems.table,
-      })
-      .then((res: AxiosResponse<Res<any>>) => {
-        archData.value = res.data.payload.rows;
-        indexData.value = res.data.payload.idx;
-        activeKey.value = 2;
-        message.success(t('order.apply.table.info') + t('common.success'));
-      })
-      .finally(() => {
-        loadingTblBtn.value = !loadingTblBtn.value;
-      });
+    const { data } = await queryTableArch(orderItems);
+    archData.value = data.payload.rows;
+    indexData.value = data.payload.idx;
+    activeKey.value = 2;
+    message.success(t('order.apply.table.info') + t('common.success'));
+    loadingTblBtn.value = !loadingTblBtn.value;
   };
 
   const testResults = debounce((sql: string) => {
@@ -301,17 +289,14 @@
       .finally(() => (loadingPostBtn.value = !loadingPostBtn.value));
   }, 500);
 
-  const fetchHighLight = () => {
+  const fetchHighLight = async () => {
     const highlight = store.state.highlight.highlight;
     if (highlight[orderItems.source_id as string] === undefined) {
-      fetchRequest
-        .HighLight(orderItems.source_id)
-        .then((res: AxiosResponse<Res<any>>) => {
-          store.commit('highlight/SAVE_HIGHLIGHT', {
-            key: orderItems.source_id,
-            highlight: res.data.payload,
-          });
-        });
+      const { data } = await queryHighlight(orderItems.source_id);
+      store.commit('highlight/SAVE_HIGHLIGHT', {
+        key: orderItems.source_id,
+        highlight: data.payload,
+      });
     }
     monaco_editor = monaco.languages.registerCompletionItemProvider('sql', {
       provideCompletionItems: (
@@ -336,26 +321,26 @@
     });
   };
 
+  const fetchSchema = async () => {
+    const { data } = await querySchemaList(orderItems.source_id, true);
+    orderProfileArch.db = data.payload;
+  };
+
+  const fetchTimeline = async () => {
+    const { data } = await queryTimeline(orderItems.source_id);
+    data.code === 5555
+      ? router.go(-1)
+      : (orderProfileArch.timeline = data.payload);
+  };
+
   onMounted(() => {
     orderItems.type = parseInt(route.query.type as string);
     orderItems.idc = route.query.idc as string;
     orderItems.source = route.query.source as string;
     orderItems.source_id = route.query.source_id as string;
 
-    fetchRequest
-      .Schema(orderItems.source_id, '', true)
-      .then((res: AxiosResponse<Res<DBRelated>>) => {
-        orderProfileArch.db = res.data.payload.results;
-      });
-
-    fetchRequest
-      .TimeLine(orderItems.source_id)
-      .then((res: AxiosResponse<Res<Timeline[]>>) => {
-        res.data.code === 5555
-          ? router.go(-1)
-          : (orderProfileArch.timeline = res.data.payload);
-      });
-
+    fetchSchema();
+    fetchTimeline();
     fetchHighLight();
 
     route.query.remark === 'true'

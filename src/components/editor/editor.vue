@@ -101,7 +101,6 @@
   };
 
   const ChangeEditorText = (sql: string) => {
-    model.onDidChangeModelLanguageConfiguration(() => {});
     model.setValue(sql);
   };
 

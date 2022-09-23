@@ -3,7 +3,7 @@
     :is="com"
     :id="110"
     type="query"
-    :is-export="isExport"
+    :is-export="state.export"
     @enter="clickPage"
   />
 </template>
@@ -12,35 +12,39 @@
   import { Res } from '@/config/request';
   import { AxiosResponse } from 'axios';
   import { onMounted, ref, shallowRef } from 'vue';
-  import { QueryPost, Request as Query } from '@/apis/query';
+  import {
+    checkIsQuery,
+    IQueryStatus,
+    QueryPost,
+    Request as Query,
+  } from '@/apis/query';
   import ListApp from './listApp.vue';
   import QueryBanner from './queryBanner.vue';
   import QueryOrder from './queryOrder.vue';
 
   const com = shallowRef<any>(QueryBanner);
 
-  const isQuery = ref(false);
-
-  const isExport = ref<boolean>(false);
+  const state = ref<IQueryStatus>({
+    export: false,
+    status: false,
+  });
 
   const query = new Query();
 
   const clickPage = () => {
-    if (isQuery.value) {
+    if (state.value.status) {
       com.value = QueryOrder;
     } else {
       com.value = ListApp;
       query.Post({
-        export: isExport.value ? 1 : 0,
+        export: state.value.export ? 1 : 0,
       } as QueryPost);
     }
   };
 
-  const fetchState = () => {
-    query.IsQuery().then((res: AxiosResponse<Res<any>>) => {
-      isQuery.value = res.data.payload.status;
-      isExport.value = res.data.payload.export;
-    });
+  const fetchState = async () => {
+    const { data } = await checkIsQuery();
+    state.value = data.payload;
   };
 
   onMounted(() => {

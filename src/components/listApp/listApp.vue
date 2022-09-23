@@ -110,12 +110,9 @@
     ShareAltOutlined,
     CodepenCircleOutlined,
   } from '@ant-design/icons-vue';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import { onMounted, ref } from 'vue';
-  import { RespFetchSource } from '@/apis/listAppApis';
   import { useRouter } from 'vue-router';
-  import { Request } from '@/apis/fetchSchema';
+  import { ISource, querySourceList } from '@/apis/source';
 
   const props = defineProps<{
     type: string;
@@ -140,32 +137,27 @@
     value === '' || value === undefined || value === 'all'
       ? (source.value = tmpSource)
       : (source.value = tmpSource.filter(
-          (item: RespFetchSource) => item.source === value
+          (item: ISource) => item.source === value
         ));
   };
 
   const selected = ref('all');
 
-  const request = new Request();
+  let tmpSource = [] as ISource[];
 
-  let tmpSource = [] as RespFetchSource[];
+  const source = ref([] as ISource[]);
 
-  let source = ref([] as RespFetchSource[]);
+  const options = ref([] as ISource[]);
 
-  let options = ref([] as RespFetchSource[]);
+  const loading = ref(true);
 
-  let loading = ref(true);
-
-  onMounted(() => {
-    request
-      .Source(props.type)
-      .then((res: AxiosResponse<Res<RespFetchSource[]>>) => {
-        tmpSource = res.data.payload;
-        source.value = res.data.payload;
-        options.value = res.data.payload;
-      })
-      .finally(() => {
-        loading.value = false;
-      });
+  onMounted(async () => {
+    try {
+      const { data } = await querySourceList(props.type);
+      tmpSource = source.value = options.value = data.payload;
+      loading.value = false;
+    } catch (error) {
+      console.log(error);
+    }
   });
 </script>

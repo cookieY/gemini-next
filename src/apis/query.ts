@@ -1,4 +1,4 @@
-import { COMMON_URI, request } from '@/config/request';
+import { COMMON_URI, request, Res } from '@/config/request';
 import { AxiosPromise } from 'axios';
 import { Dayjs } from 'dayjs';
 
@@ -32,6 +32,15 @@ export interface QueryPost {
   source_id: string;
   text: string;
   export: number;
+}
+
+export interface IQueryStatus {
+  status: boolean;
+  export: boolean;
+}
+
+export function checkIsQuery() {
+  return request.get<Res<IQueryStatus>>(`${COMMON_URI}/fetch/is_query`);
 }
 
 export class Request {
@@ -95,13 +104,6 @@ export class Request {
       params: {
         source_id: source_id,
       },
-    });
-  }
-
-  IsQuery(): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/fetch/is_query`,
     });
   }
 

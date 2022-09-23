@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request } from '@/apis/fetchSchema';
+  import { Request } from '@/apis/source';
   import { RespFetchSource } from '@/apis/listAppApis';
   import { Res } from '@/config/request';
   import CommonMixins from '@/mixins/common';

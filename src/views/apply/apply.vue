@@ -42,20 +42,16 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, reactive } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import ListApp from '@/components/listApp/listApp.vue';
   import QueryApp from '@/components/listApp/queryApp.vue';
   import { useI18n } from 'vue-i18n';
   import { useStore } from '@/store';
-  import { Request } from '@/apis/fetchSchema';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
+  import { querySourceList, IKindCount } from '@/apis/source';
 
   const { t } = useI18n();
 
   const store = useStore();
-
-  const request = new Request();
 
   const activeKey = computed({
     get() {
@@ -66,7 +62,7 @@
     },
   });
 
-  const count = reactive<{ [key: string]: number }>({
+  const count = ref<IKindCount>({
     dml: 0,
     ddl: 0,
     query: 0,
@@ -77,11 +73,8 @@
     { title: t('order.apply.ddl.tab'), key: 'ddl', id: 0 },
   ];
 
-  onMounted(() => {
-    request.Source('count').then((res: AxiosResponse<Res<any>>) => {
-      count.dml = res.data.payload.dml;
-      count.ddl = res.data.payload.ddl;
-      count.query = res.data.payload.query;
-    });
+  onMounted(async () => {
+    const { data } = await querySourceList('count');
+    count.value = data.payload as IKindCount;
   });
 </script>

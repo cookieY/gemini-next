@@ -67,12 +67,17 @@
 
 <script lang="ts" setup>
   import { AutoTask, Request as Re } from '@/apis/autotask';
-  import { DBRelated, Request } from '@/apis/fetchSchema';
-  import { Res } from '@/config/request';
+  import {
+    ISource,
+    queryIDCList,
+    querySchemaList,
+    querySourceList,
+    queryTableList,
+    Request,
+  } from '@/apis/source';
   import CommonMixins from '@/mixins/common';
   import { LabelInValue } from '@/types';
   import { RuleObject } from 'ant-design-vue/es/form';
-  import { AxiosResponse } from 'axios';
   import { onMounted, reactive, unref, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
 
@@ -81,7 +86,7 @@
   const formRef = ref();
 
   const fetchList = reactive({
-    source: [] as AutoTask[],
+    source: [] as AutoTask[] | ISource[],
     idc: [] as string[],
     schema: [] as string[],
     tables: [] as string[],
@@ -124,8 +129,6 @@
 
   const initTask = Object.assign({}, autotask);
 
-  const request = new Request();
-
   const postTask = new Re();
 
   const emit = defineEmits(['success']);
@@ -151,37 +154,27 @@
     });
   };
 
-  const fetchSource = (vl: string) => {
-    request.Source('idc', vl).then((res: AxiosResponse<Res<any[]>>) => {
-      fetchList.source = res.data.payload;
-    });
+  const fetchSource = async (vl: string) => {
+    const { data } = await querySourceList('idc', vl);
+    fetchList.source = data.payload as ISource[];
   };
 
-  const fetchSchema = (vl: LabelInValue) => {
-    request
-      .Schema(vl.value)
-      .then(
-        (res: AxiosResponse<Res<DBRelated>>) =>
-          (fetchList.schema = res.data.payload.results)
-      );
+  const fetchSchema = async (vl: LabelInValue) => {
+    const { data } = await querySchemaList(vl.value);
+    fetchList.schema = data.payload;
   };
 
-  const fetchTable = (vl: string) => {
-    request
-      .Table(autotask.value.sourceLabel.value, vl)
-      .then(
-        (res: AxiosResponse<Res<DBRelated>>) =>
-          (fetchList.tables = res.data.payload.results)
-      );
+  const fetchTable = async (schema: string) => {
+    const { data } = await queryTableList(
+      autotask.value.sourceLabel.value,
+      schema
+    );
+    fetchList.tables = data.payload;
   };
 
-  onMounted(() => {
-    request
-      .IDC()
-      .then(
-        (res: AxiosResponse<Res<string[]>>) =>
-          (fetchList.idc = res.data.payload)
-      );
+  onMounted(async () => {
+    const { data } = await queryIDCList();
+    fetchList.idc = data.payload;
   });
 
   defineExpose({

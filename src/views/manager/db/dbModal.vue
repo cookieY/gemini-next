@@ -114,7 +114,7 @@
   import { AxiosResponse } from 'axios';
   import { Res } from '@/config/request';
   import { Source, Request as DB } from '@/apis/db';
-  import { Request } from '@/apis/fetchSchema';
+  import { querySchemaList } from '@/apis/source';
   import { EventBus } from '@/lib';
 
   const { is_open, turnState, layout } = CommonMixins();
@@ -132,8 +132,6 @@
   });
 
   const steps = ref([] as Steps[]);
-
-  const request = new Request();
 
   const db = new DB();
 
@@ -179,17 +177,17 @@
     });
   };
 
+  const fetchSchema = async () => {
+    const { data } = await querySchemaList(dbForm.value.source_id);
+    schemaList.value = data.payload;
+  };
+
   const fillInfo = (vl: any) => {
     dbForm.value = Object.assign({}, vl);
     turnState();
     excludeDB.value = dbForm.value.exclude_db_list.split(',');
     insulateWord.value = dbForm.value.insulate_word_list.split(',');
-    request
-      .Schema(dbForm.value.source_id, 'schema')
-      .then(
-        (res: AxiosResponse<Res<any>>) =>
-          (schemaList.value = res.data.payload.results)
-      );
+    fetchSchema();
     flowReq
       .Profile(dbForm.value.flow_id)
       .then(
