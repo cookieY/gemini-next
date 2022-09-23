@@ -47,7 +47,7 @@
           </a-button>
           <a-popconfirm
             title="确认要删除该权限组吗?"
-            @confirm="request.Drop(record.group_id).then(() => tbl.manual())"
+            @confirm="deletePolicy(record.group_id).then(() => tbl.manual())"
           >
             <a-button type="primary" size="small" danger ghost
               >{{ $t('common.delete') }}
@@ -67,11 +67,9 @@
     PolicyParams,
     PolicyExpr,
     Policy,
-    PolicyResp,
-    Request,
+    deletePolicy,
+    getPolicyList,
   } from '@/apis/policy';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import { tableRef } from '@/components/table';
   import { useI18n } from 'vue-i18n';
 
@@ -90,11 +88,10 @@
     expr: {
       text: '',
     } as PolicyExpr,
-    fn: (expr: PolicyParams) => {
-      request.List(expr).then((res: AxiosResponse<Res<PolicyResp>>) => {
-        tblRef.data = res.data.payload.data;
-        tblRef.pageCount = res.data.payload.page;
-      });
+    fn: async (expr: PolicyParams) => {
+      const { data } = await getPolicyList(expr);
+      tblRef.data = data.payload.data;
+      tblRef.pageCount = data.payload.page;
     },
   });
 

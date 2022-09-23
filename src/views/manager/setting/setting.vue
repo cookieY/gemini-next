@@ -45,10 +45,12 @@
           </a-form-item>
           <a-form-item :label="$t('common.action')">
             <a-space>
-              <a-button type="primary" @click="request.Test('ding', config)">{{
-                $t('setting.message.action.hook')
-              }}</a-button>
-              <a-button ghost @click="request.Test('mail', config)">{{
+              <a-button
+                type="primary"
+                @click="testMessageHook('ding', config)"
+                >{{ $t('setting.message.action.hook') }}</a-button
+              >
+              <a-button ghost @click="testMessageHook('mail', config)">{{
                 $t('setting.message.action.mail')
               }}</a-button>
             </a-space>
@@ -118,7 +120,7 @@
             </a-input-password>
           </a-form-item>
           <a-form-item :label="$t('common.action')">
-            <a-button type="primary" @click="request.Test('ldap', config)">{{
+            <a-button type="primary" @click="testMessageHook('ldap', config)">{{
               $t('setting.ldap.test')
             }}</a-button>
           </a-form-item>
@@ -229,7 +231,7 @@
           </a-alert>
         </a-form>
         <br />
-        <a-button type="primary" block @click="request.Post(config)">{{
+        <a-button type="primary" block @click="updateSettingInfo(config)">{{
           $t('common.save')
         }}</a-button>
       </a-col>
@@ -238,12 +240,16 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request, Settings } from '@/apis/setting';
+  import {
+    updateSettingInfo,
+    getSettingInfo,
+    testMessageHook,
+    Settings,
+    deleteOrderRecords,
+  } from '@/apis/setting';
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
-  import { Res } from '@/config/request';
   import CommonMixins from '@/mixins/common';
   import { SmileOutlined } from '@ant-design/icons-vue';
-  import { AxiosResponse } from 'axios';
   import { onMounted, ref } from 'vue';
   import dayjs from 'dayjs';
   import { defaultLang } from '@/lang';
@@ -267,11 +273,9 @@
     },
   } as Settings);
 
-  const request = new Request();
-
-  const clearQuery = () => {
+  const clearQuery = async () => {
     if (config.value.other.query_expire !== undefined) {
-      request.Delete({
+      await deleteOrderRecords({
         date: config.value.other.query_expire.map((item) =>
           item.format('YYYY-MM-DD HH:mm')
         ),
@@ -280,9 +284,9 @@
     }
   };
 
-  const clearOrder = () => {
+  const clearOrder = async () => {
     if (config.value.other.overdue !== undefined) {
-      request.Delete({
+      await deleteOrderRecords({
         date: config.value.other.overdue.map((item) =>
           item.format('YYYY-MM-DD HH:mm')
         ),
@@ -301,10 +305,9 @@
     config.value.other.force = '';
   };
 
-  const currentPage = () => {
-    request.Get().then((res: AxiosResponse<Res<Settings>>) => {
-      config.value = res.data.payload;
-    });
+  const currentPage = async () => {
+    const { data } = await getSettingInfo();
+    config.value = data.payload;
   };
   const closeTag = (removedTag: string) => {
     const tags = config.value.other.idc.filter((tag) => tag !== removedTag);

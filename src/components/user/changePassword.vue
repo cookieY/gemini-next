@@ -1,9 +1,12 @@
 <template>
   <a-modal
-    v-model:visible="is_open"
     :title="$t('user.password.title')"
-    @ok="handlePassword"
+    v-on="$attrs"
     @cancel="Object.assign(formItem, initItem)"
+    @ok="
+      emit('post', formItem);
+      Object.assign(formItem, initItem);
+    "
   >
     <a-form ref="formRef" :model="formItem" :rules="rules" layout="vertical">
       <a-form-item
@@ -28,17 +31,9 @@
 
 <script lang="ts" setup>
   import { UnwrapRef, reactive } from 'vue';
-  import { Password, Request } from '@/apis/user';
+  import { Password } from '@/apis/user';
   import CommonMixins from '@/mixins/common';
   import { RuleObject } from 'ant-design-vue/es/form/interface';
-
-  interface propsAttr {
-    user?: string;
-  }
-
-  const props = withDefaults(defineProps<propsAttr>(), {
-    user: '',
-  });
 
   const formItem: UnwrapRef<Password> = reactive({
     password: '',
@@ -46,11 +41,11 @@
     origin: '',
   });
 
+  const emit = defineEmits(['post']);
+
   const initItem = Object.assign({}, formItem);
 
-  const { is_open, regExpPassword, turnState } = CommonMixins();
-
-  const request = new Request();
+  const { regExpPassword } = CommonMixins();
 
   const validPassword = async (rule: RuleObject, value: string) => {
     if (value !== formItem.password && value !== '') {
@@ -68,16 +63,4 @@
       { required: true, validator: validPassword, trigger: 'blur' },
     ],
   };
-
-  const handlePassword = () => {
-    request
-      .Password(formItem, props.user, true)
-      .then(() => turnState())
-      .finally(() => Object.assign(formItem, initItem));
-  };
-
-  defineExpose({
-    turnState,
-    handlePassword,
-  });
 </script>

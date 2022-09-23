@@ -13,7 +13,7 @@
         />
       </a-col>
       <a-col :span="4" offset="1">
-        <a-button type="primary" @click="request.Post(engine)">{{
+        <a-button type="primary" @click="updateRules(engine)">{{
           $t('common.save')
         }}</a-button>
       </a-col>
@@ -53,9 +53,7 @@
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
   import { Rule, rule } from './rules';
   import { onMounted, ref } from 'vue';
-  import { AxiosResponse } from 'axios';
-  import { Request } from '@/apis/rules';
-  import { Res } from '@/config/request';
+  import { getRulesList, updateRules } from '@/apis/rules';
   import { useI18n } from 'vue-i18n';
 
   const { t } = useI18n();
@@ -87,15 +85,12 @@
 
   let rules = ref<Rule[]>(rule);
 
-  const request = new Request();
-
   const onSearch = (vl: string) => {
     rules.value = rule.filter((item) => item.desc.indexOf(vl) !== -1);
   };
 
-  onMounted(() => {
-    request.List().then((res: AxiosResponse<Res<any>>) => {
-      engine.value = res.data.payload.audit_role;
-    });
+  onMounted(async () => {
+    const { data } = await getRulesList();
+    engine.value = data.payload;
   });
 </script>

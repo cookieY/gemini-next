@@ -1,5 +1,4 @@
-import { COMMON_URI, request } from '@/config/request';
-import { AxiosPromise } from 'axios';
+import { COMMON_URI, request, Res } from '@/config/request';
 import { Dayjs } from 'dayjs';
 
 export interface Message {
@@ -50,36 +49,20 @@ export interface DeleteOrder {
   tp: boolean;
 }
 
-export class Request {
-  Get(): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/manage/setting`,
-    });
-  }
+export function getSettingInfo() {
+  return request.get<Res<Settings>>(`${COMMON_URI}/manage/setting`);
+}
 
-  Test(tp: string, testArgs: Settings): AxiosPromise {
-    return request({
-      method: 'put',
-      url: `${COMMON_URI}/manage/setting`,
-      params: { test: tp },
-      data: testArgs,
-    });
-  }
+export function testMessageHook(tp: string, testArgs: Settings) {
+  return request.put(`${COMMON_URI}/manage/setting?test=${tp}`, testArgs);
+}
 
-  Post(args: Settings): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/manage/setting`,
-      data: args,
-    });
-  }
+export function updateSettingInfo(params: Settings) {
+  return request.post(`${COMMON_URI}/manage/setting`, params);
+}
 
-  Delete(args: DeleteOrder): AxiosPromise {
-    return request({
-      method: 'delete',
-      url: `${COMMON_URI}/manage/setting`,
-      data: args,
-    });
-  }
+export function deleteOrderRecords(args: DeleteOrder) {
+  return request.delete(`${COMMON_URI}/manage/setting`, {
+    data: args,
+  });
 }

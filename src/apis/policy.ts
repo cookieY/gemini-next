@@ -1,5 +1,4 @@
-import { request, COMMON_URI } from '@/config/request';
-import { AxiosPromise } from 'axios';
+import { request, COMMON_URI, Res } from '@/config/request';
 
 export interface PolicyExpr {
   text: string;
@@ -45,37 +44,18 @@ export interface PolicyRuse {
   query: checkList[];
 }
 
-export class Request {
-  List(args: PolicyParams): AxiosPromise {
-    return request({
-      method: 'put',
-      url: `${COMMON_URI}/manage/policy`,
-      data: args,
-    });
-  }
+export function getPolicyList(params: PolicyParams) {
+  return request.put<Res<PolicyResp>>(`${COMMON_URI}/manage/policy`, params);
+}
 
-  Get(): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/manage/policy/source`,
-    });
-  }
+export function getPolicySources() {
+  return request.get<Res<PolicyRuse>>(`${COMMON_URI}/manage/policy/source`);
+}
 
-  Post(args: PolicyPost): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/manage/policy`,
-      data: args,
-    });
-  }
+export function updatePolicy(params: PolicyPost) {
+  return request.post(`${COMMON_URI}/manage/policy`, params);
+}
 
-  Drop(args: string): AxiosPromise {
-    return request({
-      method: 'delete',
-      url: `${COMMON_URI}/manage/policy`,
-      params: {
-        group_id: args,
-      },
-    });
-  }
+export function deletePolicy(group_id: string) {
+  return request.delete(`${COMMON_URI}/manage/policy?source_id=${group_id}`);
 }

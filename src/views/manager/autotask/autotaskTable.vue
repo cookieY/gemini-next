@@ -61,11 +61,9 @@
     AutoTaskExpr,
     AutoTask,
     AutoTaskParams,
-    AutoTaskResp,
     Request,
+    getAutoTaskList,
   } from '@/apis/autotask';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import AutotaskModal from './autotaskModal.vue';
   import { useI18n } from 'vue-i18n';
   import { tableRef } from '@/components/table';
@@ -114,11 +112,10 @@
     data: [] as AutoTask[],
     pageCount: 0,
     expr: {} as AutoTaskExpr,
-    fn: (expr: AutoTaskParams) => {
-      request.List(expr).then((res: AxiosResponse<Res<AutoTaskResp>>) => {
-        tblRef.data = res.data.payload.data;
-        tblRef.pageCount = res.data.payload.page;
-      });
+    fn: async (expr: AutoTaskParams) => {
+      const { data } = await getAutoTaskList(expr);
+      tblRef.data = data.payload.data;
+      tblRef.pageCount = data.payload.page;
     },
   });
 

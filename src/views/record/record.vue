@@ -34,13 +34,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request } from '@/apis/record';
+  import { getRecordAxis } from '@/apis/record';
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
   import { Chart } from '@antv/g2';
   import { onMounted, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import insertCss from 'insert-css';
 
   const { t } = useI18n();
@@ -109,9 +107,7 @@
 }
 `);
 
-  const request = new Request();
-
-  const OrderTypeChart = (id: string, data: any) => {
+  const orderTypeChart = (id: string, data: any) => {
     const chart = new Chart({
       container: 'g2-container',
       autoFit: true,
@@ -220,9 +216,8 @@
     chart.render();
   };
 
-  onMounted(() => {
-    request.Axis().then((res: AxiosResponse<Res<any>>) => {
-      OrderTypeChart('container', res.data.payload);
-    });
+  onMounted(async () => {
+    const { data } = await getRecordAxis();
+    orderTypeChart('container', data.payload);
   });
 </script>

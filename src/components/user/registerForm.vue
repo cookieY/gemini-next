@@ -40,7 +40,7 @@
 <script lang="ts" setup>
   import CommonMixins from '@/mixins/common';
   import { reactive, UnwrapRef, ref, withDefaults } from 'vue';
-  import { RegisterForm, Request } from '@/apis/user';
+  import { RegisterForm, signUpUser } from '@/apis/user';
   import { RuleObject } from 'ant-design-vue/es/form/interface';
   import { EventBus } from '@/lib';
   import { useI18n } from 'vue-i18n';
@@ -68,8 +68,6 @@
     real_name: '',
     department: '',
   });
-
-  const request = new Request();
 
   const { regExpPassword } = CommonMixins();
 
@@ -117,11 +115,10 @@
   const formRef = ref();
 
   const registered = (): boolean =>
-    formRef.value.validate().then(() => {
-      request.Register(registerForm, props.isManager).then(() => {
-        resetFields();
-        EventBus.emit('closeState');
-      });
+    formRef.value.validate().then(async () => {
+      await signUpUser(registerForm, props.isManager);
+      resetFields();
+      EventBus.emit('closeState');
     });
 
   const resetFields = () => {

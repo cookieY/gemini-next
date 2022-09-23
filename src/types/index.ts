@@ -93,7 +93,7 @@ export interface Clip {
   desc: string;
 }
 
-export interface commonPage<T> {
+export interface CommonPage<T> {
   expr: T;
   current: number;
   page_size: number;

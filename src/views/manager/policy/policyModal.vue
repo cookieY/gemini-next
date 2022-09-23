@@ -38,17 +38,19 @@
 </template>
 
 <script lang="ts" setup>
-  import { Policy, PolicyPost, PolicyRuse, Request } from '@/apis/policy';
-  import { Res } from '@/config/request';
+  import {
+    getPolicySources,
+    Policy,
+    PolicyPost,
+    PolicyRuse,
+    updatePolicy,
+  } from '@/apis/policy';
   import CommonMixins from '@/mixins/common';
-  import { AxiosResponse } from 'axios';
   import { onMounted, reactive, unref, ref } from 'vue';
 
   const emit = defineEmits(['success']);
 
   const { is_open, turnState } = CommonMixins();
-
-  const request = new Request();
 
   const props = defineProps<{
     title: string;
@@ -77,11 +79,10 @@
     QUERY = 'query',
   }
 
-  const postPolicy = () => {
-    request.Post(selfRuse).then(() => {
-      turnState();
-      emit('success');
-    });
+  const postPolicy = async () => {
+    await updatePolicy(selfRuse);
+    turnState();
+    emit('success');
   };
 
   const editPolicy = (vl: Policy) => {
@@ -106,11 +107,10 @@
     turnState();
   };
 
-  onMounted(() => {
-    request.Get().then((res: AxiosResponse<Res<PolicyRuse>>) => {
-      ruse.source = res.data.payload.source;
-      ruse.query = res.data.payload.query;
-    });
+  onMounted(async () => {
+    const { data } = await getPolicySources();
+    ruse.source = data.payload.source;
+    ruse.query = data.payload.query;
   });
 
   defineExpose({

@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
-  import { Request } from '@/apis/user';
+  import { Request, updateUserPrincipal } from '@/apis/user';
   import { onMounted } from 'vue';
   import DBForm from './dbForm.vue';
   import DBTable from './dbTable.vue';
@@ -34,9 +34,8 @@
     const { data } = await queryIDCList();
     store.commit('common/GET_IDC', data.payload);
     store.commit('common/GET_FLOWS');
-    request.Principal().then((res: AxiosResponse<Res<any>>) => {
-      store.commit('common/DB_SET_PRINCIPAL', res.data.payload);
-    });
+    await updateUserPrincipal();
+    store.commit('common/DB_SET_PRINCIPAL', data.payload);
   });
 </script>
 

@@ -1,4 +1,4 @@
-import { COMMON_URI, request } from '@/config/request';
+import { COMMON_URI, request, Res } from '@/config/request';
 import { LabelInValue } from '@/types';
 import { AxiosPromise } from 'axios';
 
@@ -31,29 +31,36 @@ export interface AutoTaskResp {
   page: number;
 }
 
-export class Request {
-  List(args: AutoTaskParams): AxiosPromise {
-    return request({
-      method: 'put',
-      url: `${COMMON_URI}/manage/task`,
-      data: args,
-    });
-  }
+export function getAutoTaskList(params: AutoTaskParams) {
+  return request.put<Res<AutoTaskResp>>(`${COMMON_URI}/manage/task`, params);
+}
 
-  Post(tp: string, args: AutoTask): AxiosPromise {
-    tp === 'curd'
-      ? ((args.source_id = args.sourceLabel.value),
-        (args.source = args.sourceLabel.label))
-      : null;
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/manage/task`,
-      data: {
-        task: args,
-        tp: tp,
-      },
-    });
-  }
+export function updateAutoTask(tp: string, params: AutoTask) {
+  tp === 'curd'
+    ? ((params.source_id = params.sourceLabel.value),
+      (params.source = params.sourceLabel.label))
+    : null;
+  return request.post(`${COMMON_URI}/manage/task`, {
+    task: params,
+    tp: tp,
+  });
+}
+
+export class Request {
+  //   Post(tp: string, args: AutoTask): AxiosPromise {
+  //     tp === 'curd'
+  //       ? ((args.source_id = args.sourceLabel.value),
+  //         (args.source = args.sourceLabel.label))
+  //       : null;
+  //     return request({
+  //       method: 'post',
+  //       url: `${COMMON_URI}/manage/task`,
+  //       data: {
+  //         task: args,
+  //         tp: tp,
+  //       },
+  //     });
+  //   }
 
   Delete(taskId: string): AxiosPromise {
     return request({

@@ -125,7 +125,6 @@
     spin();
     const { data } = await querySchemaList(source_id);
     gData.value = data.payload;
-    expandedKeys.value = [data.payload.key];
     if (data.payload.length > 0) {
       store.commit('common/SET_SCHEMA_List', {
         schema: data.payload.map((item: { key: string }) => item.key),

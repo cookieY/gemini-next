@@ -80,7 +80,7 @@
   import CommonMixins from '@/mixins/common';
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
   import { RuleObject } from 'ant-design-vue/lib/form/interface';
-  import { RegisterForm, Request } from '@/apis/user';
+  import { getUserInfo, RegisterForm, Request } from '@/apis/user';
   import { AxiosResponse } from 'axios';
   import { Res } from '@/config/request';
 
@@ -126,15 +126,14 @@
     ],
   };
 
-  onMounted(() => {
-    request.UserInfo().then((res: AxiosResponse<Res<RegisterForm>>) => {
-      formItem.value = res.data.payload;
-      localStorage.getItem('theme') === null
-        ? (formItem.value.theme = 'dark')
-        : (formItem.value.theme = localStorage.getItem('theme') as string);
-      localStorage.getItem('lang') === null
-        ? (formItem.value.lang = 'zh_CN')
-        : (formItem.value.lang = localStorage.getItem('lang') as string);
-    });
+  onMounted(async () => {
+    const { data } = await getUserInfo();
+    formItem.value = data.payload.user;
+    localStorage.getItem('theme') === null
+      ? (formItem.value.theme = 'dark')
+      : (formItem.value.theme = localStorage.getItem('theme') as string);
+    localStorage.getItem('lang') === null
+      ? (formItem.value.lang = 'zh_CN')
+      : (formItem.value.lang = localStorage.getItem('lang') as string);
   });
 </script>

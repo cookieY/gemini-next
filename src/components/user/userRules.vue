@@ -8,7 +8,7 @@
   >
     <a-form layout="vertical">
       <a-form-item :label="$t('user.form.user')">
-        <span>{{ user }}</span>
+        <span>{{ account }}</span>
       </a-form-item>
       <a-form-item v-show="props.isManager" :label="$t('common.policy')">
         <a-transfer
@@ -36,11 +36,14 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request, RespGroups, Target } from '@/apis/user';
+  import {
+    getUserGroups,
+    RespGroups,
+    Target,
+    updateUserGroups,
+  } from '@/apis/user';
   import CommonMixins from '@/mixins/common';
   import { ref } from 'vue';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
 
   const props = defineProps<{
     isManager: boolean;
@@ -48,9 +51,7 @@
 
   const { is_open, turnState } = CommonMixins();
 
-  const user = ref('');
-
-  const request = new Request();
+  const account = ref('');
 
   let rules = ref<RespGroups>({
     groups: [],
@@ -58,17 +59,15 @@
     target: {} as Target,
   });
 
-  const lazy = (u: string) => {
-    request.GetGroup(u).then((res: AxiosResponse<Res<RespGroups>>) => {
-      rules.value = res.data.payload;
-    });
-    user.value = u;
+  const lazy = async (user: string) => {
+    const { data } = await getUserGroups(user);
+    rules.value = data.payload;
+    account.value = user;
   };
 
-  const editUserGroups = () => {
-    if (props.isManager) {
-      request.EditGroup(rules.value.own, user.value).then(() => turnState());
-    }
+  const editUserGroups = async () => {
+    await updateUserGroups(rules.value.own, account.value);
+    turnState();
   };
 
   defineExpose({
