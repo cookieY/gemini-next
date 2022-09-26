@@ -15,7 +15,7 @@
         :placeholder="$t('user.password')"
         style="border-radius: 10px"
         type="password"
-        @press-enter="() => signIn()"
+        @press-enter="() => userSignIn()"
       />
     </a-form-item>
     <a-form-item>
@@ -44,7 +44,7 @@
   import { Res } from '@/config/request';
   import { AxiosResponse } from 'axios';
   import { UnwrapRef, reactive, ref, onMounted, computed } from 'vue';
-  import { LoginApi, OidcStateApi, LoginFrom } from '@/apis/loginApi';
+  import { signIn, LoginFrom, getOIDCState } from '@/apis/loginApi';
   import { LoginRespPayload } from '@/types';
   import router from '@/router';
   import { useStore } from '@/store';
@@ -66,32 +66,26 @@
 
   const query = computed(() => route.query).value;
 
-  onMounted(() => {
+  onMounted(async () => {
     if (query.oidcLogin) {
       const { oidcLogin, ...rest } = query;
       store.commit('user/USER_STORE', rest);
       store.commit('menu/CHANGE_SELECTED', ['/home']);
       router.replace('/home');
     }
-
-    OidcStateApi().then((res: any) => {
-      if (
-        res.data.code == 1200 &&
-        res.data.payload.enabled &&
-        res.data.payload.authUrl
-      ) {
-        oidcEnabled.value = true;
-        oidcSignInUrl.value = res.data.payload.authUrl;
-      }
-    });
+    const { data } = await getOIDCState();
+    if (data.code == 1200 && data.payload.enabled && data.payload.authUrl) {
+      oidcEnabled.value = true;
+      oidcSignInUrl.value = data.payload.authUrl;
+    }
   });
 
   const oidcSignIn = () => {
     window.location.href = oidcSignInUrl.value;
   };
 
-  const signIn = debounce(() => {
-    LoginApi(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {
+  const userSignIn = debounce(() => {
+    signIn(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {
       if (res.data.code === 1301) {
         return;
       }

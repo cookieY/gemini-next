@@ -30,7 +30,7 @@
           }}</a-button>
           <a-popconfirm
             :title="$t('auto.delete.tips')"
-            @confirm="request.Delete(record.task_id).then(() => tbl.manual())"
+            @confirm="deleteAutoTask(record.task_id).then(() => tbl.manual())"
           >
             <a-button ghost size="small" danger>{{
               $t('common.delete')
@@ -46,7 +46,7 @@
           v-model:checked="record.status"
           :checked-value="1"
           :un-checked-value="0"
-          @change="() => request.Post('active', record)"
+          @change="() => updateAutoTask('active', record)"
         ></a-switch>
       </template>
     </template>
@@ -61,8 +61,9 @@
     AutoTaskExpr,
     AutoTask,
     AutoTaskParams,
-    Request,
     getAutoTaskList,
+    deleteAutoTask,
+    updateAutoTask,
   } from '@/apis/autotask';
   import AutotaskModal from './autotaskModal.vue';
   import { useI18n } from 'vue-i18n';
@@ -124,6 +125,4 @@
   const tbl = ref();
 
   const { taskTp } = CommonMixins();
-
-  const request = new Request();
 </script>

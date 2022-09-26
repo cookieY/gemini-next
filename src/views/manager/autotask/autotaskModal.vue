@@ -66,14 +66,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { AutoTask, Request as Re } from '@/apis/autotask';
+  import { AutoTask, updateAutoTask } from '@/apis/autotask';
   import {
     ISource,
     queryIDCList,
     querySchemaList,
     querySourceList,
     queryTableList,
-    Request,
   } from '@/apis/source';
   import CommonMixins from '@/mixins/common';
   import { LabelInValue } from '@/types';
@@ -129,8 +128,6 @@
 
   const initTask = Object.assign({}, autotask);
 
-  const postTask = new Re();
-
   const emit = defineEmits(['success']);
 
   const { is_open, turnState, taskTp } = CommonMixins();
@@ -146,11 +143,10 @@
   };
 
   const postOk = () => {
-    formRef.value.validateFields().then(() => {
-      postTask.Post('curd', autotask.value).then(() => {
-        turnState();
-        emit('success');
-      });
+    formRef.value.validateFields().then(async () => {
+      await updateAutoTask('curd', autotask.value);
+      turnState();
+      emit('success');
     });
   };
 

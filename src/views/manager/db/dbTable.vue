@@ -15,9 +15,7 @@
             >
             <a-popconfirm
               :title="$t('db.delete.tips')"
-              @confirm="
-                request.Delete(record.source_id).then(() => tbl.manual())
-              "
+              @confirm="deleteSource(record.source_id).then(() => tbl.manual())"
             >
               <a-button type="primary" size="small" danger ghost
                 >{{ $t('common.delete') }}
@@ -38,17 +36,19 @@
 </template>
 
 <script lang="ts" setup>
-  import { DBExpr, Source, DBResp, DBParams, Request } from '@/apis/db';
-  import { Res } from '@/config/request';
+  import {
+    DBExpr,
+    Source,
+    DBParams,
+    getSourceList,
+    deleteSource,
+  } from '@/apis/db';
   import DBModal from './dbModal.vue';
   import DBTableSearch from './dbTableSearch.vue';
-  import { AxiosResponse } from 'axios';
   import { ref, reactive, onMounted } from 'vue';
   import { EventBus } from '@/lib';
   import { tableRef } from '@/components/table';
   import { useI18n } from 'vue-i18n';
-
-  const request = new Request();
 
   const { t } = useI18n();
 
@@ -68,11 +68,10 @@
       idc: '',
       is_query: -1,
     } as DBExpr,
-    fn: (expr: DBParams) => {
-      request.List(expr).then((res: AxiosResponse<Res<DBResp>>) => {
-        tblRef.data = res.data.payload.data;
-        tblRef.pageCount = res.data.payload.page;
-      });
+    fn: async (expr: DBParams) => {
+      const { data } = await getSourceList(expr);
+      tblRef.data = data.payload.data;
+      tblRef.pageCount = data.payload.page;
     },
   });
 

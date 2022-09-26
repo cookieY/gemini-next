@@ -7,24 +7,14 @@ export interface LoginFrom {
   is_oidc: boolean;
 }
 
-export const LoginApi = (login: LoginFrom) => {
-  return request({
-    url: login.is_ldap ? '/ldap' : '/login',
-    method: 'POST',
-    data: login,
-  });
-};
+export function signIn(login: LoginFrom) {
+  return request.post(login.is_ldap ? '/ldap' : '/login', login);
+}
 
-export const IsRegister = () => {
-  return request({
-    url: '/fetch',
-    method: 'GET',
-  });
-};
+export function systemRegisterState() {
+  return request.get('/fetch');
+}
 
-export const OidcStateApi = () => {
-  return request({
-    url: '/oidc/state',
-    method: 'GET',
-  });
-};
+export function getOIDCState() {
+  return request.get('/oidc/state');
+}

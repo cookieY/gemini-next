@@ -41,7 +41,7 @@
   import dayjs, { extend } from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
   import customParseFormat from 'dayjs/plugin/customParseFormat';
-  import { Comment, Request } from '@/apis/orderPostApis';
+  import { Comment, postOrderComment } from '@/apis/orderPostApis';
   import { onMounted, ref, nextTick, onUnmounted, onUpdated } from 'vue';
   import Socket from '@/socket';
   import { useStore } from '@/store';
@@ -54,8 +54,6 @@
   const props = defineProps<{
     workId: string;
   }>();
-
-  const request = new Request();
 
   const data = ref<Comment[]>([]);
 
@@ -72,19 +70,19 @@
 
   const store = useStore();
 
-  const postComment = () => {
-    request
-      .CommentPost({ work_id: props.workId, content: content.value })
-      .then(() => {
-        data.value.push({
-          username: store.state.user.account.user,
-          time: dayjs().format('YY-MM-DD HH:mm'),
-          content: content.value,
-          work_id: props.workId,
-        } as Comment);
-        content.value = '';
-        scrollTop();
-      });
+  const postComment = async () => {
+    await postOrderComment({
+      work_id: props.workId,
+      content: content.value,
+    });
+    data.value.push({
+      username: store.state.user.account.user,
+      time: dayjs().format('YY-MM-DD HH:mm'),
+      content: content.value,
+      work_id: props.workId,
+    } as Comment);
+    content.value = '';
+    scrollTop();
   };
 
   const currentPage = (e: any) => {

@@ -12,9 +12,7 @@
   import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
   import { onMounted, onUnmounted, ref } from 'vue';
   import { format } from 'sql-formatter';
-  import { Request } from '@/apis/orderPostApis';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
+  import { mergeDDLSTMT } from '@/apis/orderPostApis';
   import { useI18n } from 'vue-i18n';
 
   self.MonacoEnvironment = {
@@ -41,8 +39,6 @@
 
   let model = {} as monaco.editor.IStandaloneCodeEditor;
 
-  const request = new Request();
-
   let completionProvider: any;
 
   const beautyFunc: monaco.editor.IActionDescriptor = {
@@ -62,7 +58,7 @@
     keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_M],
     contextMenuGroupId: 'navigation',
     contextMenuOrder: 1.5,
-    run: function (ed: monaco.editor.ICodeEditor) {
+    run: async function (ed: monaco.editor.ICodeEditor) {
       let s = ed.getModel() as monaco.editor.ITextModel;
       let sel = s.getValueInRange(ed.getSelection() as monaco.Selection);
       let sqls = '';
@@ -71,11 +67,8 @@
       } else {
         sqls = ed.getValue();
       }
-      request
-        .Merge(sqls)
-        .then((res: AxiosResponse<Res<string>>) =>
-          ed.setValue(res.data.payload)
-        );
+      const { data } = await mergeDDLSTMT(sqls);
+      ed.setValue(data.payload);
     },
   };
 
@@ -133,7 +126,7 @@
           ? document.body.clientHeight - 600
           : 150;
     };
-    model.onDidChangeModelContent((e) => {
+    model.onDidChangeModelContent(() => {
       emit('changeContent');
     });
   });

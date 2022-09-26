@@ -1,5 +1,4 @@
-import { request, COMMON_URI } from '@/config/request';
-import { AxiosPromise } from 'axios';
+import { request, COMMON_URI, Res } from '@/config/request';
 
 export interface Source {
   idc: string;
@@ -39,28 +38,14 @@ export interface RequestDB {
   encrypt?: boolean;
 }
 
-export class Request {
-  List(args: DBParams): AxiosPromise {
-    return request({
-      method: 'put',
-      url: `${COMMON_URI}/manage/db`,
-      data: args,
-    });
-  }
+export function getSourceList(args: DBParams) {
+  return request.put<Res<DBResp>>(`${COMMON_URI}/manage/db`, args);
+}
 
-  Delete(args: string): AxiosPromise {
-    return request({
-      method: 'DELETE',
-      url: `${COMMON_URI}/manage/db`,
-      params: { source_id: args },
-    });
-  }
+export function deleteSource(id: string) {
+  return request.delete(`${COMMON_URI}/manage/db?source_id=${id}`);
+}
 
-  Ops(args: RequestDB): AxiosPromise {
-    return request({
-      method: 'POST',
-      url: `${COMMON_URI}/manage/db`,
-      data: args,
-    });
-  }
+export function createSource(args: RequestDB) {
+  return request.post(`${COMMON_URI}/manage/db`, args);
 }

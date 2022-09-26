@@ -107,13 +107,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request as Flow, RespSteps, Steps } from '@/apis/flow';
+  import { getFlowProfile, Steps } from '@/apis/flow';
   import CommonMixins from '@/mixins/common';
   import { ref, computed } from 'vue';
   import { useStore } from '@/store';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
-  import { Source, Request as DB } from '@/apis/db';
+  import { createSource, Source } from '@/apis/db';
   import { querySchemaList } from '@/apis/source';
   import { EventBus } from '@/lib';
 
@@ -132,10 +130,6 @@
   });
 
   const steps = ref([] as Steps[]);
-
-  const db = new DB();
-
-  const flowReq = new Flow();
 
   const principalList = computed(() => store.state.common.principal);
 
@@ -159,22 +153,17 @@
 
   const insulateWord = ref<string[]>([]);
 
-  const mergeFlow = (vl: number) => {
-    flowReq
-      .Profile(vl)
-      .then(
-        (res: AxiosResponse<Res<RespSteps>>) =>
-          (steps.value = res.data.payload.steps)
-      );
+  const mergeFlow = async (vl: number) => {
+    const { data } = await getFlowProfile(vl);
+    steps.value = data.payload.steps;
   };
 
-  const editDB = () => {
+  const editDB = async () => {
     dbForm.value.exclude_db_list = excludeDB.value.join(',');
     dbForm.value.insulate_word_list = insulateWord.value.join(',');
-    db.Ops({ db: dbForm.value, tp: 'edit' }).then(() => {
-      turnState();
-      EventBus.emit('postOk');
-    });
+    await createSource({ db: dbForm.value, tp: 'edit' });
+    turnState();
+    EventBus.emit('postOk');
   };
 
   const fetchSchema = async () => {
@@ -182,25 +171,20 @@
     schemaList.value = data.payload;
   };
 
-  const fillInfo = (vl: any) => {
+  const fillInfo = async (vl: any) => {
     dbForm.value = Object.assign({}, vl);
     turnState();
     excludeDB.value = dbForm.value.exclude_db_list.split(',');
     insulateWord.value = dbForm.value.insulate_word_list.split(',');
     fetchSchema();
-    flowReq
-      .Profile(dbForm.value.flow_id)
-      .then(
-        (res: AxiosResponse<Res<RespSteps>>) =>
-          (steps.value = res.data.payload.steps)
-      );
+    const { data } = await getFlowProfile(dbForm.value.flow_id);
+    steps.value = data.payload.steps;
   };
 
-  const checkConn = () => {
+  const checkConn = async () => {
     loading.value = !loading.value;
-    db.Ops({ db: dbForm.value, tp: 'test', encrypt: true }).finally(
-      () => (loading.value = !loading.value)
-    );
+    await createSource({ db: dbForm.value, tp: 'edit' });
+    loading.value = !loading.value;
   };
 
   defineExpose({

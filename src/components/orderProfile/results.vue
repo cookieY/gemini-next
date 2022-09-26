@@ -35,15 +35,18 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request } from '@/apis/orderPostApis';
+  import {
+    getOrderResult,
+    getOrderRollSQLS,
+    userPostOrder,
+  } from '@/apis/orderPostApis';
   import { onMounted, reactive, ref } from 'vue';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import { useStore } from '@/store';
   import { useRoute, useRouter } from 'vue-router';
   import { useI18n } from 'vue-i18n';
   import { tableRef } from '../table';
   import { message } from 'ant-design-vue';
+  import { OrderItem } from '@/types';
 
   interface page {
     current: number;
@@ -60,8 +63,6 @@
   }>();
 
   const activeKey = ref('1');
-
-  const request = new Request();
 
   const resultTable = reactive<tableRef>({
     col: [
@@ -89,13 +90,13 @@
     ],
     data: [],
     pageCount: 0,
-    fn: ({ current, pageSize }: page) => {
-      request
-        .Results(props.workId, { current: current, pageSize: pageSize })
-        .then((res: AxiosResponse<Res<any>>) => {
-          resultTable.data = res.data.payload.record;
-          resultTable.pageCount = res.data.payload.count;
-        });
+    fn: async ({ current, pageSize }: page) => {
+      const { data } = await getOrderResult(props.workId, {
+        current: current,
+        pageSize: pageSize,
+      });
+      resultTable.data = data.payload.record;
+      resultTable.pageCount = data.payload.count;
     },
   });
 
@@ -114,14 +115,13 @@
 
   const store = useStore();
 
-  const currentRolling = (vl: number) => {
-    request.Roll(props.workId, vl).then((res: AxiosResponse<Res<any>>) => {
-      rollTable.data = res.data.payload.sql;
-      rollTable.pageCount = res.data.payload.count;
-    });
+  const currentRolling = async (vl: number) => {
+    const { data } = await getOrderRollSQLS(props.workId, vl);
+    rollTable.data = data.payload.sql;
+    rollTable.pageCount = data.payload.count;
   };
 
-  const submit = () => {
+  const submit = async () => {
     const wrapper = Object.assign({}, store.state.order.order);
     wrapper.delay = 'none';
     wrapper.sql = rollTable.data.map((item) => item.sql).join('\n');
@@ -129,7 +129,8 @@
       message.warning(t('order.roll.tips'));
       return;
     }
-    request.Post(wrapper as any).finally(() => router.go(-1));
+    await userPostOrder(wrapper as OrderItem);
+    router.go(-1);
   };
 
   const recommit = () => {

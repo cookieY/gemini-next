@@ -1,6 +1,5 @@
 import { COMMON_URI, request, Res } from '@/config/request';
 import { LabelInValue } from '@/types';
-import { AxiosPromise } from 'axios';
 
 export interface AutoTask {
   name: string;
@@ -46,6 +45,10 @@ export function updateAutoTask(tp: string, params: AutoTask) {
   });
 }
 
+export function deleteAutoTask(id: string) {
+  return request.delete(`${COMMON_URI}/manage/task?task_id=${id}`);
+}
+
 export class Request {
   //   Post(tp: string, args: AutoTask): AxiosPromise {
   //     tp === 'curd'
@@ -61,14 +64,13 @@ export class Request {
   //       },
   //     });
   //   }
-
-  Delete(taskId: string): AxiosPromise {
-    return request({
-      method: 'delete',
-      url: `${COMMON_URI}/manage/task`,
-      params: {
-        task_id: taskId,
-      },
-    });
-  }
+  //   Delete(taskId: string): AxiosPromise {
+  //     return request({
+  //       method: 'delete',
+  //       url: `${COMMON_URI}/manage/task`,
+  //       params: {
+  //         task_id: taskId,
+  //       },
+  //     });
+  //   }
 }

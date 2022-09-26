@@ -29,9 +29,7 @@
           >
           <a-popconfirm
             :title="$t('flow.delete.tips')"
-            @confirm="
-              () => request.Delete(record.id).finally(() => currentPage())
-            "
+            @confirm="() => deleteFlow(record.id).finally(() => currentPage())"
           >
             <a-button type="primary" size="small" danger ghost
               >{{ $t('common.delete') }}
@@ -87,11 +85,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { Res } from '@/config/request';
-  import { AxiosResponse } from 'axios';
   import { ref, reactive, onMounted } from 'vue';
   import { SearchOutlined } from '@ant-design/icons-vue';
-  import { Request, RespTPLs } from '@/apis/flow';
+  import { deleteFlow, getFlowList, RespTPLs } from '@/apis/flow';
   import FlowModel from './flowModal.vue';
   import { tableRef } from '@/components/table';
   import { useI18n } from 'vue-i18n';
@@ -129,8 +125,6 @@
 
   const flow = ref();
 
-  const request = new Request();
-
   const state = reactive({
     searchText: '',
     searchedColumn: '',
@@ -151,11 +145,10 @@
     state.searchText = '';
   };
 
-  const currentPage = () => {
-    request.List().then((res: AxiosResponse<Res<RespTPLs[]>>) => {
-      tblRef.data = res.data.payload;
-      tblRef.pageCount = res.data.payload.length;
-    });
+  const currentPage = async () => {
+    const { data } = await getFlowList();
+    tblRef.data = data.payload;
+    tblRef.pageCount = data.payload.length;
   };
 
   onMounted(() => {

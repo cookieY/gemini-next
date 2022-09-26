@@ -1,5 +1,5 @@
-import { request, COMMON_URI } from '@/config/request';
-import { AxiosPromise } from 'axios';
+import { request, COMMON_URI, Res } from '@/config/request';
+import { AuditorList } from '@/types';
 
 export interface Steps {
   desc: string;
@@ -19,52 +19,22 @@ export interface RespTPLs {
   source: string;
 }
 
-export class Request {
-  Post(args: RespSteps): AxiosPromise {
-    return request({
-      method: 'post',
-      data: args,
-      url: `${COMMON_URI}/manage/tpl`,
-    });
-  }
+export function createFlow(args: RespSteps) {
+  return request.post(`${COMMON_URI}/tpl`, args);
+}
 
-  Profile(id: number): AxiosPromise {
-    return request({
-      method: 'put',
-      url: `${COMMON_URI}/manage/tpl`,
-      data: {
-        id: id,
-      },
-    });
-  }
+export function getFlowProfile(id: number) {
+  return request.put<Res<RespSteps>>(`${COMMON_URI}/tpl`, { id: id });
+}
 
-  List(): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/manage/tpl`,
-      params: {
-        tp: 'flow',
-      },
-    });
-  }
+export function getFlowList() {
+  return request.get<Res<RespTPLs[]>>(`${COMMON_URI}/tpl?tp=flow`);
+}
 
-  User(): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/manage/tpl`,
-      params: {
-        tp: 'user',
-      },
-    });
-  }
+export function getFlowUsers() {
+  return request.get<Res<AuditorList[]>>(`${COMMON_URI}/tpl?tp=user`);
+}
 
-  Delete(args: string): AxiosPromise {
-    return request({
-      method: 'DELETE',
-      url: `${COMMON_URI}/manage/tpl`,
-      params: {
-        id: args,
-      },
-    });
-  }
+export function deleteFlow(id: number) {
+  return request.delete(`${COMMON_URI}/tpl?id=${id}`);
 }

@@ -37,16 +37,9 @@
 <script lang="ts" setup>
   import StateTags from './stateTags.vue';
   import OrderTableSearch from './orderTableSearch.vue';
-  import { Res } from '@/config/request';
   import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
-  import { AxiosResponse } from 'axios';
   import { onMounted, reactive, ref } from 'vue';
-  import {
-    Request,
-    OrderTableResp,
-    OrderExpr,
-    OrderParams,
-  } from '@/apis/orderPostApis';
+  import { OrderExpr, OrderParams, getOrderList } from '@/apis/orderPostApis';
   import { OrderTableData } from '@/types';
   import { useStore } from '@/store';
   import { useI18n } from 'vue-i18n';
@@ -120,13 +113,10 @@
       username: '',
     } as OrderExpr,
     isloop: true,
-    fn: (expr: OrderParams) => {
-      request
-        .List(expr, isAudit.value)
-        .then((res: AxiosResponse<Res<OrderTableResp>>) => {
-          tblRef.data = res.data.payload.data;
-          tblRef.pageCount = res.data.payload.page;
-        });
+    fn: async (expr: OrderParams) => {
+      const { data } = await getOrderList(expr, isAudit.value);
+      tblRef.data = data.payload.data;
+      tblRef.pageCount = data.payload.page;
     },
   });
 
@@ -135,8 +125,6 @@
   const router = useRouter();
 
   const store = useStore();
-
-  const request = new Request();
 
   const tbl = ref();
 

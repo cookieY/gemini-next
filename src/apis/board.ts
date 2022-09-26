@@ -1,21 +1,11 @@
 import { COMMON_URI, request } from '@/config/request';
-import { AxiosPromise } from 'axios';
 
-export class Request {
-  Post(vl: string): AxiosPromise {
-    return request({
-      method: 'post',
-      url: `${COMMON_URI}/manage/board/post`,
-      data: {
-        board: vl,
-      },
-    });
-  }
+export function updateBoardContext(text: string) {
+  return request.post(`${COMMON_URI}/manage/board/post`, {
+    text: text,
+  });
+}
 
-  Get(): AxiosPromise {
-    return request({
-      method: 'get',
-      url: `${COMMON_URI}/board/get`,
-    });
-  }
+export function getBoardContext() {
+  return request.get(`${COMMON_URI}/board/get`);
 }

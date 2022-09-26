@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { Request } from '@/apis/orderPostApis';
+  import { getNextOrderState } from '@/apis/orderPostApis';
   import CommonMixins from '@/mixins/common';
   import router from '@/router';
   import { ref } from 'vue';
@@ -21,19 +21,18 @@
 
   const content = ref('');
 
-  const request = new Request();
-
   const confirmLoading = ref(false);
 
-  const postReject = () => {
+  const postReject = async () => {
     confirmLoading.value = true;
-    request
-      .Next({ work_id: props.workId, text: content.value, tp: 'reject' })
-      .finally(() => {
-        confirmLoading.value = false;
-        turnState();
-        router.go(-1);
-      });
+    await getNextOrderState({
+      work_id: props.workId,
+      text: content.value,
+      tp: 'reject',
+    });
+    confirmLoading.value = false;
+    turnState();
+    router.go(-1);
   };
 
   const { is_open, turnState } = CommonMixins();

@@ -161,8 +161,6 @@
   import { SQLTesting } from '@/types';
   import FetchMixins from '@/mixins/fetch';
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import {
     querySchemaList,
     queryTableList,
@@ -172,7 +170,7 @@
   } from '@/apis/source';
   import { Dayjs } from 'dayjs';
   import { message, Modal } from 'ant-design-vue';
-  import { Request, SQLTestParams } from '@/apis/orderPostApis';
+  import { checkSQLS, SQLTestParams } from '@/apis/orderPostApis';
   import CommonMixins from '@/mixins/common';
   import router from '@/router';
   import { useStore } from '@/store';
@@ -205,8 +203,6 @@
   const route = useRoute();
 
   const store = useStore();
-
-  const request = new Request();
 
   const enabled = ref(true);
 
@@ -248,40 +244,38 @@
     loadingTblBtn.value = !loadingTblBtn.value;
   };
 
-  const testResults = debounce((sql: string) => {
+  const testResults = debounce(async (sql: string) => {
     spin.value = !spin.value;
-    request
-      .Test({
-        source_id: orderItems.source_id,
-        kind: orderItems.type,
-        data_base: orderItems.data_base,
-        sql: sql,
-      } as SQLTestParams)
-      .then((res: AxiosResponse<Res<SQLTesting[]>>) => {
-        let counter = 0;
-        tData.value = res.data.payload;
-        tData.value.forEach((item: SQLTesting) => {
-          if (item.level !== 0) {
-            counter++;
-          }
-        });
+    const { data } = await checkSQLS({
+      source_id: orderItems.source_id,
+      kind: orderItems.type,
+      data_base: orderItems.data_base,
+      sql: sql,
+    } as SQLTestParams);
+    let counter = 0;
+    tData.value = data.payload;
+    tData.value.forEach((item: SQLTesting) => {
+      if (item.level !== 0) {
+        counter++;
+      }
+    });
 
-        enabled.value = counter !== 0;
-      })
-      .finally(() => (spin.value = !spin.value));
+    enabled.value = counter !== 0;
+    spin.value = !spin.value;
   }, 200);
 
   const postOrder = debounce(() => {
     loadingPostBtn.value = !loadingPostBtn.value;
     formRef.value
       .validate()
-      .then(() => {
+      .then(async () => {
         let wrapper = Object.assign({}, orderItems);
         wrapper.sql = editor.value.GetValue();
         orderProfileArch.timeline.forEach((item) => {
           wrapper.relevant = wrapper.relevant.concat(item.auditor);
         });
-        request.Post(wrapper).finally(() => (enabled.value = true));
+        await postOrder(wrapper);
+        enabled.value = true;
       })
       .catch(() => {
         message.error(t('order.apply.form.commit'));

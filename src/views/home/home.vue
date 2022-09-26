@@ -118,34 +118,29 @@
   import MiniCol from '@/components/chartCard/miniCol.vue';
   import MiniBar from '@/components/chartCard/miniBar.vue';
   import { InfoCircleOutlined } from '@ant-design/icons-vue';
-  import { Request } from '@/apis/dash';
-  import { Request as Board } from '@/apis/board';
+  import { getBannerContext } from '@/apis/dash';
+  import { getBoardContext } from '@/apis/board';
   import { onMounted, ref } from 'vue';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
 
   const loading = false;
-
-  const request = new Request();
-
-  const board = new Board();
 
   const banner = ref<any>([]);
 
   const boardContent = ref<string>('');
 
+  const getBanner = async () => {
+    const { data } = await getBannerContext();
+    banner.value = data.payload;
+  };
+
+  const getBoard = async () => {
+    const { data } = await getBoardContext();
+    banner.value = data.payload;
+  };
+
   onMounted(() => {
-    request
-      .Banner()
-      .then(
-        (res: AxiosResponse<Res<any>>) => (banner.value = res.data.payload)
-      );
-    board
-      .Get()
-      .then(
-        (res: AxiosResponse<Res<string>>) =>
-          (boardContent.value = res.data.payload)
-      );
+    getBanner();
+    getBoard();
   });
 </script>
 

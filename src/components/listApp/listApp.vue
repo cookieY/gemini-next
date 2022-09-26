@@ -154,7 +154,7 @@
   onMounted(async () => {
     try {
       const { data } = await querySourceList(props.type);
-      tmpSource = source.value = options.value = data.payload;
+      tmpSource = source.value = options.value = data.payload as ISource[];
       loading.value = false;
     } catch (error) {
       console.log(error);

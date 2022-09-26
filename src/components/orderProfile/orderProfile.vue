@@ -197,10 +197,13 @@
   import { useStore } from '@/store';
   import { computed, ref, onMounted, onUnmounted } from 'vue';
   import FetchMixins from '@/mixins/fetch';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import { StateUsage } from '@/lib';
-  import { Request, SQLTestParams } from '@/apis/orderPostApis';
+  import {
+    changeOrderStateUndo,
+    checkSQLS,
+    getNextOrderState,
+    SQLTestParams,
+  } from '@/apis/orderPostApis';
   import { SQLTesting } from '@/types';
   import { useRoute } from 'vue-router';
   import JunoMixin from '@/mixins/juno';
@@ -233,8 +236,6 @@
 
   const spin = ref(false);
 
-  const request = new Request();
-
   const route = useRoute();
 
   const order = computed(() => store.state.order.order);
@@ -244,8 +245,7 @@
     store.state.user.account.token
   );
 
-  const { fetchStepUsage, fetchProfileSQL, orderProfileArch, fetchRequest } =
-    FetchMixins();
+  const { fetchStepUsage, fetchProfileSQL, orderProfileArch } = FetchMixins();
 
   const usage = ref([] as stepUsage[]);
 
@@ -261,55 +261,54 @@
     bool ? (condition.value = true) : (condition.value = false);
   };
 
-  const testResults = debounce((sql: string) => {
+  const checkSQL = async (sql: string) => {
     spin.value = !spin.value;
-    request
-      .Test({
-        source_id: order.value.source_id as string,
-        kind: order.value.type,
-        data_base: order.value.data_base,
-        sql: sql,
-        work_id: order.value.work_id,
-      } as SQLTestParams)
-      .then((res: AxiosResponse<Res<SQLTesting[]>>) => {
-        let counter = 0;
-        tData.value = res.data.payload;
-        tData.value.forEach((item: SQLTesting) => {
-          if (item.level !== 0) {
-            counter++;
-          }
-        });
-        enabled.value = counter !== 0;
-      })
-      .finally(() => (spin.value = !spin.value));
-  }, 200);
 
-  const next = () => {
-    spinning.value = !spinning.value;
-    request
-      .Next({
-        work_id: order.value.work_id as string,
-        flag: order.value.current_step as number,
-        tp: 'agree',
-        source_id: order.value.source_id,
-      })
-      .then(() => {
-        router.go(-1);
-      })
-      .finally(() => (spinning.value = !spinning.value));
+    const { data } = await checkSQLS({
+      source_id: order.value.source_id as string,
+      kind: order.value.type,
+      data_base: order.value.data_base,
+      sql: sql,
+      work_id: order.value.work_id,
+    } as SQLTestParams);
+    let counter = 0;
+    tData.value = data.payload;
+    tData.value.forEach((item: SQLTesting) => {
+      if (item.level !== 0) {
+        counter++;
+      }
+    });
+    enabled.value = counter !== 0;
+    spin.value = !spin.value;
   };
 
-  const undoNext = () => {
+  debounce((sql: string) => {
+    checkSQL(sql);
+  }, 200);
+
+  const testResults = debounce((sql: string) => {
+    checkSQL(sql);
+  }, 200);
+
+  const next = async () => {
     spinning.value = !spinning.value;
-    request
-      .Undo({
-        work_id: order.value.work_id as string,
-        tp: 'undo',
-      })
-      .then(() => {
-        router.go(-1);
-      })
-      .finally(() => (spinning.value = !spinning.value));
+    await getNextOrderState({
+      work_id: order.value.work_id as string,
+      flag: order.value.current_step as number,
+      tp: 'agree',
+      source_id: order.value.source_id,
+    });
+    router.go(-1);
+    spinning.value = !spinning.value;
+  };
+
+  const undoNext = async () => {
+    spinning.value = !spinning.value;
+    await changeOrderStateUndo({
+      work_id: order.value.work_id as string,
+      tp: 'undo',
+    });
+    spinning.value = !spinning.value;
   };
 
   const recv = (e: any) => {

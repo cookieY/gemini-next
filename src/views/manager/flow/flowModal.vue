@@ -139,9 +139,7 @@
   import CommonMixins from '@/mixins/common';
   import { Step as aStep, Steps as aSteps, message } from 'ant-design-vue';
   import { onMounted, ref } from 'vue';
-  import { RespSteps, Steps, Request } from '@/apis/flow';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
+  import { RespSteps, Steps, createFlow, getFlowUsers } from '@/apis/flow';
   import { AuditorList } from '@/types';
   import { useI18n } from 'vue-i18n';
 
@@ -164,8 +162,6 @@
       },
     ] as Steps[],
   } as RespSteps);
-
-  const request = new Request();
 
   const step = ref({} as Steps);
 
@@ -231,15 +227,14 @@
     flow.value.steps.splice(idx, 1);
   };
 
-  const postFlow = () => {
+  const postFlow = async () => {
     if (flow.value.steps[flow.value.steps.length - 1].type !== 1) {
       message.error(t('flow.save.tips'));
       return;
     }
-    request.Post(flow.value).then(() => {
-      turnState();
-      emit('success');
-    });
+    await createFlow(flow.value);
+    turnState();
+    emit('success');
   };
 
   const editFlow = (vl: RespSteps) => {
@@ -261,13 +256,9 @@
     turnState();
   };
 
-  onMounted(() => {
-    request
-      .User()
-      .then(
-        (res: AxiosResponse<Res<AuditorList[]>>) =>
-          (auditor.value = res.data.payload)
-      );
+  onMounted(async () => {
+    const { data } = await getFlowUsers();
+    auditor.value = data.payload;
   });
 
   defineExpose({
