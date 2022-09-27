@@ -81,14 +81,11 @@
     queryAgreeOrder,
     queryProfile,
     queryRejectOrder,
-    Request,
   } from '@/apis/query';
   import { onMounted, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useRoute, useRouter } from 'vue-router';
   import CommonMixins from '@/mixins/common';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import { StateQueryUsage } from '@/lib';
 
   interface QueryRef {
@@ -104,8 +101,6 @@
   }
 
   const { t } = useI18n();
-
-  const query = new Request();
 
   const { pagination } = CommonMixins();
 

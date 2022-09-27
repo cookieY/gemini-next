@@ -64,7 +64,7 @@
             <a-button
               block
               type="primary"
-              @click="() => request.Edit(formItem, false)"
+              @click="() => updateUserInfo(formItem, false)"
               >{{ $t('common.save') }}</a-button
             >
           </a-form-item>
@@ -80,9 +80,7 @@
   import CommonMixins from '@/mixins/common';
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
   import { RuleObject } from 'ant-design-vue/lib/form/interface';
-  import { getUserInfo, RegisterForm, Request } from '@/apis/user';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
+  import { getUserInfo, RegisterForm, updateUserInfo } from '@/apis/user';
 
   const store = useStore();
 
@@ -113,8 +111,6 @@
       return Promise.resolve();
     }
   };
-
-  const request = new Request();
 
   const { regExpPassword } = CommonMixins();
 

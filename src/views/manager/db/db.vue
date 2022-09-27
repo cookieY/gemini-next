@@ -17,18 +17,14 @@
 
 <script lang="ts" setup>
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
-  import { Request, updateUserPrincipal } from '@/apis/user';
+  import { updateUserPrincipal } from '@/apis/user';
   import { onMounted } from 'vue';
   import DBForm from './dbForm.vue';
   import DBTable from './dbTable.vue';
   import { useStore } from '@/store';
-  import { AxiosResponse } from 'axios';
-  import { Res } from '@/config/request';
   import { queryIDCList } from '@/apis/source';
 
   const store = useStore();
-
-  const request = new Request();
 
   onMounted(async () => {
     const { data } = await queryIDCList();

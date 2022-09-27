@@ -1,4 +1,4 @@
-import { Request as Flow, RespTPLs } from '@/apis/flow';
+import { getFlowList, RespTPLs } from '@/apis/flow';
 import { Res } from '@/config/request';
 import { encode } from '@msgpack/msgpack';
 import { AxiosResponse } from 'axios';
@@ -41,13 +41,9 @@ export const common: Module<commonStore, RootStore> = {
       state.idc = idc;
     },
     GET_FLOWS(state) {
-      const request = new Flow();
-      request
-        .List()
-        .then(
-          (res: AxiosResponse<Res<RespTPLs[]>>) =>
-            (state.flow = res.data.payload)
-        );
+      getFlowList().then(
+        (res: AxiosResponse<Res<RespTPLs[]>>) => (state.flow = res.data.payload)
+      );
     },
     SET_SOURCE_SCHEMA(state, query) {
       state.queryInfo = query;

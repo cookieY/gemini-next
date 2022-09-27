@@ -1,4 +1,4 @@
-import { Timeline, Request } from '@/apis/source';
+import { Timeline } from '@/apis/source';
 import { request, COMMON_URI } from '@/config/request';
 import { reactive, ref } from 'vue';
 
@@ -31,13 +31,10 @@ export default function () {
     });
   };
 
-  const fetchRequest = new Request();
-
   return {
     orderProfileArch,
     editor,
     fetchStepUsage,
     fetchProfileSQL,
-    fetchRequest,
   };
 }

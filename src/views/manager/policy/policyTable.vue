@@ -101,8 +101,6 @@
 
   const title = ref(`${t('common.new') + t('common.policy.group')}`);
 
-  const request = new Request();
-
   const onSearch = (vl: string) => {
     tblRef.expr.text = vl;
     tbl.value.manual();

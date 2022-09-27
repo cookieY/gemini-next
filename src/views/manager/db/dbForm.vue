@@ -72,7 +72,7 @@
 
 <script lang="ts" setup>
   import { ref, computed } from 'vue';
-  import { Request, Source } from '@/apis/db';
+  import { Source, createSource as cs } from '@/apis/db';
   import CommonMixins from '@/mixins/common';
   import { useStore } from '@/store';
   import { EventBus } from '@/lib';
@@ -137,8 +137,6 @@
 
   const loading = ref(false);
 
-  const request = new Request();
-
   const principalList = computed(() => store.state.common.principal);
 
   const idc = computed(() => {
@@ -172,19 +170,17 @@
   };
 
   const createSource = () => {
-    formRef.value.validate().then(() => {
-      request.Ops({ db: dbForm.value, tp: 'create' }).then(() => {
-        EventBus.emit('postOk');
-        resetFields();
-      });
+    formRef.value.validate().then(async () => {
+      await cs({ db: dbForm.value, tp: 'create' });
+      EventBus.emit('postOk');
+      resetFields();
     });
   };
 
-  const checkConn = () => {
+  const checkConn = async () => {
     loading.value = !loading.value;
-    request
-      .Ops({ db: dbForm.value, tp: 'test' })
-      .finally(() => (loading.value = !loading.value));
+    await cs({ db: dbForm.value, tp: 'test' });
+    loading.value = !loading.value;
   };
 
   defineExpose({
