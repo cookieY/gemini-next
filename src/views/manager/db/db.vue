@@ -26,12 +26,16 @@
 
   const store = useStore();
 
+  const getPrincipal = async () => {
+    const { data } = await updateUserPrincipal();
+    store.commit('common/DB_SET_PRINCIPAL', data.payload);
+  };
+
   onMounted(async () => {
     const { data } = await queryIDCList();
     store.commit('common/GET_IDC', data.payload);
     store.commit('common/GET_FLOWS');
-    await updateUserPrincipal();
-    store.commit('common/DB_SET_PRINCIPAL', data.payload);
+    getPrincipal();
   });
 </script>
 

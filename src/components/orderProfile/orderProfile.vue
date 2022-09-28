@@ -312,7 +312,6 @@
   };
 
   const recv = (e: any) => {
-    console.log(typeof e);
     store.commit('order/SET_ORDER_STATUS', JSON.parse(e.data));
   };
 

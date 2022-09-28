@@ -170,7 +170,11 @@
   } from '@/apis/source';
   import { Dayjs } from 'dayjs';
   import { message, Modal } from 'ant-design-vue';
-  import { checkSQLS, SQLTestParams } from '@/apis/orderPostApis';
+  import {
+    checkSQLS,
+    SQLTestParams,
+    userPostOrder,
+  } from '@/apis/orderPostApis';
   import CommonMixins from '@/mixins/common';
   import router from '@/router';
   import { useStore } from '@/store';
@@ -245,6 +249,9 @@
   };
 
   const testResults = debounce(async (sql: string) => {
+    if (sql.replace(/(^s*)|(s*$)/g, '').length == 0) {
+      return;
+    }
     spin.value = !spin.value;
     const { data } = await checkSQLS({
       source_id: orderItems.source_id,
@@ -264,7 +271,7 @@
     spin.value = !spin.value;
   }, 200);
 
-  const postOrder = debounce(() => {
+  const postOrder = () => {
     loadingPostBtn.value = !loadingPostBtn.value;
     formRef.value
       .validate()
@@ -274,14 +281,14 @@
         orderProfileArch.timeline.forEach((item) => {
           wrapper.relevant = wrapper.relevant.concat(item.auditor);
         });
-        await postOrder(wrapper);
+        await userPostOrder(wrapper);
         enabled.value = true;
       })
       .catch(() => {
         message.error(t('order.apply.form.commit'));
       })
       .finally(() => (loadingPostBtn.value = !loadingPostBtn.value));
-  }, 500);
+  };
 
   const fetchHighLight = async () => {
     const highlight = store.state.highlight.highlight;

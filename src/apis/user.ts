@@ -105,7 +105,7 @@ export function deleteUserAccount(user: string) {
 }
 
 export function getUserInfo() {
-  return request.get<Res<IUserProfile>>(`${COMMON_URI}/fetch/userinfo`);
+  return request.get(`${COMMON_URI}/fetch/userinfo`);
 }
 
 export function getUserList(params: CommonPage<UserExpr>) {

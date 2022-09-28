@@ -57,5 +57,5 @@ export function updatePolicy(params: PolicyPost) {
 }
 
 export function deletePolicy(group_id: string) {
-  return request.delete(`${COMMON_URI}/manage/policy?source_id=${group_id}`);
+  return request.delete(`${COMMON_URI}/manage/policy?group_id=${group_id}`);
 }

@@ -124,7 +124,7 @@
 
   onMounted(async () => {
     const { data } = await getUserInfo();
-    formItem.value = data.payload.user;
+    formItem.value = data.payload;
     localStorage.getItem('theme') === null
       ? (formItem.value.theme = 'dark')
       : (formItem.value.theme = localStorage.getItem('theme') as string);

@@ -183,7 +183,7 @@
 
   const checkConn = async () => {
     loading.value = !loading.value;
-    await createSource({ db: dbForm.value, tp: 'edit' });
+    await createSource({ db: dbForm.value, tp: 'test' });
     loading.value = !loading.value;
   };
 

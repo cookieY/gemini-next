@@ -135,7 +135,7 @@
 
   const getBoard = async () => {
     const { data } = await getBoardContext();
-    banner.value = data.payload;
+    boardContent.value = data.payload;
   };
 
   onMounted(() => {
