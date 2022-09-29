@@ -239,13 +239,13 @@
   };
 
   const fetchTableArch = async () => {
-    loadingTblBtn.value = !loadingTblBtn.value;
+    loadingTblBtn.value = true;
     const { data } = await queryTableArch(orderItems);
     archData.value = data.payload.rows;
     indexData.value = data.payload.idx;
     activeKey.value = 2;
     message.success(t('order.apply.table.info') + t('common.success'));
-    loadingTblBtn.value = !loadingTblBtn.value;
+    loadingTblBtn.value = false;
   };
 
   const testResults = debounce(async (sql: string) => {
