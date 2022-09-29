@@ -282,10 +282,6 @@
     spin.value = !spin.value;
   };
 
-  debounce((sql: string) => {
-    checkSQL(sql);
-  }, 200);
-
   const testResults = debounce((sql: string) => {
     checkSQL(sql);
   }, 200);

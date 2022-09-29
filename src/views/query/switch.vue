@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts" setup>
-  import { RespFetchSource } from '@/apis/listAppApis';
   import { ISource, querySourceList } from '@/apis/source';
   import CommonMixins from '@/mixins/common';
   import { onMounted, ref } from 'vue';
