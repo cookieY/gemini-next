@@ -25,7 +25,7 @@
         </a-checkbox>
       </a-space>
     </a-form-item>
-    <a-button type="dashed" block ghost @click="signIn">{{
+    <a-button type="dashed" block ghost @click="userSignIn">{{
       $t('common.signin')
     }}</a-button>
     <a-button
@@ -84,15 +84,14 @@
     window.location.href = oidcSignInUrl.value;
   };
 
-  const userSignIn = debounce(() => {
-    signIn(loginForm).then((res: AxiosResponse<Res<LoginRespPayload>>) => {
-      if (res.data.code === 1301) {
-        return;
-      }
-      store.commit('user/USER_STORE', res.data.payload);
-      store.commit('menu/CHANGE_SELECTED', ['/home']);
-      router.replace('/home');
-    });
+  const userSignIn = debounce(async () => {
+    const { data } = await signIn(loginForm);
+    if (data.code === 1301) {
+      return;
+    }
+    store.commit('user/USER_STORE', data.payload);
+    store.commit('menu/CHANGE_SELECTED', ['/home']);
+    router.replace('/home');
   }, 200);
 </script>
 
