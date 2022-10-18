@@ -41,11 +41,8 @@
 </template>
 
 <script setup lang="ts">
-  import { Res } from '@/config/request';
-  import { AxiosResponse } from 'axios';
   import { UnwrapRef, reactive, ref, onMounted, computed } from 'vue';
   import { signIn, LoginFrom, getOIDCState } from '@/apis/loginApi';
-  import { LoginRespPayload } from '@/types';
   import router from '@/router';
   import { useStore } from '@/store';
   import { useRoute } from 'vue-router';
