@@ -8,7 +8,7 @@ export interface LoginFrom {
 }
 
 export function signIn(login: LoginFrom) {
-  return request.post(login.is_ldap ? '/ldap' : '/login', { data: login });
+  return request.post(login.is_ldap ? '/ldap' : '/login', login);
 }
 
 export function systemRegisterState() {

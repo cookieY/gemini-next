@@ -63,17 +63,21 @@
 
   const query = computed(() => route.query).value;
 
-  onMounted(async () => {
+  const fetchOIDC = async () => {
+    const { data } = await getOIDCState();
+    if (data.code == 1200 && data.payload.enabled && data.payload.authUrl) {
+      oidcEnabled.value = true;
+      oidcSignInUrl.value = data.payload.authUrl;
+    }
+  };
+
+  onMounted(() => {
+    fetchOIDC();
     if (query.oidcLogin) {
       const { oidcLogin, ...rest } = query;
       store.commit('user/USER_STORE', rest);
       store.commit('menu/CHANGE_SELECTED', ['/home']);
       router.replace('/home');
-    }
-    const { data } = await getOIDCState();
-    if (data.code == 1200 && data.payload.enabled && data.payload.authUrl) {
-      oidcEnabled.value = true;
-      oidcSignInUrl.value = data.payload.authUrl;
     }
   });
 
