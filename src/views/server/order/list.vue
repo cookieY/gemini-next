@@ -3,7 +3,7 @@
   <OrderTable></OrderTable>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="server/order/audit">
   import { ref } from 'vue';
   import { useRoute, onBeforeRouteUpdate } from 'vue-router';
   import PageHeader from '@/components/pageHeader/pageHeader.vue';

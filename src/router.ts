@@ -104,6 +104,7 @@ const router = createRouter({
                   path: '/comptroller/order/:tp',
                   meta: {
                     title: '工单审计',
+                    keepAlive: true,
                   },
                   component: () => import('@/views/record/order.vue'),
                 },
@@ -111,6 +112,7 @@ const router = createRouter({
                   path: '/comptroller/query/list',
                   meta: {
                     title: '查询审计',
+                    keepAlive: true,
                   },
                   component: () => import('@/views/record/query.vue'),
                 },
@@ -125,6 +127,7 @@ const router = createRouter({
           children: [
             {
               path: '/server/order/audit',
+              name: 'server/order/audit',
               meta: {
                 title: '工单审核',
               },
@@ -132,8 +135,10 @@ const router = createRouter({
             },
             {
               path: '/server/query/list',
+              name: 'server/query/list',
               meta: {
                 title: '查询审核',
+                keepAlive: true,
               },
               component: () => import('@/views/server/query/list.vue'),
             },
@@ -149,6 +154,7 @@ const router = createRouter({
               path: '/server/order/:tp/list',
               meta: {
                 title: '工单列表',
+                keepAlive: true,
               },
               component: () => import('@/views/server/order/list.vue'),
             },

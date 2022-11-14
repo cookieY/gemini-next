@@ -97,7 +97,6 @@
     FullscreenExitOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,
-    FullscreenOutlined,
   } from '@ant-design/icons-vue';
   import { useFullscreen } from '@vueuse/core';
   import { ref } from 'vue';

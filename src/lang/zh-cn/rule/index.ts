@@ -16,6 +16,7 @@ export default {
       "DDLAllowPRINotInt": "允许主键类型为非int/bigint",
       "DDLEnableNullIndexName": "允许索引名为空",
       "DDLMultiToCommit": "允许单个工单提交多条DDL语句",
+      "DDLEnablePrimaryKey": "是否检查必须拥有主键",
 
       "DDLAllowMultiAlter": "允许单个工单执行多条ALTER语句",
       "DDLAllowColumnType": "允许字段进行类型转换(不同字段之间的转换或长度从长变短。如:int -> bigint,int(50) -> int(20))",

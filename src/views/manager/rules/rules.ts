@@ -47,6 +47,12 @@ const rule: Rule[] = [
     tp: 0,
   },
   {
+    name: 'DDLEnablePrimaryKey',
+    desc: t('DDLEnablePrimaryKey'),
+    type: 'DDL',
+    tp: 0,
+  },
+  {
     name: 'DDLPrimaryKeyMust',
     desc: t('DDLPrimaryKeyMust'),
     type: 'DDL',
