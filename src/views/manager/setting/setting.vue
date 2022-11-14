@@ -142,7 +142,7 @@
           <a-form-item :label="$t('setting.adv.query.limit')">
             <a-input-number
               v-model:value="config.other.limit"
-              :min="1000"
+              :min="1"
             ></a-input-number>
           </a-form-item>
           <a-form-item :label="$t('setting.adv.env')">
