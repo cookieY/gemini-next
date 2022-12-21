@@ -55,9 +55,7 @@ export function queryList(args: QueryParams, tp: string) {
 }
 
 export function queryPostOrder(args: QueryPost) {
-  return request.post(`${COMMON_URI}/query/post`, {
-    data: args,
-  });
+  return request.post(`${COMMON_URI}/query/post`, args);
 }
 
 export function queryAgreeOrder(work_id: string) {

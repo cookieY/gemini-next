@@ -73,7 +73,7 @@
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
   import { StateQueryUsage } from '@/lib';
   import QuerySearch from './querySearch.vue';
-  import { reactive, ref } from 'vue';
+  import { onActivated, reactive, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { tableRef } from '@/components/table';
 
@@ -125,6 +125,7 @@
     data: [] as IQueryListResp[],
     pageCount: 0,
     defaultPageSize: 20,
+    isloop: true,
     expr: {
       work_id: '',
       username: '',

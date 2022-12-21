@@ -6,10 +6,10 @@
   >
     <template #extra>
       <template v-if="order.status === 1">
-        <a-button key="2" danger ghost @click="() => queryReject">{{
+        <a-button key="2" danger ghost @click="queryReject">{{
           $t('order.reject')
         }}</a-button>
-        <a-button key="1" type="primary" @click="() => queryAgree">{{
+        <a-button key="1" type="primary" @click="queryAgree">{{
           $t('order.agree')
         }}</a-button>
       </template>

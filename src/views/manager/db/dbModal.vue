@@ -6,7 +6,6 @@
     :ok-text="$t('common.save')"
     @ok="editDB"
   >
-    >
     <a-row>
       <a-col :span="15">
         <a-form :model="dbForm" v-bind="layout">
@@ -34,6 +33,27 @@
               v-model:value="dbForm.password"
             ></a-input-password>
           </a-form-item>
+          <a-form-item :label="$t('db.kind')">
+            <a-switch
+              v-model:checked="checked"
+              :checked-children="$t('db.ssl')"
+              :un-checked-children="$t('user.password')"
+            />
+          </a-form-item>
+          <template v-if="checked">
+            <a-form-item :label="$t('db.ssl.ca')">
+              <a-textarea v-model:value="dbForm.ca_file" :rows="5"></a-textarea>
+            </a-form-item>
+            <a-form-item :label="$t('db.ssl.certificate')">
+              <a-textarea v-model:value="dbForm.cert" :rows="5"></a-textarea>
+            </a-form-item>
+            <a-form-item :label="$t('db.ssl.key')">
+              <a-textarea
+                v-model:value="dbForm.key_file"
+                :rows="5"
+              ></a-textarea>
+            </a-form-item>
+          </template>
           <a-form-item :label="$t('common.table.type')" name="is_query">
             <a-radio-group v-model:value="dbForm.is_query" name="radioGroup">
               <a-radio :value="2">{{ $t('db.rw') }}</a-radio>
@@ -116,6 +136,8 @@
   import { EventBus } from '@/lib';
 
   const { is_open, turnState, layout } = CommonMixins();
+
+  const checked = ref(false);
 
   const store = useStore();
 

@@ -1,10 +1,13 @@
 export default {
   'db.port': 'Port',
+  'db.kind': 'Mode',
   'db.addr': 'Addr',
   'db.principal': 'Principal',
   'db.rw': 'read/write',
   'db.w': 'write',
   'db.r': 'read',
+  'db.upload': '填写',
+  'db.ssl': 'SSL',
   'db.test': 'Test connect',
   'db.exp.password': 'The password must not contain ? @ ^ $',
   'db.exp.name': 'can be used - and | ',
@@ -20,4 +23,7 @@ export default {
   'db.excluded.schema': 'Excluded schema',
   'db.excluded.field': 'Excluded field',
   'db.edit.title': 'Source profile',
+  'db.ssl.ca': 'CA cert',
+  'db.ssl.certificate': 'Cert',
+  'db.ssl.key': 'Key File',
 };

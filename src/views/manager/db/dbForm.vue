@@ -16,6 +16,30 @@
     <a-form-item :label="$t('db.port')" name="port">
       <a-input-number v-model:value="dbForm.port"></a-input-number>
     </a-form-item>
+    <a-form-item :label="$t('db.kind')">
+      <a-switch
+        v-model:checked="checked"
+        :checked-children="$t('db.ssl')"
+        :un-checked-children="$t('user.password')"
+      />
+    </a-form-item>
+    <template v-if="checked">
+      <a-form-item :label="$t('db.ssl.ca')">
+        <a-button size="small" @click="open.ca = true">
+          {{ $t('db.upload') }}
+        </a-button>
+      </a-form-item>
+      <a-form-item :label="$t('db.ssl.certificate')">
+        <a-button size="small" @click="open.cert = true">
+          {{ $t('db.upload') }}
+        </a-button>
+      </a-form-item>
+      <a-form-item :label="$t('db.ssl.key')">
+        <a-button size="small" @click="open.key = true">
+          {{ $t('db.upload') }}
+        </a-button>
+      </a-form-item>
+    </template>
     <a-form-item :label="$t('user.username')" name="username">
       <a-input v-model:value="dbForm.username"></a-input>
     </a-form-item>
@@ -68,18 +92,44 @@
       </a-space>
     </a-form-item>
   </a-form>
+  <ssl_model
+    v-model:visible="open.ca"
+    title="CA"
+    @save="(text:string) =>{ dbForm.ca_file = text;open.ca = false}"
+  ></ssl_model>
+  <ssl_model
+    v-model:visible="open.cert"
+    title="Cert"
+    @save="(text:string) => {dbForm.cert = text;open.cert = false}"
+  ></ssl_model>
+  <ssl_model
+    v-model:visible="open.key"
+    title="KeyFile"
+    @save="(text:string) => {dbForm.key_file = text;open.key = false}"
+  ></ssl_model>
 </template>
 
 <script lang="ts" setup>
-  import { ref, computed } from 'vue';
+  import { ref, computed, reactive } from 'vue';
   import { Source, createSource as cs } from '@/apis/db';
   import CommonMixins from '@/mixins/common';
   import { useStore } from '@/store';
   import { EventBus } from '@/lib';
   import { RuleObject } from 'ant-design-vue/es/form';
   import { useI18n } from 'vue-i18n';
+  import ssl_model from './sslModal.vue';
 
   const { t } = useI18n();
+
+  const checked = ref(false);
+
+  const open = reactive({
+    ca: false,
+    cert: false,
+    key: false,
+  });
+
+  const store = useStore();
 
   const regExp_Name = (rule: RuleObject, value: string) => {
     let pPattern = new RegExp(
@@ -131,9 +181,7 @@
     ],
   };
 
-  const store = useStore();
-
-  const { layout } = CommonMixins();
+  const { layout, is_open } = CommonMixins();
 
   const loading = ref(false);
 
@@ -157,6 +205,9 @@
     is_query: 2,
     flow_id: null as any,
     principal: '',
+    ca_file: '',
+    cert: '',
+    key_file: '',
   } as Source);
 
   const formRef = ref();

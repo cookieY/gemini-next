@@ -13,6 +13,9 @@ export interface Source {
   exclude_db_list: string;
   insulate_word_list: string;
   principal: string;
+  ca_file: string;
+  cert: string;
+  key_file: string;
 }
 
 export interface DBParams {

@@ -94,6 +94,7 @@
   import profile from '@/assets/comment/3.svg';
   import { useRouter } from 'vue-router';
   import {
+    FullscreenOutlined,
     FullscreenExitOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,
