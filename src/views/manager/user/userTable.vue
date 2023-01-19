@@ -69,13 +69,21 @@
             <a-select
               v-if="column.dataIndex === 'is_recorder'"
               v-model:value="record[column.dataIndex]"
+              :options="[
+                {
+                  label: $t('common.no'),
+                  value: 2,
+                  key: 2,
+                  title: $t('common.no'),
+                },
+                {
+                  label: $t('common.yes'),
+                  value: 1,
+                  key: 1,
+                  title: $t('common.yes'),
+                },
+              ]"
             >
-              <a-select-option :key="2" :value="2">{{
-                $t('common.no')
-              }}</a-select-option>
-              <a-select-option :key="1" :value="1">{{
-                $t('common.yes')
-              }}</a-select-option>
             </a-select>
             <a-input v-else v-model:value="record[column.dataIndex]"></a-input>
           </template>
@@ -111,6 +119,7 @@
   import { useI18n } from 'vue-i18n';
   import { tableRef } from '@/components/table';
   import { CommonPage } from '@/types';
+  import { key } from '@/store';
 
   const { t } = useI18n();
 
