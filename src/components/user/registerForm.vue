@@ -72,6 +72,10 @@
   const { regExpPassword } = CommonMixins();
 
   let validPassword = async (rule: RuleObject, value: string) => {
+    const pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+    if (!pPattern.test(value)) {
+      return Promise.reject(t('user.form.valid.password'));
+    }
     if (value !== registerForm.password && value !== '') {
       return Promise.reject(t('user.form.valid.valid'));
     } else {

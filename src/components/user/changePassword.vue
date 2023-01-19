@@ -34,6 +34,7 @@
   import { Password } from '@/apis/user';
   import CommonMixins from '@/mixins/common';
   import { RuleObject } from 'ant-design-vue/es/form/interface';
+  import { useI18n } from 'vue-i18n';
 
   const formItem: UnwrapRef<Password> = reactive({
     password: '',
@@ -47,7 +48,13 @@
 
   const { regExpPassword } = CommonMixins();
 
+  const { t } = useI18n();
+
   const validPassword = async (rule: RuleObject, value: string) => {
+    const pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+    if (!pPattern.test(value)) {
+      return Promise.reject(t('user.form.valid.password'));
+    }
     if (value !== formItem.password && value !== '') {
       return Promise.reject('输入的密码不一致');
     } else {
