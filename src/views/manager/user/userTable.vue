@@ -119,7 +119,6 @@
   import { useI18n } from 'vue-i18n';
   import { tableRef } from '@/components/table';
   import { CommonPage } from '@/types';
-  import { key } from '@/store';
 
   const { t } = useI18n();
 
