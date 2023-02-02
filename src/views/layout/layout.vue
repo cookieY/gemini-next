@@ -1,68 +1,71 @@
 <template>
   <div v-watermark="{ text: store.state.user.account.user }">
-    <a-layout>
+    <a-layout style="min-height: 100vh">
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
         <img :src="logoUrl" style="width: 150px" />
         <Menu></Menu>
       </a-layout-sider>
 
       <a-layout>
-        <a-layout-header
-          :style="{ position: 'fixed', zIndex: 1, width: '100%' }"
-        >
-          <a-row>
-            <a-col :span="1">
-              <menu-unfold-outlined
-                v-if="collapsed"
-                class="trigger"
-                @click="() => (collapsed = !collapsed)"
-              />
-              <menu-fold-outlined
-                v-else
-                class="trigger"
-                @click="() => (collapsed = !collapsed)"
-              />
-            </a-col>
-            <a-col :span="1">
-              <a-button type="text" @click="toggle">
-                <template v-if="isFullscreen" #icon>
-                  <FullscreenExitOutlined />
-                </template>
-                <template v-else #icon>
-                  <FullscreenOutlined />
-                </template>
-              </a-button>
-            </a-col>
-            <a-col :span="3" :offset="17">
-              <a-dropdown>
-                <a-space>
-                  <a-avatar :src="profile" />
-                  <span style="font-weight: bold">{{
-                    store.state.user.account.user
-                  }}</span>
-                </a-space>
-                <template #overlay>
-                  <a-menu @click="() => router.push({ path: '/home/profile' })">
-                    <a-menu-item>
-                      <a href="javascript:;">{{
-                        $t('common.profile.title')
-                      }}</a>
-                    </a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
-            </a-col>
-          </a-row>
-        </a-layout-header>
-        <br />
-        <br />
-        <a-layout-content
-          :style="{ margin: '24px 16px 0', overflow: 'initial' }"
-        >
-          <router-view v-slot="{ Component }">
-            <component :is="Component" />
-          </router-view>
-        </a-layout-content>
+        <a-row>
+          <a-layout-header :style="{ zIndex: 1, width: '100%' }">
+            <a-row>
+              <a-col :span="1">
+                <menu-unfold-outlined
+                  v-if="collapsed"
+                  class="trigger"
+                  @click="() => (collapsed = !collapsed)"
+                />
+                <menu-fold-outlined
+                  v-else
+                  class="trigger"
+                  @click="() => (collapsed = !collapsed)"
+                />
+              </a-col>
+              <a-col :span="1">
+                <a-button type="text" @click="toggle">
+                  <template v-if="isFullscreen" #icon>
+                    <FullscreenExitOutlined />
+                  </template>
+                  <template v-else #icon>
+                    <FullscreenOutlined />
+                  </template>
+                </a-button>
+              </a-col>
+              <a-col :span="3" :offset="17">
+                <a-dropdown>
+                  <a-space>
+                    <a-avatar :src="profile" />
+                    <span style="font-weight: bold">{{
+                      store.state.user.account.user
+                    }}</span>
+                  </a-space>
+                  <template #overlay>
+                    <a-menu
+                      @click="() => router.push({ path: '/home/profile' })"
+                    >
+                      <a-menu-item>
+                        <a href="javascript:;">{{
+                          $t('common.profile.title')
+                        }}</a>
+                      </a-menu-item>
+                    </a-menu>
+                  </template>
+                </a-dropdown>
+              </a-col>
+            </a-row>
+          </a-layout-header>
+        </a-row>
+        <a-row>
+          <a-layout-content
+            :style="{ margin: '24px 16px 0', overflow: 'initial' }"
+          >
+            <router-view v-slot="{ Component }">
+              <component :is="Component" />
+            </router-view>
+          </a-layout-content>
+        </a-row>
+
         <a-layout-footer :style="{ textAlign: 'center', width: '100%' }">
           <a-space>
             <span>{{ Copyright }}</span>
