@@ -32,6 +32,7 @@ export interface OrderExpr {
   text: string;
   picker?: RangeValue;
   username: string;
+  work_id?: string;
 }
 
 export interface OrderParams {

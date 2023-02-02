@@ -62,6 +62,11 @@
               </a-select>
             </a-form-item>
           </a-col>
+          <a-col :xs="24" :sm="8">
+            <a-form-item :label="$t('common.table.work_id')">
+              <a-input v-model:value="expr.work_id"></a-input>
+            </a-form-item>
+          </a-col>
         </template>
         <a-col :xs="24" :sm="8">
           <span
