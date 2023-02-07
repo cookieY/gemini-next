@@ -2,7 +2,7 @@
   <div>
     <div style="margin-left: 2%">
       <a-space>
-        <span class="fff">version 3.1.2</span>
+        <span class="fff">version 3.1.2.2</span>
         <a-button
           v-if="is_register"
           type="dashed"
