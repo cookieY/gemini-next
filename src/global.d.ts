@@ -1,7 +1,7 @@
-import { VueElement } from "vue"
+import { VueElement } from 'vue';
 
 declare global {
-      interface Window {
-            MonacoEnvironment: any
-      }
+  interface Window {
+    MonacoEnvironment: any;
+  }
 }

@@ -13,7 +13,11 @@
         "@/*": ["src/*"]
       },
       "lib": ["es2020", "dom"],
-      "skipLibCheck": true
+      "skipLibCheck": true,
+      "types": [
+            "vite/client", // if using vite
+            // ...
+          ]
     },
     "include": ["src/**/*", "src/**/*.vue"],
     "exclude": ["node_modules"]
