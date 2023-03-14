@@ -96,4 +96,16 @@ export const StateQueryUsage = (state: number) => {
   }
 };
 
+export const checkSchema = () => {
+  let baseURL = '127.0.0.1:8000';
+  let scheme = 'ws://';
+  if (import.meta.env.MODE !== 'dev') {
+    baseURL = document.location.host;
+  }
+  if (document.location.protocol === 'https:') {
+    scheme = 'wss://';
+  }
+  return `${scheme}${baseURL}`;
+};
+
 export const EventBus = mitt();

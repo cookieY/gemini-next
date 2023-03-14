@@ -6,9 +6,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, onUnmounted, ref } from 'vue';
-  import Socket from '@/socket';
+  import { onMounted, ref } from 'vue';
   import { useStore } from '@/store';
+  import { checkSchema } from '@/lib';
+  import { COMMON_URI } from '@/config/request';
+  import { useWebSocket } from '@vueuse/core';
 
   const pre = ref('');
 
@@ -18,25 +20,23 @@
     workId: string;
   }>();
 
-  let sock: Socket | null = null;
-
-  const recv = (e: any) => {
-    pre.value = e.data;
-  };
-
   onMounted(() => {
-    sock = new Socket(
-      `/audit/order/osc?work_id=${props.workId}`,
-      store.state.user.account.token
+    useWebSocket(
+      `${checkSchema()}${COMMON_URI}/audit/order/osc?work_id=${props.workId}`,
+      {
+        autoReconnect: {
+          retries: 3,
+        },
+        heartbeat: {
+          interval: 5000,
+          message: 'ping',
+        },
+        protocols: [store.state.user.account.token],
+        onMessage: (e, event) => {
+          pre.value = event.data;
+        },
+      }
     );
-    sock.create();
-    sock.race(recv);
-    sock.ping();
-  });
-
-  onUnmounted(() => {
-    sock?.send('1');
-    sock?.close();
   });
 </script>
 

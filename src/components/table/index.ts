@@ -1,6 +1,7 @@
 import type { App } from 'vue';
 import CTable from '@/components/table/table.vue';
 import { TableColumnsType } from 'ant-design-vue';
+import { WebSocketResult } from '@vueuse/core';
 
 const components = [CTable];
 
@@ -14,6 +15,7 @@ export interface tableRef {
   fn?: any;
   defaultPageSize?: number;
   isloop?: boolean;
+  websocket?: WebSocketResult<any>;
 }
 
 export default {

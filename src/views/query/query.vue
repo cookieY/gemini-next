@@ -87,6 +87,9 @@
   import { onBeforeRouteUpdate, useRoute } from 'vue-router';
   import * as monaco from 'monaco-editor';
   import { createSQLToken } from '@/components/editor/impl';
+  import { useWebSocket } from '@vueuse/core';
+  import { checkSchema } from '@/lib';
+  import { COMMON_URI } from '@/config/request';
 
   const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }]);
 
@@ -155,27 +158,37 @@
     }
   };
 
-  const closeWS = () => {
-    const encoded: Uint8Array = encode({ type: 1 });
-    store.state.common.sock?.send(encoded);
-    store.state.common.sock.close();
-  };
-
   const undo = async () => {
     await queryUndoOrder();
     router.go(-1);
   };
 
   const initQuery = (source_id: string) => {
-    const sock = new Socket(
-      `/query/results?source_id=${source_id}`,
-      store.state.user.account.token
+    let sock = useWebSocket(
+      `${checkSchema()}${COMMON_URI}/query/results?source_id=${source_id}`,
+      {
+        autoReconnect: {
+          retries: 3,
+        },
+        heartbeat: {
+          interval: 5000,
+          message: 'ping',
+        },
+        protocols: [store.state.user.account.token],
+      }
     );
-    sock.create();
-    sock.msgping();
-    sock.check();
-    sock.msginit();
+
     store.commit('common/QUERY_CONN', sock);
+
+    //     const sock = new Socket(
+    //       `/query/results?source_id=${source_id}`,
+    //       store.state.user.account.token
+    //     );
+    //     sock.create();
+    //     sock.msgping();
+    //     sock.check();
+    //     sock.msginit();
+    //     store.commit('common/QUERY_CONN', sock);
   };
 
   const initial = async (source_id: string) => {
@@ -212,7 +225,6 @@
 
   onBeforeRouteUpdate((to) => {
     monaco_editor.dispose();
-    closeWS();
     initial(to.query.source_id as string);
     initQuery(to.query.source_id as string);
   });
@@ -226,6 +238,5 @@
 
   onUnmounted(() => {
     monaco_editor.dispose();
-    closeWS();
   });
 </script>

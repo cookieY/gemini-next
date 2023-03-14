@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref } from 'vue';
+  import { computed, onActivated, onMounted, onUpdated, ref, watch } from 'vue';
   import { useStore } from '@/store';
   import router from '@/router';
   import { message } from 'ant-design-vue';
@@ -85,17 +85,23 @@
 
   const sock = computed(() => store.state.common.sock);
 
+  watch(store.state.common.sock.data, (value) => {
+    console.log(value);
+  });
+
   const runResults = (schema: string, sql: string) => {
-    sock.value.race(recv);
+    //     sock.value.race(recv);
     const encoded: Uint8Array = encode({ type: 4, sql: sql, schema: schema });
     store.commit('common/SET_SPINNING');
-    sock?.value.send(encoded);
+    sock.value.send(encoded);
+    recv(sock.value.data);
   };
 
   const recv = async (e: any) => {
-    const h = e.data as Blob;
+    const h = e as Blob;
     if (h.size > 0) {
       const resp = decode(await h.arrayBuffer()) as any;
+
       resp.status ? (router.go(-1), message.error(t('query.expire'))) : null;
       if (resp.error !== '') {
         message.error(resp.error);

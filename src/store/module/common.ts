@@ -1,6 +1,7 @@
 import { getFlowList, RespTPLs } from '@/apis/flow';
 import { Res } from '@/config/request';
 import { encode } from '@msgpack/msgpack';
+import { WebSocketResult } from '@vueuse/core';
 import { AxiosResponse } from 'axios';
 import { Module } from 'vuex';
 import { RootStore } from '../types';
@@ -12,7 +13,7 @@ export interface commonStore {
   schemaList: string[];
   spinning: boolean;
   sql: string;
-  sock: any;
+  sock: WebSocketResult<any>;
   schema: string;
   principal: any[];
 }
@@ -32,7 +33,7 @@ export const common: Module<commonStore, RootStore> = {
     schemaList: [],
     spinning: false,
     sql: '',
-    sock: null,
+    sock: {} as WebSocketResult<any>,
     schema: '',
     principal: [],
   },
@@ -65,6 +66,7 @@ export const common: Module<commonStore, RootStore> = {
     QUERY_CONN(state, vl) {
       state.sock = vl;
     },
+
     QUERY_CONN_CLOSE(state) {
       const encoded: Uint8Array = encode({ type: 1 });
       state.sock.send(encoded);

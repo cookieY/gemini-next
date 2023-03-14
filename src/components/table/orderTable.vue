@@ -1,49 +1,55 @@
 <template>
-  <a-card>
-    <order-table-search
-      ref="search"
-      @search="
-        (exp) => {
-          tblRef.expr = exp;
-          tbl.manual();
-        }
-      "
-    >
-    </order-table-search>
-    <c-table ref="tbl" :tbl-ref="tblRef" :size="props.size">
-      <template #bodyCell="{ column, text, record }">
-        <template v-if="column.dataIndex === 'type'">
-          <span>{{ text === 0 ? 'DDL' : 'DML' }}</span>
+  <div>
+    <a-card>
+      <order-table-search
+        ref="search"
+        @search="
+          (exp) => {
+            tblRef.expr = exp;
+            tbl.manual();
+          }
+        "
+      >
+      </order-table-search>
+      <c-table ref="tbl" :tbl-ref="tblRef" :size="props.size">
+        <template #bodyCell="{ column, text, record }">
+          <template v-if="column.dataIndex === 'type'">
+            <span>{{ text === 0 ? 'DDL' : 'DML' }}</span>
+          </template>
+          <template v-if="column.dataIndex === 'assigned'">
+            <a-tag v-for="i in text.split(',')" :key="i">{{ i }}</a-tag>
+          </template>
+          <template v-if="column.dataIndex === 'delay'">{{
+            text === 'none' ? $t('order.table.delay') : text
+          }}</template>
+          <template v-if="column.dataIndex === 'status'">
+            <state-tags :state="text"></state-tags>
+          </template>
+          <template v-if="column.dataIndex === 'action'">
+            <a-button type="primary" size="small" @click="profile(record)"
+              >{{ $t('common.profile') }}
+            </a-button>
+          </template>
         </template>
-        <template v-if="column.dataIndex === 'assigned'">
-          <a-tag v-for="i in text.split(',')" :key="i">{{ i }}</a-tag>
-        </template>
-        <template v-if="column.dataIndex === 'delay'">{{
-          text === 'none' ? $t('order.table.delay') : text
-        }}</template>
-        <template v-if="column.dataIndex === 'status'">
-          <state-tags :state="text"></state-tags>
-        </template>
-        <template v-if="column.dataIndex === 'action'">
-          <a-button type="primary" size="small" @click="profile(record)"
-            >{{ $t('common.profile') }}
-          </a-button>
-        </template>
-      </template>
-    </c-table>
-  </a-card>
+      </c-table>
+    </a-card>
+    <Profile :visible="visible" :width="width" @close="onClose" />
+  </div>
 </template>
 
 <script lang="ts" setup>
   import StateTags from './stateTags.vue';
   import OrderTableSearch from './orderTableSearch.vue';
-  import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
-  import { onMounted, reactive, ref } from 'vue';
-  import { OrderExpr, OrderParams, getOrderList } from '@/apis/orderPostApis';
+  import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+  import { reactive, ref } from 'vue';
+  import { OrderExpr, OrderParams, checkUri } from '@/apis/orderPostApis';
   import { OrderTableData } from '@/types';
   import { useStore } from '@/store';
   import { useI18n } from 'vue-i18n';
   import { tableRef } from '.';
+  import { useWebSocket, useElementSize } from '@vueuse/core';
+  import { checkSchema } from '@/lib';
+  import Profile from '@/components/orderProfile/index.vue';
 
   interface propsAttr {
     size?: string;
@@ -56,6 +62,18 @@
   const search = ref();
 
   const { t } = useI18n();
+
+  const isAudit = ref('');
+
+  const route = useRoute();
+
+  const visible = ref<boolean>(false);
+
+  const store = useStore();
+
+  const tbl = ref();
+
+  const { width } = useElementSize(tbl);
 
   const tblRef = reactive<tableRef>({
     col: [
@@ -113,40 +131,43 @@
       username: '',
     } as OrderExpr,
     isloop: true,
-    fn: async (expr: OrderParams) => {
-      const { data } = await getOrderList(expr, isAudit.value);
-      tblRef.data = data.payload.data;
-      tblRef.pageCount = data.payload.page;
+    websocket: useWebSocket(
+      `${checkSchema()}${checkUri(route.params.tp as string)}`,
+      {
+        autoReconnect: {
+          retries: 3,
+        },
+        protocols: [store.state.user.account.token],
+        onMessage: (e, event) => {
+          let payload = JSON.parse(event.data);
+          tblRef.data = payload.payload.data;
+          tblRef.pageCount = payload.payload.page;
+        },
+      }
+    ),
+    fn: (expr: OrderParams) => {
+      tblRef.websocket?.send(JSON.stringify(expr));
     },
   });
 
-  const route = useRoute();
-
-  const router = useRouter();
-
-  const store = useStore();
-
-  const tbl = ref();
-
-  const isAudit = ref('');
+  const onClose = () => {
+    visible.value = false;
+  };
 
   const profile = (record: OrderTableData) => {
     store.commit('order/ORDER_STORE', record);
-    if (route.params.tp === 'audit') {
-      router.push({ path: '/server/order/audit/profile' });
-    } else if (route.params.tp === 'common') {
-      router.push({ path: '/server/order/common/profile' });
-    } else {
-      router.push({ path: '/server/order/record/profile' });
-    }
+    visible.value = true;
+    //     if (route.params.tp === 'audit') {
+    //       router.push({ path: '/server/order/audit/profile' });
+    //     } else if (route.params.tp === 'common') {
+    //       router.push({ path: '/server/order/common/profile' });
+    //     } else {
+    //       router.push({ path: '/server/order/record/profile' });
+    //     }
   };
 
   onBeforeRouteUpdate((to) => {
     isAudit.value = to.params.tp as string;
     tbl.value.manual();
-  });
-
-  onMounted(() => {
-    isAudit.value = route.params.tp as string;
   });
 </script>

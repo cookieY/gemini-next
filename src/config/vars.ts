@@ -38,10 +38,10 @@ const AnnounceEN = [
   'Of course you like it, please tip me to login interface sponsorship button ',
 ];
 
-const Version = 'ver.2.4.0';
+const Version = 'ver.3.2.0';
 
 const Copyright = `Yearning © 2018-${dayjs().format(
   'YYYY'
-)}  Created by HenryYee `;
+)}  Created by HenryYee ${Version}`;
 
 export { FeatureList, Version, Copyright, Announce, AnnounceEN };

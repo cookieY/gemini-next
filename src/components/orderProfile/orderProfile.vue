@@ -3,7 +3,6 @@
     <a-page-header
       :title="$t('order.profile.work_id', { id: order.work_id })"
       :ghost="false"
-      @back="() => $router.go(-1)"
     >
       <template #extra>
         <template
@@ -195,9 +194,9 @@
   import router from '@/router';
   import OSC from './osc.vue';
   import { useStore } from '@/store';
-  import { computed, ref, onMounted, onUnmounted } from 'vue';
+  import { computed, ref, onMounted } from 'vue';
   import FetchMixins from '@/mixins/fetch';
-  import { StateUsage } from '@/lib';
+  import { checkSchema, StateUsage } from '@/lib';
   import {
     changeOrderStateUndo,
     checkSQLS,
@@ -207,9 +206,10 @@
   import { SQLTesting } from '@/types';
   import { useRoute } from 'vue-router';
   import JunoMixin from '@/mixins/juno';
-  import WsSocket from '@/socket';
   import { debounce } from 'lodash-es';
   import { queryTimeline } from '@/apis/source';
+  import { useWebSocket } from '@vueuse/core';
+  import { COMMON_URI } from '@/config/request';
 
   interface stepUsage {
     action: string;
@@ -239,11 +239,6 @@
   const route = useRoute();
 
   const order = computed(() => store.state.order.order);
-
-  const sock = new WsSocket(
-    `/fetch/order_state?work_id=${order.value.work_id}`,
-    store.state.user.account.token
-  );
 
   const { fetchStepUsage, fetchProfileSQL, orderProfileArch } = FetchMixins();
 
@@ -307,15 +302,29 @@
     spinning.value = !spinning.value;
   };
 
-  const recv = (e: any) => {
-    store.commit('order/SET_ORDER_STATUS', JSON.parse(e.data));
+  const fetchState = async () => {
+    useWebSocket(
+      `${checkSchema()}${COMMON_URI}/fetch/order_state?work_id=${
+        order.value.work_id
+      }`,
+      {
+        autoReconnect: {
+          retries: 3,
+        },
+        heartbeat: {
+          interval: 5000,
+          message: 'ping',
+        },
+        protocols: [store.state.user.account.token],
+        onMessage: (e, event) => {
+          store.commit('order/SET_ORDER_STATUS', parseInt(event.data, 10));
+        },
+      }
+    );
   };
 
   onMounted(async () => {
-    sock.create();
-    sock.ping();
-    sock.race(recv);
-
+    fetchState();
     const { data } = await queryTimeline(order.value.source_id as string);
     if (data.code === 5555) {
       router.go(-1);
@@ -335,10 +344,5 @@
     const sql = await fetchProfileSQL(order.value.work_id);
     profile.value.ChangeEditorText(sql.data.payload.sqls);
     store.commit('common/ORDER_SET_SQL', sql.data.payload.sqls);
-  });
-
-  onUnmounted(() => {
-    sock.send('1');
-    sock.close();
   });
 </script>

@@ -23,15 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-  import {
-    nextTick,
-    onActivated,
-    onDeactivated,
-    onMounted,
-    onUnmounted,
-    ref,
-    watch,
-  } from 'vue';
+  import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
   import * as t from '@/components/table';
 
   interface propsAttr {
@@ -85,15 +77,15 @@
   };
 
   const loop = () => {
-    if (props.tblRef.isloop) {
-      isloop = setInterval(() => {
-        props.tblRef.fn({
-          expr: props.tblRef.expr,
-          current: pNumber.value,
-          pageSize: pSize.value,
-        });
-      }, 5000);
-    }
+    props.tblRef.isloop
+      ? (isloop = setInterval(() => {
+          props.tblRef.fn({
+            expr: props.tblRef.expr,
+            current: pNumber.value,
+            pageSize: pSize.value,
+          });
+        }, 5000))
+      : null;
   };
 
   onUnmounted(() => {
@@ -110,13 +102,14 @@
         : 10;
       props.tblRef.fn !== undefined ? manual() : null;
     });
+    loop();
   });
 
-  onActivated(() => loop());
+  //   onActivated(() => loop());
 
-  onDeactivated(() => {
-    props.tblRef.isloop ? clearInterval(isloop) : null;
-  });
+  //   onDeactivated(() => {
+  //     props.tblRef.isloop ? clearInterval(isloop) : null;
+  //   });
 
   defineExpose({
     manual,

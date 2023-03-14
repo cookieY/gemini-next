@@ -50,7 +50,7 @@ export interface Reject {
   content: string;
 }
 
-function checkUri(tp: string) {
+export function checkUri(tp: string) {
   switch (tp) {
     case 'audit':
       return `${COMMON_URI}/audit/order/list`;

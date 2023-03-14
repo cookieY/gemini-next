@@ -42,11 +42,13 @@
   import relativeTime from 'dayjs/plugin/relativeTime';
   import customParseFormat from 'dayjs/plugin/customParseFormat';
   import { Comment, postOrderComment } from '@/apis/orderPostApis';
-  import { onMounted, ref, nextTick, onUnmounted, onUpdated } from 'vue';
-  import Socket from '@/socket';
+  import { onMounted, ref, nextTick, onUpdated } from 'vue';
   import { useStore } from '@/store';
   import comment from '@/assets/comment/rockets.svg';
   import icon from '@/assets/comment/comment.svg';
+  import { useWebSocket } from '@vueuse/core';
+  import { checkSchema } from '@/lib';
+  import { COMMON_URI } from '@/config/request';
 
   extend(relativeTime);
   extend(customParseFormat);
@@ -58,8 +60,6 @@
   const data = ref<Comment[]>([]);
 
   const content = ref('');
-
-  let sock: Socket | null = null;
 
   const scrollTop = () => {
     nextTick(() => {
@@ -85,26 +85,26 @@
     scrollTop();
   };
 
-  const currentPage = (e: any) => {
-    data.value = JSON.parse(e.data);
-  };
-
   onUpdated(() => {
     scrollTop();
   });
 
-  onMounted(() => {
-    sock = new Socket(
-      `/fetch/comment?work_id=${props.workId}`,
-      store.state.user.account.token
+  onMounted(async () => {
+    useWebSocket(
+      `${checkSchema()}${COMMON_URI}/fetch/comment?work_id=${props.workId}`,
+      {
+        autoReconnect: {
+          retries: 3,
+        },
+        heartbeat: {
+          interval: 5000,
+          message: 'ping',
+        },
+        protocols: [store.state.user.account.token],
+        onMessage: (e, event) => {
+          data.value = JSON.parse(event.data);
+        },
+      }
     );
-    sock.create();
-    sock.race(currentPage);
-    sock.ping();
-  });
-
-  onUnmounted(() => {
-    sock?.send('1');
-    sock?.close();
   });
 </script>

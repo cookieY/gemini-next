@@ -2,7 +2,7 @@
   <div>
     <div style="margin-left: 2%">
       <a-space>
-        <span class="fff">version 3.1.3</span>
+        <span class="fff">{{ Version }}</span>
         <a-button
           v-if="is_register"
           type="dashed"
@@ -74,7 +74,7 @@
   import LoginForm from '@/views/login/login-form.vue';
   import Sponsor from '@/views/common/sponsor.vue';
   import { ref, onMounted } from 'vue';
-  import { Copyright } from '@/config/vars';
+  import { Copyright, Version } from '@/config/vars';
   import CommonMixin from '@/mixins/common';
   import Register from '@/components/user/registerForm.vue';
   import Announce from '../common/announce.vue';
