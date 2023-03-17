@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="container">
     <a-card>
       <order-table-search
         ref="search"
@@ -50,6 +50,7 @@
   import { useWebSocket, useElementSize } from '@vueuse/core';
   import { checkSchema } from '@/lib';
   import Profile from '@/components/orderProfile/index.vue';
+  import Container from '@antv/g-base/lib/abstract/container';
 
   interface propsAttr {
     size?: string;
@@ -73,7 +74,9 @@
 
   const tbl = ref();
 
-  const { width } = useElementSize(tbl);
+  const container = ref();
+
+  const { width } = useElementSize(container);
 
   const tblRef = reactive<tableRef>({
     col: [

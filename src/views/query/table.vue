@@ -1,40 +1,47 @@
 <template>
-  <a-space>
-    <span>{{ $t('order.query.execute.time') }}:{{ executeTime }} ms</span>
-  </a-space>
-  <a-tabs v-model:activeKey="activeKey">
-    <a-tab-pane
-      v-for="(i, idx) in results"
-      :key="idx"
-      :tab="`${$t('common.result')} ${idx + 1}`"
-    >
-      <template v-if="isExport">
-        <a-button
-          size="small"
-          type="primary"
-          ghost
-          @click="downloadXLS(i.data, i.field)"
-          >{{ $t('common.export') }}
-        </a-button>
-        <br />
-        <br />
-      </template>
-      <a-table
-        bordered
-        :columns="i.field"
-        :data-source="i.data"
-        :scroll="{ x: i.length * 200 }"
-        :pagination="{
+  <div>
+    <a-space>
+      <span>{{ $t('order.query.execute.time') }}:{{ executeTime }} ms</span>
+    </a-space>
+    <a-tabs v-model:activeKey="activeKey">
+      <a-tab-pane
+        v-for="(i, idx) in results"
+        :key="idx"
+        :tab="`${$t('common.result')} ${idx + 1}`"
+      >
+        <template v-if="isExport">
+          <a-button
+            size="small"
+            type="primary"
+            ghost
+            @click="downloadXLS(i.data, i.field)"
+            >{{ $t('common.export') }}
+          </a-button>
+          <br />
+          <br />
+        </template>
+        <div>
+          <a-table
+            size="small"
+            bordered
+            :scroll="{ x: i.field.length * 200 + 100 }"
+            table-layout="fixed"
+            :columns="i.field"
+            :data-source="i.data"
+            :pagination="{
           showTotal: (total:number) => $t('common.count', { count: total }),
         }"
-        @resize-column="handleResizeColumn"
-      ></a-table>
-    </a-tab-pane>
-  </a-tabs>
+            @resize-column="handleResizeColumn"
+          ></a-table>
+        </div>
+        {{ i.field.length * 100 }}
+      </a-tab-pane>
+    </a-tabs>
+  </div>
 </template>
 
 <script lang="ts" setup>
-  import { computed, onActivated, onMounted, onUpdated, ref, watch } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import { useStore } from '@/store';
   import router from '@/router';
   import { message } from 'ant-design-vue';
@@ -57,7 +64,7 @@
 
   const isExport = ref(false);
 
-  let results = ref<any[]>([]);
+  let results = ref<any[]>();
 
   const handleResizeColumn = (w: number, col: { width: number }) => {
     col.width = w;
@@ -85,31 +92,36 @@
 
   const sock = computed(() => store.state.common.sock);
 
-  watch(store.state.common.sock.data, (value) => {
-    console.log(value);
-  });
+  watch(
+    () => sock.value.data as any,
+    (val: Blob) => {
+      val !== null ? recv(val) : null;
+    }
+  );
 
   const runResults = (schema: string, sql: string) => {
-    //     sock.value.race(recv);
     const encoded: Uint8Array = encode({ type: 4, sql: sql, schema: schema });
-    store.commit('common/SET_SPINNING');
     sock.value.send(encoded);
-    recv(sock.value.data);
+    const ws = sock.value.ws as any;
+    ws.onmessage = recv;
   };
 
   const recv = async (e: any) => {
-    const h = e as Blob;
+    const h = e.data as Blob;
     if (h.size > 0) {
       const resp = decode(await h.arrayBuffer()) as any;
-
+      if (resp.heartbeat === 'pong') {
+        return;
+      }
+      store.commit('common/SET_SPINNING');
+      console.log(resp);
       resp.status ? (router.go(-1), message.error(t('query.expire'))) : null;
       if (resp.error !== '') {
         message.error(resp.error);
         results.value = [];
-      } else if (resp.heartbeat === 1) {
-        return;
       } else {
         isExport.value = resp.export;
+        console.log(resp.results);
         resp.results !== null
           ? (results.value = resp.results)
           : (results.value = []);

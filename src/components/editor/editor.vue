@@ -1,5 +1,5 @@
 <template>
-  <div :id="props.containerId" :style="{ height: `${height}px` }"></div>
+  <div :id="props.containerId" :style="{ height: `${height / 4}px` }"></div>
   <a-alert
     :message="$t('common.editor.tips')"
     type="info"
@@ -14,6 +14,7 @@
   import { format } from 'sql-formatter';
   import { mergeDDLSTMT } from '@/apis/orderPostApis';
   import { useI18n } from 'vue-i18n';
+  import { useElementSize } from '@vueuse/core';
 
   self.MonacoEnvironment = {
     getWorker() {
@@ -101,7 +102,11 @@
     return model.getValue();
   };
 
-  const height = ref(250);
+  //   const height = ref(250);
+
+  const { height } = useElementSize(
+    document.getElementById('app') as HTMLElement
+  );
 
   onMounted(() => {
     model = monaco.editor.create(
@@ -120,12 +125,6 @@
     model.addAction(GetValueFunc);
     props.isQuery ? null : model.addAction(mergeDDL);
     model.focus();
-    window.onresize = () => {
-      height.value =
-        document.body.clientHeight - 600 > 150
-          ? document.body.clientHeight - 600
-          : 150;
-    };
     model.onDidChangeModelContent(() => {
       emit('changeContent');
     });

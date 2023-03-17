@@ -1,6 +1,6 @@
 <template>
   <a-spin :spinning="spinning">
-    <a-card>
+    <a-card ref="colsize">
       <a-row>
         <a-col :span="5">
           <a-space>
@@ -21,9 +21,10 @@
         </a-col>
       </a-row>
     </a-card>
+    <br />
     <a-row :gutter="[16, 16]" style="margin-top: 1%">
-      <a-col :span="hide ? 0 : 5">
-        <a-card size="small">
+      <a-col :span="hide ? 0 : 4">
+        <a-card ref="leftSize" size="small">
           <a-tabs v-model:activeKey="tool">
             <a-tab-pane key="tree" :tab="$t('common.table.schema')">
               <Tree @show-table-ref="showTableRef"></Tree>
@@ -34,32 +35,34 @@
           </a-tabs>
         </a-card>
       </a-col>
-      <a-col :span="hide ? 24 : 19">
-        <a-card size="small">
-          <a-tabs v-model:activeKey="feat">
-            <a-tab-pane key="edit" :tab="$t('query.query')">
-              <a-tabs
-                v-model:activeKey="activeKey"
-                type="editable-card"
-                @edit="onEdit"
-              >
-                <a-tab-pane
-                  v-for="pane in panes"
-                  :key="pane.key"
-                  :tab="pane.title"
-                  :closable="pane.closable"
+      <a-col :span="hide ? 24 : 20">
+        <div :style="{ width: width - leftz - 15 + 'px' }">
+          <a-card size="small">
+            <a-tabs v-model:activeKey="feat">
+              <a-tab-pane key="edit" :tab="$t('query.query')">
+                <a-tabs
+                  v-model:activeKey="activeKey"
+                  type="editable-card"
+                  @edit="onEdit"
                 >
-                  <div class="editor_border">
-                    <Input :id="pane.title" />
-                  </div>
-                </a-tab-pane>
-              </a-tabs>
-            </a-tab-pane>
-            <a-tab-pane key="table" :tab="$t('query.table')" force-render>
-              <Table id="tblInfo" ref="tbl" :height="800"></Table>
-            </a-tab-pane>
-          </a-tabs>
-        </a-card>
+                  <a-tab-pane
+                    v-for="pane in panes"
+                    :key="pane.key"
+                    :tab="pane.title"
+                    :closable="pane.closable"
+                  >
+                    <div class="editor_border">
+                      <Input :id="pane.title" />
+                    </div>
+                  </a-tab-pane>
+                </a-tabs>
+              </a-tab-pane>
+              <a-tab-pane key="table" :tab="$t('query.table')" force-render>
+                <Table id="tblInfo" ref="tbl" :height="800"></Table>
+              </a-tab-pane>
+            </a-tabs>
+          </a-card>
+        </div>
       </a-col>
     </a-row>
   </a-spin>
@@ -76,10 +79,8 @@
   import Clip from './clip.vue';
   import Modal from './modal.vue';
   import Switch from './switch.vue';
-  import Socket from '@/socket';
   import { computed, onMounted, onUnmounted, ref } from 'vue';
   import { useStore } from '@/store';
-  import { encode } from '@msgpack/msgpack';
   import { ArrowLeftOutlined } from '@ant-design/icons-vue';
   import { checkIsQuery, queryUndoOrder } from '@/apis/query';
   import { queryHighlight } from '@/apis/source';
@@ -87,13 +88,21 @@
   import { onBeforeRouteUpdate, useRoute } from 'vue-router';
   import * as monaco from 'monaco-editor';
   import { createSQLToken } from '@/components/editor/impl';
-  import { useWebSocket } from '@vueuse/core';
+  import { useElementSize, useWebSocket } from '@vueuse/core';
   import { checkSchema } from '@/lib';
   import { COMMON_URI } from '@/config/request';
 
   const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }]);
 
   const activeKey = ref();
+
+  const colsize = ref();
+
+  const leftSize = ref();
+
+  const leftz = useElementSize(leftSize).width;
+
+  const { width } = useElementSize(colsize);
 
   const hide = ref(false);
 
