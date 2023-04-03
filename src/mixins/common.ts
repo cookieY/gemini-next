@@ -18,6 +18,7 @@ export default function () {
   const pagination = reactive({
     pageSize: 15,
     pageCount: 1,
+    current: 1,
   });
 
   const checkStepState = (type: number) => {

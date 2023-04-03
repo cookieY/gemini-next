@@ -143,28 +143,12 @@ const router = createRouter({
               component: () => import('@/views/server/query/list.vue'),
             },
             {
-              path: '/server/order/profile',
-              meta: {
-                title: 'Query - 查询详情',
-              },
-              component: () =>
-                import('@/components/queryProfile/queryProfile.vue'),
-            },
-            {
               path: '/server/order/:tp/list',
               meta: {
                 title: '工单列表',
                 keepAlive: true,
               },
               component: () => import('@/views/server/order/list.vue'),
-            },
-            {
-              path: '/server/order/:tp/profile',
-              meta: {
-                title: 'Order - 工单详情',
-              },
-              component: () =>
-                import('@/components/orderProfile/orderProfile.vue'),
             },
           ],
         },

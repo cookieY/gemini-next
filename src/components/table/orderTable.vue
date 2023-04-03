@@ -160,13 +160,6 @@
   const profile = (record: OrderTableData) => {
     store.commit('order/ORDER_STORE', record);
     visible.value = true;
-    //     if (route.params.tp === 'audit') {
-    //       router.push({ path: '/server/order/audit/profile' });
-    //     } else if (route.params.tp === 'common') {
-    //       router.push({ path: '/server/order/common/profile' });
-    //     } else {
-    //       router.push({ path: '/server/order/record/profile' });
-    //     }
   };
 
   onBeforeRouteUpdate((to) => {
