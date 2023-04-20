@@ -34,7 +34,6 @@
             @resize-column="handleResizeColumn"
           ></a-table>
         </div>
-        {{ i.field.length * 100 }}
       </a-tab-pane>
     </a-tabs>
   </div>
