@@ -47,6 +47,10 @@
         <CloudServerOutlined />
         <span>{{ $t('menu.manage.source') }}</span>
       </a-menu-item>
+      <a-menu-item key="/manager/db_group">
+        <TagsOutlined />
+        <span>{{ $t('menu.manage.source_group') }}</span>
+      </a-menu-item>
       <a-menu-item key="/manager/flow">
         <PartitionOutlined />
         <span>{{ $t('menu.manage.flow') }}</span>
@@ -98,6 +102,7 @@
     PartitionOutlined,
     CrownOutlined,
     UserOutlined,
+    TagsOutlined,
   } from '@ant-design/icons-vue';
   import { useStore } from '@/store';
   import { ref } from 'vue';

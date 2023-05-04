@@ -175,6 +175,14 @@ const router = createRouter({
               component: () => import('@/views/manager/db/db.vue'),
             },
             {
+              path: '/manager/db_group',
+              name: 'manager/db_group',
+              meta: {
+                title: 'DBGroup - 数据源组',
+              },
+              component: () => import('@/views/manager/db_group/index.vue'),
+            },
+            {
               path: '/manager/flow',
               name: 'manager/flow',
               meta: {

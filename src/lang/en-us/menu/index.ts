@@ -9,6 +9,7 @@ export default {
   'menu.manage': 'Manage',
   'menu.manage.user': 'User',
   'menu.manage.source': 'Source',
+  'menu.manage.source_group': 'SourceGroup',
   'menu.manage.flow': 'Flow',
   'menu.manage.board': 'Board',
   'menu.manage.policy': 'Policy',
