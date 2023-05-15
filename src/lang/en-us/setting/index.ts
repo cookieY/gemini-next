@@ -26,6 +26,8 @@ export default {
   'setting.adv.query.mins': 'mins',
   'setting.adv.query.export': 'Query Export',
   'setting.adv.query.register': 'Register',
+  'setting.adv.query.closeai': 'OpenAI AK',
+  'setting.adv.query.closeai.proxy': 'Proxy Server',
 
   'setting.ldap': 'LDAP Settings',
   'setting.ldap.url': 'Ldap addr',

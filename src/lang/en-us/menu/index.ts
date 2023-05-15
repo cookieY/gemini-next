@@ -1,6 +1,7 @@
 export default {
   'menu.home': 'Index',
   'menu.order.self': 'My Order',
+  'menu.order.analysis': 'SQL Analysis',
   'menu.order.apply': 'Apply',
   'menu.order.title': 'Audit',
   'menu.comptroller.title': 'Analysis',

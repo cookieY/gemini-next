@@ -36,6 +36,8 @@ export interface Other {
   overdue: Dayjs[];
   export: boolean;
   register: boolean;
+  close_ai: string;
+  proxy: string;
 }
 
 export interface Settings {

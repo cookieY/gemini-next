@@ -50,7 +50,6 @@
   import { useWebSocket, useElementSize } from '@vueuse/core';
   import { checkSchema } from '@/lib';
   import Profile from '@/components/orderProfile/index.vue';
-  import Container from '@antv/g-base/lib/abstract/container';
 
   interface propsAttr {
     size?: string;

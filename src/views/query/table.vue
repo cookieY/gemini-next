@@ -29,8 +29,8 @@
             :columns="i.field"
             :data-source="i.data"
             :pagination="{
-          showTotal: (total:number) => $t('common.count', { count: total }),
-        }"
+              showTotal: (total:number) => $t('common.count', { count: total }),
+            }"
             @resize-column="handleResizeColumn"
           ></a-table>
         </div>
@@ -107,13 +107,15 @@
 
   const recv = async (e: any) => {
     const h = e.data as Blob;
+    if (h === undefined) {
+      return;
+    }
     if (h.size > 0) {
       const resp = decode(await h.arrayBuffer()) as any;
       if (resp.heartbeat === 'pong') {
         return;
       }
       store.commit('common/SET_SPINNING');
-      console.log(resp);
       resp.status ? (router.go(-1), message.error(t('query.expire'))) : null;
       if (resp.error !== '') {
         message.error(resp.error);

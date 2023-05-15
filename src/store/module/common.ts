@@ -13,7 +13,7 @@ export interface commonStore {
   schemaList: string[];
   spinning: boolean;
   sql: string;
-  sock: WebSocketResult<any>;
+  sock: any;
   schema: string;
   principal: any[];
 }
@@ -65,12 +65,6 @@ export const common: Module<commonStore, RootStore> = {
     },
     QUERY_CONN(state, vl) {
       state.sock = vl;
-    },
-
-    QUERY_CONN_CLOSE(state) {
-      const encoded: Uint8Array = encode({ type: 1 });
-      state.sock.send(encoded);
-      state.sock.close();
     },
     DB_SET_PRINCIPAL(state, vl) {
       state.principal = vl;

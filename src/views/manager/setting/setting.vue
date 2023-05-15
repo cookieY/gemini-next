@@ -184,6 +184,14 @@
             </a-input-number>
             {{ $t('setting.adv.query.mins') }}
           </a-form-item>
+          <a-form-item :label="$t('setting.adv.query.closeai')">
+            <a-input-password
+              v-model:value="config.other.close_ai"
+            ></a-input-password>
+          </a-form-item>
+          <a-form-item :label="$t('setting.adv.query.closeai.proxy')">
+            <a-input v-model:value="config.other.proxy"></a-input>
+          </a-form-item>
         </a-form>
       </a-col>
       <a-col :span="11" offset="1">

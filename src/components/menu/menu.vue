@@ -4,6 +4,10 @@
       <HomeOutlined />
       <span>{{ $t('menu.home') }}</span>
     </a-menu-item>
+    <a-menu-item key="/analysis">
+      <DotChartOutlined />
+      <span>{{ $t('menu.order.analysis') }}</span>
+    </a-menu-item>
     <a-menu-item key="/server/order/common/list">
       <UserOutlined />
       <span>{{ $t('menu.order.self') }}</span>
