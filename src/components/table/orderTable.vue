@@ -49,6 +49,7 @@
   import { tableRef } from '.';
   import { useWebSocket, useElementSize } from '@vueuse/core';
   import { checkSchema } from '@/lib';
+  import dayjs from 'dayjs';
   import Profile from '@/components/orderProfile/index.vue';
 
   interface propsAttr {
@@ -148,6 +149,9 @@
       }
     ),
     fn: (expr: OrderParams) => {
+      Date.prototype.toJSON = function() {
+        return dayjs(this).format(`YYYY-MM-DD HH:mm:ss`)
+      }
       tblRef.websocket?.send(JSON.stringify(expr));
     },
   });
