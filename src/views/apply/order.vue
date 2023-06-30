@@ -27,7 +27,7 @@
   </a-card>
   <br />
   <a-row :gutter="24" type="flex" justify="center">
-    <a-col :md="24" :xl="7">
+    <a-col :md="24" :xl="6">
       <a-card>
         <a-form
           v-bind="layout"
@@ -101,7 +101,7 @@
         </a-form>
       </a-card>
     </a-col>
-    <a-col :sm="24" :md="24" :xl="17">
+    <a-col :sm="24" :md="24" :xl="18">
       <a-card style="min-height: 600px">
         <a-tabs v-model:activeKey="activeKey">
           <a-tab-pane :key="1" :tab="$t('order.apply.tab.sql')" force-render>
@@ -240,12 +240,17 @@
 
   const fetchTableArch = async () => {
     loadingTblBtn.value = true;
-    const { data } = await queryTableArch(orderItems);
+    const { data } = await queryTableArch(orderItems)
+      .then((res) => {
+        return res;
+      })
+      .finally(() => {
+        loadingTblBtn.value = false;
+      });
     archData.value = data.payload.rows;
     indexData.value = data.payload.idx;
     activeKey.value = 2;
     message.success(t('order.apply.table.info') + t('common.success'));
-    loadingTblBtn.value = false;
   };
 
   const testResults = debounce(async (sql: string) => {

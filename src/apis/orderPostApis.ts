@@ -30,7 +30,7 @@ export interface OrderExpr {
   type: number;
   status: number;
   text: string;
-  picker?: RangeValue;
+  picker?: RangeValue | string[];
   username: string;
   work_id?: string;
 }

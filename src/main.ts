@@ -8,6 +8,9 @@ import CTable from '@/components/table/index';
 import { extend } from 'dayjs';
 import weekday from 'dayjs/plugin/weekday';
 import localeData from 'dayjs/plugin/localeData';
+import 'highlight.js/lib/common';
+import 'highlight.js/styles/atom-one-light.css';
+import hljsVuePlugin from '@highlightjs/vue-plugin';
 
 extend(weekday);
 extend(localeData);
@@ -27,6 +30,7 @@ createApp(App)
     addWaterMarker(binding.value.text);
   })
   .use(i18n)
+  .use(hljsVuePlugin)
   .use(store, key)
   .use(Antd)
   .use(CTable)

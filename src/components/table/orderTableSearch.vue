@@ -123,6 +123,15 @@
   };
 
   const search = () => {
+    if (expr.value.picker !== undefined) {
+      expr.value.picker = expr.value.picker.map((v) => {
+        if (typeof v === 'string') {
+          return dayjs(v).format('YYYY-MM-DD HH:mm');
+        } else {
+          return v.format('YYYY-MM-DD HH:mm');
+        }
+      });
+    }
     emit('search', expr.value);
   };
 

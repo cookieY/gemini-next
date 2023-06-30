@@ -74,10 +74,11 @@ export function queryTableArch(source: TableArch) {
   });
 }
 
-export function queryTimeline(source_id: string) {
+export function queryTimeline(source_id: string, work_id: string) {
   return request.get<Res<Timeline[]>>(`${COMMON_URI}/fetch/timeline`, {
     params: {
       source_id: source_id,
+      work_id: work_id,
     },
   });
 }

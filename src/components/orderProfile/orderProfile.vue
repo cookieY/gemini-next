@@ -4,32 +4,6 @@
       :title="$t('order.profile.work_id', { id: order.work_id })"
       :ghost="false"
     >
-      <template #extra>
-        <template
-          v-if="
-            route.params.tp === 'audit' && isCurrent > -1 && order.status === 2
-          "
-        >
-          <a-button key="2" danger ghost @click="r.turnState()">{{
-            $t('order.reject')
-          }}</a-button>
-          <a-popconfirm
-            :title="$t('order.agree.tips')"
-            :visible="condition"
-            @confirm="next"
-            @visible-change="handleVisibleChange"
-          >
-            <a-button key="1" type="primary" :disabled="enabled">{{
-              $t('order.agree')
-            }}</a-button>
-          </a-popconfirm>
-        </template>
-        <template v-if="route.params.tp !== 'audit' && order.status === 2">
-          <a-popconfirm :title="$t('order.undo.tips')" @confirm="undoNext">
-            <a-button key="1" danger ghost>{{ $t('order.undo') }}</a-button>
-          </a-popconfirm>
-        </template>
-      </template>
       <a-row type="flex" justify="center" align="middle">
         <a-col :span="16">
           <a-descriptions :column="2">
@@ -94,33 +68,19 @@
         <a-tabs size="small" default-active-key="1">
           <a-tab-pane key="1" :tab="$t('order.profile.profile')">
             <br />
-            <Step
-              :current="order.current_step"
-              :step="orderProfileArch.timeline"
-              :status="order.status"
-            >
-            </Step>
-            <br />
             <a-row :gutter="24">
               <a-col :xs="24" :sm="5">
                 <a-card
-                  style="height: 500px; overflow: auto"
+                  style="height: 300px; overflow: auto"
                   :title="$t('order.profile.progress')"
                   size="small"
                 >
-                  <a-timeline
-                    :pending="
-                      StateUsage(order.status).isEnd ? false : 'Recording...'
-                    "
+                  <Step
+                    :current="order.current_step"
+                    :step="orderProfileArch.timeline"
+                    :status="order.status"
                   >
-                    <a-timeline-item
-                      v-for="i in usage"
-                      :key="i.id"
-                      color="green"
-                      >{{ i.username }} {{ i.action }}
-                      {{ i.time }}</a-timeline-item
-                    >
-                  </a-timeline>
+                  </Step>
                 </a-card>
                 <br />
                 <a-alert message="Info" type="info" show-icon>
@@ -131,23 +91,67 @@
               </a-col>
               <a-col :xs="24" :sm="19">
                 <a-spin :spinning="spin" :delay="100">
-                  <div class="editor_border">
-                    <Editor
-                      ref="profile"
-                      container-id="profile"
-                      readonly
-                      @get-values="testResults"
-                    ></Editor>
-                  </div>
-
-                  <br />
-                  <a-table
-                    :columns="col"
-                    bordered
+                  <a-card
+                    title="SQL内容"
                     size="small"
-                    :data-source="tData"
+                    :body-style="{ padding: 0 }"
                   >
-                  </a-table>
+                    <a-space direction="vertical">
+                      <highlightjs autodetect :code="sqls" language="sql" />
+                      <div>
+                        <a-space>
+                          <a-button type="primary" @click="testResults">{{
+                            $t('query.editor.test')
+                          }}</a-button>
+                          <template
+                            v-if="
+                              route.params.tp === 'audit' &&
+                              isCurrent > -1 &&
+                              order.status === 2
+                            "
+                          >
+                            <a-button
+                              key="2"
+                              danger
+                              ghost
+                              @click="r.turnState()"
+                              >{{ $t('order.reject') }}</a-button
+                            >
+                            <a-popconfirm
+                              :title="$t('order.agree.tips')"
+                              :visible="condition"
+                              @confirm="next"
+                              @visible-change="handleVisibleChange"
+                            >
+                              <a-button
+                                key="1"
+                                type="primary"
+                                :disabled="enabled"
+                                >{{ $t('order.agree') }}</a-button
+                              >
+                            </a-popconfirm>
+                          </template>
+                          <template
+                            v-if="
+                              route.params.tp !== 'audit' && order.status === 2
+                            "
+                          >
+                            <a-popconfirm
+                              :title="$t('order.undo.tips')"
+                              @confirm="undoNext"
+                            >
+                              <a-button key="1" danger ghost>{{
+                                $t('order.undo')
+                              }}</a-button>
+                            </a-popconfirm>
+                          </template>
+                        </a-space>
+                      </div>
+                      <a-table :columns="col" size="small" :data-source="tData">
+                      </a-table>
+                    </a-space>
+                  </a-card>
+                  <br />
                 </a-spin>
               </a-col>
             </a-row>
@@ -187,7 +191,6 @@
 
 <script lang="ts" setup>
   import RejectModal from './rejectModal.vue';
-  import Editor from '@/components/editor/editor.vue';
   import Comment from './comment.vue';
   import Results from './results.vue';
   import Step from '@/components/steps/steps.vue';
@@ -226,9 +229,9 @@
 
   const r = ref();
 
-  const store = useStore();
+  const sqls = ref('');
 
-  const profile = ref();
+  const store = useStore();
 
   const tData = ref();
 
@@ -240,7 +243,7 @@
 
   const order = computed(() => store.state.order.order);
 
-  const { fetchStepUsage, fetchProfileSQL, orderProfileArch } = FetchMixins();
+  const { fetchProfileSQL, orderProfileArch } = FetchMixins();
 
   const usage = ref([] as stepUsage[]);
 
@@ -277,8 +280,8 @@
     spin.value = !spin.value;
   };
 
-  const testResults = debounce((sql: string) => {
-    checkSQL(sql);
+  const testResults = debounce(() => {
+    checkSQL(sqls.value);
   }, 200);
 
   const next = async () => {
@@ -289,7 +292,7 @@
       tp: 'agree',
       source_id: order.value.source_id,
     });
-    router.go(-1);
+
     spinning.value = !spinning.value;
   };
 
@@ -325,7 +328,10 @@
 
   onMounted(async () => {
     fetchState();
-    const { data } = await queryTimeline(order.value.source_id as string);
+    const { data } = await queryTimeline(
+      order.value.source_id as string,
+      order.value.work_id as string
+    );
     if (data.code === 5555) {
       router.go(-1);
     } else {
@@ -338,11 +344,11 @@
       }
     }
 
-    const step = await fetchStepUsage(order.value.work_id);
-    usage.value = step.data.payload;
+    //     const step = await fetchStepUsage(order.value.work_id);
+    //     usage.value = step.data.payload;
 
     const sql = await fetchProfileSQL(order.value.work_id);
-    profile.value.ChangeEditorText(sql.data.payload.sqls);
+    sqls.value = sql.data.payload.sqls;
     store.commit('common/ORDER_SET_SQL', sql.data.payload.sqls);
   });
 </script>
