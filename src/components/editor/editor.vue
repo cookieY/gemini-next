@@ -1,5 +1,8 @@
 <template>
-  <div :id="props.containerId" :style="{ height: `${height / 4}px` }"></div>
+  <div
+    :id="props.containerId"
+    :style="{ height: height / 7 < 250 ? `250px` : `${height} px` }"
+  ></div>
   <a-alert
     :message="$t('common.editor.tips')"
     type="info"
@@ -10,7 +13,7 @@
 <script setup lang="ts">
   import * as monaco from 'monaco-editor';
   import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-  import { onMounted, onUnmounted, ref } from 'vue';
+  import { onMounted, onUnmounted } from 'vue';
   import { format } from 'sql-formatter';
   import { mergeDDLSTMT } from '@/apis/orderPostApis';
   import { useI18n } from 'vue-i18n';
@@ -109,6 +112,7 @@
   );
 
   onMounted(() => {
+    console.log(document.getElementById('app') as HTMLElement);
     model = monaco.editor.create(
       document.getElementById(props.containerId) as HTMLElement,
       {
@@ -121,9 +125,11 @@
         accessibilityHelpUrl: 'https://next.yearning.io',
       }
     );
+
     model.addAction(beautyFunc);
     model.addAction(GetValueFunc);
     props.isQuery ? null : model.addAction(mergeDDL);
+
     model.focus();
     model.onDidChangeModelContent(() => {
       emit('changeContent');

@@ -8,15 +8,13 @@ import CTable from '@/components/table/index';
 import { extend } from 'dayjs';
 import weekday from 'dayjs/plugin/weekday';
 import localeData from 'dayjs/plugin/localeData';
-import 'highlight.js/lib/common';
-import 'highlight.js/styles/atom-one-light.css';
-import hljsVuePlugin from '@highlightjs/vue-plugin';
 
 extend(weekday);
 extend(localeData);
 
 if (localStorage.getItem('theme') === null) {
   import('@/style/theme.less');
+  localStorage.setItem('theme', 'dark');
 } else {
   if (localStorage.getItem('theme') === 'dark') {
     import('@/style/theme.less');

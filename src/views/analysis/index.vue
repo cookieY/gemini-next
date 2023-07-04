@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <transition-group name="message" tag="div" class="chat-messages">
     <div
       v-for="(message, index) in messages"
@@ -78,4 +78,4 @@
       },
     });
   });
-</script>
+</script> -->

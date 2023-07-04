@@ -3,29 +3,6 @@
     :title="$t('order.apply.commit.title')"
     :sub-title="$t('order.apply.commit.desc')"
   ></PageHeader>
-  <a-card>
-    <a-steps size="small" progress-dot>
-      <a-step
-        v-for="i in orderProfileArch.timeline"
-        :key="i.desc"
-        :title="i.desc"
-        status="process"
-      >
-        <template #subTitle>
-          <a-tooltip placement="top">
-            <template #title>
-              <span
-                >{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</span
-              >
-            </template>
-            {{ checkStepState(i.type) }}
-          </a-tooltip>
-        </template>
-        <!-- <template v-slot:description>{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</template> -->
-      </a-step>
-    </a-steps>
-  </a-card>
-  <br />
   <a-row :gutter="24" type="flex" justify="center">
     <a-col :md="24" :xl="6">
       <a-card>
@@ -102,7 +79,7 @@
       </a-card>
     </a-col>
     <a-col :sm="24" :md="24" :xl="18">
-      <a-card style="min-height: 600px">
+      <a-card>
         <a-tabs v-model:activeKey="activeKey">
           <a-tab-pane :key="1" :tab="$t('order.apply.tab.sql')" force-render>
             <a-spin :spinning="spin" :delay="100">
@@ -148,6 +125,28 @@
             </a-table>
           </a-tab-pane>
         </a-tabs>
+        <br />
+        <a-steps size="small" progress-dot>
+          <a-step
+            v-for="i in orderProfileArch.timeline"
+            :key="i.desc"
+            :title="i.desc"
+            status="process"
+          >
+            <template #subTitle>
+              <a-tooltip placement="top">
+                <template #title>
+                  <span
+                    >{{ $t('common.relevant') }}:
+                    {{ i.auditor.join(' ') }}</span
+                  >
+                </template>
+                {{ checkStepState(i.type) }}
+              </a-tooltip>
+            </template>
+            <!-- <template v-slot:description>{{ $t('common.relevant') }}: {{ i.auditor.join(' ') }}</template> -->
+          </a-step>
+        </a-steps>
       </a-card>
     </a-col>
   </a-row>
@@ -333,7 +332,7 @@
   };
 
   const fetchTimeline = async () => {
-    const { data } = await queryTimeline(orderItems.source_id);
+    const { data } = await queryTimeline(orderItems.source_id, '');
     data.code === 5555
       ? router.go(-1)
       : (orderProfileArch.timeline = data.payload);

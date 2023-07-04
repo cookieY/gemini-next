@@ -79,6 +79,7 @@ export default function () {
     sql: '',
     source_id: '',
     relevant: [] as string[],
+    work_id: '',
   });
 
   return {

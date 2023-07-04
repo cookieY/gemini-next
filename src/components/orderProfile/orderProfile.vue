@@ -4,6 +4,38 @@
       :title="$t('order.profile.work_id', { id: order.work_id })"
       :ghost="false"
     >
+      <template #extra>
+        <template
+          v-if="
+            route.params.tp === 'audit' && isCurrent > -1 && order.status === 2
+          "
+        >
+          <a-button key="2" danger ghost @click="r.turnState()">{{
+            $t('order.reject')
+          }}</a-button>
+          <a-popconfirm
+            :title="$t('order.agree.tips')"
+            :visible="condition"
+            placement="bottomLeft"
+            @confirm="next"
+            @visible-change="handleVisibleChange"
+          >
+            <a-button key="1" type="primary" :disabled="enabled">{{
+              $t('order.agree')
+            }}</a-button>
+          </a-popconfirm>
+        </template>
+        <template v-if="route.params.tp !== 'audit' && order.status === 2">
+          <a-popconfirm
+            :title="$t('order.undo.tips')"
+            placement="bottomLeft"
+            @confirm="undoNext"
+          >
+            <a-button key="1" danger ghost>{{ $t('order.undo') }}</a-button>
+          </a-popconfirm>
+        </template>
+      </template>
+
       <a-row type="flex" justify="center" align="middle">
         <a-col :span="16">
           <a-descriptions :column="2">
@@ -97,56 +129,13 @@
                     :body-style="{ padding: 0 }"
                   >
                     <a-space direction="vertical">
-                      <highlightjs autodetect :code="sqls" language="sql" />
-                      <div>
-                        <a-space>
-                          <a-button type="primary" @click="testResults">{{
-                            $t('query.editor.test')
-                          }}</a-button>
-                          <template
-                            v-if="
-                              route.params.tp === 'audit' &&
-                              isCurrent > -1 &&
-                              order.status === 2
-                            "
-                          >
-                            <a-button
-                              key="2"
-                              danger
-                              ghost
-                              @click="r.turnState()"
-                              >{{ $t('order.reject') }}</a-button
-                            >
-                            <a-popconfirm
-                              :title="$t('order.agree.tips')"
-                              :visible="condition"
-                              @confirm="next"
-                              @visible-change="handleVisibleChange"
-                            >
-                              <a-button
-                                key="1"
-                                type="primary"
-                                :disabled="enabled"
-                                >{{ $t('order.agree') }}</a-button
-                              >
-                            </a-popconfirm>
-                          </template>
-                          <template
-                            v-if="
-                              route.params.tp !== 'audit' && order.status === 2
-                            "
-                          >
-                            <a-popconfirm
-                              :title="$t('order.undo.tips')"
-                              @confirm="undoNext"
-                            >
-                              <a-button key="1" danger ghost>{{
-                                $t('order.undo')
-                              }}</a-button>
-                            </a-popconfirm>
-                          </template>
-                        </a-space>
-                      </div>
+                      <editor
+                        ref="orderEditor"
+                        readonly
+                        is-audit
+                        container-id="orderEditor"
+                        @get-values="testResults"
+                      ></editor>
                       <a-table :columns="col" size="small" :data-source="tData">
                       </a-table>
                     </a-space>
@@ -213,6 +202,7 @@
   import { queryTimeline } from '@/apis/source';
   import { useWebSocket } from '@vueuse/core';
   import { COMMON_URI } from '@/config/request';
+  import editor from '@/components/editor/editor.vue';
 
   interface stepUsage {
     action: string;
@@ -226,6 +216,8 @@
   const { col } = JunoMixin();
 
   const ellipsis = ref(true);
+
+  const orderEditor = ref();
 
   const r = ref();
 
@@ -346,8 +338,9 @@
 
     //     const step = await fetchStepUsage(order.value.work_id);
     //     usage.value = step.data.payload;
-
     const sql = await fetchProfileSQL(order.value.work_id);
+    orderEditor.value.ChangeEditorText(sql.data.payload.sqls);
+
     sqls.value = sql.data.payload.sqls;
     store.commit('common/ORDER_SET_SQL', sql.data.payload.sqls);
   });
