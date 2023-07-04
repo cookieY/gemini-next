@@ -1,45 +1,37 @@
 <template>
-  <PageHeader :title="title.title" :sub-title="title.subTitle"></PageHeader>
-  <a-back-top />
-  <a-card>
-    <a-row>
-      <a-col :span="24">
-        <div id="app-container">
-          <div id="g2-customize-tooltip"></div>
-          <div id="g2-container"></div>
-        </div>
-      </a-col>
-    </a-row>
-  </a-card>
+  <a-page-header
+    :title="title.title"
+    :ghost="false"
+    :sub-title="title.subTitle"
+  >
+    <div id="app-container">
+      <div id="g2-customize-tooltip"></div>
+      <div id="g2-container"></div>
+    </div>
 
-  <a-row>
-    <a-col :span="24">
-      <a-menu v-model:selectedKeys="current" mode="horizontal">
-        <a-menu-item key="/comptroller/order/list">
-          <router-link to="/comptroller/order/record">
-            {{ $t('common.order') }}</router-link
-          >
-        </a-menu-item>
-        <a-menu-item key="/comptroller/query/list">
-          <router-link to="/comptroller/query/list">
-            {{ $t('common.query') }}</router-link
-          >
-        </a-menu-item>
-      </a-menu>
-    </a-col>
-  </a-row>
-  <div style="margin-top: 5px">
-    <router-view></router-view>
-  </div>
+    <template #footer>
+      <a-tabs v-model:activeKey="current" size="small">
+        <a-tab-pane key="order" :tab="$t('common.order')"
+          ><RecordOrder
+        /></a-tab-pane>
+        <a-tab-pane key="query" :tab="$t('common.query')"
+          ><RecordQuery
+        /></a-tab-pane>
+      </a-tabs>
+    </template>
+  </a-page-header>
+
+  <a-back-top />
 </template>
 
 <script lang="ts" setup>
   import { getRecordAxis } from '@/apis/record';
-  import PageHeader from '@/components/pageHeader/pageHeader.vue';
   import { Chart } from '@antv/g2';
   import { onMounted, ref } from 'vue';
   import { useI18n } from 'vue-i18n';
   import insertCss from 'insert-css';
+  import RecordOrder from './order.vue';
+  import RecordQuery from './query.vue';
 
   const { t } = useI18n();
   const title = {
@@ -47,7 +39,7 @@
     subTitle: '',
   };
 
-  const current = ref<string[]>(['/comptroller/order/list']);
+  const current = ref<string>('order');
 
   insertCss(`
 #app-container {
