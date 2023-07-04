@@ -149,9 +149,6 @@
       }
     ),
     fn: (expr: OrderParams) => {
-      Date.prototype.toJSON = function() {
-        return dayjs(this).format(`YYYY-MM-DD HH:mm:ss`)
-      }
       tblRef.websocket?.send(JSON.stringify(expr));
     },
   });
