@@ -28,7 +28,6 @@ createApp(App)
     addWaterMarker(binding.value.text);
   })
   .use(i18n)
-  .use(hljsVuePlugin)
   .use(store, key)
   .use(Antd)
   .use(CTable)
