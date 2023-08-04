@@ -7,7 +7,7 @@
   import { ref } from 'vue';
   import { useRoute, onBeforeRouteUpdate } from 'vue-router';
   import PageHeader from '@/components/pageHeader/pageHeader.vue';
-  import OrderTable from '@/components/table/orderTable.vue';
+  import OrderTable from '@/components/orderTable/orderTable.vue';
   import { useI18n } from 'vue-i18n';
 
   const { t } = useI18n();

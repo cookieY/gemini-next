@@ -61,8 +61,11 @@ export default {
   'order.table.isunique': 'Unique',
   'order.table.delay': 'Immediately',
 
+  
+
   'order.undo.tips': 'Confirm undo of order?',
   'order.undo': 'Undo',
+  'order.terminate': 'Terminate',
   'order.agree.tips': 'Confirm agree of order?',
   'order.agree': 'Agree',
   'order.reject.tips': 'Confirm reject of order?',
@@ -70,6 +73,7 @@ export default {
   'order.end': 'End',
   'order.roll.tips': 'SQL must not be empty',
   'order.order.title': 'Order Audit',
+  'order.delay': 'Delay',
   'order.query.title': 'Query Audit',
   'order.query.desc': 'Enquiry application approval',
   'order.query.execute.time': 'Query Time',
@@ -78,7 +82,7 @@ export default {
   'order.query.audit.end.tips': 'Are you sure end of this order?',
   'order.query.audit.state.process': 'process',
   'order.query.audit.state.done': 'done',
-  'order.query.table.work_id': 'Work Id',
+  'order.query.table.work_id': 'Work ID',
   'order.query.table.username': 'Username',
   'order.query.table.real_name': 'RealName',
   'order.query.table.time': 'Time',

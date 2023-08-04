@@ -7,6 +7,17 @@
         }}</a-select-option>
       </a-select>
     </a-form-item>
+    <a-form-item :label="$t('common.table.db_type')">
+      <a-select v-model:value="dbForm.db_type">
+        <a-select-option
+          v-for="i in db_type"
+          :key="i.value"
+          :value="i.value"
+          :disabled="i.value === 1"
+          >{{ i.label }}</a-select-option
+        >
+      </a-select>
+    </a-form-item>
     <a-form-item :label="$t('common.table.name')" name="source">
       <a-input v-model:value="dbForm.source"></a-input>
     </a-form-item>
@@ -181,7 +192,7 @@
     ],
   };
 
-  const { layout, is_open } = CommonMixins();
+  const { layout } = CommonMixins();
 
   const loading = ref(false);
 
@@ -194,6 +205,17 @@
   const flow = computed(() => {
     return store.state.common.flow;
   });
+
+  const db_type = [
+    {
+      value: 0,
+      label: 'mysql',
+    },
+    {
+      value: 1,
+      label: 'pg',
+    },
+  ];
 
   const dbForm = ref({
     idc: '',
@@ -208,6 +230,7 @@
     ca_file: '',
     cert: '',
     key_file: '',
+    db_type: 0,
   } as Source);
 
   const formRef = ref();

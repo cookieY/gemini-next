@@ -1,5 +1,5 @@
 export default {
-  'menu.home': 'Index',
+  'menu.home': 'Dash',
   'menu.order.self': 'My Order',
   'menu.order.analysis': 'SQL Analysis',
   'menu.order.apply': 'Apply',
@@ -16,7 +16,7 @@ export default {
   'menu.manage.rule': 'Rule',
   'menu.manage.auto': 'AutoTask',
   'menu.manage.setting': 'Settings',
-  'menu.loginout': 'LoginOut',
+  'menu.loginout': 'SignOut',
   'menu.comptroller.order': 'Order',
   'menu.comptroller.query': 'Query',
   'menu.comptroller': 'Comptroller',

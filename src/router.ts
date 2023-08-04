@@ -215,7 +215,7 @@ const router = createRouter({
               meta: {
                 title: 'Rules - 审核规则',
               },
-              component: () => import('@/views/manager/rules/rules.vue'),
+              component: () => import('@/views/manager/rules/index.vue'),
             },
             {
               path: '/manager/autotask',

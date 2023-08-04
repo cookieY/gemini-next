@@ -38,7 +38,7 @@ const AnnounceEN = [
   'Of course you like it, please tip me to login interface sponsorship button ',
 ];
 
-const Version = 'ver.3.1.5';
+const Version = 'ver.3.1.6';
 
 const Copyright = `Yearning © 2018-${dayjs().format(
   'YYYY'

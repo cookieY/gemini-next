@@ -132,7 +132,6 @@
                       <editor
                         ref="orderEditor"
                         readonly
-                        is-audit
                         container-id="orderEditor"
                         @get-values="testResults"
                       ></editor>

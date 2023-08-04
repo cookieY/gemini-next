@@ -297,7 +297,7 @@
   const fetchHighLight = async () => {
     const highlight = store.state.highlight.highlight;
     if (highlight[orderItems.source_id as string] === undefined) {
-      const { data } = await queryHighlight(orderItems.source_id);
+      const { data } = await queryHighlight(orderItems.source_id, false);
       store.commit('highlight/SAVE_HIGHLIGHT', {
         key: orderItems.source_id,
         highlight: data.payload,

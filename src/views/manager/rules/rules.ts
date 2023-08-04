@@ -257,6 +257,13 @@ const rule: Rule[] = [
     tp: 1,
   },
   {
+    name: 'DMLTransaction',
+    desc: t('DMLTransaction'),
+    type: 'DML',
+    tp: 0,
+  },
+
+  {
     name: 'IsOSC',
     desc: t('IsOSC'),
     type: 'Online-DDL',

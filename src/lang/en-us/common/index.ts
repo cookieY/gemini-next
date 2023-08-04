@@ -10,6 +10,7 @@ export default {
   'common.password': 'Password',
   'common.policy': 'Policy',
   'common.action': 'Action',
+  'common.rules': 'Audit Rule',
   'common.theme': 'Theme Change',
   'common.save': 'Save',
   'common.delete': 'Delete',
@@ -53,6 +54,7 @@ export default {
   'common.table.name': 'Name',
   'common.table.type': 'Type',
   'common.table.env': 'Env',
+  'common.table.db_type': 'DB Type',
   'common.table.source': 'Source',
   'common.table.schema': 'Schema',
   'common.table.table': 'Table',
@@ -117,4 +119,5 @@ export default {
   'common.lang': 'Language',
   'common.lang.us': 'English',
   'common.lang.cn': '中文',
+  'common.help': 'Help',
 };

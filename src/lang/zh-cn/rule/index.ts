@@ -1,4 +1,5 @@
 export default {
+  DMLTransaction: 'DML语句采用事务机制执行',
   DDLCheckTableComment: '强制表必须拥有表注释',
   DDlCheckColumnComment: '强制表字段必须拥有列注释',
   DDLCheckColumnNullable: '强制非timestamp类型字段必须为NOT NULL',
@@ -48,4 +49,7 @@ export default {
   OscSize: '表体积大于该值后触发在线表变更同步，单位:M',
   OSCExpr:
     '同步工具参数。如: PT-OSC 请注意! 此处仅填写参数。请使用以下变量名替换对应输入值 $SQL $ADDR $PORT $USER $PASSWORD $SCHEMA $TABLE。例子: (pt-osc配置) pt-online-schema-change  --alter $SQL --user=$USER  --password=$PASSWORD  --host=$ADDR P=$PORT,D=$SCHEMA,t=$TABLE  --execute',
+  global: '全局规则',
+  custom_list: '自定义规则列表',
+  custom: '自定义规则',
 };

@@ -55,7 +55,7 @@ export const common: Module<commonStore, RootStore> = {
       state.queryInfo.source_id = f.source_id;
     },
     SET_SCHEMA(state, v) {
-      v === '' ? (state.schema = state.schemaList[0]) : (state.schema = v);
+      state.schema = v;
     },
     SET_SPINNING(state) {
       state.spinning = !state.spinning;

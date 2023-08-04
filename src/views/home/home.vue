@@ -11,7 +11,12 @@
             <InfoCircleOutlined />
           </template>
           <template #content>
-            <MiniArea container-id="order" color="#2094F3" />
+            <MiniArea
+              ref="order"
+              container-id="order"
+              color="#2094F3"
+              type="order"
+            />
           </template>
         </ChartCard>
       </a-col>
@@ -25,7 +30,12 @@
             <InfoCircleOutlined />
           </template>
           <template #content>
-            <MiniArea container-id="query" color="#Ff9900" />
+            <MiniArea
+              ref="query"
+              container-id="query"
+              color="#Ff9900"
+              type="query"
+            />
           </template>
         </ChartCard>
       </a-col>
@@ -39,7 +49,16 @@
             <InfoCircleOutlined />
           </template>
           <template #content>
-            <MiniCol container-id="source" color="#009485" />
+            <a-progress
+              :percent="58"
+              status="active"
+              :show-info="false"
+              :stroke-width="15"
+              :stroke-color="{
+                '0%': '#108ee9',
+                '100%': '#87d068',
+              }"
+            />
           </template>
         </ChartCard>
       </a-col>
@@ -115,7 +134,6 @@
 <script setup lang="ts">
   import ChartCard from '@/components/chartCard/chartCard.vue';
   import MiniArea from '@/components/chartCard/miniArea.vue';
-  import MiniCol from '@/components/chartCard/miniCol.vue';
   import MiniBar from '@/components/chartCard/miniBar.vue';
   import { InfoCircleOutlined } from '@ant-design/icons-vue';
   import { getBannerContext } from '@/apis/dash';
@@ -124,13 +142,21 @@
 
   const loading = false;
 
-  const banner = ref<any>([]);
+  const banner = ref<any>({
+    total_order: [],
+  });
 
   const boardContent = ref<string>('');
+
+  const query = ref();
+
+  const order = ref();
 
   const getBanner = async () => {
     const { data } = await getBannerContext();
     banner.value = data.payload;
+    query.value.makeBuild(banner.value.total_order);
+    order.value.makeBuild(banner.value.total_order);
   };
 
   const getBoard = async () => {

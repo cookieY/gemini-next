@@ -16,6 +16,8 @@ export interface Source {
   ca_file: string;
   cert: string;
   key_file: string;
+  rule_id: number;
+  db_type: number;
 }
 
 export interface DBParams {

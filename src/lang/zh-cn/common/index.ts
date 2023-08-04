@@ -10,7 +10,8 @@ export default {
   'common.password': '更改密码',
   'common.policy': '权限',
   'common.theme': '主题更改',
-  'common.action': '操作',
+  'common.action': '审核规则',
+  'common.rules': 'Audit Rule',
   'common.save': '保存',
   'common.delete': '删除',
   'common.month': '本月',
@@ -51,6 +52,7 @@ export default {
   'common.table.name': '名称',
   'common.table.type': '类型',
   'common.table.env': '环境',
+  'common.table.db_type': 'DB类型',
   'common.table.source': '数据源',
   'common.table.schema': '数据库',
   'common.table.table': '数据表',
@@ -119,4 +121,6 @@ export default {
   'common.lang': '语言',
   'common.lang.us': 'English',
   'common.lang.cn': '中文',
+  'common.help': '帮助文档',
+  
 };

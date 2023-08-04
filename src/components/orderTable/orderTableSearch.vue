@@ -112,6 +112,7 @@
     type: 2,
     text: '',
     username: '',
+    work_id: '',
   });
 
   let init_expr = {} as OrderExpr;

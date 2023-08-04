@@ -32,7 +32,16 @@
               showTotal: (total:number) => $t('common.count', { count: total }),
             }"
             @resize-column="handleResizeColumn"
-          ></a-table>
+          >
+            <template #bodyCell="{ text }">
+              <a-tooltip placement="topLeft">
+                <template #title>
+                  <span>{{ text }}</span>
+                </template>
+                <div class="ellipsis" @click="copy(text)">{{ text }}</div>
+              </a-tooltip>
+            </template>
+          </a-table>
         </div>
       </a-tab-pane>
     </a-tabs>
@@ -47,6 +56,7 @@
   import { useI18n } from 'vue-i18n';
   import * as XLSX from 'xlsx';
   import { encode, decode } from '@msgpack/msgpack';
+  import useClipboard from 'vue-clipboard3';
 
   defineProps<{
     height: number;
@@ -54,6 +64,8 @@
   }>();
 
   const activeKey = ref(0);
+
+  const { toClipboard } = useClipboard();
 
   const store = useStore();
 
@@ -133,7 +145,25 @@
     store.commit('common/SET_SPINNING');
   };
 
+  const copy = async (text: string) => {
+    try {
+      await toClipboard(text);
+      message.info(t('query.clip.is.paste'));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   defineExpose({
     runResults,
   });
 </script>
+
+<style lang="less" scoped>
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: grab;
+  }
+</style>

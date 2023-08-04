@@ -112,7 +112,6 @@
   );
 
   onMounted(() => {
-    console.log(document.getElementById('app') as HTMLElement);
     model = monaco.editor.create(
       document.getElementById(props.containerId) as HTMLElement,
       {

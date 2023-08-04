@@ -83,10 +83,16 @@ export function queryTimeline(source_id: string, work_id: string) {
   });
 }
 
-export function queryHighlight(source_id: string) {
+export function queryHighlight(
+  source_id: string,
+  isField: boolean,
+  schema?: string
+) {
   return request.get<Res<[]>>(`${COMMON_URI}/fetch/highlight`, {
     params: {
       source_id: source_id,
+      is_field: isField,
+      schema: schema,
     },
   });
 }

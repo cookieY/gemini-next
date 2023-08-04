@@ -52,7 +52,7 @@
                     :closable="pane.closable"
                   >
                     <div class="editor_border">
-                      <Input :id="pane.title" />
+                      <Input :id="pane.title" @on-change="fetchFields" />
                     </div>
                   </a-tab-pane>
                 </a-tabs>
@@ -124,6 +124,8 @@
 
   const route = useRoute();
 
+  const nonFields = ref([] as any[]);
+
   let monaco_editor: any = null;
 
   const spinning = computed(() => store.state.common.spinning);
@@ -188,27 +190,15 @@
     );
 
     store.commit('common/QUERY_CONN', sock);
-
-    //     const sock = new Socket(
-    //       `/query/results?source_id=${source_id}`,
-    //       store.state.user.account.token
-    //     );
-    //     sock.create();
-    //     sock.msgping();
-    //     sock.check();
-    //     sock.msginit();
-    //     store.commit('common/QUERY_CONN', sock);
   };
 
-  const initial = async (source_id: string) => {
-    const highlight = store.state.highlight.highlight;
-    if (highlight[source_id as any] === undefined) {
-      const { data } = await queryHighlight(source_id);
-      store.commit('highlight/SAVE_HIGHLIGHT', {
-        key: source_id,
-        highlight: data.payload,
-      });
-    }
+  const registerCompletionItemProvider = async (
+    source_id: string,
+    key: string,
+    is_fields: boolean,
+    source_fields: any[]
+  ) => {
+    const { data } = await queryHighlight(source_id, is_fields, key);
     monaco_editor = monaco.languages.registerCompletionItemProvider('sql', {
       provideCompletionItems: (
         model,
@@ -222,14 +212,29 @@
           endColumn: word.endColumn,
         };
         return {
-          suggestions: createSQLToken(
-            range,
-            store.state.highlight.highlight[source_id]
-          ),
+          suggestions: createSQLToken(range, [
+            ...data.payload,
+            ...source_fields,
+          ]),
         };
       },
       triggerCharacters: ['.'],
     });
+    !is_fields ? (nonFields.value = data.payload) : null;
+  };
+
+  const fetchFields = async () => {
+    monaco_editor !== null ? monaco_editor.dispose() : null;
+    registerCompletionItemProvider(
+      route.query.source_id as string,
+      store.state.common.schema,
+      true,
+      nonFields.value
+    );
+  };
+
+  const initial = async (source_id: string) => {
+    registerCompletionItemProvider(source_id, source_id, false, []);
   };
 
   onBeforeRouteUpdate((to) => {

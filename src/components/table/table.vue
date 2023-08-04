@@ -70,10 +70,10 @@
   const manual = () => {
     props.tblRef.fn({
       expr: props.tblRef.expr,
-      current: 1,
+      current: pNumber.value,
       pageSize: pSize.value,
     });
-    pNumber.value = 1;
+    // pNumber.value = 1;
   };
 
   const loop = () => {

@@ -75,6 +75,13 @@ export function getNextOrderState(args: SQLAuditOrder) {
   return request.post(`${COMMON_URI}/audit/order/state`, args);
 }
 
+export function scheduledChange(work_id: string, delay: string) {
+  return request.post(`${COMMON_URI}/audit/order/scheduled`, {
+    work_id,
+    delay,
+  });
+}
+
 export function changeOrderStateUndo(args: SQLAuditOrder) {
   return request.post(`${COMMON_URI}/audit/order/state`, args);
 }

@@ -9,6 +9,7 @@
         style="width: 200px"
         show-search
         :dropdown-match-select-width="false"
+        @change="selected"
       >
         <a-select-option
           v-for="i in store.state.common.schemaList"
@@ -35,6 +36,8 @@
   import { useStore } from '@/store';
   import { computed, ref } from 'vue';
 
+  const emit = defineEmits(['onChange']);
+
   const props = defineProps<{
     id: string;
   }>();
@@ -53,6 +56,10 @@
       store.commit('common/SET_SCHEMA', v);
     },
   });
+
+  const selected = () => {
+    emit('onChange');
+  };
 
   const getValues = (vl: string) => {
     store.commit('order/SET_QUERY_HISTORY', vl);

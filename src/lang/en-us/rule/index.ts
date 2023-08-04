@@ -1,4 +1,5 @@
 export default {
+  DMLTransaction: 'DML statements are executed using a transaction',
   DDLCheckTableComment: 'Tables must have table comment',
   DDlCheckColumnComment: 'Table fields must have column comments',
   DDLCheckColumnNullable: 'Fields of non-TIMESTAMP type must be NOT NULL',
@@ -56,4 +57,7 @@ export default {
     'When the volume of a table exceeds the value, online synchronization of table changes is triggered. The unit is M',
   OSCExpr:
     'Synchronize tool parameters. For example: PT-OSC please note! Set only parameters here. Replace the input value $SQL $ADDR $PORT $USER $PASSWORD $SCHEMA $TABLE with the following variable name. Example: (PT-OSC configuration) pt-online-schema-change  --alter $SQL --user=$USER  --password=$PASSWORD  --host=$ADDR P=$PORT,D=$SCHEMA,t=$TABLE  --execute',
+  global: 'Global rules',
+  custom_list: 'Custom rule list',
+  custom: 'Custom rule',
 };

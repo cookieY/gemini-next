@@ -14,6 +14,9 @@
 
   onMounted(async () => {
     const { data } = await getTopContext();
+    data.payload.sort((a: any, b: any) => {
+      return a.count - b.count;
+    });
     const chart = new Chart({
       container: props.containerId,
       autoFit: true,

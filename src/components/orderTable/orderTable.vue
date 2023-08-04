@@ -26,31 +26,46 @@
             <state-tags :state="text"></state-tags>
           </template>
           <template v-if="column.dataIndex === 'action'">
-            <a-button type="primary" size="small" @click="profile(record)"
-              >{{ $t('common.profile') }}
-            </a-button>
+            <a-space>
+              <a-button type="primary" size="small" @click="profile(record)"
+                >{{ $t('common.profile') }}
+              </a-button>
+              <a-button
+                v-if="
+                  isAudit &&
+                  record.status === OrderState.PROCESS &&
+                  record.delay !== 'none'
+                "
+                size="small"
+                @click="delay.openSchedule(record.work_id)"
+                >{{ $t('order.delay') }}</a-button
+              >
+            </a-space>
           </template>
         </template>
       </c-table>
     </a-card>
+    <Exchange ref="exchange"></Exchange>
     <Profile :visible="visible" :width="width" @close="onClose" />
+    <Delay ref="delay" />
   </div>
 </template>
 
 <script lang="ts" setup>
   import StateTags from './stateTags.vue';
   import OrderTableSearch from './orderTableSearch.vue';
+  import Exchange from './exchange.vue';
   import { onBeforeRouteUpdate, useRoute } from 'vue-router';
-  import { reactive, ref } from 'vue';
+  import { onMounted, reactive, ref } from 'vue';
   import { OrderExpr, OrderParams, checkUri } from '@/apis/orderPostApis';
-  import { OrderTableData } from '@/types';
+  import { OrderTableData, OrderState } from '@/types';
   import { useStore } from '@/store';
   import { useI18n } from 'vue-i18n';
-  import { tableRef } from '.';
-  import { useWebSocket, useElementSize } from '@vueuse/core';
+  import { tableRef } from '@/components/table';
+  import { useElementSize, useWebSocket } from '@vueuse/core';
   import { checkSchema } from '@/lib';
-  import dayjs from 'dayjs';
   import Profile from '@/components/orderProfile/index.vue';
+  import Delay from './delay.vue';
 
   interface propsAttr {
     size?: string;
@@ -62,21 +77,25 @@
 
   const search = ref();
 
+  const delay = ref()
+
+  const exchange = ref();
+
   const { t } = useI18n();
 
-  const isAudit = ref('');
+  const container = ref();
 
   const route = useRoute();
 
   const visible = ref<boolean>(false);
 
+  const { width } = useElementSize(container);
+
   const store = useStore();
 
   const tbl = ref();
 
-  const container = ref();
-
-  const { width } = useElementSize(container);
+  const isAudit = ref('');
 
   const tblRef = reactive<tableRef>({
     col: [
@@ -84,6 +103,10 @@
         title: t('common.table.work_id'),
         dataIndex: 'work_id',
         width: 200,
+      },
+      {
+        title: t('common.table.source'),
+        dataIndex: 'source',
       },
       {
         title: t('common.table.remark'),
@@ -148,22 +171,26 @@
         },
       }
     ),
-    fn: (expr: OrderParams) => {
+    fn: async (expr: OrderParams) => {
       tblRef.websocket?.send(JSON.stringify(expr));
     },
   });
-
-  const onClose = () => {
-    visible.value = false;
-  };
 
   const profile = (record: OrderTableData) => {
     store.commit('order/ORDER_STORE', record);
     visible.value = true;
   };
 
+  const onClose = () => {
+    visible.value = false;
+  };
+
   onBeforeRouteUpdate((to) => {
     isAudit.value = to.params.tp as string;
     tbl.value.manual();
+  });
+
+  onMounted(() => {
+    isAudit.value = route.params.tp as string;
   });
 </script>

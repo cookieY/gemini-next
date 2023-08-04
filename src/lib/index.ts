@@ -60,6 +60,13 @@ export const StateUsage = (state: number) => {
         icon: CloseCircleOutlined,
         isEnd: true,
       };
+    case OrderState.Terminate:
+      return {
+        color: '#EA495F',
+        title: t('order.terminate'),
+        icon: CloseCircleOutlined,
+        isEnd: true,
+      };
     default:
       return {};
   }

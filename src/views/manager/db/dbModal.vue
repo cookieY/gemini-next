@@ -19,6 +19,9 @@
           <a-form-item :label="$t('common.table.name')" name="source">
             <a-input v-model:value="dbForm.source"></a-input>
           </a-form-item>
+          <a-form-item :label="$t('common.table.db_type')">
+            {{ dbForm.db_type == 0 ? 'mysql' : 'pg' }}
+          </a-form-item>
           <a-form-item :label="$t('db.addr')" name="ip">
             <a-input v-model:value="dbForm.ip"></a-input>
           </a-form-item>
@@ -104,6 +107,13 @@
               :max-tag-count="6"
             ></a-select>
           </a-form-item>
+          <a-form-item :label="$t('common.rules')">
+            <a-select v-model:value="dbForm.rule_id" style="width: 100%">
+              <a-select-option v-for="i in rules" :key="i.id" :value="i.id">{{
+                i.desc
+              }}</a-select-option>
+            </a-select>
+          </a-form-item>
           <a-form-item :label="$t('common.action')">
             <a-button ghost :loading="loading" @click="checkConn"
               >{{ $t('db.test') }}
@@ -134,6 +144,11 @@
   import { createSource, Source } from '@/apis/db';
   import { querySchemaList } from '@/apis/source';
   import { EventBus } from '@/lib';
+  import { CustomRule } from '@/apis/rules';
+
+  defineProps<{
+    rules: CustomRule[];
+  }>();
 
   const { is_open, turnState, layout } = CommonMixins();
 
@@ -167,6 +182,7 @@
     source_id: '',
     exclude_db_list: '',
     insulate_word_list: '',
+    rule_id: 0,
   } as Source);
 
   const schemaList = ref<string[]>([]);

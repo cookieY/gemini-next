@@ -7,29 +7,25 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue';
   import { Chart } from '@antv/g2';
-  import dayjs from 'dayjs';
+  const props = defineProps<{
+    containerId: string;
+    color: string;
+    type: string;
+  }>();
 
-  const RandomData = () => {
+  const Randomdata = (total: any[]) => {
     let data = [] as { [key: string]: any }[];
-    for (let i = 0; i < 10; i++) {
+    for (let i of total) {
       data.push({
-        x: dayjs(
-          new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * i)
-        ).format('YYYY-MM-DD'),
-        y: Math.round(Math.random() * 5),
+        x: i.date,
+        totals: props.type === 'query' ? i.total_query : i.total_order,
       });
     }
     return data;
   };
 
-  const props = defineProps<{
-    containerId: string;
-    color: string;
-  }>();
-
-  onMounted(() => {
+  const makeBuild = (total: any[]) => {
     const chart = new Chart({
       container: props.containerId,
       autoFit: true,
@@ -38,16 +34,20 @@
     });
     chart.forceFit();
     chart.axis(false);
-    chart.data(RandomData());
+    chart.data(Randomdata(total));
     chart.tooltip({
       showCrosshairs: true,
       shared: true,
     });
 
-    chart.line().position('x*y').shape('smooth');
-    chart.area().position('x*y').shape('smooth');
+    chart.line().position('x*totals').shape('smooth');
+    chart.area().position('x*totals').shape('smooth');
     chart.theme({ styleSheet: { brandColor: props.color } });
     chart.render();
+  };
+
+  defineExpose({
+    makeBuild,
   });
 </script>
 

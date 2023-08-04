@@ -16,6 +16,7 @@ export enum OrderState {
   ERROR,
   WAIT,
   Undo,
+  Terminate,
 }
 
 export enum QueryState {

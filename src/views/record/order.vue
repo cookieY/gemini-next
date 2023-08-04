@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-  import OrderTable from '@/components/table/orderTable.vue';
+  import OrderTable from '@/components/orderTable/orderTable.vue';
 </script>

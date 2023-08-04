@@ -102,7 +102,7 @@
               :rows="5"
               allow-clear
               :placeholder="$t('setting.ldap.map.tips')"
-            ></a-textarea>
+            />
           </a-form-item>
           <a-form-item :label="$t('setting.ldap.test.user')">
             <a-input
