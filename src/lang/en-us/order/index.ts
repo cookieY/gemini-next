@@ -61,8 +61,6 @@ export default {
   'order.table.isunique': 'Unique',
   'order.table.delay': 'Immediately',
 
-  
-
   'order.undo.tips': 'Confirm undo of order?',
   'order.undo': 'Undo',
   'order.terminate': 'Terminate',
