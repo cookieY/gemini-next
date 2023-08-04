@@ -45,7 +45,6 @@
         </template>
       </c-table>
     </a-card>
-    <Exchange ref="exchange"></Exchange>
     <Profile :visible="visible" :width="width" @close="onClose" />
     <Delay ref="delay" />
   </div>
@@ -54,7 +53,6 @@
 <script lang="ts" setup>
   import StateTags from './stateTags.vue';
   import OrderTableSearch from './orderTableSearch.vue';
-  import Exchange from './exchange.vue';
   import { onBeforeRouteUpdate, useRoute } from 'vue-router';
   import { onMounted, reactive, ref } from 'vue';
   import { OrderExpr, OrderParams, checkUri } from '@/apis/orderPostApis';
@@ -77,9 +75,7 @@
 
   const search = ref();
 
-  const delay = ref()
-
-  const exchange = ref();
+  const delay = ref();
 
   const { t } = useI18n();
 
