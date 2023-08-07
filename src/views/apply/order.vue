@@ -228,6 +228,8 @@
 
   const { orderProfileArch, editor } = FetchMixins();
 
+  const nonFields = ref([] as any[]);
+
   const delayTime = (date: Dayjs) => {
     orderItems.delay = date.format('YYYY-MM-DD HH:mm');
   };
@@ -235,6 +237,7 @@
   const fetchTable = async (schema: string) => {
     const { data } = await queryTableList(orderItems.source_id, schema);
     orderProfileArch.table = data.payload;
+    fetchFields();
   };
 
   const fetchTableArch = async () => {
@@ -294,15 +297,13 @@
       .finally(() => (loadingPostBtn.value = !loadingPostBtn.value));
   };
 
-  const fetchHighLight = async () => {
-    const highlight = store.state.highlight.highlight;
-    if (highlight[orderItems.source_id as string] === undefined) {
-      const { data } = await queryHighlight(orderItems.source_id, false);
-      store.commit('highlight/SAVE_HIGHLIGHT', {
-        key: orderItems.source_id,
-        highlight: data.payload,
-      });
-    }
+  const registerCompletionItemProvider = async (
+    source_id: string,
+    key: string,
+    is_fields: boolean,
+    source_fields: any[]
+  ) => {
+    const { data } = await queryHighlight(source_id, is_fields, key);
     monaco_editor = monaco.languages.registerCompletionItemProvider('sql', {
       provideCompletionItems: (
         model,
@@ -316,14 +317,34 @@
           endColumn: word.endColumn,
         };
         return {
-          suggestions: createSQLToken(
-            range,
-            store.state.highlight.highlight[orderItems.source_id]
-          ),
+          suggestions: createSQLToken(range, [
+            ...data.payload,
+            ...source_fields,
+          ]),
         };
       },
       triggerCharacters: ['.'],
     });
+    !is_fields ? (nonFields.value = data.payload) : null;
+  };
+
+  const fetchFields = async () => {
+    monaco_editor !== null ? monaco_editor.dispose() : null;
+    registerCompletionItemProvider(
+      orderItems.source_id,
+      orderItems.data_base,
+      true,
+      nonFields.value
+    );
+  };
+
+  const fetchHighLight = async () => {
+    registerCompletionItemProvider(
+      orderItems.source_id,
+      orderItems.source_id,
+      false,
+      []
+    );
   };
 
   const fetchSchema = async () => {
