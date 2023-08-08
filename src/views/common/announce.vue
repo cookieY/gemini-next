@@ -12,11 +12,10 @@
 <script setup lang="ts">
   import CommonMixin from '@/mixins/common';
   import { Announce, AnnounceEN } from '@/config/vars';
-  import { defaultLang } from '@/lang';
 
   const { is_open, close, open } = CommonMixin();
 
-  const ll = defaultLang === 'en_US' ? AnnounceEN : Announce;
+  const ll = sessionStorage.getItem('lang') ? AnnounceEN : Announce;
 
   defineExpose({
     open,

@@ -98,7 +98,6 @@
   onMounted(async () => {
     const { data } = await systemRegisterState();
     is_register.value = data.payload.reg;
-
     EventBus.on('closeState', () => {
       is_open.value = false;
     });

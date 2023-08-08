@@ -184,13 +184,8 @@
             </a-input-number>
             {{ $t('setting.adv.query.mins') }}
           </a-form-item>
-          <a-form-item :label="$t('setting.adv.query.closeai')">
-            <a-input-password
-              v-model:value="config.other.close_ai"
-            ></a-input-password>
-          </a-form-item>
-          <a-form-item :label="$t('setting.adv.query.closeai.proxy')">
-            <a-input v-model:value="config.other.proxy"></a-input>
+          <a-form-item :label="$t('setting.adv.domain')">
+            <a-input v-model:value="config.other.domain" />
           </a-form-item>
         </a-form>
       </a-col>
@@ -260,7 +255,6 @@
   import { SmileOutlined } from '@ant-design/icons-vue';
   import { onMounted, ref } from 'vue';
   import dayjs from 'dayjs';
-  import { defaultLang } from '@/lang';
   import { useI18n } from 'vue-i18n';
 
   const { t } = useI18n({});
@@ -304,7 +298,7 @@
   };
 
   const dateRanges =
-    defaultLang === 'en_US'
+    sessionStorage.getItem('lang') === 'en_US'
       ? { 'this month': [dayjs().startOf('month'), dayjs().endOf('month')] }
       : { 本月: [dayjs().startOf('month'), dayjs().endOf('month')] };
 

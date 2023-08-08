@@ -37,16 +37,6 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item :label="$t('common.lang')">
-            <a-select v-model:value="formItem.lang" @change="changeLang">
-              <a-select-option key="en_US" value="en_US"
-                >{{ $t('common.lang.us') }}
-              </a-select-option>
-              <a-select-option key="zh_CN" value="zh_CN"
-                >{{ $t('common.lang.cn') }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
           <a-form-item :label="$t('user.password.new')" name="password">
             <a-input-password
               v-model:value="formItem.password"
@@ -92,16 +82,11 @@
     email: '',
     department: '',
     theme: 'dark',
-    lang: 'en_US',
+    // lang: 'en_US',
   });
 
   const changeTheme = (e: any) => {
     localStorage.setItem('theme', e);
-    location.reload();
-  };
-
-  const changeLang = (e: any) => {
-    localStorage.setItem('lang', e);
     location.reload();
   };
 

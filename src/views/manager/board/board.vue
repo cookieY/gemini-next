@@ -15,7 +15,6 @@
   import Vditor from 'vditor';
   import 'vditor/dist/index.css';
   import { useI18n } from 'vue-i18n';
-  import { defaultLang } from '@/lang';
 
   let instance: any;
 
@@ -27,7 +26,7 @@
     const { data } = await getBoardContext();
     editValue.value = data.payload;
     instance = new Vditor('mavon-editor-id', {
-      lang: defaultLang as any,
+      lang: (sessionStorage.getItem('lang') as any) || 'en_US',
       height: 360,
       toolbarConfig: {
         pin: true,

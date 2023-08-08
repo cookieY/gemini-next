@@ -15,6 +15,10 @@ export function systemRegisterState() {
   return request.get('/fetch');
 }
 
+export function systemLang() {
+  return request.get('/lang');
+}
+
 export function getOIDCState() {
   return request.get('/oidc/state');
 }

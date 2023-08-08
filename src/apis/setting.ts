@@ -38,6 +38,7 @@ export interface Other {
   register: boolean;
   close_ai: string;
   proxy: string;
+  domain: string;
 }
 
 export interface Settings {

@@ -9,8 +9,17 @@
   import enUS from 'ant-design-vue/es/locale/en_US';
   import { locale } from 'dayjs';
   import 'dayjs/locale';
-  import { defaultLang } from '@/lang';
-  locale(defaultLang);
+  import { onMounted, ref } from 'vue';
+  import { systemLang } from './apis/loginApi';
+  import i18n from '@/lang';
 
-  const lang = defaultLang === 'en_US' ? enUS : zhCN;
+  const lang = ref();
+
+  onMounted(async () => {
+    const { data } = await systemLang();
+    locale(data.payload);
+    sessionStorage.setItem('lang', data.payload);
+    i18n.global.locale.value = data.payload;
+    lang.value = data.payload === 'en_US' ? enUS : zhCN;
+  });
 </script>

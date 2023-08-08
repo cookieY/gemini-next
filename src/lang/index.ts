@@ -11,19 +11,12 @@ const messages = {
   },
 };
 
-export let defaultLang = 'en_US';
-if (localStorage.getItem('lang') === null) {
-  defaultLang = 'zh_CN';
-} else {
-  defaultLang = localStorage.getItem('lang') as string;
-}
-
 const i18n = createI18n({
   legacy: false,
   globalInjection: true,
   silentTranslationWarn: true,
-  locale: defaultLang,
-  fallbackLocale: defaultLang,
+  locale: 'en_US',
+  fallbackLocale: 'en_US',
   messages,
 });
 

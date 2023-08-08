@@ -18,6 +18,7 @@ export default {
 
   'setting.adv': '进阶设置',
   'setting.adv.env': '自定义环境',
+  'setting.adv.domain': '推送域名',
   'setting.adv.env.tips': '环境名称',
   'setting.adv.env.add': '添加环境',
   'setting.adv.query.open': '开启查询审核',
