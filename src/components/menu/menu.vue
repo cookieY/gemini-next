@@ -18,7 +18,7 @@
     </a-menu-item>
     <a-menu-item
       v-if="store.state.user.account.is_record === 1"
-      key="/comptroller/order"
+      key="/comptroller/order/record"
     >
       <area-chart-outlined />
       <span>{{ $t('menu.comptroller.title') }}</span>

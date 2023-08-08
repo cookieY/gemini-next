@@ -112,30 +112,11 @@ const router = createRouter({
           component: () => import('@/views/common/subLayout.vue'),
           children: [
             {
-              path: '/comptroller/order',
-              redirect: '/comptroller/order/record',
+              path: '/comptroller/order/:tp',
               meta: {
                 title: '审计',
               },
               component: () => import('@/views/record/record.vue'),
-              children: [
-                {
-                  path: '/comptroller/order/:tp',
-                  meta: {
-                    title: '工单审计',
-                    keepAlive: true,
-                  },
-                  component: () => import('@/views/record/order.vue'),
-                },
-                {
-                  path: '/comptroller/query/list',
-                  meta: {
-                    title: '查询审计',
-                    keepAlive: true,
-                  },
-                  component: () => import('@/views/record/query.vue'),
-                },
-              ],
             },
           ],
         },

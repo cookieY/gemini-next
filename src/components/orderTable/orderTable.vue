@@ -32,7 +32,7 @@
               </a-button>
               <a-button
                 v-if="
-                  isAudit &&
+                  !props.disabledBtn &&
                   record.status === OrderState.PROCESS &&
                   record.delay !== 'none'
                 "
@@ -67,10 +67,12 @@
 
   interface propsAttr {
     size?: string;
+    disabledBtn?: boolean;
   }
 
   const props = withDefaults(defineProps<propsAttr>(), {
     size: 'default',
+    disabledBtn: false,
   });
 
   const search = ref();

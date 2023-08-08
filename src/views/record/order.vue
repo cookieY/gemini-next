@@ -1,5 +1,5 @@
 <template>
-  <OrderTable size="small"></OrderTable>
+  <OrderTable size="small" disabled-btn></OrderTable>
 </template>
 
 <script setup lang="ts">

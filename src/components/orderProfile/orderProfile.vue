@@ -25,7 +25,7 @@
             }}</a-button>
           </a-popconfirm>
         </template>
-        <template v-if="route.params.tp !== 'audit' && order.status === 2">
+        <template v-if="route.params.tp === 'common' && order.status === 2">
           <a-popconfirm
             :title="$t('order.undo.tips')"
             placement="bottomLeft"
