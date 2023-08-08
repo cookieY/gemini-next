@@ -70,6 +70,7 @@ export default {
   'order.order.title': '工单审批',
   'order.delay': '定时更改',
   'order.terminate': '终止',
+  'order.change': '变更',
 
   'order.query.execute.time': '查询耗时',
   'order.query.audit.agreed.tips': '确认同意该查询工单吗?',

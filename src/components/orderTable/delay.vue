@@ -1,9 +1,13 @@
 <template>
-  <a-modal v-model:visible="is_open" title="定时更改/中止">
+  <a-modal v-model:visible="is_open" :title="$t('order.delay')">
     <a-date-picker show-time :disabled-date="disabledDate" @ok="delayTime" />
     <template #footer>
-      <a-button type="danger" @click="killSchedule"> 终止定时任务 </a-button>
-      <a-button type="primary" @click="changeDelayTime"> 定时更改 </a-button>
+      <a-button type="danger" @click="killSchedule">
+        {{ $t('order.terminate') }}
+      </a-button>
+      <a-button type="primary" @click="changeDelayTime">
+        {{ $t('order.change') }}
+      </a-button>
     </template>
   </a-modal>
 </template>
