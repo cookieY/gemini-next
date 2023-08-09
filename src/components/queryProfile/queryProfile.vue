@@ -34,7 +34,7 @@
               >{{ order.date }}
             </a-descriptions-item>
             <a-descriptions-item :label="$t('query.profile.text')">
-              <pre>{{ order.text }}</pre>
+              <span>{{ order.text }}</span>
             </a-descriptions-item>
             <a-descriptions-item :label="$t('query.profile.approval')"
               >{{ order.approval_time }}
