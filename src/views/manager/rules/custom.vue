@@ -101,7 +101,7 @@
   const list = ref([] as any);
 
   const onSearch = (vl: string) => {
-    list.value = list.value.filter((item) => item.desc.indexOf(vl) !== -1);
+    list.value = list.value.filter((item: any) => item.desc.indexOf(vl) !== -1);
   };
 
   const get = async () => {
