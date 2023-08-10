@@ -11,6 +11,8 @@
   import { checkSchema } from '@/lib';
   import { COMMON_URI } from '@/config/request';
   import { useWebSocket } from '@vueuse/core';
+  import { message } from 'ant-design-vue';
+  import { useI18n } from 'vue-i18n';
 
   const pre = ref('');
 
@@ -20,12 +22,18 @@
     workId: string;
   }>();
 
+  const { t } = useI18n();
+
   onMounted(() => {
     useWebSocket(
       `${checkSchema()}${COMMON_URI}/audit/order/osc?work_id=${props.workId}`,
       {
         autoReconnect: {
           retries: 3,
+          delay: 1000,
+          onFailed() {
+            message.error(t('query.ws.error'));
+          },
         },
         heartbeat: {
           interval: 5000,

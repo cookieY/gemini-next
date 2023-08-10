@@ -91,6 +91,8 @@
   import { useElementSize, useWebSocket } from '@vueuse/core';
   import { checkSchema } from '@/lib';
   import { COMMON_URI } from '@/config/request';
+  import { message } from 'ant-design-vue';
+  import { useI18n } from 'vue-i18n';
 
   const panes = ref([{ title: 'Untitled 1', key: '1', closable: false }]);
 
@@ -101,6 +103,8 @@
   const leftSize = ref();
 
   const leftz = useElementSize(leftSize).width;
+
+  const { t } = useI18n();
 
   const { width } = useElementSize(colsize);
 
@@ -180,6 +184,13 @@
       {
         autoReconnect: {
           retries: 3,
+          delay: 1000,
+          onFailed() {
+            message.error(t('query.ws.error'));
+          },
+        },
+        onDisconnected: () => {
+          store.commit('common/SET_DISABLED_SPINNING');
         },
         heartbeat: {
           interval: 5000,

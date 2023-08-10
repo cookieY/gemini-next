@@ -76,6 +76,7 @@
   import { tableRef } from '@/components/table';
   import { useElementSize, useWebSocket } from '@vueuse/core';
   import { useStore } from '@/store';
+import { message } from 'ant-design-vue';
 
   interface propsAttr {
     isRecord?: boolean;
@@ -144,6 +145,10 @@
       {
         autoReconnect: {
           retries: 3,
+          delay: 1000,
+          onFailed() {
+            message.error(t('query.ws.error'));
+          },
         },
         protocols: [store.state.user.account.token],
         onMessage: (e, event) => {

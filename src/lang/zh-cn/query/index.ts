@@ -30,4 +30,5 @@ export default {
   'query.editor.merge': '多条alter语句合并',
   'query.editor.query': '查询',
   'query.editor.test': 'SQL检测',
+  'query.ws.error': 'WebSocket连接失败，请刷新页面再试一次',
 };

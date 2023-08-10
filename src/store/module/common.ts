@@ -60,6 +60,9 @@ export const common: Module<commonStore, RootStore> = {
     SET_SPINNING(state) {
       state.spinning = !state.spinning;
     },
+    SET_DISABLED_SPINNING(state) {
+      state.spinning = false;
+    },
     ORDER_SET_SQL(state, vl) {
       state.sql = vl;
     },

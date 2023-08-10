@@ -49,6 +49,8 @@
   import { useWebSocket } from '@vueuse/core';
   import { checkSchema } from '@/lib';
   import { COMMON_URI } from '@/config/request';
+  import { message } from 'ant-design-vue';
+  import { useI18n } from 'vue-i18n';
 
   extend(relativeTime);
   extend(customParseFormat);
@@ -56,6 +58,8 @@
   const props = defineProps<{
     workId: string;
   }>();
+
+  const { t } = useI18n();
 
   const data = ref<Comment[]>([]);
 
@@ -95,6 +99,10 @@
       {
         autoReconnect: {
           retries: 3,
+          delay: 1000,
+          onFailed() {
+            message.error(t('query.ws.error'));
+          },
         },
         heartbeat: {
           interval: 5000,

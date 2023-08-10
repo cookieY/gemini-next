@@ -27,7 +27,6 @@
           table-layout="fixed"
           :columns="i.field"
           :data-source="i.data"
-          :loading="loading"
           :pagination="{
               showTotal: (total:number) => $t('common.count', { count: total }),
             }"
@@ -67,8 +66,6 @@
   const { toClipboard } = useClipboard();
 
   const store = useStore();
-
-  const loading = computed(() => store.state.common.spinning);
 
   const executeTime = ref(0);
 
@@ -116,7 +113,10 @@
     const encoded: Uint8Array = encode({ type: 4, sql: sql, schema: schema });
     sock.value.send(encoded);
     const ws = sock.value.ws as any;
-    ws.onmessage = recv;
+    if (ws.readyState === 1) {
+      ws.onmessage = recv;
+    }
+    message.error(t('query.ws.error'));
   };
 
   const recv = async (e: any) => {

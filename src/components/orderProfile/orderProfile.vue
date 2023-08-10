@@ -236,8 +236,6 @@
 
   const { fetchProfileSQL, orderProfileArch } = FetchMixins();
 
-  const usage = ref([] as stepUsage[]);
-
   const isCurrent = ref(-1);
 
   const condition = ref(false);

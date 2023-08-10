@@ -32,4 +32,6 @@ export default {
   'query.editor.merge': 'DDL merged',
   'query.editor.query': 'Query',
   'query.editor.test': 'SQL testing',
+  'query.ws.error':
+    'Failed to connect WebSocket, please refresh the page and try again.',
 };
