@@ -115,6 +115,7 @@
     const ws = sock.value.ws as any;
     if (ws.readyState === 1) {
       ws.onmessage = recv;
+      return;
     }
     message.error(t('query.ws.error'));
   };
