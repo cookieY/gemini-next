@@ -1,51 +1,50 @@
 <template>
-  <div>
-    <a-space>
-      <span>{{ $t('order.query.execute.time') }}:{{ executeTime }} ms</span>
-    </a-space>
-    <a-tabs v-model:activeKey="activeKey">
-      <a-tab-pane
-        v-for="(i, idx) in results"
-        :key="idx"
-        :tab="`${$t('common.result')} ${idx + 1}`"
-      >
-        <template v-if="isExport">
-          <a-button
-            size="small"
-            type="primary"
-            ghost
-            @click="downloadXLS(i.data, i.field)"
-            >{{ $t('common.export') }}
-          </a-button>
-          <br />
-          <br />
-        </template>
-        <div>
-          <a-table
-            size="small"
-            bordered
-            :scroll="{ x: i.field.length * 200 + 100 }"
-            table-layout="fixed"
-            :columns="i.field"
-            :data-source="i.data"
-            :pagination="{
+  <a-space>
+    <span>{{ $t('order.query.execute.time') }}:{{ executeTime }} ms</span>
+  </a-space>
+  <a-tabs v-model:activeKey="activeKey">
+    <a-tab-pane
+      v-for="(i, idx) in results"
+      :key="idx"
+      :tab="`${$t('common.result')} ${idx + 1}`"
+    >
+      <template v-if="isExport">
+        <a-button
+          size="small"
+          type="primary"
+          ghost
+          @click="downloadXLS(i.data, i.field)"
+          >{{ $t('common.export') }}
+        </a-button>
+        <br />
+        <br />
+      </template>
+      <div>
+        <a-table
+          size="small"
+          bordered
+          :scroll="{ x: i.field.length * 200 + 100 }"
+          table-layout="fixed"
+          :columns="i.field"
+          :data-source="i.data"
+          :loading="loading"
+          :pagination="{
               showTotal: (total:number) => $t('common.count', { count: total }),
             }"
-            @resize-column="handleResizeColumn"
-          >
-            <template #bodyCell="{ text }">
-              <a-tooltip placement="topLeft">
-                <template #title>
-                  <span>{{ text }}</span>
-                </template>
-                <div class="ellipsis" @click="copy(text)">{{ text }}</div>
-              </a-tooltip>
-            </template>
-          </a-table>
-        </div>
-      </a-tab-pane>
-    </a-tabs>
-  </div>
+          @resize-column="handleResizeColumn"
+        >
+          <template #bodyCell="{ text }">
+            <a-tooltip placement="topLeft">
+              <template #title>
+                <span>{{ text }}</span>
+              </template>
+              <div class="ellipsis" @click="copy(text)">{{ text }}</div>
+            </a-tooltip>
+          </template>
+        </a-table>
+      </div>
+    </a-tab-pane>
+  </a-tabs>
 </template>
 
 <script lang="ts" setup>
@@ -68,6 +67,8 @@
   const { toClipboard } = useClipboard();
 
   const store = useStore();
+
+  const loading = computed(() => store.state.common.spinning);
 
   const executeTime = ref(0);
 
@@ -111,6 +112,7 @@
   );
 
   const runResults = (schema: string, sql: string) => {
+    store.commit('common/SET_SPINNING');
     const encoded: Uint8Array = encode({ type: 4, sql: sql, schema: schema });
     sock.value.send(encoded);
     const ws = sock.value.ws as any;
@@ -127,14 +129,12 @@
       if (resp.heartbeat === 'pong') {
         return;
       }
-      store.commit('common/SET_SPINNING');
       resp.status ? (router.go(-1), message.error(t('query.expire'))) : null;
       if (resp.error !== '') {
         message.error(resp.error);
         results.value = [];
       } else {
         isExport.value = resp.export;
-        console.log(resp.results);
         resp.results !== null
           ? (results.value = resp.results)
           : (results.value = []);
