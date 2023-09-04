@@ -118,6 +118,7 @@
       return;
     }
     message.error(t('query.ws.error'));
+    store.commit('common/SET_DISABLED_SPINNING');
   };
 
   const recv = async (e: any) => {
@@ -143,7 +144,7 @@
         activeKey.value = 0;
       }
     }
-    store.commit('common/SET_SPINNING');
+    store.commit('common/SET_DISABLED_SPINNING');
   };
 
   const copy = async (text: string) => {
