@@ -38,7 +38,7 @@
           <a-col :xs="24" :sm="8">
             <a-form-item :label="$t('common.table.state')">
               <a-select v-model:value="expr.status">
-                <a-select-option :value="7"
+                <a-select-option :value="8"
                   >{{ $t('order.state.all') }}
                 </a-select-option>
                 <a-select-option :value="OrderState.WAIT"
@@ -58,6 +58,15 @@
                 }}</a-select-option>
                 <a-select-option :value="OrderState.ERROR"
                   >{{ $t('order.state.error') }}
+                </a-select-option>
+                <a-select-option :value="OrderState.WAIT"
+                >{{ $t('order.state.wait') }}
+                </a-select-option>
+                <a-select-option :value="OrderState.Undo"
+                >{{ $t('order.undo') }}
+                </a-select-option>
+                <a-select-option :value="OrderState.Terminate"
+                  >{{ $t('order.terminate') }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -108,7 +117,7 @@
   };
 
   const expr = ref<OrderExpr>({
-    status: 7,
+    status: 8,
     type: 2,
     text: '',
     username: '',

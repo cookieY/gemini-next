@@ -149,7 +149,7 @@
     pageCount: 0,
     defaultPageSize: 20,
     expr: {
-      status: 7,
+      status: 8,
       type: 2,
       text: '',
       username: '',
