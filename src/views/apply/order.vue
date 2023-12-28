@@ -54,7 +54,12 @@
             </a-textarea>
           </a-form-item>
           <a-form-item :label="$t('order.profile.timing')">
-            <a-date-picker show-time @ok="delayTime" />
+            <a-date-picker
+              show-time
+              :disabled-date="disabledDate"
+              :disabled-time="disabledTime"
+              @ok="delayTime"
+            />
           </a-form-item>
           <a-form-item :label="$t('order.profile.roll')">
             <a-radio-group v-model:value="orderItems.backup" name="radioGroup">
@@ -167,7 +172,7 @@
     queryTimeline,
     queryHighlight,
   } from '@/apis/source';
-  import { Dayjs } from 'dayjs';
+  import dayjs, { Dayjs } from 'dayjs';
   import { message, Modal } from 'ant-design-vue';
   import {
     checkSQLS,
@@ -229,6 +234,42 @@
   const { orderProfileArch, editor } = FetchMixins();
 
   const nonFields = ref([] as any[]);
+
+  const disabledDate = (current: Dayjs) => {
+    // Can not select days before today and today
+    return current && current.valueOf() < dayjs().startOf('day').valueOf();
+  };
+
+  const disabledTime = (current: Dayjs) => {
+    // 禁用当前时间之前的时间
+    const now = dayjs();
+    if (current && current.isSame(now, 'day')) {
+      return {
+        disabledHours: () => range(0, now.hour()),
+        disabledMinutes: (hour: number) => {
+          if (hour === now.hour()) {
+            return range(0, now.add(10, 'minute').minute());
+          }
+          return [];
+        },
+        disabledSeconds: (hour: number, minute: number) => {
+          if (hour === now.hour() && minute === now.minute()) {
+            return range(0, now.second());
+          }
+          return [];
+        },
+      };
+    }
+    return {};
+  };
+
+  const range = (start: number, end: number) => {
+    const result = [] as number[];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  };
 
   const delayTime = (date: Dayjs) => {
     orderItems.delay = date.format('YYYY-MM-DD HH:mm');
