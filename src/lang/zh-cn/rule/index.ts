@@ -17,6 +17,7 @@ export default {
   DDLAllowPRINotInt: '允许主键类型为非int/bigint',
   DDLEnableNullIndexName: '允许索引名为空',
   DDLMultiToCommit: '允许单个工单提交多条DDL语句',
+  DDLEnableForeignKey: '是否允许在创建表时使用外键',
   DDLEnablePrimaryKey: '是否检查必须拥有主键',
 
   DDLAllowMultiAlter: '允许单个工单执行多条ALTER语句',

@@ -7,6 +7,8 @@ export default {
     'Non-text,blob, JSON, TIMESTAMP fields must have default values',
   DDLCheckFloatDouble: 'Force the float/double type to be of type Decimal',
   DDLEnableAutoincrementInit: 'The increment column to start with 1',
+  DDLEnableForeignKey: 'Whether foreign keys are allowed in table creation',
+  DDLEnablePrimaryKey: 'Check if a primary key is required',
   DDLPrimaryKeyMust: 'Force the primary key name to be ID',
   DDLEnableAutoIncrement: 'Forces primary keys to increment columns',
   DDLEnableAutoincrementUnsigned:
